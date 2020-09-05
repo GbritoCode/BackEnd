@@ -38,8 +38,13 @@ class clienteController {
   }
 
   async get(req, res) {
-    const cliente = await Cliente.findAll({});
-    return res.json(cliente);
+    if (!req.params.id) {
+      const cliente = await Cliente.findAll({});
+      return res.json(cliente);
+    } else {
+      const cliente = await Cliente.findOne({ where: { id: req.params.id } });
+      return res.json(cliente);
+    }
   }
 
   async update(req, res) {

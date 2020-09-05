@@ -37,7 +37,7 @@ import authMiddleware from './app/middleware/auth';
 const routes = new Router();
 
 routes.post('/cliente', clienteController.store);
-routes.get('/cliente', clienteController.get);
+routes.get('/cliente/:id?', clienteController.get);
 routes.put('/cliente/:id', clienteController.update);
 routes.post('/cliente/complem', cliCompController.store);
 routes.get('/cliente/complem/:id', cliCompController.get);
@@ -85,8 +85,6 @@ routes.get('/rec_desp', recDespController.get);
 
 routes.post('/parametros', parametrosController.store);
 routes.get('/parametros', parametrosController.get);
-
-routes.use(authMiddleware);
 
 routes.put('/users', userController.update);
 
