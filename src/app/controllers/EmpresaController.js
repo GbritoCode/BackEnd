@@ -30,13 +30,13 @@ class empresaController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from empresas', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(empresa) {
-        res.json(empresa);
-      });
+    if (!req.params.id) {
+      const empresa = await Empresa.findAll({});
+      return res.json(empresa);
+    } else {
+      const empresa = await Empresa.findOne({ where: { id: req.params.id } });
+      return res.json(empresa);
+    }
   }
 }
 export default new empresaController();

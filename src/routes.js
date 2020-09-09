@@ -49,7 +49,7 @@ routes.put('/cliente/cont/:id', cliContController.update);
 
 routes.post('/emp', empController.store);
 routes.post('/empresa', empresaController.store);
-routes.get('/empresa', empresaController.get);
+routes.get('/empresa/:id?', empresaController.get);
 
 routes.post('/users', userController.store);
 routes.post('/sessions', sessionController.store);

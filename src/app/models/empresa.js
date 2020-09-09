@@ -16,7 +16,7 @@ class Empresa extends Model {
         id_federal: Sequelize.STRING,
         nome: Sequelize.STRING,
         license: Sequelize.STRING,
-        user_id: Sequelize.INTEGER,
+        UserId: Sequelize.INTEGER,
       },
       {
         sequelize,
