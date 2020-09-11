@@ -26,13 +26,23 @@ class RecDespController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from rec_desps', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(recDesp) {
-        res.json(recDesp);
-      });
+    if (!req.params.id) {
+      const recDesp = await RecDesp.findAll({});
+      return res.json(recDesp);
+    } else {
+      const recDesp = await RecDesp.findOne({ where: { id: req.params.id } });
+      return res.json(recDesp);
+    }
+  }
+  async update(req, res) {
+    const recDesp = await RecDesp.findByPk(req.params.id);
+    const { EmpresaId, nome, license } = await recDesp.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      nome,
+      license,
+    });
   }
 }
 export default new RecDespController();

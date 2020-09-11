@@ -48,13 +48,6 @@ class clienteController {
   }
 
   async update(req, res) {
-    const schema = yup.object().shape({
-      CNPJ: yup.string(),
-      nome_abv: yup.string(),
-      representante: yup.string(),
-      tipo_comiss: yup.number(),
-      EmpresaId: yup.number(),
-    });
     const cliente = await Cliente.findByPk(req.params.id);
 
     const {

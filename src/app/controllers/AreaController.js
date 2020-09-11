@@ -25,13 +25,22 @@ class areaController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from areas', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(area) {
-        res.json(area);
-      });
+    if (!req.params.id) {
+      const area = await Area.findAll({});
+      return res.json(area);
+    } else {
+      const area = await Area.findOne({ where: { id: req.params.id } });
+      return res.json(area);
+    }
+  }
+  async update(req, res) {
+    const colab = await Area.findByPk(req.params.id);
+    const { EmpresaId, desc_area } = await colab.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      desc_area,
+    });
   }
 }
 export default new areaController();

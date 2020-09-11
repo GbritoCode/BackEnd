@@ -68,17 +68,6 @@ class cliContController {
   }
 
   async update(req, res) {
-    const schema = yup.object().shape({
-      ClienteId: yup.string(),
-      nome: yup.string(),
-      cel: yup.number(),
-      fone: yup.number(),
-      skype: yup.string(),
-      email: yup.string().email(),
-      aniver: yup.date(),
-      tipo_conta: yup.number(),
-    });
-
     const cliCont = await CliCont.findByPk(req.params.id);
 
     const {

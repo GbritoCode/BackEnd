@@ -36,13 +36,33 @@ class ItmControleController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from itm_controles', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(itmControle) {
-        res.json(itmControle);
+    if (!req.params.id) {
+      const itmCtrl = await ItmControle.findAll({});
+      return res.json(itmCtrl);
+    } else {
+      const itmCtrl = await ItmControle.findOne({
+        where: { id: req.params.id },
       });
+      return res.json(itmCtrl);
+    }
+  }
+  async update(req, res) {
+    const itmCtrl = await ItmControle.findByPk(req.params.id);
+    const {
+      EmpresaId,
+      desc_item,
+      tipo_item,
+      conta_contabil,
+      cent_custo,
+    } = await itmCtrl.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      desc_item,
+      tipo_item,
+      conta_contabil,
+      cent_custo,
+    });
   }
 }
 export default new ItmControleController();

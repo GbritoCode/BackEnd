@@ -29,13 +29,11 @@ class cliRecDespController {
   }
 
   async get(req, res) {
-    sequelize
-      .query('select * from Cli_Rec_Desps', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(cliRecDesp) {
-        res.json(cliRecDesp);
-      });
+    const rec_desp = await CliRecDesp.findAll({
+      where: { ClienteId: req.params.id },
+    });
+    return res.json(rec_desp);
   }
 }
+
 export default new cliRecDespController();

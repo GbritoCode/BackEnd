@@ -69,13 +69,53 @@ class FornecController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from fornecs', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(fornec) {
-        res.json(fornec);
-      });
+    if (!req.params.id) {
+      const fornec = await Fornec.findAll({});
+      return res.json(fornec);
+    } else {
+      const fornec = await Fornec.findOne({ where: { id: req.params.id } });
+      return res.json(fornec);
+    }
+  }
+  async update(req, res) {
+    const fornec = await Fornec.findByPk(req.params.id);
+    const {
+      CNPJ,
+      EmpresaId,
+      nome,
+      cond_pgmto,
+      nome_conta,
+      fone,
+      cep,
+      rua,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      uf,
+      banco,
+      agencia,
+      conta,
+    } = await fornec.update(req.body);
+
+    return res.json({
+      CNPJ,
+      EmpresaId,
+      nome,
+      cond_pgmto,
+      nome_conta,
+      fone,
+      cep,
+      rua,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      uf,
+      banco,
+      agencia,
+      conta,
+    });
   }
 }
 export default new FornecController();

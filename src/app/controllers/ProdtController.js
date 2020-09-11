@@ -24,13 +24,23 @@ class prodtController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from produtos', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(Prodt) {
-        res.json(Prodt);
-      });
+    if (!req.params.id) {
+      const prodt = await Prodt.findAll({});
+      return res.json(prodt);
+    } else {
+      const prodt = await Prodt.findOne({ where: { id: req.params.id } });
+      return res.json(prodt);
+    }
+  }
+
+  async update(req, res) {
+    const prodt = await Prodt.findByPk(req.params.id);
+    const { EmpresaId, desc_prodt } = await prodt.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      desc_prodt,
+    });
   }
 }
 export default new prodtController();

@@ -10,7 +10,7 @@ class Colab_comp extends Model {
         tipo_valor: DataTypes.DECIMAL,
         valor: DataTypes.DECIMAL,
         data_inic: DataTypes.DATE,
-        data_gim: DataTypes.DATE,
+        data_fim: DataTypes.DATE,
         tipo_atend: DataTypes.INTEGER,
       },
       {

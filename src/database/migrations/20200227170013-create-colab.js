@@ -20,7 +20,7 @@ module.exports = {
       CPF: {
         allowNull: false,
         unique: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       FornecId: {
         allowNull: false,

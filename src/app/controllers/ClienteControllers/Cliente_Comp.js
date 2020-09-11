@@ -61,5 +61,38 @@ class cliCompController {
     });
     return res.json(complemento);
   }
+  async update(req, res) {
+    const cliComp = await CliComp.findByPk(req.params.id);
+
+    const {
+      ClienteId,
+      rz_social,
+      cond_pgmto,
+      nome_abv,
+      cep,
+      rua,
+      numero,
+      bairro,
+      cidade,
+      uf,
+      insc_mun,
+      insc_uf,
+    } = await cliComp.update(req.body);
+
+    return res.json({
+      ClienteId,
+      rz_social,
+      cond_pgmto,
+      nome_abv,
+      cep,
+      rua,
+      numero,
+      bairro,
+      cidade,
+      uf,
+      insc_mun,
+      insc_uf,
+    });
+  }
 }
 export default new cliCompController();

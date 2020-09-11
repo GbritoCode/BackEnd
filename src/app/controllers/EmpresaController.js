@@ -38,5 +38,18 @@ class empresaController {
       return res.json(empresa);
     }
   }
+  async update(req, res) {
+    const empresa = await Empresa.findByPk(req.params.id);
+    const { UserId, id_federal, nome, license } = await empresa.update(
+      req.body
+    );
+
+    return res.json({
+      UserId,
+      id_federal,
+      nome,
+      license,
+    });
+  }
 }
 export default new empresaController();

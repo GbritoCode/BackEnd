@@ -24,13 +24,22 @@ class UndNegController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from und_negs', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(undNeg) {
-        res.json(undNeg);
-      });
+    if (!req.params.id) {
+      const undNeg = await UndNeg.findAll({});
+      return res.json(undNeg);
+    } else {
+      const undNeg = await UndNeg.findOne({ where: { id: req.params.id } });
+      return res.json(undNeg);
+    }
+  }
+  async update(req, res) {
+    const undneg = await UndNeg.findByPk(req.params.id);
+    const { EmpresaId, desc_und_neg } = await undneg.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      desc_und_neg,
+    });
   }
 }
 export default new UndNegController();

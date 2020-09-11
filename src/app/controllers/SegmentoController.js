@@ -36,13 +36,31 @@ class segmentoController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from segmentos', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(segmento) {
-        res.json(segmento);
-      });
+    if (!req.params.id) {
+      const segmento = await Segmento.findAll({});
+      return res.json(segmento);
+    } else {
+      const segmento = await Segmento.findOne({ where: { id: req.params.id } });
+      return res.json(segmento);
+    }
+  }
+  async update(req, res) {
+    const segmento = await Segmento.findByPk(req.params.id);
+    const {
+      EmpresaId,
+      Und_negId,
+      ProdutoId,
+      AreaId,
+      desc_segmt,
+    } = await segmento.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      Und_negId,
+      ProdutoId,
+      AreaId,
+      desc_segmt,
+    });
   }
 }
 export default new segmentoController();

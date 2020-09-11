@@ -42,13 +42,34 @@ class colabCompController {
   }
 
   async get(req, res) {
-    sequelize
-      .query('select * from colab_comps', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(colabs) {
-        res.json(colabs);
-      });
+    const colabComp = await ColabComp.findAll({
+      where: {
+        ColabId: req.params.id,
+      },
+    });
+    return res.json(colabComp);
+  }
+  async update(req, res) {
+    const colab = await ColabComp.findByPk(req.params.id);
+    const {
+      ColabId,
+      nivel,
+      tipo_valor,
+      valor,
+      data_inic,
+      data_fim,
+      tipo_atend,
+    } = await colab.update(req.body);
+
+    return res.json({
+      ColabId,
+      nivel,
+      tipo_valor,
+      valor,
+      data_inic,
+      data_fim,
+      tipo_atend,
+    });
   }
 }
 export default new colabCompController();

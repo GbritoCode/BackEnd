@@ -32,13 +32,31 @@ class representanteController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from representantes', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(representante) {
-        res.json(representante);
+    if (!req.params.id) {
+      const representante = await Representante.findAll({});
+      return res.json(representante);
+    } else {
+      const representante = await Representante.findOne({
+        where: { id: req.params.id },
       });
+      return res.json(representante);
+    }
+  }
+  async update(req, res) {
+    const representante = await Representante.findByPk(req.params.id);
+    const {
+      EmpresaId,
+      nome,
+      percnt_comiss,
+      vlr_fix_mens,
+    } = await representante.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      nome,
+      percnt_comiss,
+      vlr_fix_mens,
+    });
   }
 }
 export default new representanteController();

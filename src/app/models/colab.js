@@ -5,7 +5,7 @@ class Colab extends Model {
   static init(sequelize) {
     super.init(
       {
-        CPF: DataTypes.INTEGER,
+        CPF: DataTypes.STRING,
         FornecId: DataTypes.INTEGER,
         log_usr: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,

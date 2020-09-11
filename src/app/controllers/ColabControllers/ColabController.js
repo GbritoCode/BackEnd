@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import Colab from '../../models/colab';
 
 import databaseConfig from '../../../config/database';
+import Colab_comp from '../../models/colab_comp';
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(databaseConfig);
@@ -54,13 +55,41 @@ class colabController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from colabs', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(colabComp) {
-        res.json(colabComp);
-      });
+    if (!req.params.id) {
+      const colab = await Colab.findAll({});
+      return res.json(colab);
+    } else {
+      const colab = await Colab.findOne({ where: { id: req.params.id } });
+      return res.json(colab);
+    }
+  }
+  async update(req, res) {
+    const colab = await Colab.findByPk(req.params.id);
+    const {
+      CPF,
+      FornecId,
+      log_usr,
+      EmpresaId,
+      nome,
+      dt_admiss,
+      cel,
+      skype,
+      email,
+      espec,
+    } = await colab.update(req.body);
+
+    return res.json({
+      CPF,
+      FornecId,
+      log_usr,
+      EmpresaId,
+      nome,
+      dt_admiss,
+      cel,
+      skype,
+      email,
+      espec,
+    });
   }
 }
 export default new colabController();

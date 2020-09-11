@@ -41,50 +41,63 @@ routes.get('/cliente/:id?', clienteController.get);
 routes.put('/cliente/:id', clienteController.update);
 routes.post('/cliente/complem', cliCompController.store);
 routes.get('/cliente/complem/:id', cliCompController.get);
+routes.put('/cliente/complem/:id', cliCompController.update);
 routes.post('/cliente/rec_desp', cliRecDespController.store);
-routes.get('/cliente/rec_desp', cliRecDespController.get);
+routes.get('/cliente/rec_desp/:id', cliRecDespController.get);
 routes.post('/cliente/cont', cliContController.store);
 routes.get('/cliente/cont/:id', cliContController.get);
 routes.put('/cliente/cont/:id', cliContController.update);
 
 routes.post('/emp', empController.store);
 routes.post('/empresa', empresaController.store);
+routes.put('/empresa/:id', empresaController.update);
 routes.get('/empresa/:id?', empresaController.get);
 
 routes.post('/users', userController.store);
 routes.post('/sessions', sessionController.store);
 
 routes.post('/colab', colabController.store);
-routes.get('/colab', colabController.get);
+routes.get('/colab/:id?', colabController.get);
+routes.put('/colab/:id', colabController.update);
 routes.post('/colab/comp', colabCompController.store);
-routes.get('/colab/comp', colabCompController.get);
+routes.get('/colab/comp/:id', colabCompController.get);
+routes.put('/colab/com/:id', colabCompController.update);
 
 routes.post('/representante', representanteController.store);
-routes.get('/representante', representanteController.get);
+routes.get('/representante/:id?', representanteController.get);
+routes.put('/representante/:id', representanteController.update);
 
 routes.post('/fornec', fornecController.store);
-routes.get('/fornec', fornecController.get);
+routes.get('/fornec/:id?', fornecController.get);
+routes.put('/fornec/:id', fornecController.update);
 
 routes.post('/area', areaController.store);
-routes.get('/area', areaController.get);
+routes.get('/area/:id?', areaController.get);
+routes.put('/area/:id', areaController.update);
 
 routes.post('/und_neg', undNegController.store);
-routes.get('/und_neg', undNegController.get);
+routes.get('/und_neg/:id?', undNegController.get);
+routes.put('/und_neg/:id', undNegController.update);
 
 routes.post('/prodt', prodtController.store);
-routes.get('/prodt', prodtController.get);
+routes.get('/prodt/:id?', prodtController.get);
+routes.put('/prodt/:id', prodtController.update);
 
 routes.post('/segmento', segmentoController.store);
-routes.get('/segmento', segmentoController.get);
+routes.get('/segmento/:id?', segmentoController.get);
+routes.put('/segmento/:id', segmentoController.update);
 
 routes.post('/itm_controle', itmControleController.store);
-routes.get('/itm_controle', itmControleController.get);
+routes.get('/itm_controle/:id?', itmControleController.get);
+routes.put('/itm_controle/:id', itmControleController.update);
 
 routes.post('/rec_desp', recDespController.store);
-routes.get('/rec_desp', recDespController.get);
+routes.get('/rec_desp/:id?', recDespController.get);
+routes.put('/rec_desp/:id', recDespController.update);
 
 routes.post('/parametros', parametrosController.store);
-routes.get('/parametros', parametrosController.get);
+routes.get('/parametros/:id?', parametrosController.get);
+routes.put('/parametros/:id', parametrosController.update);
 
 routes.put('/users', userController.update);
 

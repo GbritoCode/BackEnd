@@ -42,13 +42,37 @@ class parametrosController {
     });
   }
   async get(req, res) {
-    sequelize
-      .query('select * from parametros', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(parametros) {
-        res.json(parametros);
+    if (!req.params.id) {
+      const parametros = await Parametros.findAll({});
+      return res.json(parametros);
+    } else {
+      const parametros = await Parametros.findOne({
+        where: { id: req.params.id },
       });
+      return res.json(parametros);
+    }
+  }
+  async update(req, res) {
+    const parametros = await Parametros.findByPk(req.params.id);
+    const {
+      EmpresaId,
+      impostos,
+      vlr_min_hr,
+      vlr_bs_hr,
+      vlr_bs_desp,
+      adianta_pgmto,
+      perc_adianta_pgmto,
+    } = await parametros.update(req.body);
+
+    return res.json({
+      EmpresaId,
+      impostos,
+      vlr_min_hr,
+      vlr_bs_hr,
+      vlr_bs_desp,
+      adianta_pgmto,
+      perc_adianta_pgmto,
+    });
   }
 }
 export default new parametrosController();
