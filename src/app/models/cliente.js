@@ -1,4 +1,4 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
 import Cliente_comp from './cliente_comp.js';
 import Cli_cont from './cli_cont.js';
 import Cli_rec_desp from './cli_rec_desp.js';
@@ -9,9 +9,9 @@ class Cliente extends Model {
     super.init(
       {
         CNPJ: DataTypes.STRING,
-        nome_abv: DataTypes.STRING,
-        representante: DataTypes.STRING,
-        tipo_comiss: DataTypes.INTEGER,
+        nomeAbv: DataTypes.STRING,
+        RepresentanteId: DataTypes.STRING,
+        TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         prospect: DataTypes.BOOLEAN,
       },

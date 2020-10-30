@@ -1,17 +1,16 @@
 import * as yup from 'yup';
 import Cliente from '../../models/cliente';
-import databaseConfig from '../../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import representantes from '../../models/representante';
+import tipoComiss from '../../models/tipoComiss';
+import Empresa from '../../models/empresa';
 
 class clienteController {
   async store(req, res) {
     const schema = yup.object().shape({
       CNPJ: yup.string().required(),
-      nome_abv: yup.string().required(),
-      representante: yup.string().required(),
-      tipo_comiss: yup.number(),
+      nomeAbv: yup.string().required(),
+      RepresentanteId: yup.string().required(),
+      TipoComisseId: yup.number(),
       EmpresaId: yup.number().required(),
     });
 
@@ -22,24 +21,30 @@ class clienteController {
     const {
       id,
       CNPJ,
-      nome_abv,
-      representante,
-      tipo_comiss,
+      nomeAbv,
+      RepresentanteId,
+      TipoComisseId,
       EmpresaId,
     } = await Cliente.create(req.body);
     return res.json({
       id,
       CNPJ,
-      nome_abv,
-      representante,
-      tipo_comiss,
+      nomeAbv,
+      RepresentanteId,
+      TipoComisseId,
       EmpresaId,
     });
   }
 
   async get(req, res) {
     if (!req.params.id) {
-      const cliente = await Cliente.findAll({});
+      const cliente = await Cliente.findAll({
+        include: [
+          { model: representantes },
+          { model: tipoComiss },
+          { model: Empresa },
+        ],
+      });
       return res.json(cliente);
     } else {
       const cliente = await Cliente.findOne({ where: { id: req.params.id } });
@@ -51,18 +56,23 @@ class clienteController {
     const cliente = await Cliente.findByPk(req.params.id);
 
     const {
-      nome_abv,
-      representante,
-      tipo_comiss,
+      nomeAbv,
+      RepresentanteId,
+      TipoComisseId,
       prospect,
     } = await cliente.update(req.body);
 
     return res.json({
-      nome_abv,
-      representante,
-      tipo_comiss,
+      nomeAbv,
+      RepresentanteId,
+      TipoComisseId,
       prospect,
     });
+  }
+
+  async delete(req, res){
+    const cliente = await Cliente.findOne({ where: { id: req.params.id } });
+    cliente.destroy()
   }
 }
 export default new clienteController();

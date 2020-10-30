@@ -12,8 +12,12 @@ module.exports = {
       EmpresaId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'empresas',
+          key: 'id',
+        },
       },
-      desc_prodt: {
+      descProdt: {
         allowNull: false,
         type: Sequelize.STRING,
       },

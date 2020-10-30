@@ -17,7 +17,7 @@ module.exports = {
           key: 'id',
         },
       },
-      id_federal: {
+      idFederal: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,

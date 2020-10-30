@@ -21,23 +21,23 @@ module.exports = {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },
-      vlr_min_hr: {
+      vlrMinHr: {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },
-      vlr_bs_hr: {
+      vlrBsHr: {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },
-      vlr_bs_desp: {
+      vlrBsDesp: {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },
-      adianta_pgmto: {
+      adiantaPgmto: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      perc_adianta_pgmto: {
+      percAdiantaPgmto: {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },

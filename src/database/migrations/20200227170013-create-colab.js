@@ -17,11 +17,6 @@ module.exports = {
           key: 'id',
         },
       },
-      CPF: {
-        allowNull: false,
-        unique: true,
-        type: Sequelize.STRING,
-      },
       FornecId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -30,22 +25,30 @@ module.exports = {
           key: 'id',
         },
       },
-      log_usr: {
+      PerfilId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'perfils',
+          key: 'id',
+        },
       },
-
+      CPF: {
+        allowNull: false,
+        unique: true,
+        type: Sequelize.STRING,
+      },
       nome: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      dt_admiss: {
+      dtAdmiss: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       cel: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       skype: {
         allowNull: false,

@@ -1,17 +1,21 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
+import Segmento from './segmento.js';
 
 class Produto extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        desc_prodt: DataTypes.STRING,
+        descProdt: DataTypes.STRING,
       },
       {
         sequelize,
       }
     );
+    Produto.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
+    Segmento.belongsTo(Produto);
 
     return this;
   }

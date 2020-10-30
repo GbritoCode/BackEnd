@@ -80,5 +80,15 @@ class UserController {
       provider,
     });
   }
+
+  async get(req, res) {
+    if (!req.params.id) {
+      const user = await User.findAll({});
+      return res.json(user);
+    } else {
+      const user = await User.findOne({ where: { id: req.params.id } });
+      return res.json(user);
+    }
+  }
 }
 export default new UserController();

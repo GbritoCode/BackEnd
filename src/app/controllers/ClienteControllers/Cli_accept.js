@@ -1,7 +1,4 @@
-const Sequelize = require('sequelize');
 import databaseConfig from '../../config/database';
-
-const sequelize = new Sequelize(databaseConfig);
 
 class Cli_accept {
   store(req, res) {

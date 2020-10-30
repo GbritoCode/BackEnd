@@ -12,17 +12,16 @@ module.exports = {
       EmpresaId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-
         references: {
           model: 'empresas',
           key: 'id',
         },
       },
-      Und_negId: {
+      UndNegId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'und_negs',
+          model: 'UndNegs',
           key: 'id',
         },
       },
@@ -42,7 +41,7 @@ module.exports = {
           key: 'id',
         },
       },
-      desc_segmt: {
+      descSegmt: {
         allowNull: false,
         type: Sequelize.STRING,
       },

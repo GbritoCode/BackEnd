@@ -1,4 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+const { DataTypes } = require('sequelize');
+
 import bcrypt from 'bcryptjs';
 import Empresa from './empresa';
 
@@ -6,11 +8,11 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
-        email: Sequelize.STRING,
-        password: Sequelize.VIRTUAL,
-        password_hash: Sequelize.STRING,
-        provider: Sequelize.BOOLEAN,
+        name: DataTypes.STRING,
+        email: DataTypes.STRING,
+        password: DataTypes.VIRTUAL,
+        passwordHash: DataTypes.STRING,
+        provider: DataTypes.BOOLEAN,
       },
       {
         sequelize,
@@ -18,7 +20,7 @@ class User extends Model {
     );
     this.addHook('beforeSave', async user => {
       if (user.password) {
-        user.password_hash = await bcrypt.hash(user.password, 8);
+        user.passwordHash = await bcrypt.hash(user.password, 8);
       }
     });
     User.hasOne(Empresa, { onDelete: 'CASCADE', hooks: true });
@@ -27,7 +29,7 @@ class User extends Model {
   }
 
   checkPassword(password) {
-    return bcrypt.compare(password, this.password_hash);
+    return bcrypt.compare(password, this.passwordHash);
   }
 }
 export default User;

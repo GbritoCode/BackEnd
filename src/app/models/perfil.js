@@ -1,23 +1,21 @@
 import { Model } from 'sequelize';
-
+import Colab from './colab';
 const { DataTypes } = require('sequelize');
 
-class Itm_controle extends Model {
+class perfil extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        descItem: DataTypes.STRING,
-        tipoItem: DataTypes.STRING,
-        contaContabil: DataTypes.STRING,
-        centCusto: DataTypes.STRING,
+        desc: DataTypes.STRING,
       },
       {
         sequelize,
       }
     );
-
+    perfil.hasOne(Colab, { onDelete: 'cascade', hooks: true });
+    Colab.belongsTo(perfil);
     return this;
   }
 }
-export default Itm_controle;
+export default perfil;

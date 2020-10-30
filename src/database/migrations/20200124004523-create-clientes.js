@@ -16,21 +16,30 @@ module.exports = {
           key: 'id',
         },
       },
+      TipoComisseId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'tipoComisses',
+          key: 'id',
+        },
+      },
+      RepresentanteId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'representantes',
+          key: 'id',
+        },
+      },
       CNPJ: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,
       },
-      nome_abv: {
+      nomeAbv: {
         allowNull: false,
         type: Sequelize.STRING,
-      },
-      representante: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      tipo_comiss: {
-        type: Sequelize.INTEGER,
       },
       prospect: {
         allowNull: false,

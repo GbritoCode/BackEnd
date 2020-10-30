@@ -1,19 +1,15 @@
 import * as yup from 'yup';
 import ItmControle from '../models/itm_controle';
-
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import Empresa from '../models/empresa';
 
 class ItmControleController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      desc_item: yup.string().required(),
-      tipo_item: yup.number().required(),
-      conta_contabil: yup.number().required(),
-      cent_custo: yup.number().required(),
+      descItem: yup.string().required(),
+      tipoItem: yup.string().required(),
+      contaContabil: yup.string().required(),
+      centCusto: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -22,22 +18,22 @@ class ItmControleController {
 
     const {
       EmpresaId,
-      desc_item,
-      tipo_item,
-      conta_contabil,
-      cent_custo,
+      descItem,
+      tipoItem,
+      contaContabil,
+      centCusto,
     } = await ItmControle.create(req.body);
     return res.json({
       EmpresaId,
-      desc_item,
-      tipo_item,
-      conta_contabil,
-      cent_custo,
+      descItem,
+      tipoItem,
+      contaContabil,
+      centCusto,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const itmCtrl = await ItmControle.findAll({});
+      const itmCtrl = await ItmControle.findAll({ include: Empresa });
       return res.json(itmCtrl);
     } else {
       const itmCtrl = await ItmControle.findOne({
@@ -50,18 +46,18 @@ class ItmControleController {
     const itmCtrl = await ItmControle.findByPk(req.params.id);
     const {
       EmpresaId,
-      desc_item,
-      tipo_item,
-      conta_contabil,
-      cent_custo,
+      descItem,
+      tipoItem,
+      contaContabil,
+      centCusto,
     } = await itmCtrl.update(req.body);
 
     return res.json({
       EmpresaId,
-      desc_item,
-      tipo_item,
-      conta_contabil,
-      cent_custo,
+      descItem,
+      tipoItem,
+      contaContabil,
+      centCusto,
     });
   }
 }

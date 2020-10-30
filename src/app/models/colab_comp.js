@@ -1,4 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
 
 class Colab_comp extends Model {
@@ -7,11 +8,11 @@ class Colab_comp extends Model {
       {
         ColabId: DataTypes.INTEGER,
         nivel: DataTypes.INTEGER,
-        tipo_valor: DataTypes.DECIMAL,
+        tipoValor: DataTypes.DECIMAL,
         valor: DataTypes.DECIMAL,
-        data_inic: DataTypes.DATE,
-        data_fim: DataTypes.DATE,
-        tipo_atend: DataTypes.INTEGER,
+        dataInic: DataTypes.DATE,
+        dataFim: DataTypes.DATE,
+        tipoAtend: DataTypes.INTEGER,
       },
       {
         sequelize,

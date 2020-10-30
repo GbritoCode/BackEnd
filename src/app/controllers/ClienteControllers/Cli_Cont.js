@@ -1,25 +1,20 @@
 import * as yup from 'yup';
 import CliCont from '../../models/cli_cont';
 
-import databaseConfig from '../../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
-
 class cliContController {
   async store(req, res) {
     const schema = yup.object().shape({
       ClienteId: yup.string().required(),
       nome: yup.string().required(),
-      cel: yup.number().required(),
-      fone: yup.number().required(),
+      cel: yup.string().required(),
+      fone: yup.string().required(),
       skype: yup.string().required(),
       email: yup
         .string()
         .email()
         .required(),
       aniver: yup.date().required(),
-      tipo_conta: yup.number().required(),
+      tipoConta: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -34,7 +29,7 @@ class cliContController {
       skype,
       email,
       aniver,
-      tipo_conta,
+      tipoConta,
     } = await CliCont.create(req.body);
     return res.json({
       ClienteId,
@@ -44,7 +39,7 @@ class cliContController {
       skype,
       email,
       aniver,
-      tipo_conta,
+      tipoConta,
     });
   }
 
@@ -59,14 +54,20 @@ class cliContController {
   }
 */
   async get(req, res) {
-    const contato = await CliCont.findAll({
-      where: {
-        ClienteId: req.params.id,
-      },
-    });
-    return res.json(contato);
+    if (req.params.id && req.params.update) {
+      const contato = await CliCont.findOne({
+        where: { id: req.params.update },
+      });
+      return res.json(contato);
+    } else if (req.params.id) {
+      const contato = await CliCont.findAll({
+        where: {
+          ClienteId: req.params.id,
+        },
+      });
+      return res.json(contato);
+    }
   }
-
   async update(req, res) {
     const cliCont = await CliCont.findByPk(req.params.id);
 
@@ -78,7 +79,7 @@ class cliContController {
       skype,
       email,
       aniver,
-      tipo_conta,
+      tipoConta,
     } = await cliCont.update(req.body);
 
     return res.json({
@@ -89,7 +90,7 @@ class cliContController {
       skype,
       email,
       aniver,
-      tipo_conta,
+      tipoConta,
     });
   }
 }

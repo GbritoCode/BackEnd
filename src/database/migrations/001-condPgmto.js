@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('rec_desps', {
+    return queryInterface.createTable('condPgmtos', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,13 +17,13 @@ module.exports = {
           key: 'id',
         },
       },
-      nome: {
+      desc: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      license: {
+      diasPrazo: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -36,7 +36,7 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
-    return queryInterface.dropTable('rec_desp');
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('condPgmtos');
   },
 };

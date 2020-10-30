@@ -1,6 +1,10 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+const { DataTypes } = require('sequelize');
+
 import Clientes from './cliente.js';
 import Area from './area.js';
+import UndNeg from './UndNeg.js';
+import Produto from './produto.js';
 import Segmento from './segmento.js';
 import Itm_Controle from './itm_controle.js';
 import Colab from './colab.js';
@@ -8,15 +12,18 @@ import Representante from './representante.js';
 import Fornec from './fornec.js';
 import Parametros from './parametros.js';
 import Rec_Desp from './rec_desp';
+import perfil from './perfil';
+import condPgmto from './condPgmto';
+import tipoComiss from './tipoComiss';
 
 class Empresa extends Model {
   static init(sequelize) {
     super.init(
       {
-        id_federal: Sequelize.STRING,
-        nome: Sequelize.STRING,
-        license: Sequelize.STRING,
-        UserId: Sequelize.INTEGER,
+        idFederal: DataTypes.STRING,
+        nome: DataTypes.STRING,
+        license: DataTypes.STRING,
+        UserId: DataTypes.INTEGER,
       },
       {
         sequelize,
@@ -49,6 +56,20 @@ class Empresa extends Model {
     Empresa.hasOne(Rec_Desp, { onDelete: 'cascade', hooks: true });
     Rec_Desp.belongsTo(Empresa);
 
+    Empresa.hasOne(perfil, { onDelete: 'cascade', hooks: true });
+    perfil.belongsTo(Empresa);
+
+    Empresa.hasOne(condPgmto, { onDelete: 'cascade', hooks: true });
+    condPgmto.belongsTo(Empresa);
+
+    Empresa.hasOne(tipoComiss, { onDelete: 'cascade', hooks: true });
+    tipoComiss.belongsTo(Empresa);
+
+    Empresa.hasOne(Produto, { onDelete: 'cascade', hooks: true });
+    Produto.belongsTo(Empresa);
+
+    Empresa.hasOne(UndNeg, { onDelete: 'cascade', hooks: true });
+    UndNeg.belongsTo(Empresa);
     return this;
   }
 }

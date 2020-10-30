@@ -1,17 +1,15 @@
 import * as yup from 'yup';
 import Representante from '../models/representante';
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import tipoComiss from '../models/tipoComiss';
+import Empresa from '../models/empresa';
 
 class representanteController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
       nome: yup.string().required(),
-      percnt_comiss: yup.number().required(),
-      vlr_fix_mens: yup.number().required(),
+      TipoComisseId: yup.number().required(),
+      vlrFixMens: yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -21,19 +19,21 @@ class representanteController {
     const {
       EmpresaId,
       nome,
-      percnt_comiss,
-      vlr_fix_mens,
+      TipoComisseId,
+      vlrFixMens,
     } = await Representante.create(req.body);
     return res.json({
       EmpresaId,
       nome,
-      percnt_comiss,
-      vlr_fix_mens,
+      TipoComisseId,
+      vlrFixMens,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const representante = await Representante.findAll({});
+      const representante = await Representante.findAll({
+        include: [{ model: tipoComiss }, { model: Empresa }],
+      });
       return res.json(representante);
     } else {
       const representante = await Representante.findOne({
@@ -47,15 +47,15 @@ class representanteController {
     const {
       EmpresaId,
       nome,
-      percnt_comiss,
-      vlr_fix_mens,
+      TipoComisseId,
+      vlrFixMens,
     } = await representante.update(req.body);
 
     return res.json({
       EmpresaId,
       nome,
-      percnt_comiss,
-      vlr_fix_mens,
+      TipoComisseId,
+      vlrFixMens,
     });
   }
 }

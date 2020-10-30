@@ -17,7 +17,7 @@ module.exports = {
           key: 'id',
         },
       },
-      desc_area: {
+      descArea: {
         allowNull: false,
         type: Sequelize.STRING,
       },

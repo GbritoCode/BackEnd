@@ -1,4 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
 
 class Cli_rec_desp extends Model {
@@ -6,8 +7,9 @@ class Cli_rec_desp extends Model {
     super.init(
       {
         ClienteId: DataTypes.INTEGER,
-        tipo_rec_desp: DataTypes.DECIMAL,
-        nome_rec_desp: DataTypes.STRING,
+        recDespId: DataTypes.INTEGER,
+        tipoCobranca: DataTypes.STRING,
+        valorRec: DataTypes.INTEGER,
       },
       {
         sequelize,

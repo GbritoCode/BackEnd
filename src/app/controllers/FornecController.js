@@ -1,10 +1,7 @@
 import * as yup from 'yup';
 import Fornec from '../models/fornec';
-
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import condPgmto from '../models/condPgmto';
+import Empresa from '../models/empresa';
 
 class FornecController {
   async store(req, res) {
@@ -12,13 +9,13 @@ class FornecController {
       CNPJ: yup.string().required(),
       EmpresaId: yup.string().required(),
       nome: yup.string().required(),
-      cond_pgmto: yup.number().required(),
-      nome_conta: yup.string().required(),
-      fone: yup.number().required(),
+      CondPgmtoId: yup.number().required(),
+      nomeConta: yup.string().required(),
+      fone: yup.string().required(),
       cep: yup.string().required(),
       rua: yup.string().required(),
-      numero: yup.number().required(),
-      complemento: yup.string().required(),
+      numero: yup.string().required(),
+      complemento: yup.string(),
       bairro: yup.string().required(),
       cidade: yup.string().required(),
       uf: yup.string().required(),
@@ -28,15 +25,15 @@ class FornecController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+      return res.status(400).json({ error: 'tipo de dado' });
     }
 
     const {
       CNPJ,
       EmpresaId,
       nome,
-      cond_pgmto,
-      nome_conta,
+      CondPgmtoId,
+      nomeConta,
       fone,
       cep,
       rua,
@@ -53,8 +50,8 @@ class FornecController {
       CNPJ,
       EmpresaId,
       nome,
-      cond_pgmto,
-      nome_conta,
+      CondPgmtoId,
+      nomeConta,
       fone,
       cep,
       rua,
@@ -70,7 +67,9 @@ class FornecController {
   }
   async get(req, res) {
     if (!req.params.id) {
-      const fornec = await Fornec.findAll({});
+      const fornec = await Fornec.findAll({
+        include: [{ model: condPgmto }, { model: Empresa }],
+      });
       return res.json(fornec);
     } else {
       const fornec = await Fornec.findOne({ where: { id: req.params.id } });
@@ -83,8 +82,8 @@ class FornecController {
       CNPJ,
       EmpresaId,
       nome,
-      cond_pgmto,
-      nome_conta,
+      CondPgmtoId,
+      nomeConta,
       fone,
       cep,
       rua,
@@ -102,8 +101,8 @@ class FornecController {
       CNPJ,
       EmpresaId,
       nome,
-      cond_pgmto,
-      nome_conta,
+      CondPgmtoId,
+      nomeConta,
       fone,
       cep,
       rua,

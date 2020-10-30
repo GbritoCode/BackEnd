@@ -1,15 +1,16 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
 const { DataTypes } = require('sequelize');
+
 
 class Segmento extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        Und_negId: DataTypes.INTEGER,
+        UndNegId: DataTypes.INTEGER,
         ProdutoId: DataTypes.INTEGER,
         AreaId: DataTypes.INTEGER,
-        desc_segmt: DataTypes.STRING,
+        descSegmt: DataTypes.STRING,
       },
       {
         sequelize,

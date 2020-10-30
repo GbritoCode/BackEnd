@@ -1,33 +1,30 @@
 import * as yup from 'yup';
-import RecDesp from '../models/rec_desp.js';
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import RecDesp from '../../models/rec_desp.js';
+import Empresa from '../../models/empresa.js';
 
 class RecDespController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      nome: yup.string().required(),
-      license: yup.string().required(),
+      desc: yup.string().required(),
+      rec_desp: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const { EmpresaId, nome, license } = await RecDesp.create(req.body);
+    const { EmpresaId, desc,rec_desp } = await RecDesp.create(req.body);
 
     return res.json({
       EmpresaId,
-      nome,
-      license,
+      desc,
+      rec_desp,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const recDesp = await RecDesp.findAll({});
+      const recDesp = await RecDesp.findAll({ include: Empresa });
       return res.json(recDesp);
     } else {
       const recDesp = await RecDesp.findOne({ where: { id: req.params.id } });
@@ -36,12 +33,12 @@ class RecDespController {
   }
   async update(req, res) {
     const recDesp = await RecDesp.findByPk(req.params.id);
-    const { EmpresaId, nome, license } = await recDesp.update(req.body);
+    const { EmpresaId, desc,rec_desp } = await recDesp.update(req.body);
 
     return res.json({
       EmpresaId,
-      nome,
-      license,
+      desc,
+      rec_desp
     });
   }
 }

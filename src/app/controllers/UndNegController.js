@@ -1,31 +1,28 @@
 import * as yup from 'yup';
-import UndNeg from '../models/und_neg.js';
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import UndNeg from '../models/UndNeg.js';
+import Empresa from '../models/empresa';
 
 class UndNegController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      desc_und_neg: yup.string().required(),
+      descUndNeg: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const { EmpresaId, desc_und_neg } = await UndNeg.create(req.body);
+    const { EmpresaId, descUndNeg } = await UndNeg.create(req.body);
 
     return res.json({
       EmpresaId,
-      desc_und_neg,
+      descUndNeg,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const undNeg = await UndNeg.findAll({});
+      const undNeg = await UndNeg.findAll({ include: Empresa });
       return res.json(undNeg);
     } else {
       const undNeg = await UndNeg.findOne({ where: { id: req.params.id } });
@@ -34,11 +31,11 @@ class UndNegController {
   }
   async update(req, res) {
     const undneg = await UndNeg.findByPk(req.params.id);
-    const { EmpresaId, desc_und_neg } = await undneg.update(req.body);
+    const { EmpresaId, descUndNeg } = await undneg.update(req.body);
 
     return res.json({
       EmpresaId,
-      desc_und_neg,
+      descUndNeg,
     });
   }
 }

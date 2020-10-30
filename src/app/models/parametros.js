@@ -1,4 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
 
 class Parametros extends Model {
@@ -7,11 +8,11 @@ class Parametros extends Model {
       {
         EmpresaId: DataTypes.INTEGER,
         impostos: DataTypes.DECIMAL,
-        vlr_min_hr: DataTypes.DECIMAL,
-        vlr_bs_hr: DataTypes.DECIMAL,
-        vlr_bs_desp: DataTypes.DECIMAL,
-        adianta_pgmto: DataTypes.INTEGER,
-        perc_adianta_pgmto: DataTypes.DECIMAL,
+        vlrMinHr: DataTypes.DECIMAL,
+        vlrBsHr: DataTypes.DECIMAL,
+        vlrBsDesp: DataTypes.DECIMAL,
+        adiantaPgmto: DataTypes.STRING,
+        percAdiantaPgmto: DataTypes.DECIMAL,
       },
       {
         sequelize,

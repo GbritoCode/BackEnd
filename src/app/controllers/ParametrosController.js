@@ -1,21 +1,17 @@
 import * as yup from 'yup';
 import Parametros from '../models/parametros';
-
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import Empresa from '../models/empresa';
 
 class parametrosController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
       impostos: yup.number().required(),
-      vlr_min_hr: yup.number().required(),
-      vlr_bs_hr: yup.number().required(),
-      vlr_bs_desp: yup.number().required(),
-      adianta_pgmto: yup.string().required(),
-      perc_adianta_pgmto: yup.number().required(),
+      vlrMinHr: yup.number().required(),
+      vlrBsHr: yup.number().required(),
+      vlrBsDesp: yup.number().required(),
+      adiantaPgmto: yup.string().required(),
+      percAdiantaPgmto: yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -25,25 +21,25 @@ class parametrosController {
     const {
       EmpresaId,
       impostos,
-      vlr_min_hr,
-      vlr_bs_hr,
-      vlr_bs_desp,
-      adianta_pgmto,
-      perc_adianta_pgmto,
+      vlrMinHr,
+      vlrBsHr,
+      vlrBsDesp,
+      adiantaPgmto,
+      percAdiantaPgmto,
     } = await Parametros.create(req.body);
     return res.json({
       EmpresaId,
       impostos,
-      vlr_min_hr,
-      vlr_bs_hr,
-      vlr_bs_desp,
-      adianta_pgmto,
-      perc_adianta_pgmto,
+      vlrMinHr,
+      vlrBsHr,
+      vlrBsDesp,
+      adiantaPgmto,
+      percAdiantaPgmto,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const parametros = await Parametros.findAll({});
+      const parametros = await Parametros.findAll({ include: Empresa });
       return res.json(parametros);
     } else {
       const parametros = await Parametros.findOne({
@@ -57,21 +53,21 @@ class parametrosController {
     const {
       EmpresaId,
       impostos,
-      vlr_min_hr,
-      vlr_bs_hr,
-      vlr_bs_desp,
-      adianta_pgmto,
-      perc_adianta_pgmto,
+      vlrMinHr,
+      vlrBsHr,
+      vlrBsDesp,
+      adiantaPgmto,
+      percAdiantaPgmto,
     } = await parametros.update(req.body);
 
     return res.json({
       EmpresaId,
       impostos,
-      vlr_min_hr,
-      vlr_bs_hr,
-      vlr_bs_desp,
-      adianta_pgmto,
-      perc_adianta_pgmto,
+      vlrMinHr,
+      vlrBsHr,
+      vlrBsDesp,
+      adiantaPgmto,
+      percAdiantaPgmto,
     });
   }
 }

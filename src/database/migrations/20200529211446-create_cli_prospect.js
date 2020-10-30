@@ -20,7 +20,7 @@ module.exports = {
           unique: true,
           type: Sequelize.STRING,
         },
-        nome_abv: {
+        nomeAbv: {
           allowNull: false,
           type: Sequelize.STRING,
         },

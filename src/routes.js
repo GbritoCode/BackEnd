@@ -28,7 +28,10 @@ import itmControleController from './app/controllers/ItmControleController.js';
 
 import prodtController from './app/controllers/ProdtController.js';
 
-import recDespController from './app/controllers/RecDespController.js';
+import recDespController from './app/controllers/auxControllers/RecDespController.js';
+import condPgmtoController from './app/controllers/auxControllers/condPgmtoController.js';
+import tipoComissController from './app/controllers/auxControllers/tipoComissController.js';
+import perfilController from './app/controllers/auxControllers/perfilController.js';
 
 import parametrosController from './app/controllers/ParametrosController';
 
@@ -39,13 +42,15 @@ const routes = new Router();
 routes.post('/cliente', clienteController.store);
 routes.get('/cliente/:id?', clienteController.get);
 routes.put('/cliente/:id', clienteController.update);
+routes.delete('/cliente/:id', clienteController.delete);
 routes.post('/cliente/complem', cliCompController.store);
-routes.get('/cliente/complem/:id', cliCompController.get);
 routes.put('/cliente/complem/:id', cliCompController.update);
+routes.get('/cliente/complem/:id/:update?', cliCompController.get);
 routes.post('/cliente/rec_desp', cliRecDespController.store);
-routes.get('/cliente/rec_desp/:id', cliRecDespController.get);
+routes.get('/cliente/rec_desp/:id/:update?', cliRecDespController.get);
+routes.put('/cliente/rec_desp/:id', cliRecDespController.update);
 routes.post('/cliente/cont', cliContController.store);
-routes.get('/cliente/cont/:id', cliContController.get);
+routes.get('/cliente/cont/:id?/:update?', cliContController.get);
 routes.put('/cliente/cont/:id', cliContController.update);
 
 routes.post('/emp', empController.store);
@@ -54,14 +59,15 @@ routes.put('/empresa/:id', empresaController.update);
 routes.get('/empresa/:id?', empresaController.get);
 
 routes.post('/users', userController.store);
+routes.get('/users', userController.get);
 routes.post('/sessions', sessionController.store);
 
 routes.post('/colab', colabController.store);
 routes.get('/colab/:id?', colabController.get);
 routes.put('/colab/:id', colabController.update);
 routes.post('/colab/comp', colabCompController.store);
-routes.get('/colab/comp/:id', colabCompController.get);
-routes.put('/colab/com/:id', colabCompController.update);
+routes.get('/colab/comp/:id/:update?', colabCompController.get);
+routes.put('/colab/comp/:id', colabCompController.update);
 
 routes.post('/representante', representanteController.store);
 routes.get('/representante/:id?', representanteController.get);
@@ -94,6 +100,18 @@ routes.put('/itm_controle/:id', itmControleController.update);
 routes.post('/rec_desp', recDespController.store);
 routes.get('/rec_desp/:id?', recDespController.get);
 routes.put('/rec_desp/:id', recDespController.update);
+
+routes.post('/condPgmto', condPgmtoController.store);
+routes.get('/condPgmto/:id?', condPgmtoController.get);
+routes.put('/condPgmto/:id', condPgmtoController.update);
+
+routes.post('/tipoComiss', tipoComissController.store);
+routes.get('/tipoComiss/:id?', tipoComissController.get);
+routes.put('/tipoComiss/:id', tipoComissController.update);
+
+routes.post('/perfil', perfilController.store);
+routes.get('/perfil/:id?', perfilController.get);
+routes.put('/perfil/:id', perfilController.update);
 
 routes.post('/parametros', parametrosController.store);
 routes.get('/parametros/:id?', parametrosController.get);

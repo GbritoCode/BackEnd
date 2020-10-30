@@ -23,11 +23,11 @@ module.exports = {
       },
       cel: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       fone: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       skype: {
         allowNull: false,
@@ -39,11 +39,11 @@ module.exports = {
       },
       aniver: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
-      tipo_conta: {
+      tipoConta: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,

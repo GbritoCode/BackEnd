@@ -17,15 +17,23 @@ module.exports = {
           key: 'id',
         },
       },
-      rz_social: {
+      CondPgmtoId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'condPgmtos',
+          key: 'id',
+        },
+      },
+      fantasia: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      cond_pgmto: {
+      rzSocial: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
-      nome_abv: {
+      nomeAbv: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -53,13 +61,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      insc_mun: {
+      inscMun: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
-      insc_uf: {
+      inscEst: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -1,15 +1,12 @@
 import * as yup from 'yup';
 import Empresa from '../models/empresa';
 import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
 
 class empresaController {
   async store(req, res) {
     const schema = yup.object().shape({
       UserId: yup.number().required(),
-      id_federal: yup.string().required(),
+      idFederal: yup.string().required(),
       nome: yup.string().required(),
       license: yup.string().required(),
     });
@@ -18,13 +15,13 @@ class empresaController {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const { id, UserId, id_federal, nome, license } = await Empresa.create(
+    const { id, UserId, idFederal, nome, license } = await Empresa.create(
       req.body
     );
     return res.json({
       id,
       UserId,
-      id_federal,
+      idFederal,
       nome,
       license,
     });
@@ -40,13 +37,11 @@ class empresaController {
   }
   async update(req, res) {
     const empresa = await Empresa.findByPk(req.params.id);
-    const { UserId, id_federal, nome, license } = await empresa.update(
-      req.body
-    );
+    const { UserId, idFederal, nome, license } = await empresa.update(req.body);
 
     return res.json({
       UserId,
-      id_federal,
+      idFederal,
       nome,
       license,
     });

@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      tipo_valor: {
+      tipoValor: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
@@ -29,15 +29,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.NUMERIC,
       },
-      data_inic: {
+      dataInic: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
-      data_fim: {
+      dataFim: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
-      tipo_atend: {
+      tipoAtend: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },

@@ -17,13 +17,21 @@ module.exports = {
           key: 'id',
         },
       },
-      tipo_rec_desp: {
+      recDespId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'rec_desps',
+          key: 'id',
+        },
       },
-      nome_rec_desp: {
+      tipoCobranca: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
+      valorRec: {
+        allowNull: false,
+        type: Sequelize.REAL,
       },
       createdAt: {
         type: Sequelize.DATE,

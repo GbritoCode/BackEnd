@@ -1,17 +1,19 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+const { DataTypes } = require('sequelize');
+
 
 class Cli_cont extends Model {
   static init(sequelize) {
     super.init(
       {
-        ClienteId: Sequelize.INTEGER,
-        nome: Sequelize.STRING,
-        cel: Sequelize.NUMBER,
-        fone: Sequelize.NUMBER,
-        skype: Sequelize.STRING,
-        email: Sequelize.STRING,
-        aniver: Sequelize.DATE,
-        tipo_conta: Sequelize.NUMBER,
+        ClienteId: DataTypes.INTEGER,
+        nome: DataTypes.STRING,
+        cel: DataTypes.STRING,
+        fone: DataTypes.STRING,
+        skype: DataTypes.STRING,
+        email: DataTypes.STRING,
+        aniver: DataTypes.DATE,
+        tipoConta: DataTypes.STRING,
       },
       {
         sequelize,

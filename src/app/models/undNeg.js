@@ -1,23 +1,23 @@
 import { Model } from 'sequelize';
+import Segmento from './segmento.js';
 
 const { DataTypes } = require('sequelize');
 
-class Itm_controle extends Model {
+class UndNeg extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        descItem: DataTypes.STRING,
-        tipoItem: DataTypes.STRING,
-        contaContabil: DataTypes.STRING,
-        centCusto: DataTypes.STRING,
+        descUndNeg: DataTypes.STRING,
       },
       {
         sequelize,
       }
     );
-
+    UndNeg.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
+    Segmento.belongsTo(UndNeg);
     return this;
   }
 }
-export default Itm_controle;
+
+export default UndNeg;

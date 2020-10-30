@@ -18,6 +18,14 @@ module.exports = {
           key: 'id',
         },
       },
+      CondPgmtoId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'condPgmtos',
+          key: 'id',
+        },
+      },
       CNPJ: {
         allowNull: false,
         unique: true,
@@ -27,17 +35,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      cond_pgmto: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      nome_conta: {
+      nomeConta: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       fone: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       cep: {
         allowNull: false,
@@ -49,10 +53,10 @@ module.exports = {
       },
       numero: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       complemento: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       bairro: {

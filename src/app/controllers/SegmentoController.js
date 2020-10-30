@@ -1,18 +1,18 @@
 import * as yup from 'yup';
 import Segmento from '../models/segmento.js';
-import databaseConfig from './../../config/database';
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(databaseConfig);
+import Produto from '../models/produto.js';
+import Area from '../models/area.js';
+import Empresa from '../models/empresa';
+import UndNeg from '../models/UndNeg.js';
 
 class segmentoController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      Und_negId: yup.number().required(),
+      UndNegId: yup.number().required(),
       ProdutoId: yup.number().required(),
       AreaId: yup.number().required(),
-      desc_segmt: yup.string().required(),
+      descSegmt: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -21,23 +21,25 @@ class segmentoController {
 
     const {
       EmpresaId,
-      Und_negId,
+      UndNegId,
       ProdutoId,
       AreaId,
-      desc_segmt,
+      descSegmt,
     } = await Segmento.create(req.body);
 
     return res.json({
       EmpresaId,
-      Und_negId,
+      UndNegId,
       ProdutoId,
       AreaId,
-      desc_segmt,
+      descSegmt,
     });
   }
   async get(req, res) {
     if (!req.params.id) {
-      const segmento = await Segmento.findAll({});
+      const segmento = await Segmento.findAll({
+        include: [{ model:UndNeg }, { model: Produto }, { model: Area }, {model: Empresa }],
+      });
       return res.json(segmento);
     } else {
       const segmento = await Segmento.findOne({ where: { id: req.params.id } });
@@ -48,18 +50,18 @@ class segmentoController {
     const segmento = await Segmento.findByPk(req.params.id);
     const {
       EmpresaId,
-      Und_negId,
+      UndNegId,
       ProdutoId,
       AreaId,
-      desc_segmt,
+      descSegmt,
     } = await segmento.update(req.body);
 
     return res.json({
       EmpresaId,
-      Und_negId,
+      UndNegId,
       ProdutoId,
       AreaId,
-      desc_segmt,
+      descSegmt,
     });
   }
 }

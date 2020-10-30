@@ -1,5 +1,7 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+import Colab_comp from './colab_comp.js';
 const { DataTypes } = require('sequelize');
+import perfil from './perfil.js';
 
 class Colab extends Model {
   static init(sequelize) {
@@ -7,10 +9,10 @@ class Colab extends Model {
       {
         CPF: DataTypes.STRING,
         FornecId: DataTypes.INTEGER,
-        log_usr: DataTypes.INTEGER,
+        PerfilId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         nome: DataTypes.STRING,
-        dt_admiss: DataTypes.DATE,
+        dtAdmiss: DataTypes.DATE,
         cel: DataTypes.INTEGER,
         skype: DataTypes.STRING,
         email: DataTypes.STRING,
@@ -20,7 +22,8 @@ class Colab extends Model {
         sequelize,
       }
     );
-
+    Colab.hasOne(Colab_comp, { onDelete: 'cascade', hooks: true });
+    Colab_comp.belongsTo(Colab);
     return this;
   }
 }

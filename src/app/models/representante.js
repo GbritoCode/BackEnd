@@ -1,4 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model } from 'sequelize';
+
+import Cliente from './cliente';
 const { DataTypes } = require('sequelize');
 
 class Representante extends Model {
@@ -7,14 +9,15 @@ class Representante extends Model {
       {
         EmpresaId: DataTypes.INTEGER,
         nome: DataTypes.STRING,
-        percnt_comiss: DataTypes.DECIMAL,
-        vlr_fix_mens: DataTypes.DECIMAL,
+        TipoComisseId: DataTypes.DECIMAL,
+        vlrFixMens: DataTypes.DECIMAL,
       },
       {
         sequelize,
       }
     );
-
+    Representante.hasOne(Cliente, { onDelete: 'cascade', hooks: true });
+    Cliente.belongsTo(Representante);
     return this;
   }
 }

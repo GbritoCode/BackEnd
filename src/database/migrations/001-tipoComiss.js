@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('itm_controles', {
+    return queryInterface.createTable('tipoComisses', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,21 +17,17 @@ module.exports = {
           key: 'id',
         },
       },
-      descItem: {
+      desc: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      tipoItem: {
+      prcnt: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.REAL,
       },
-      contaContabil: {
+      bsComiss: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      centCusto: {
-        allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.REAL,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -45,6 +41,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('itm_controles');
+    return queryInterface.dropTable('tipoComisses');
   },
 };

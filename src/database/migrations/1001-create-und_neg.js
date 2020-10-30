@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('und_negs', {
+    return queryInterface.createTable('UndNegs', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,8 +12,12 @@ module.exports = {
       EmpresaId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'empresas',
+          key: 'id',
+        },
       },
-      desc_und_neg: {
+      descUndNeg: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -29,6 +33,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('und_negs');
+    return queryInterface.dropTable('UndNegs');
   },
 };

@@ -14,8 +14,11 @@ import Produto from '../app/models/produto';
 import Rec_desp from '../app/models/rec_desp';
 import Representante from '../app/models/representante';
 import Segmento from '../app/models/segmento';
-import Und_neg from '../app/models/und_neg';
+import UndNeg from '../app/models/UndNeg';
 import User from '../app/models/users';
+import perfil from '../app/models/perfil';
+import condPgmto from '../app/models/condPgmto';
+import tipoComiss from '../app/models/tipoComiss';
 import databaseConfig from '../config/database';
 
 const models = [
@@ -23,17 +26,20 @@ const models = [
   Cliente_comp,
   Cli_rec_desp,
   Cliente,
+  Representante,
+  Segmento,
   Area,
-  Und_neg,
+  UndNeg,
   Produto,
-  Colab,
   Colab_comp,
+  Colab,
   Fornec,
   Itm_controle,
   Parametros,
   Rec_desp,
-  Representante,
-  Segmento,
+  tipoComiss,
+  condPgmto,
+  perfil,
   Empresa,
   User,
 ];

@@ -1,7 +1,5 @@
-const Sequelize = require('sequelize');
 import databaseConfig from '../../config/database';
 
-const sequelize = new Sequelize(databaseConfig);
 class EmpController {
   store(req, res) {
     sequelize
