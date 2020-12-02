@@ -2,7 +2,7 @@ import { Model } from 'sequelize';
 
 const { DataTypes } = require('sequelize');
 
-class Colab_comp extends Model {
+class colabComp extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -16,10 +16,10 @@ class Colab_comp extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
 
     return this;
   }
 }
-export default Colab_comp;
+export default colabComp;

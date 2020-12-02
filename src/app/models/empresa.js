@@ -1,20 +1,22 @@
 import { Model } from 'sequelize';
-const { DataTypes } = require('sequelize');
 
-import Clientes from './cliente.js';
-import Area from './area.js';
-import UndNeg from './UndNeg.js';
-import Produto from './produto.js';
-import Segmento from './segmento.js';
-import Itm_Controle from './itm_controle.js';
-import Colab from './colab.js';
-import Representante from './representante.js';
-import Fornec from './fornec.js';
-import Parametros from './parametros.js';
-import Rec_Desp from './rec_desp';
+import recDesp from './recDesp';
+import Clientes from './cliente';
+import Area from './area';
+import UndNeg from './undNeg';
+import Produto from './produto';
+import Segmento from './segmento';
+import itmControle from './itmControle';
+import Colab from './colab';
+import Representante from './representante';
+import Fornec from './fornec';
+import Parametros from './parametros';
 import perfil from './perfil';
 import condPgmto from './condPgmto';
 import tipoComiss from './tipoComiss';
+import oportunidade from './oportunidade';
+
+const { DataTypes } = require('sequelize');
 
 class Empresa extends Model {
   static init(sequelize) {
@@ -27,7 +29,7 @@ class Empresa extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     Empresa.hasOne(Clientes, { onDelete: 'cascade', hooks: true });
     Clientes.belongsTo(Empresa);
@@ -38,8 +40,8 @@ class Empresa extends Model {
     Empresa.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(Empresa);
 
-    Empresa.hasOne(Itm_Controle, { onDelete: 'cascade', hooks: true });
-    Itm_Controle.belongsTo(Empresa);
+    Empresa.hasOne(itmControle, { onDelete: 'cascade', hooks: true });
+    itmControle.belongsTo(Empresa);
 
     Empresa.hasOne(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Empresa);
@@ -53,8 +55,8 @@ class Empresa extends Model {
     Empresa.hasOne(Parametros, { onDelete: 'cascade', hooks: true });
     Parametros.belongsTo(Empresa);
 
-    Empresa.hasOne(Rec_Desp, { onDelete: 'cascade', hooks: true });
-    Rec_Desp.belongsTo(Empresa);
+    Empresa.hasOne(recDesp, { onDelete: 'cascade', hooks: true });
+    recDesp.belongsTo(Empresa);
 
     Empresa.hasOne(perfil, { onDelete: 'cascade', hooks: true });
     perfil.belongsTo(Empresa);
@@ -70,6 +72,10 @@ class Empresa extends Model {
 
     Empresa.hasOne(UndNeg, { onDelete: 'cascade', hooks: true });
     UndNeg.belongsTo(Empresa);
+
+    Empresa.hasOne(oportunidade, { onDelete: 'cascade', hooks: true });
+    oportunidade.belongsTo(Empresa);
+
     return this;
   }
 }

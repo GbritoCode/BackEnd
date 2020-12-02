@@ -1,5 +1,6 @@
 import { Model } from 'sequelize';
 import Colab from './colab';
+
 const { DataTypes } = require('sequelize');
 
 class perfil extends Model {
@@ -11,7 +12,7 @@ class perfil extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     perfil.hasOne(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(perfil);

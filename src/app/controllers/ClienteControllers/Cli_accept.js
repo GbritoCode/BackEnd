@@ -6,7 +6,7 @@ class Cli_accept {
       .query('insert into clientes select top 1* from cliente_prospects', {
         type: sequelize.QueryTypes.INSERT,
       })
-      .then(function(clientes) {
+      .then((clientes) => {
         res.json(clientes);
       });
   }

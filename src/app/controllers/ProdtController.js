@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import Prodt from '../models/produto.js';
+import Prodt from '../models/produto';
 import Empresa from '../models/empresa';
 
-class prodtController {
+class ProdtController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
@@ -20,14 +20,14 @@ class prodtController {
       descProdt,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const prodt = await Prodt.findAll({ include: Empresa });
       return res.json(prodt);
-    } else {
-      const prodt = await Prodt.findOne({ where: { id: req.params.id } });
-      return res.json(prodt);
     }
+    const prodt = await Prodt.findOne({ where: { id: req.params.id } });
+    return res.json(prodt);
   }
 
   async update(req, res) {
@@ -40,4 +40,4 @@ class prodtController {
     });
   }
 }
-export default new prodtController();
+export default new ProdtController();

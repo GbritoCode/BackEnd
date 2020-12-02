@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 import { Model } from 'sequelize';
-const { DataTypes } = require('sequelize');
-
 import bcrypt from 'bcryptjs';
 import Empresa from './empresa';
+
+const { DataTypes } = require('sequelize');
 
 class User extends Model {
   static init(sequelize) {
@@ -16,9 +17,9 @@ class User extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
-    this.addHook('beforeSave', async user => {
+    this.addHook('beforeSave', async (user) => {
       if (user.password) {
         user.passwordHash = await bcrypt.hash(user.password, 8);
       }

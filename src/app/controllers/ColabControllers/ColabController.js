@@ -3,7 +3,7 @@ import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import fornec from '../../models/fornec';
 
-class colabController {
+class ColabController {
   async store(req, res) {
     const schema = yup.object().shape({
       CPF: yup.number().required(),
@@ -11,7 +11,7 @@ class colabController {
       EmpresaId: yup.string().required(),
       nome: yup.string().required(),
       dtAdmiss: yup.date().required(),
-      cel: yup.number().required(),
+      cel: yup.string().required(),
       PerfilId: yup.number().required(),
       skype: yup.string().required(),
       email: yup
@@ -20,6 +20,10 @@ class colabController {
         .required(),
       espec: yup.string().required(),
     });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation Fails' });
+    }
 
     const {
       CPF,
@@ -46,17 +50,25 @@ class colabController {
       espec,
     });
   }
+
   async get(req, res) {
+    if (req.query.email) {
+      const { email } = req.query;
+      const colab = await Colab.findOne({
+        where: { email },
+      });
+      return res.json(colab);
+    }
     if (!req.params.id) {
       const colab = await Colab.findAll({
         include: [{ model: fornec }, { model: Empresa }],
       });
       return res.json(colab);
-    } else {
-      const colab = await Colab.findOne({ where: { id: req.params.id } });
-      return res.json(colab);
     }
+    const colab = await Colab.findOne({ where: { id: req.params.id } });
+    return res.json(colab);
   }
+
   async update(req, res) {
     const colab = await Colab.findByPk(req.params.id);
     const {
@@ -86,4 +98,4 @@ class colabController {
     });
   }
 }
-export default new colabController();
+export default new ColabController();

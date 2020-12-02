@@ -16,7 +16,7 @@ class Parametros extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
 
     return this;

@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
 import Cliente from './cliente';
 import Representante from './representante';
+
 const { DataTypes } = require('sequelize');
 
 class tipoComisse extends Model {
@@ -14,7 +15,7 @@ class tipoComisse extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     tipoComisse.hasOne(Cliente, { onDelete: 'cascade', hooks: true });
     Cliente.belongsTo(tipoComisse);

@@ -1,43 +1,61 @@
 import { Router } from 'express';
 
-import clienteController from './app/controllers/ClienteControllers/ClienteController.js';
-import cliCompController from './app/controllers/ClienteControllers/Cliente_Comp.js';
-import cliRecDespController from './app/controllers/ClienteControllers/Cli_rec_desp.js';
-import cliContController from './app/controllers/ClienteControllers/Cli_Cont.js';
+import clienteController from './app/controllers/ClienteControllers/ClienteController';
+// eslint-disable-next-line import/no-unresolved
+import cliCompController from './app/controllers/ClienteControllers/ClienteComp';
+import cliRecDespController from './app/controllers/ClienteControllers/cliRecDesp';
+import cliContController from './app/controllers/ClienteControllers/cliCont';
 
-import empController from './app/controllers/EmpController.js';
-import empresaController from './app/controllers/EmpresaController.js';
+import empController from './app/controllers/EmpController';
+import empresaController from './app/controllers/EmpresaController';
 
-import userController from './app/controllers/UserController.js';
-import sessionController from './app/controllers/sessionController.js';
+import userController from './app/controllers/UserController';
+import sessionController from './app/controllers/sessionController';
 
-import colabController from './app/controllers/ColabControllers/ColabController.js';
-import colabCompController from './app/controllers/ColabControllers/ColabCompController.js';
+import colabController from './app/controllers/ColabControllers/ColabController';
+import colabCompController from './app/controllers/ColabControllers/ColabCompController';
 
-import representanteController from './app/controllers/RepresentanteController.js';
+import representanteController from './app/controllers/RepresentanteController';
 
-import fornecController from './app/controllers/FornecController.js';
+import fornecController from './app/controllers/FornecController';
 
-import areaController from './app/controllers/AreaController.js';
+import areaController from './app/controllers/AreaController';
 
-import segmentoController from './app/controllers/SegmentoController.js';
+import segmentoController from './app/controllers/SegmentoController';
 
-import undNegController from './app/controllers/UndNegController.js';
+import undNegController from './app/controllers/UndNegController';
 
-import itmControleController from './app/controllers/ItmControleController.js';
+import itmControleController from './app/controllers/ItmControleController';
 
-import prodtController from './app/controllers/ProdtController.js';
+import prodtController from './app/controllers/ProdtController';
 
-import recDespController from './app/controllers/auxControllers/RecDespController.js';
-import condPgmtoController from './app/controllers/auxControllers/condPgmtoController.js';
-import tipoComissController from './app/controllers/auxControllers/tipoComissController.js';
-import perfilController from './app/controllers/auxControllers/perfilController.js';
+import recDespController from './app/controllers/auxControllers/RecDespController';
+import condPgmtoController from './app/controllers/auxControllers/condPgmtoController';
+import tipoComissController from './app/controllers/auxControllers/tipoComissController';
+import perfilController from './app/controllers/auxControllers/perfilController';
 
 import parametrosController from './app/controllers/ParametrosController';
+import oprtController from './app/controllers/oprtControllers/oprtController';
+import cotacaoController from './app/controllers/oprtControllers/cotacaoController';
+import recursoController from './app/controllers/oprtControllers/recursoController';
+import parcelaController from './app/controllers/oprtControllers/parcelaController';
 
-import authMiddleware from './app/middleware/auth';
+// import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
+
+routes.post('/oportunidade', oprtController.store);
+routes.get('/oportunidade/:id?', oprtController.get);
+routes.put('/oportunidade/:id', oprtController.update);
+routes.post('/cotacao', cotacaoController.store);
+routes.get('/cotacao/:id?/:update?', cotacaoController.get);
+routes.put('/cotacao/:id?', cotacaoController.update);
+routes.post('/recurso', recursoController.store);
+routes.get('/recurso/:id?/:update?', recursoController.get);
+routes.put('/recurso/:id?', recursoController.update);
+routes.post('/parcela', parcelaController.store);
+routes.get('/parcela/:id?/:update?', parcelaController.get);
+routes.put('/parcela/:id?', parcelaController.update);
 
 routes.post('/cliente', clienteController.store);
 routes.get('/cliente/:id?', clienteController.get);

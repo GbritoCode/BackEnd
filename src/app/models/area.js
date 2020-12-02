@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
+import Segmento from './segmento';
+
 const { DataTypes } = require('sequelize');
-import Segmento from './segmento.js';
 
 class Area extends Model {
   static init(sequelize) {
@@ -11,7 +12,7 @@ class Area extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     Area.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(Area);

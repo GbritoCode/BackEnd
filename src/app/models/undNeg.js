@@ -1,5 +1,6 @@
 import { Model } from 'sequelize';
-import Segmento from './segmento.js';
+import Oportunidade from './oportunidade';
+import Segmento from './segmento';
 
 const { DataTypes } = require('sequelize');
 
@@ -12,10 +13,13 @@ class UndNeg extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     UndNeg.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(UndNeg);
+
+    UndNeg.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(UndNeg);
     return this;
   }
 }

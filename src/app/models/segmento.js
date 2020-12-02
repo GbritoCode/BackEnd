@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
-const { DataTypes } = require('sequelize');
+import Oportunidade from './oportunidade';
 
+const { DataTypes } = require('sequelize');
 
 class Segmento extends Model {
   static init(sequelize) {
@@ -14,9 +15,10 @@ class Segmento extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
-
+    Segmento.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(Segmento);
     return this;
   }
 }

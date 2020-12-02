@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import UndNeg from '../models/UndNeg.js';
+import UndNeg from '../models/undNeg';
 import Empresa from '../models/empresa';
 
 class UndNegController {
@@ -20,15 +20,16 @@ class UndNegController {
       descUndNeg,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const undNeg = await UndNeg.findAll({ include: Empresa });
       return res.json(undNeg);
-    } else {
-      const undNeg = await UndNeg.findOne({ where: { id: req.params.id } });
-      return res.json(undNeg);
     }
+    const undNeg = await UndNeg.findOne({ where: { id: req.params.id } });
+    return res.json(undNeg);
   }
+
   async update(req, res) {
     const undneg = await UndNeg.findByPk(req.params.id);
     const { EmpresaId, descUndNeg } = await undneg.update(req.body);

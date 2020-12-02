@@ -2,7 +2,7 @@ import { Model } from 'sequelize';
 
 const { DataTypes } = require('sequelize');
 
-class Cli_rec_desp extends Model {
+class cliRecDesp extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -10,13 +10,15 @@ class Cli_rec_desp extends Model {
         recDespId: DataTypes.INTEGER,
         tipoCobranca: DataTypes.STRING,
         valorRec: DataTypes.INTEGER,
+        dataInic: DataTypes.DATEONLY,
+        dataFim: DataTypes.DATEONLY,
       },
       {
         sequelize,
-      }
+      },
     );
 
     return this;
   }
 }
-export default Cli_rec_desp;
+export default cliRecDesp;

@@ -4,7 +4,7 @@ import representantes from '../../models/representante';
 import tipoComiss from '../../models/tipoComiss';
 import Empresa from '../../models/empresa';
 
-class clienteController {
+class ClienteController {
   async store(req, res) {
     const schema = yup.object().shape({
       CNPJ: yup.string().required(),
@@ -37,6 +37,29 @@ class clienteController {
   }
 
   async get(req, res) {
+    if (req.query.prospect) {
+      const { prospect } = req.query;
+      if (prospect === 'true') {
+        const cliente = await Cliente.findAll({
+          where: { prospect: true },
+          include: [
+            { model: representantes },
+            { model: tipoComiss },
+            { model: Empresa },
+          ],
+        });
+        return res.json(cliente);
+      }
+      const cliente = await Cliente.findAll({
+        where: { prospect: false },
+        include: [
+          { model: representantes },
+          { model: tipoComiss },
+          { model: Empresa },
+        ],
+      });
+      return res.json(cliente);
+    }
     if (!req.params.id) {
       const cliente = await Cliente.findAll({
         include: [
@@ -46,10 +69,9 @@ class clienteController {
         ],
       });
       return res.json(cliente);
-    } else {
-      const cliente = await Cliente.findOne({ where: { id: req.params.id } });
-      return res.json(cliente);
     }
+    const cliente = await Cliente.findOne({ where: { id: req.params.id } });
+    return res.json(cliente);
   }
 
   async update(req, res) {
@@ -70,9 +92,9 @@ class clienteController {
     });
   }
 
-  async delete(req, res){
+  async delete(req) {
     const cliente = await Cliente.findOne({ where: { id: req.params.id } });
-    cliente.destroy()
+    cliente.destroy();
   }
 }
-export default new clienteController();
+export default new ClienteController();

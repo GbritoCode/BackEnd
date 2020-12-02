@@ -1,7 +1,9 @@
 import { Model } from 'sequelize';
-import Cliente_comp from './cliente_comp.js';
-import Cli_cont from './cli_cont.js';
-import Cli_rec_desp from './cli_rec_desp.js';
+import ClienteComp from './clienteComp';
+import cliCont from './cliCont';
+import CliRecDesp from './cliRecDesp';
+import Oportunidade from './oportunidade';
+
 const { DataTypes } = require('sequelize');
 
 class Cliente extends Model {
@@ -17,17 +19,20 @@ class Cliente extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
 
-    Cliente.hasOne(Cliente_comp, { onDelete: 'cascade', hooks: true });
-    Cliente_comp.belongsTo(Cliente);
+    Cliente.hasOne(ClienteComp, { onDelete: 'cascade', hooks: true });
+    ClienteComp.belongsTo(Cliente);
 
-    Cliente.hasOne(Cli_cont, { onDelete: 'cascade', hooks: true });
-    Cli_cont.belongsTo(Cliente);
+    Cliente.hasOne(cliCont, { onDelete: 'cascade', hooks: true });
+    cliCont.belongsTo(Cliente);
 
-    Cliente.hasOne(Cli_rec_desp, { onDelete: 'cascade', hooks: true });
-    Cli_rec_desp.belongsTo(Cliente);
+    Cliente.hasOne(CliRecDesp, { onDelete: 'cascade', hooks: true });
+    CliRecDesp.belongsTo(Cliente);
+
+    Cliente.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(Cliente);
 
     return this;
   }

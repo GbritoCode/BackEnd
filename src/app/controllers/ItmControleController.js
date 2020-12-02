@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import ItmControle from '../models/itm_controle';
+import ItmControle from '../models/itmControle';
 import Empresa from '../models/empresa';
 
 class ItmControleController {
@@ -31,17 +31,18 @@ class ItmControleController {
       centCusto,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const itmCtrl = await ItmControle.findAll({ include: Empresa });
       return res.json(itmCtrl);
-    } else {
-      const itmCtrl = await ItmControle.findOne({
-        where: { id: req.params.id },
-      });
-      return res.json(itmCtrl);
     }
+    const itmCtrl = await ItmControle.findOne({
+      where: { id: req.params.id },
+    });
+    return res.json(itmCtrl);
   }
+
   async update(req, res) {
     const itmCtrl = await ItmControle.findByPk(req.params.id);
     const {

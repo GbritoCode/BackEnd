@@ -1,7 +1,9 @@
 import { Model } from 'sequelize';
-import Colab_comp from './colab_comp.js';
+import ColabComp from './colabComp';
+import Oportunidade from './oportunidade';
+import Recurso from './recurso';
+
 const { DataTypes } = require('sequelize');
-import perfil from './perfil.js';
 
 class Colab extends Model {
   static init(sequelize) {
@@ -20,10 +22,16 @@ class Colab extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
-    Colab.hasOne(Colab_comp, { onDelete: 'cascade', hooks: true });
-    Colab_comp.belongsTo(Colab);
+    Colab.hasOne(ColabComp, { onDelete: 'cascade', hooks: true });
+    ColabComp.belongsTo(Colab);
+
+    Colab.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(Colab);
+
+    Colab.hasOne(Recurso, { onDelete: 'cascade', hooks: true });
+    Recurso.belongsTo(Colab);
     return this;
   }
 }

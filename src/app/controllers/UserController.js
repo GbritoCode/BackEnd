@@ -24,7 +24,9 @@ class UserController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const { id, name, email, provider } = await User.create(req.body);
+    const {
+      id, name, email, provider,
+    } = await User.create(req.body);
 
     return res.json({
       id,
@@ -42,14 +44,10 @@ class UserController {
       password: yup
         .string()
         .min(6)
-        .when('oldPassword', (oldPassword, field) =>
-          oldPassword ? field.required() : field
-        ),
+        .when('oldPassword', (oldPassword, field) => (oldPassword ? field.required() : field)),
       confirmPassword: yup
         .string()
-        .when('password', (password, field) =>
-          password ? field.required().oneOf([yup.ref('password')]) : field
-        ),
+        .when('password', (password, field) => (password ? field.required().oneOf([yup.ref('password')]) : field)),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -85,10 +83,9 @@ class UserController {
     if (!req.params.id) {
       const user = await User.findAll({});
       return res.json(user);
-    } else {
-      const user = await User.findOne({ where: { id: req.params.id } });
-      return res.json(user);
     }
+    const user = await User.findOne({ where: { id: req.params.id } });
+    return res.json(user);
   }
 }
 export default new UserController();

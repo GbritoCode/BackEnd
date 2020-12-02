@@ -1,7 +1,8 @@
 import { Model } from 'sequelize';
 
+import Segmento from './segmento';
+
 const { DataTypes } = require('sequelize');
-import Segmento from './segmento.js';
 
 class Produto extends Model {
   static init(sequelize) {
@@ -12,7 +13,7 @@ class Produto extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     Produto.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(Produto);

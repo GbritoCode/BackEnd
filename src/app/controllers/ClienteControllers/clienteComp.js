@@ -1,27 +1,23 @@
 import * as yup from 'yup';
-import CliComp from '../../models/cliente_comp';
+import CliComp from '../../models/clienteComp';
 
-class cliCompController {
+class CliCompController {
   async store(req, res) {
     const schema = yup.object().shape({
       ClienteId: yup.string().required(),
       CondPgmtoId: yup.number().required(),
       rzSocial: yup.string().required(),
       nomeAbv: yup.string().required(),
-      fantasia: yup.string().required(),
+      fantasia: yup.string(),
       cep: yup.string().required(),
       rua: yup.string().required(),
-      numero: yup.number().required(),
+      numero: yup.string().required(),
       bairro: yup.string().required(),
       cidade: yup.string().required(),
       uf: yup.string().required(),
       inscMun: yup.string().required(),
       inscEst: yup.string().required(),
     });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
 
     const {
       ClienteId,
@@ -61,7 +57,7 @@ class cliCompController {
         where: { id: req.params.update },
       });
       return res.json(complemento);
-    } else if (req.params.id) {
+    } if (req.params.id) {
       const complemento = await CliComp.findAll({
         where: {
           ClienteId: req.params.id,
@@ -70,6 +66,7 @@ class cliCompController {
       return res.json(complemento);
     }
   }
+
   async update(req, res) {
     const cliComp = await CliComp.findByPk(req.params.id);
 
@@ -106,4 +103,4 @@ class cliCompController {
     });
   }
 }
-export default new cliCompController();
+export default new CliCompController();

@@ -65,17 +65,18 @@ class FornecController {
       conta,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const fornec = await Fornec.findAll({
         include: [{ model: condPgmto }, { model: Empresa }],
       });
       return res.json(fornec);
-    } else {
-      const fornec = await Fornec.findOne({ where: { id: req.params.id } });
-      return res.json(fornec);
     }
+    const fornec = await Fornec.findOne({ where: { id: req.params.id } });
+    return res.json(fornec);
   }
+
   async update(req, res) {
     const fornec = await Fornec.findByPk(req.params.id);
     const {

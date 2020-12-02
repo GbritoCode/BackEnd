@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import Parametros from '../models/parametros';
 import Empresa from '../models/empresa';
 
-class parametrosController {
+class ParametrosController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
@@ -37,17 +37,18 @@ class parametrosController {
       percAdiantaPgmto,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const parametros = await Parametros.findAll({ include: Empresa });
       return res.json(parametros);
-    } else {
-      const parametros = await Parametros.findOne({
-        where: { id: req.params.id },
-      });
-      return res.json(parametros);
     }
+    const parametros = await Parametros.findOne({
+      where: { id: req.params.id },
+    });
+    return res.json(parametros);
   }
+
   async update(req, res) {
     const parametros = await Parametros.findByPk(req.params.id);
     const {
@@ -71,4 +72,4 @@ class parametrosController {
     });
   }
 }
-export default new parametrosController();
+export default new ParametrosController();

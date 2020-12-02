@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import ColabComp from '../../models/colab_comp';
+import ColabComp from '../../models/colabComp';
 import Colab from '../../models/colab';
 
-class colabCompController {
+class ColabCompController {
   async store(req, res) {
     const schema = yup.object().shape({
       ColabId: yup.number().required(),
@@ -44,18 +44,19 @@ class colabCompController {
         where: { id: req.params.update },
       });
       return res.json(complemento);
-    } else if (req.params.id) {
+    } if (req.params.id) {
       const complemento = await ColabComp.findAll({
         where: {
           ColabId: req.params.id,
         },
         include: [
-          { model:Colab },
+          { model: Colab },
         ],
       });
       return res.json(complemento);
     }
   }
+
   async update(req, res) {
     const colab = await ColabComp.findByPk(req.params.id);
     const {
@@ -79,4 +80,4 @@ class colabCompController {
     });
   }
 }
-export default new colabCompController();
+export default new ColabCompController();

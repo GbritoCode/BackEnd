@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
-const { DataTypes } = require('sequelize');
 import Colab from './colab';
+
+const { DataTypes } = require('sequelize');
 
 class Fornec extends Model {
   static init(sequelize) {
@@ -25,7 +26,7 @@ class Fornec extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     Fornec.hasOne(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Fornec);

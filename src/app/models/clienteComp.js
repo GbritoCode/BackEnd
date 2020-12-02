@@ -1,7 +1,8 @@
 import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
 
-class Cli_comp extends Model {
+class CliComp extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -12,7 +13,7 @@ class Cli_comp extends Model {
         nomeAbv: DataTypes.STRING,
         cep: DataTypes.STRING,
         rua: DataTypes.STRING,
-        numero: DataTypes.DECIMAL,
+        numero: DataTypes.STRING,
         bairro: DataTypes.STRING,
         cidade: DataTypes.STRING,
         uf: DataTypes.STRING,
@@ -21,10 +22,10 @@ class Cli_comp extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
     return this;
   }
 }
 
-export default Cli_comp;
+export default CliComp;

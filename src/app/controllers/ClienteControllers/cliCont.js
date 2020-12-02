@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import CliCont from '../../models/cli_cont';
+import CliCont from '../../models/cliCont';
 
-class cliContController {
+class CliContController {
   async store(req, res) {
     const schema = yup.object().shape({
       ClienteId: yup.string().required(),
@@ -13,7 +13,7 @@ class cliContController {
         .string()
         .email()
         .required(),
-      aniver: yup.date().required(),
+      aniver: yup.date().optional(),
       tipoConta: yup.string().required(),
     });
 
@@ -45,7 +45,7 @@ class cliContController {
 
   /*  async get(req, res) {
     sequelize
-      .query('select * from cli_conts where id 1', {
+      .query('select * from cliConts where id 1', {
         type: sequelize.QueryTypes.SELECT,
       })
       .then(function(cliCont) {
@@ -59,7 +59,7 @@ class cliContController {
         where: { id: req.params.update },
       });
       return res.json(contato);
-    } else if (req.params.id) {
+    } if (req.params.id) {
       const contato = await CliCont.findAll({
         where: {
           ClienteId: req.params.id,
@@ -68,6 +68,7 @@ class cliContController {
       return res.json(contato);
     }
   }
+
   async update(req, res) {
     const cliCont = await CliCont.findByPk(req.params.id);
 
@@ -94,4 +95,4 @@ class cliContController {
     });
   }
 }
-export default new cliContController();
+export default new CliContController();

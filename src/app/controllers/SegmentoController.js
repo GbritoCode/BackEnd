@@ -1,11 +1,11 @@
 import * as yup from 'yup';
-import Segmento from '../models/segmento.js';
-import Produto from '../models/produto.js';
-import Area from '../models/area.js';
+import Segmento from '../models/segmento';
+import Produto from '../models/produto';
+import Area from '../models/area';
 import Empresa from '../models/empresa';
-import UndNeg from '../models/UndNeg.js';
+import UndNeg from '../models/undNeg';
 
-class segmentoController {
+class SegmentoController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
@@ -35,17 +35,18 @@ class segmentoController {
       descSegmt,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const segmento = await Segmento.findAll({
-        include: [{ model:UndNeg }, { model: Produto }, { model: Area }, {model: Empresa }],
+        include: [{ model: UndNeg }, { model: Produto }, { model: Area }, { model: Empresa }],
       });
       return res.json(segmento);
-    } else {
-      const segmento = await Segmento.findOne({ where: { id: req.params.id } });
-      return res.json(segmento);
     }
+    const segmento = await Segmento.findOne({ where: { id: req.params.id } });
+    return res.json(segmento);
   }
+
   async update(req, res) {
     const segmento = await Segmento.findByPk(req.params.id);
     const {
@@ -65,4 +66,4 @@ class segmentoController {
     });
   }
 }
-export default new segmentoController();
+export default new SegmentoController();

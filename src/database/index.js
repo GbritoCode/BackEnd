@@ -1,42 +1,50 @@
 import Sequelize from 'sequelize';
 import Area from '../app/models/area';
-import Cli_cont from '../app/models/cli_cont';
-import Cli_rec_desp from '../app/models/cli_rec_desp';
-import Cliente_comp from '../app/models/cliente_comp';
+import cliCont from '../app/models/cliCont';
+import cliRecDesp from '../app/models/cliRecDesp';
+import cliComp from '../app/models/clienteComp';
 import Cliente from '../app/models/cliente';
-import Colab_comp from '../app/models/colab_comp';
+import colabComp from '../app/models/colabComp';
 import Colab from '../app/models/colab';
 import Empresa from '../app/models/empresa';
 import Fornec from '../app/models/fornec';
-import Itm_controle from '../app/models/itm_controle';
+import itmControle from '../app/models/itmControle';
 import Parametros from '../app/models/parametros';
 import Produto from '../app/models/produto';
-import Rec_desp from '../app/models/rec_desp';
+import recDesp from '../app/models/recDesp';
 import Representante from '../app/models/representante';
 import Segmento from '../app/models/segmento';
-import UndNeg from '../app/models/UndNeg';
+import UndNeg from '../app/models/undNeg';
 import User from '../app/models/users';
 import perfil from '../app/models/perfil';
 import condPgmto from '../app/models/condPgmto';
+import oportunidade from '../app/models/oportunidade';
 import tipoComiss from '../app/models/tipoComiss';
+import cotacao from '../app/models/cotacao';
 import databaseConfig from '../config/database';
+import Recurso from '../app/models/recurso';
+import parcela from '../app/models/parcela';
 
 const models = [
-  Cli_cont,
-  Cliente_comp,
-  Cli_rec_desp,
+  cliCont,
+  cliComp,
+  cliRecDesp,
+  Recurso,
+  cotacao,
+  parcela,
+  oportunidade,
   Cliente,
   Representante,
   Segmento,
   Area,
   UndNeg,
   Produto,
-  Colab_comp,
+  colabComp,
   Colab,
   Fornec,
-  Itm_controle,
+  recDesp,
+  itmControle,
   Parametros,
-  Rec_desp,
   tipoComiss,
   condPgmto,
   perfil,
@@ -52,7 +60,7 @@ class Database {
   init() {
     this.connection = new Sequelize(databaseConfig);
 
-    models.map(model => model.init(this.connection));
+    models.map((model) => model.init(this.connection));
   }
 }
 

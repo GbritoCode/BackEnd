@@ -3,7 +3,7 @@ import Representante from '../models/representante';
 import tipoComiss from '../models/tipoComiss';
 import Empresa from '../models/empresa';
 
-class representanteController {
+class RepresentanteController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
@@ -29,19 +29,20 @@ class representanteController {
       vlrFixMens,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const representante = await Representante.findAll({
         include: [{ model: tipoComiss }, { model: Empresa }],
       });
       return res.json(representante);
-    } else {
-      const representante = await Representante.findOne({
-        where: { id: req.params.id },
-      });
-      return res.json(representante);
     }
+    const representante = await Representante.findOne({
+      where: { id: req.params.id },
+    });
+    return res.json(representante);
   }
+
   async update(req, res) {
     const representante = await Representante.findByPk(req.params.id);
     const {
@@ -59,4 +60,4 @@ class representanteController {
     });
   }
 }
-export default new representanteController();
+export default new RepresentanteController();

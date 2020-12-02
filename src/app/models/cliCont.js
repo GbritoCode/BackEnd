@@ -1,8 +1,8 @@
 import { Model } from 'sequelize';
+
 const { DataTypes } = require('sequelize');
 
-
-class Cli_cont extends Model {
+class cliCont extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -17,11 +17,11 @@ class Cli_cont extends Model {
       },
       {
         sequelize,
-      }
+      },
     );
 
     return this;
   }
 }
 
-export default Cli_cont;
+export default cliCont;

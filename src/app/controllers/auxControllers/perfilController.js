@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import perfil from '../../models/perfil.js';
-import Empresa from '../../models/empresa.js';
+import perfil from '../../models/perfil';
+import Empresa from '../../models/empresa';
 
-class perfilController {
+class PerfilController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
@@ -21,15 +21,16 @@ class perfilController {
       desc,
     });
   }
+
   async get(req, res) {
     if (!req.params.id) {
       const Perfil = await perfil.findAll({ include: Empresa });
       return res.json(Perfil);
-    } else {
-      const Perfil = await perfil.findOne({ where: { id: req.params.id } });
-      return res.json(Perfil);
     }
+    const Perfil = await perfil.findOne({ where: { id: req.params.id } });
+    return res.json(Perfil);
   }
+
   async update(req, res) {
     const Perfil = await perfil.findByPk(req.params.id);
     const { EmpresaId, desc } = await Perfil.update(req.body);
@@ -41,4 +42,4 @@ class perfilController {
     });
   }
 }
-export default new perfilController();
+export default new PerfilController();
