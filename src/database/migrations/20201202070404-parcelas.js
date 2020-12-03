@@ -42,6 +42,7 @@ module.exports = {
     situacao: {
       allowNull: true,
       type: Sequelize.NUMERIC,
+      defaultValue: 1,
     },
     dtLiquidacao: {
       allowNull: true,

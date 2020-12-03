@@ -39,6 +39,14 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
+    rzSoc: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+    fantasia: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
     prospect: {
       allowNull: false,
       defaultValue: true,

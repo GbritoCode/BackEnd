@@ -8,14 +8,14 @@ class ParcelaController {
       oportunidadeId: yup.number().required(),
       parcela: yup.number().required(),
       vlrParcela: yup.number().required(),
-      dtEmissao: yup.date().optional(),
-      dtVencimento: yup.date().optional(),
-      notaFiscal: yup.string().optional(),
-      pedidoCliente: yup.string().optional(),
-      situacao: yup.number().optional(),
-      dtLiquidacao: yup.date().optional(),
-      vlrPago: yup.number().optional(),
-      saldo: yup.number().optional(),
+      dtEmissao: yup.date(),
+      dtVencimento: yup.date(),
+      notaFiscal: yup.string(),
+      pedidoCliente: yup.string(),
+      situacao: yup.number(),
+      dtLiquidacao: yup.date(),
+      vlrPago: yup.number(),
+      saldo: yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {

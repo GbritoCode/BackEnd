@@ -12,6 +12,8 @@ class Cliente extends Model {
       {
         CNPJ: DataTypes.STRING,
         nomeAbv: DataTypes.STRING,
+        rzSoc: DataTypes.STRING,
+        fantasia: DataTypes.STRING,
         RepresentanteId: DataTypes.STRING,
         TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,

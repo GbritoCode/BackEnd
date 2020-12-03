@@ -9,6 +9,8 @@ class ClienteController {
     const schema = yup.object().shape({
       CNPJ: yup.string().required(),
       nomeAbv: yup.string().required(),
+      rzSoc: yup.string().required(),
+      fantasia: yup.string().optional(),
       RepresentanteId: yup.string().required(),
       TipoComisseId: yup.number(),
       EmpresaId: yup.number().required(),
@@ -22,6 +24,8 @@ class ClienteController {
       id,
       CNPJ,
       nomeAbv,
+      rzSoc,
+      fantasia,
       RepresentanteId,
       TipoComisseId,
       EmpresaId,
@@ -30,6 +34,8 @@ class ClienteController {
       id,
       CNPJ,
       nomeAbv,
+      rzSoc,
+      fantasia,
       RepresentanteId,
       TipoComisseId,
       EmpresaId,
@@ -79,6 +85,8 @@ class ClienteController {
 
     const {
       nomeAbv,
+      rzSoc,
+      fantasia,
       RepresentanteId,
       TipoComisseId,
       prospect,
@@ -86,6 +94,8 @@ class ClienteController {
 
     return res.json({
       nomeAbv,
+      rzSoc,
+      fantasia,
       RepresentanteId,
       TipoComisseId,
       prospect,
