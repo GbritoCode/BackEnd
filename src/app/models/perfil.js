@@ -1,9 +1,8 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Colab from './colab';
 
-const { DataTypes } = require('sequelize');
-
-class perfil extends Model {
+export default class Perfil extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -14,9 +13,8 @@ class perfil extends Model {
         sequelize,
       },
     );
-    perfil.hasOne(Colab, { onDelete: 'cascade', hooks: true });
-    Colab.belongsTo(perfil);
+    Perfil.hasOne(Colab, { onDelete: 'cascade', hooks: true });
+    Colab.belongsTo(Perfil);
     return this;
   }
 }
-export default perfil;

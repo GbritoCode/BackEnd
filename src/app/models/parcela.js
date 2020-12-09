@@ -1,12 +1,10 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-const { DataTypes } = require('sequelize');
-
-class Parcela extends Model {
+export default class Parcela extends Model {
   static init(sequelize) {
     super.init(
       {
-        oportunidadeId: DataTypes.INTEGER,
+        OportunidadeId: DataTypes.INTEGER,
         parcela: DataTypes.INTEGER,
         vlrParcela: DataTypes.INTEGER,
         dtEmissao: DataTypes.DATEONLY,
@@ -27,4 +25,3 @@ class Parcela extends Model {
     return this;
   }
 }
-export default Parcela;

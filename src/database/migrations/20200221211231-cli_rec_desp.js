@@ -1,24 +1,24 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('cliRecDesps', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('CliRecDesps', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    clienteId: {
+    ClienteId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'clientes',
+        model: 'Clientes',
         key: 'id',
       },
     },
-    recDespId: {
+    RecDespId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'recDesps',
+        model: 'RecDesps',
         key: 'id',
       },
     },
@@ -48,5 +48,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('cliRecDesps'),
+  down: (queryInterface) => queryInterface.dropTable('CliRecDesps'),
 };

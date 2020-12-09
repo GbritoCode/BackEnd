@@ -1,33 +1,43 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Empresas', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Despesas', {
     id: {
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       type: Sequelize.INTEGER,
     },
-    UserId: {
+    OportunidadeId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'Users',
+        model: 'Oportunidades',
         key: 'id',
       },
     },
-    idFederal: {
+    ColabId: {
       allowNull: false,
-      unique: true,
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Colabs',
+        key: 'id',
+      },
+    },
+    dataDespesa: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    tipoDespesa: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    valorDespesa: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    desc: {
+      allowNull: true,
       type: Sequelize.STRING,
     },
-    nome: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
-    license: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
-
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -38,5 +48,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('Empresas'),
+  down: (queryInterface) => queryInterface.dropTable('Despesas'),
 };

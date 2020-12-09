@@ -7,7 +7,7 @@ class RecDespController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      itmControleId: yup.string().required(),
+      ItmControleId: yup.string().required(),
       desc: yup.string().required(),
       recDesp: yup.string().required(),
     });
@@ -17,11 +17,11 @@ class RecDespController {
     }
 
     const {
-      EmpresaId, itmControleId, desc, recDesp,
+      EmpresaId, ItmControleId, desc, recDesp,
     } = await RecDesp.create(req.body);
     return res.json({
       EmpresaId,
-      itmControleId,
+      ItmControleId,
       desc,
       recDesp,
     });
@@ -49,12 +49,12 @@ class RecDespController {
   async update(req, res) {
     const recdesp = await RecDesp.findByPk(req.params.id);
     const {
-      EmpresaId, itmControleId, desc, recDesp,
+      EmpresaId, ItmControleId, desc, recDesp,
     } = await recdesp.update(req.body);
 
     return res.json({
       EmpresaId,
-      itmControleId,
+      ItmControleId,
       desc,
       recDesp,
     });

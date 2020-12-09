@@ -1,13 +1,11 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-const { DataTypes } = require('sequelize');
-
-class cliRecDesp extends Model {
+export default class CliRecDesp extends Model {
   static init(sequelize) {
     super.init(
       {
         ClienteId: DataTypes.INTEGER,
-        recDespId: DataTypes.INTEGER,
+        RecDespId: DataTypes.INTEGER,
         tipoCobranca: DataTypes.STRING,
         valorRec: DataTypes.INTEGER,
         dataInic: DataTypes.DATEONLY,
@@ -21,4 +19,3 @@ class cliRecDesp extends Model {
     return this;
   }
 }
-export default cliRecDesp;

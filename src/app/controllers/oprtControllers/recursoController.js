@@ -6,8 +6,8 @@ import Recurso from '../../models/recurso';
 class RecurspController {
   async store(req, res) {
     const schema = yup.object().shape({
-      oportunidadeId: yup.number().required(),
-      colabId: yup.number().required(),
+      OportunidadeId: yup.number().required(),
+      ColabId: yup.number().required(),
       custoPrev: yup.number().required(),
       dataInclusao: yup.date().required(),
       hrsPrevst: yup.number().required(),
@@ -19,8 +19,8 @@ class RecurspController {
     }
 
     const {
-      oportunidadeId,
-      colabId,
+      OportunidadeId,
+      ColabId,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -28,8 +28,8 @@ class RecurspController {
       recLiq,
     } = await Recurso.create(req.body);
     return res.json({
-      oportunidadeId,
-      colabId,
+      OportunidadeId,
+      ColabId,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -58,7 +58,7 @@ class RecurspController {
     } if (req.params.id) {
       const rec = await Recurso.findAll({
         where: {
-          oportunidadeId: req.params.id,
+          OportunidadeId: req.params.id,
         },
         include: [{ model: Oportunidade }, { model: Colab }],
       });
@@ -70,8 +70,8 @@ class RecurspController {
     const rec = await Recurso.findByPk(req.params.id);
 
     const {
-      oportunidadeId,
-      colabId,
+      OportunidadeId,
+      ColabId,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -79,8 +79,8 @@ class RecurspController {
     } = await rec.update(req.body);
 
     return res.json({
-      oportunidadeId,
-      colabId,
+      OportunidadeId,
+      ColabId,
       custoPrev,
       dataInclusao,
       hrsPrevst,

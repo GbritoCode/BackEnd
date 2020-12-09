@@ -1,9 +1,8 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Colab from './colab';
 
-const { DataTypes } = require('sequelize');
-
-class Fornec extends Model {
+export default class Fornec extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -33,5 +32,3 @@ class Fornec extends Model {
     return this;
   }
 }
-
-export default Fornec;

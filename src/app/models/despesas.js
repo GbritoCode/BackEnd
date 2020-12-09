@@ -1,15 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 
-export default class Recurso extends Model {
+export default class Despesas extends Model {
   static init(sequelize) {
     super.init(
       {
         OportunidadeId: DataTypes.INTEGER,
         ColabId: DataTypes.INTEGER,
-        custoPrev: DataTypes.INTEGER,
-        dataInclusao: DataTypes.DATEONLY,
-        hrsPrevst: DataTypes.INTEGER,
-        colabVlrHr: DataTypes.INTEGER,
+        dataDespesa: DataTypes.DATE,
+        tipoDespesa: DataTypes.INTEGER,
+        valorDespesa: DataTypes.INTEGER,
+        desc: DataTypes.STRING,
       },
       {
         sequelize,

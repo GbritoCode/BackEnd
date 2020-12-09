@@ -6,12 +6,11 @@ class CliCompController {
     const schema = yup.object().shape({
       ClienteId: yup.string().required(),
       CondPgmtoId: yup.number().required(),
-      rzSocial: yup.string().required(),
       nomeAbv: yup.string().required(),
-      fantasia: yup.string(),
       cep: yup.string().required(),
       rua: yup.string().required(),
       numero: yup.string().required(),
+      complemento: yup.string(),
       bairro: yup.string().required(),
       cidade: yup.string().required(),
       uf: yup.string().required(),
@@ -22,12 +21,11 @@ class CliCompController {
     const {
       ClienteId,
       CondPgmtoId,
-      rzSocial,
       nomeAbv,
-      fantasia,
       cep,
       rua,
       numero,
+      complemento,
       bairro,
       cidade,
       uf,
@@ -37,12 +35,11 @@ class CliCompController {
     return res.json({
       ClienteId,
       CondPgmtoId,
-      rzSocial,
       nomeAbv,
-      fantasia,
       cep,
       rua,
       numero,
+      complemento,
       bairro,
       cidade,
       uf,
@@ -65,6 +62,7 @@ class CliCompController {
       });
       return res.json(complemento);
     }
+    return res.json();
   }
 
   async update(req, res) {
@@ -73,12 +71,11 @@ class CliCompController {
     const {
       ClienteId,
       CondPgmtoId,
-      rzSocial,
       nomeAbv,
-      fantasia,
       cep,
       rua,
       numero,
+      complemento,
       bairro,
       cidade,
       uf,
@@ -89,12 +86,11 @@ class CliCompController {
     return res.json({
       ClienteId,
       CondPgmtoId,
-      rzSocial,
       nomeAbv,
-      fantasia,
       cep,
       rua,
       numero,
+      complemento,
       bairro,
       cidade,
       uf,

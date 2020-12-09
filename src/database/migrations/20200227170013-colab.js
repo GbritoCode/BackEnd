@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('colabs', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Colabs', {
     id: {
       allowNull: false,
       primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'empresas',
+        model: 'Empresas',
         key: 'id',
       },
     },
@@ -18,7 +18,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'fornecs',
+        model: 'Fornecs',
         key: 'id',
       },
     },
@@ -26,7 +26,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'perfils',
+        model: 'Perfils',
         key: 'id',
       },
     },
@@ -69,5 +69,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('colabs'),
+  down: (queryInterface) => queryInterface.dropTable('Colabs'),
 };

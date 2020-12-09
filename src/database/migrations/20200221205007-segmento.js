@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('segmentos', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Segmentos', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'empresas',
+        model: 'Empresas',
         key: 'id',
       },
     },
@@ -26,7 +26,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'produtos',
+        model: 'Produtos',
         key: 'id',
       },
     },
@@ -34,7 +34,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'areas',
+        model: 'Areas',
         key: 'id',
       },
     },
@@ -52,5 +52,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('segmentos'),
+  down: (queryInterface) => queryInterface.dropTable('Segmentos'),
 };

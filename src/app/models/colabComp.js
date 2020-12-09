@@ -1,8 +1,6 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-const { DataTypes } = require('sequelize');
-
-class colabComp extends Model {
+export default class ColabComp extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -22,4 +20,3 @@ class colabComp extends Model {
     return this;
   }
 }
-export default colabComp;

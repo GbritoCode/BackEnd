@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import User from '../models/users';
+import users from '../models/users';
 
 class UserController {
   async store(req, res) {
@@ -19,14 +19,14 @@ class UserController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const userExists = await User.findOne({ where: { email: req.body.email } });
+    const userExists = await users.findOne({ where: { email: req.body.email } });
     if (userExists) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ error: 'users already exists' });
     }
 
     const {
       id, name, email, provider,
-    } = await User.create(req.body);
+    } = await users.create(req.body);
 
     return res.json({
       id,
@@ -56,12 +56,12 @@ class UserController {
 
     const { email, oldPassword } = req.body;
 
-    const user = await User.findByPk(req.userId);
+    const user = await users.findByPk(req.userId);
 
     if (email !== user.email) {
-      const userExists = await User.findOne({ where: { email } });
+      const userExists = await users.findOne({ where: { email } });
       if (userExists) {
-        return res.status(400).json({ error: 'User already exists' });
+        return res.status(400).json({ error: 'users already exists' });
       }
     }
 
@@ -81,10 +81,10 @@ class UserController {
 
   async get(req, res) {
     if (!req.params.id) {
-      const user = await User.findAll({});
+      const user = await users.findAll({});
       return res.json(user);
     }
-    const user = await User.findOne({ where: { id: req.params.id } });
+    const user = await users.findOne({ where: { id: req.params.id } });
     return res.json(user);
   }
 }

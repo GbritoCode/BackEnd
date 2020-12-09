@@ -1,8 +1,8 @@
 module.exports = {
-  dialect: 'mssql',
+  dialect: 'postgres',
   host: 'LOCALHOST',
-  port: 56497,
-  username: 'sa',
-  password: '162534Kbca!',
+  port: 5432,
+  username: 'postgres',
+  password: '123123',
   database: 'tovo',
 };

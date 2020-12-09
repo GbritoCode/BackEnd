@@ -1,10 +1,9 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import CliComp from './clienteComp';
 import Fornec from './fornec';
 
-const { DataTypes } = require('sequelize');
-
-class condPgmto extends Model {
+export default class CondPgmto extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -17,12 +16,11 @@ class condPgmto extends Model {
         sequelize,
       },
     );
-    condPgmto.hasOne(CliComp, { onDelete: 'cascade', hooks: true });
-    CliComp.belongsTo(condPgmto);
+    CondPgmto.hasOne(CliComp, { onDelete: 'cascade', hooks: true });
+    CliComp.belongsTo(CondPgmto);
 
-    condPgmto.hasOne(Fornec, { onDelete: 'cascade', hooks: true });
-    Fornec.belongsTo(condPgmto);
+    CondPgmto.hasOne(Fornec, { onDelete: 'cascade', hooks: true });
+    Fornec.belongsTo(CondPgmto);
     return this;
   }
 }
-export default condPgmto;

@@ -5,7 +5,7 @@ import Oportunidade from '../../models/oportunidade';
 class ParcelaController {
   async store(req, res) {
     const schema = yup.object().shape({
-      oportunidadeId: yup.number().required(),
+      OportunidadeId: yup.number().required(),
       parcela: yup.number().required(),
       vlrParcela: yup.number().required(),
       dtEmissao: yup.date(),
@@ -23,7 +23,7 @@ class ParcelaController {
     }
 
     const {
-      oportunidadeId,
+      OportunidadeId,
       parcela,
       vlrParcela,
       dtEmissao,
@@ -36,7 +36,7 @@ class ParcelaController {
       saldo,
     } = await Parcelas.create(req.body);
     return res.json({
-      oportunidadeId,
+      OportunidadeId,
       parcela,
       vlrParcela,
       dtEmissao,
@@ -71,7 +71,7 @@ class ParcelaController {
     if (req.params.id) {
       const parc = await Parcelas.findAll({
         where: {
-          oportunidadeId: req.params.id,
+          OportunidadeId: req.params.id,
         },
         include: [{ model: Oportunidade }],
       });
@@ -83,7 +83,7 @@ class ParcelaController {
     const parc = await Parcelas.findByPk(req.params.id);
 
     const {
-      oportunidadeId,
+      OportunidadeId,
       parcela,
       vlrParcela,
       dtEmissao,
@@ -97,7 +97,7 @@ class ParcelaController {
     } = await parc.update(req.body);
 
     return res.json({
-      oportunidadeId,
+      OportunidadeId,
       parcela,
       vlrParcela,
       dtEmissao,

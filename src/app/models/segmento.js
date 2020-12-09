@@ -1,9 +1,8 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Oportunidade from './oportunidade';
 
-const { DataTypes } = require('sequelize');
-
-class Segmento extends Model {
+export default class Segmento extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -22,4 +21,3 @@ class Segmento extends Model {
     return this;
   }
 }
-export default Segmento;

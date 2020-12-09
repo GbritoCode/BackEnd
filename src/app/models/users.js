@@ -1,11 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { Model } from 'sequelize';
+
 import bcrypt from 'bcryptjs';
+import { Model, DataTypes } from 'sequelize';
 import Empresa from './empresa';
 
-const { DataTypes } = require('sequelize');
-
-class User extends Model {
+export default class User extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -33,4 +32,3 @@ class User extends Model {
     return bcrypt.compare(password, this.passwordHash);
   }
 }
-export default User;

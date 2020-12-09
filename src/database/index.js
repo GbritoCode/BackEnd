@@ -15,7 +15,7 @@ import recDesp from '../app/models/recDesp';
 import Representante from '../app/models/representante';
 import Segmento from '../app/models/segmento';
 import UndNeg from '../app/models/undNeg';
-import User from '../app/models/users';
+import users from '../app/models/users';
 import perfil from '../app/models/perfil';
 import condPgmto from '../app/models/condPgmto';
 import oportunidade from '../app/models/oportunidade';
@@ -24,6 +24,8 @@ import cotacao from '../app/models/cotacao';
 import databaseConfig from '../config/database';
 import Recurso from '../app/models/recurso';
 import parcela from '../app/models/parcela';
+import Horas from '../app/models/horas';
+import Despesas from '../app/models/despesas';
 
 const models = [
   cliCont,
@@ -32,6 +34,8 @@ const models = [
   Recurso,
   cotacao,
   parcela,
+  Horas,
+  Despesas,
   oportunidade,
   Cliente,
   Representante,
@@ -49,7 +53,7 @@ const models = [
   condPgmto,
   perfil,
   Empresa,
-  User,
+  users,
 ];
 
 class Database {

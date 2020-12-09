@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('parcelas', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Parcelas', {
 
     id: {
       allowNull: false,
@@ -7,11 +7,11 @@ module.exports = {
       autoIncrement: true,
       type: Sequelize.INTEGER,
     },
-    oportunidadeId: {
+    OportunidadeId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'oportunidades',
+        model: 'Oportunidades',
         key: 'id',
       },
     },
@@ -67,7 +67,7 @@ module.exports = {
 
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('parcelas'),
+  down: (queryInterface) => queryInterface.dropTable('Parcelas'),
 };
 
 /*

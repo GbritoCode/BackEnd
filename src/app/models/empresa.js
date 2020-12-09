@@ -1,4 +1,4 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
 import recDesp from './recDesp';
 import Clientes from './cliente';
@@ -16,9 +16,7 @@ import condPgmto from './condPgmto';
 import tipoComiss from './tipoComiss';
 import oportunidade from './oportunidade';
 
-const { DataTypes } = require('sequelize');
-
-class Empresa extends Model {
+export default class Empresa extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -79,4 +77,3 @@ class Empresa extends Model {
     return this;
   }
 }
-export default Empresa;

@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('condPgmtos', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('CondPgmtos', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'empresas',
+        model: 'Empresas',
         key: 'id',
       },
     },
@@ -36,5 +36,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('condPgmtos'),
+  down: (queryInterface) => queryInterface.dropTable('CondPgmtos'),
 };

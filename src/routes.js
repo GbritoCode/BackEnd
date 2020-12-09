@@ -40,6 +40,9 @@ import cotacaoController from './app/controllers/oprtControllers/cotacaoControll
 import recursoController from './app/controllers/oprtControllers/recursoController';
 import parcelaController from './app/controllers/oprtControllers/parcelaController';
 
+import horasController from './app/controllers/oprtControllers/horasController';
+import despesasController from './app/controllers/oprtControllers/despesasController';
+
 // import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
@@ -56,6 +59,13 @@ routes.put('/recurso/:id?', recursoController.update);
 routes.post('/parcela', parcelaController.store);
 routes.get('/parcela/:id?/:update?', parcelaController.get);
 routes.put('/parcela/:id?', parcelaController.update);
+
+routes.post('/horas', horasController.store);
+routes.get('/horas/:id?/:update?', horasController.get);
+routes.put('/horas/:id?', horasController.update);
+routes.post('/despesas', despesasController.store);
+routes.get('/despesas/:id?/:update?', despesasController.get);
+routes.put('/despesas/:id?', despesasController.update);
 
 routes.post('/cliente', clienteController.store);
 routes.get('/cliente/:id?', clienteController.get);

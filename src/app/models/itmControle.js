@@ -1,10 +1,9 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Oportunidade from './oportunidade';
 import recDesp from './recDesp';
 
-const { DataTypes } = require('sequelize');
-
-class itmControle extends Model {
+export default class ItmControle extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -18,11 +17,10 @@ class itmControle extends Model {
         sequelize,
       },
     );
-    itmControle.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
-    Oportunidade.belongsTo(itmControle);
-    itmControle.hasOne(recDesp, { onDelete: 'cascade', hooks: true });
-    recDesp.belongsTo(itmControle);
+    ItmControle.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(ItmControle);
+    ItmControle.hasOne(recDesp, { onDelete: 'cascade', hooks: true });
+    recDesp.belongsTo(ItmControle);
     return this;
   }
 }
-export default itmControle;

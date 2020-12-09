@@ -1,11 +1,12 @@
-import { Model } from 'sequelize';
-import ColabComp from './colabComp';
+import { Model, DataTypes } from 'sequelize';
+
 import Oportunidade from './oportunidade';
 import Recurso from './recurso';
+import ColabComp from './colabComp';
+import Horas from './horas';
+import Despesas from './despesas';
 
-const { DataTypes } = require('sequelize');
-
-class Colab extends Model {
+export default class Colab extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -32,8 +33,12 @@ class Colab extends Model {
 
     Colab.hasOne(Recurso, { onDelete: 'cascade', hooks: true });
     Recurso.belongsTo(Colab);
+
+    Colab.hasOne(Horas, { onDelete: 'cascade', hooks: true });
+    Horas.belongsTo(Colab);
+
+    Colab.hasOne(Despesas, { onDelete: 'cascade', hooks: true });
+    Despesas.belongsTo(Colab);
     return this;
   }
 }
-
-export default Colab;

@@ -1,8 +1,6 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-const { DataTypes } = require('sequelize');
-
-class Parametros extends Model {
+export default class Parametros extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -22,5 +20,3 @@ class Parametros extends Model {
     return this;
   }
 }
-
-export default Parametros;

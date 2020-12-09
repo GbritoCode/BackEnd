@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('parametros', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Parametros', {
     id: {
       allowNull: false,
       primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'empresas',
+        model: 'Empresas',
         key: 'id',
       },
     },
@@ -48,5 +48,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('parametros'),
+  down: (queryInterface) => queryInterface.dropTable('Parametros'),
 };

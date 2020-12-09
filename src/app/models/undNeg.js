@@ -1,10 +1,9 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Oportunidade from './oportunidade';
 import Segmento from './segmento';
 
-const { DataTypes } = require('sequelize');
-
-class UndNeg extends Model {
+export default class UndNeg extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -23,5 +22,3 @@ class UndNeg extends Model {
     return this;
   }
 }
-
-export default UndNeg;

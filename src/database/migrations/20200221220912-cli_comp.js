@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('cliComps', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('CliComps', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'clientes',
+        model: 'Clientes',
         key: 'id',
       },
     },
@@ -18,17 +18,9 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'condPgmtos',
+        model: 'CondPgmtos',
         key: 'id',
       },
-    },
-    fantasia: {
-      allowNull: true,
-      type: Sequelize.STRING,
-    },
-    rzSocial: {
-      allowNull: false,
-      type: Sequelize.STRING,
     },
     nomeAbv: {
       allowNull: false,
@@ -44,6 +36,10 @@ module.exports = {
     },
     numero: {
       allowNull: false,
+      type: Sequelize.STRING,
+    },
+    complemento: {
+      allowNull: true,
       type: Sequelize.STRING,
     },
     bairro: {
@@ -76,5 +72,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('cliComps'),
+  down: (queryInterface) => queryInterface.dropTable('CliComps'),
 };

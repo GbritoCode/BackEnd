@@ -1,9 +1,8 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Segmento from './segmento';
 
-const { DataTypes } = require('sequelize');
-
-class Area extends Model {
+export default class Area extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -19,4 +18,3 @@ class Area extends Model {
     return this;
   }
 }
-export default Area;

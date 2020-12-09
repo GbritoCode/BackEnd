@@ -6,7 +6,7 @@ class CotacaoController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.number().required(),
-      oportunidadeId: yup.number().required(),
+      OportunidadeId: yup.number().required(),
       probVend: yup.number().required(),
       tipoCobranca: yup.number().required(),
       hrsPrevst: yup.number().required(),
@@ -26,7 +26,7 @@ class CotacaoController {
 
     const {
       EmpresaId,
-      oportunidadeId,
+      OportunidadeId,
       probVend,
       tipoCobranca,
       hrsPrevst,
@@ -41,7 +41,7 @@ class CotacaoController {
     } = await Cotacao.create(req.body);
     return res.json({
       EmpresaId,
-      oportunidadeId,
+      OportunidadeId,
       probVend,
       tipoCobranca,
       hrsPrevst,
@@ -77,7 +77,7 @@ class CotacaoController {
       const cot = await Cotacao.findAll({
         limit: 1,
         where: {
-          oportunidadeId: req.params.update,
+          OportunidadeId: req.params.update,
         },
         order: [['createdAt', 'DESC']],
         include: [{ model: Oportunidade }],
@@ -86,7 +86,7 @@ class CotacaoController {
     } if (req.params.id) {
       const cot = await Cotacao.findAll({
         where: {
-          oportunidadeId: req.params.id,
+          OportunidadeId: req.params.id,
         },
         include: [{ model: Oportunidade }],
       });
@@ -99,7 +99,7 @@ class CotacaoController {
 
     const {
       EmpresaId,
-      oportunidadeId,
+      OportunidadeId,
       probVend,
       tipoCobranca,
       hrsPrevst,
@@ -115,7 +115,7 @@ class CotacaoController {
 
     return res.json({
       EmpresaId,
-      oportunidadeId,
+      OportunidadeId,
       probVend,
       tipoCobranca,
       hrsPrevst,

@@ -8,7 +8,7 @@ class CliRecDespController {
   async store(req, res) {
     const schema = yup.object().shape({
       ClienteId: yup.string().required(),
-      recDespId: yup.number().required(),
+      RecDespId: yup.number().required(),
       tipoCobranca: yup.string().required(),
       valorRec: yup.number().required(),
       dataFim: yup.date().required(),
@@ -23,7 +23,7 @@ class CliRecDespController {
       where: {
         ClienteId: req.body.ClienteId,
         tipoCobranca: req.body.tipoCobranca,
-        recDespId: req.body.recDespId,
+        RecDespId: req.body.RecDespId,
         dataFim: {
           [Op.gte]: req.body.dataInic,
         },
@@ -34,14 +34,14 @@ class CliRecDespController {
     }
 
     const {
-      ClienteId, recDespId, tipoCobranca, valorRec, dataInic, dataFim,
+      ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
     } = await CliRecDesp.create(
       req.body,
     );
 
     return res.json({
       ClienteId,
-      recDespId,
+      RecDespId,
       tipoCobranca,
       valorRec,
       dataInic,
@@ -50,8 +50,8 @@ class CliRecDespController {
   }
 
   async get(req, res) {
-    if (req.query.itmControleId && req.query.cobranca) {
-      const { itmControleId, cobranca } = req.query;
+    if (req.query.ItmControleId && req.query.cobranca) {
+      const { ItmControleId, cobranca } = req.query;
       const [date, month, year] = new Date().toLocaleDateString('pt-BR').split('/');
       const recDesp = await CliRecDesp.findOne({
         where: {
@@ -61,7 +61,7 @@ class CliRecDespController {
           dataFim: { [Op.gte]: `${year}- ${month} - ${date}` },
         },
         include: [
-          { model: RecDesp, where: { itmControleId } },
+          { model: RecDesp, where: { ItmControleId } },
         ],
 
       });
@@ -86,20 +86,21 @@ class CliRecDespController {
       });
       return res.json(recDesp);
     }
+    return res.json();
   }
 
   async update(req, res) {
     const cliRecDesp = await CliRecDesp.findByPk(req.params.id);
 
     const {
-      ClienteId, recDespId, tipoCobranca, valorRec, dataInic, dataFim,
+      ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
     } = await cliRecDesp.update(
       req.body,
     );
 
     return res.json({
       ClienteId,
-      recDespId,
+      RecDespId,
       tipoCobranca,
       valorRec,
       dataInic,

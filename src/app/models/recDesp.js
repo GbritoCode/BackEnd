@@ -1,14 +1,13 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import CliRecDesp from './cliRecDesp';
 
-const { DataTypes } = require('sequelize');
-
-class recDesp extends Model {
+export default class RecDesp extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        itmControleId: DataTypes.INTEGER,
+        ItmControleId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
         recDesp: DataTypes.STRING,
       },
@@ -16,9 +15,8 @@ class recDesp extends Model {
         sequelize,
       },
     );
-    recDesp.hasOne(CliRecDesp, { onDelete: 'cascade', hooks: true });
-    CliRecDesp.belongsTo(recDesp);
+    RecDesp.hasOne(CliRecDesp, { onDelete: 'cascade', hooks: true });
+    CliRecDesp.belongsTo(RecDesp);
     return this;
   }
 }
-export default recDesp;

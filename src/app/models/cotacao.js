@@ -1,13 +1,11 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-const { DataTypes } = require('sequelize');
-
-class Cotacao extends Model {
+export default class Cotacao extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        oportunidadeId: DataTypes.INTEGER,
+        OportunidadeId: DataTypes.INTEGER,
         probVend: DataTypes.INTEGER,
         tipoCobranca: DataTypes.INTEGER,
         hrsPrevst: DataTypes.INTEGER,
@@ -28,4 +26,3 @@ class Cotacao extends Model {
     return this;
   }
 }
-export default Cotacao;

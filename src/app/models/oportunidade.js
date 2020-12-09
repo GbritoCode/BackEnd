@@ -1,25 +1,26 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Cotacao from './cotacao';
+import Despesas from './despesas';
+import Horas from './horas';
 import Parcela from './parcela';
 import Recurso from './recurso';
 
-const { DataTypes } = require('sequelize');
-
-class Oportunidade extends Model {
+export default class Oportunidade extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        colabId: DataTypes.INTEGER,
+        ColabId: DataTypes.INTEGER,
         data: DataTypes.DATEONLY,
         fase: DataTypes.STRING,
-        clienteId: DataTypes.INTEGER,
+        ClienteId: DataTypes.INTEGER,
         contato: DataTypes.INTEGER,
         cod: DataTypes.STRING,
         UndNegId: DataTypes.INTEGER,
-        itmControleId: DataTypes.INTEGER,
-        segmentoId: DataTypes.INTEGER,
-        representanteId: DataTypes.INTEGER,
+        ItmControleId: DataTypes.INTEGER,
+        SegmentoId: DataTypes.INTEGER,
+        RepresentanteId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
         narrativa: DataTypes.STRING,
       },
@@ -29,11 +30,18 @@ class Oportunidade extends Model {
     );
     Oportunidade.hasOne(Cotacao, { onDelete: 'cascade', hooks: true });
     Cotacao.belongsTo(Oportunidade);
+
     Oportunidade.hasOne(Recurso, { onDelete: 'cascade', hooks: true });
     Recurso.belongsTo(Oportunidade);
+
     Oportunidade.hasOne(Parcela, { onDelete: 'cascade', hooks: true });
     Parcela.belongsTo(Oportunidade);
+
+    Oportunidade.hasOne(Horas, { onDelete: 'cascade', hooks: true });
+    Horas.belongsTo(Oportunidade);
+
+    Oportunidade.hasOne(Despesas, { onDelete: 'cascade', hooks: true });
+    Despesas.belongsTo(Oportunidade);
     return this;
   }
 }
-export default Oportunidade;

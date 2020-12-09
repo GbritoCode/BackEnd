@@ -1,10 +1,9 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+
 import Cliente from './cliente';
 import Representante from './representante';
 
-const { DataTypes } = require('sequelize');
-
-class tipoComisse extends Model {
+export default class TipoComisse extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -17,12 +16,11 @@ class tipoComisse extends Model {
         sequelize,
       },
     );
-    tipoComisse.hasOne(Cliente, { onDelete: 'cascade', hooks: true });
-    Cliente.belongsTo(tipoComisse);
-    tipoComisse.hasOne(Representante, { onDelete: 'cascade', hooks: true });
-    Representante.belongsTo(tipoComisse);
+    TipoComisse.hasOne(Cliente, { onDelete: 'cascade', hooks: true });
+    Cliente.belongsTo(TipoComisse);
+    TipoComisse.hasOne(Representante, { onDelete: 'cascade', hooks: true });
+    Representante.belongsTo(TipoComisse);
 
     return this;
   }
 }
-export default tipoComisse;

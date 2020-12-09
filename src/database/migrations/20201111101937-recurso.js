@@ -1,24 +1,24 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('recursos', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Recursos', {
     id: {
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       type: Sequelize.INTEGER,
     },
-    oportunidadeId: {
+    OportunidadeId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'oportunidades',
+        model: 'Oportunidades',
         key: 'id',
       },
     },
-    colabId: {
+    ColabId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'colabs',
+        model: 'Colabs',
         key: 'id',
       },
     },
@@ -49,5 +49,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('recursos'),
+  down: (queryInterface) => queryInterface.dropTable('Recursos'),
 };
