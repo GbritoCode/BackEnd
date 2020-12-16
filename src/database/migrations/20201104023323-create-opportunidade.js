@@ -71,7 +71,7 @@ module.exports = {
       allowNull: false,
     },
     fase: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
     cod: {
@@ -85,6 +85,10 @@ module.exports = {
     narrativa: {
       type: Sequelize.STRING,
       allowNull: true,
+    },
+    totalHoras: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
     createdAt: {
       type: Sequelize.DATE,

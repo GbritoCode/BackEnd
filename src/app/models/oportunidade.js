@@ -13,7 +13,7 @@ export default class Oportunidade extends Model {
         EmpresaId: DataTypes.INTEGER,
         ColabId: DataTypes.INTEGER,
         data: DataTypes.DATEONLY,
-        fase: DataTypes.STRING,
+        fase: DataTypes.INTEGER,
         ClienteId: DataTypes.INTEGER,
         contato: DataTypes.INTEGER,
         cod: DataTypes.STRING,
@@ -23,6 +23,7 @@ export default class Oportunidade extends Model {
         RepresentanteId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
         narrativa: DataTypes.STRING,
+        totalHoras: DataTypes.INTEGER,
       },
       {
         sequelize,

@@ -24,15 +24,15 @@ module.exports = {
     },
     horaInic: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     horaIntrv: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     horaFim: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     dataLancamento: {
       allowNull: false,
@@ -40,23 +40,19 @@ module.exports = {
     },
     totalApont: {
       allowNull: false,
-      type: Sequelize.DATE,
-    },
-    totalAcum: {
-      allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     horaInicAudit: {
       allowNull: true,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     horaIntrvAudit: {
       allowNull: true,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     horaFimAudit: {
       allowNull: true,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     dataLancamentoAudit: {
       allowNull: true,
@@ -64,11 +60,7 @@ module.exports = {
     },
     totalApontAudit: {
       allowNull: true,
-      type: Sequelize.DATE,
-    },
-    totalAcumAudit: {
-      allowNull: true,
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
     },
     solicitante: {
       allowNull: false,

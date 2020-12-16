@@ -92,6 +92,7 @@ class CotacaoController {
       });
       return res.json(cot);
     }
+    return res.json();
   }
 
   async update(req, res) {

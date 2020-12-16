@@ -26,6 +26,7 @@ class OportController {
       cod: yup.string().required(),
       desc: yup.string().required(),
       narrativa: yup.string(),
+      totalHoras: yup.number(),
     });
 
     const {
@@ -42,6 +43,7 @@ class OportController {
       RepresentanteId,
       desc,
       narrativa,
+      totalHoras,
     } = await Oportunidade.create(req.body);
 
     return res.json({
@@ -58,6 +60,7 @@ class OportController {
       RepresentanteId,
       desc,
       narrativa,
+      totalHoras,
     });
   }
 
@@ -101,6 +104,7 @@ class OportController {
       RepresentanteId,
       desc,
       narrativa,
+      totalHoras,
     } = await oport.update(req.body);
 
     return res.json({
@@ -117,6 +121,7 @@ class OportController {
       RepresentanteId,
       desc,
       narrativa,
+      totalHoras,
     });
   }
 }
