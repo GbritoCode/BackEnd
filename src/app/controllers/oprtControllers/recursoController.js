@@ -9,7 +9,7 @@ class RecurspController {
       OportunidadeId: yup.number().required(),
       ColabId: yup.number().required(),
       custoPrev: yup.number().required(),
-      dataInclusao: yup.date().required(),
+      dataInclusao: yup.string().required(),
       hrsPrevst: yup.number().required(),
       colabVlrHr: yup.number().required(),
     });
@@ -64,6 +64,7 @@ class RecurspController {
       });
       return res.json(rec);
     }
+    return res.json();
   }
 
   async update(req, res) {

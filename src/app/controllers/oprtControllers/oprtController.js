@@ -7,6 +7,8 @@ import itmControle from '../../models/itmControle';
 import Colab from '../../models/colab';
 import Representantes from '../../models/representante';
 import Segmento from '../../models/segmento';
+import Recurso from '../../models/recurso';
+import Area from '../../models/area';
 
 const { Op } = require('sequelize');
 
@@ -28,7 +30,9 @@ class OportController {
       narrativa: yup.string(),
       totalHoras: yup.number(),
     });
-
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation Fails' });
+    }
     const {
       EmpresaId,
       ColabId,
@@ -65,11 +69,23 @@ class OportController {
   }
 
   async get(req, res) {
+    if (req.query.apont === 'true' && req.query.colab) {
+      const { colab } = req.query;
+      const oport = await Oportunidade.findAll({
+        include: [
+          { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente }, {
+            model: Segmento, include: [{ model: Area }],
+          }, { model: UndNeg }, { model: itmControle },
+        ],
+      });
+      return res.json(oport);
+    }
     if (req.query.one === 'true') {
       const oport = await Oportunidade.findAll({
         limit: 1,
-        include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, { model: UndNeg },
-          { model: itmControle }, { model: Colab }, { model: Representantes }],
+        include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, { model: UndNeg }, {
+          model: itmControle,
+        }, { model: Colab }, { model: Representantes }],
         order: [['createdAt', 'DESC']],
       });
       return res.json(oport);
@@ -79,13 +95,18 @@ class OportController {
         where: {
           fase: { [Op.lt]: 5 },
         },
-        include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, { model: UndNeg },
-          { model: itmControle }, { model: Colab }, { model: Representantes }],
+        include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, {
+          model: UndNeg,
+        },
+        { model: itmControle }, { model: Colab }, { model: Representantes }],
       });
       return res.json(oport);
     }
-    const oport = await Oportunidade.findOne({ where: { id: req.params.id } });
-    return res.json(oport);
+    if (req.params.id) {
+      const oport = await Oportunidade.findOne({ where: { id: req.params.id } });
+      return res.json(oport);
+    }
+    return res.json();
   }
 
   async update(req, res) {

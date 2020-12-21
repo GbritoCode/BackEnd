@@ -87,8 +87,9 @@ module.exports = {
       allowNull: true,
     },
     totalHoras: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     createdAt: {
       type: Sequelize.DATE,

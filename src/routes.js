@@ -61,10 +61,10 @@ routes.get('/parcela/:id?/:update?', parcelaController.get);
 routes.put('/parcela/:id?', parcelaController.update);
 
 routes.post('/horas', horasController.store);
-routes.get('/horas/:id?/:update?', horasController.get);
+routes.get('/horas/:id?', horasController.get);
 routes.put('/horas/:id?', horasController.update);
 routes.post('/despesas', despesasController.store);
-routes.get('/despesas/:id?/:update?', despesasController.get);
+routes.get('/despesas/:id?', despesasController.get);
 routes.put('/despesas/:id?', despesasController.update);
 
 routes.post('/cliente', clienteController.store);

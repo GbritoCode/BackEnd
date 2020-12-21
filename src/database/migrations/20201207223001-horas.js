@@ -22,6 +22,10 @@ module.exports = {
         key: 'id',
       },
     },
+    dataAtivd: {
+      allowNull: false,
+      type: Sequelize.DATEONLY,
+    },
     horaInic: {
       allowNull: false,
       type: Sequelize.STRING,
@@ -40,7 +44,7 @@ module.exports = {
     },
     totalApont: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     horaInicAudit: {
       allowNull: true,
@@ -54,13 +58,13 @@ module.exports = {
       allowNull: true,
       type: Sequelize.STRING,
     },
-    dataLancamentoAudit: {
+    dataAtivdAudit: {
       allowNull: true,
       type: Sequelize.DATE,
     },
     totalApontAudit: {
       allowNull: true,
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     solicitante: {
       allowNull: false,

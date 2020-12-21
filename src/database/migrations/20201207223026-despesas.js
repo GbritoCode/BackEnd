@@ -24,15 +24,15 @@ module.exports = {
     },
     dataDespesa: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     tipoDespesa: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.INTEGER,
     },
     valorDespesa: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.INTEGER,
     },
     desc: {
       allowNull: true,
