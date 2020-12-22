@@ -13,13 +13,9 @@ class CliContController {
         .string()
         .email()
         .required(),
-      aniver: yup.date().optional(),
+      aniver: yup.date(),
       tipoConta: yup.string().required(),
     });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
 
     const {
       ClienteId,

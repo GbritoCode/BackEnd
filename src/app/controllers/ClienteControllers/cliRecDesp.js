@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import moment from 'moment';
 import CliRecDesp from '../../models/cliRecDesp';
 import RecDesp from '../../models/recDesp';
 
@@ -52,18 +53,19 @@ class CliRecDespController {
   async get(req, res) {
     if (req.query.ItmControleId && req.query.cobranca) {
       const { ItmControleId, cobranca } = req.query;
-      const [date, month, year] = new Date().toLocaleDateString('pt-BR').split('/');
+      const year = moment().year();
+      const month = moment().month() + 1;
+      const date = moment().date();
       const recDesp = await CliRecDesp.findOne({
         where: {
           ClienteId: req.params.id,
           tipoCobranca: cobranca,
-          dataInic: { [Op.lte]: `${year} - ${month} - ${date}` },
-          dataFim: { [Op.gte]: `${year}- ${month} - ${date}` },
+          dataInic: { [Op.lte]: `${year}-${month}-${date}` },
+          dataFim: { [Op.gte]: `${year}-${month}-${date}` },
         },
         include: [
           { model: RecDesp, where: { ItmControleId } },
         ],
-
       });
       return res.json(recDesp);
     }

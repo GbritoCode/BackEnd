@@ -22,10 +22,7 @@ module.exports = {
         key: 'id',
       },
     },
-    nomeAbv: {
-      allowNull: false,
-      type: Sequelize.STRING,
-    },
+
     cep: {
       allowNull: false,
       type: Sequelize.STRING,

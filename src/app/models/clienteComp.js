@@ -6,7 +6,6 @@ export default class CliComp extends Model {
       {
         ClienteId: DataTypes.INTEGER,
         CondPgmtoId: DataTypes.INTEGER,
-        nomeAbv: DataTypes.STRING,
         cep: DataTypes.STRING,
         rua: DataTypes.STRING,
         numero: DataTypes.STRING,

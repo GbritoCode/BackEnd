@@ -62,7 +62,7 @@ class HoraController {
       if (isNaN(hora)) {
         return res.json('00:00');
       }
-      const apontHr = `0${Math.trunc(hora / 60)}`.slice(-2);
+      const apontHr = `${Math.trunc(hora / 60)}`;
       const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
       return res.json(`${apontHr}:${apontMin}`);
     } if (req.query.total === 'true' && req.query.tipo === 'project' && req.params.id) {
