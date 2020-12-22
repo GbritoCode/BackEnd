@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import clienteController from './app/controllers/ClienteControllers/ClienteController';
 // eslint-disable-next-line import/no-unresolved
-import cliCompController from './app/controllers/ClienteControllers/ClienteComp';
+import cliCompController from './app/controllers/ClienteControllers/clienteComp';
 import cliRecDespController from './app/controllers/ClienteControllers/cliRecDesp';
 import cliContController from './app/controllers/ClienteControllers/cliCont';
 
