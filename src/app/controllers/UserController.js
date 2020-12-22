@@ -25,14 +25,14 @@ class UserController {
     }
 
     const {
-      id, name, email, provider,
+      id, name, email, profile,
     } = await users.create(req.body);
 
     return res.json({
       id,
       name,
       email,
-      provider,
+      profile,
     });
   }
 
@@ -69,13 +69,13 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name, provider } = await user.update(req.body);
+    const { id, name, profile } = await user.update(req.body);
 
     return res.json({
       id,
       name,
       email,
-      provider,
+      profile,
     });
   }
 

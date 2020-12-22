@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { getDaysInMonth } from 'date-fns';
+import moment from 'moment';
 import Colab from '../../models/colab';
 import Oportunidade from '../../models/oportunidade';
 import Hora from '../../models/horas';
@@ -46,8 +47,9 @@ class HoraController {
 
   async get(req, res) {
     if (req.query.total === 'true' && req.query.tipo === 'month' && req.params.id) {
-      const [year, month] = new Date().toLocaleDateString('pt-BR').split('-');
-      const lastDayMonth = getDaysInMonth(new Date(year, month - 1));
+      const year = moment().year();
+      const month = moment().month() + 1;
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
       const hora = await Hora.sum('totalApont', {
         where: {
           ColabId: req.params.id,
@@ -56,6 +58,10 @@ class HoraController {
           },
         },
       });
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(hora)) {
+        return res.json('00:00');
+      }
       const apontHr = `0${Math.trunc(hora / 60)}`.slice(-2);
       const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
       return res.json(`${apontHr}:${apontMin}`);

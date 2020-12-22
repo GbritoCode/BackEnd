@@ -55,7 +55,13 @@ class RecurspController {
         include: [{ model: Oportunidade }, { model: Colab }],
       });
       return res.json(rec);
-    } if (req.params.id) {
+    } if (req.query.total === 'true') {
+      const rec = await Recurso.sum('custoPrev', {
+        where: { OportunidadeId: req.params.id },
+      });
+      return res.json(rec);
+    }
+    if (req.params.id) {
       const rec = await Recurso.findAll({
         where: {
           OportunidadeId: req.params.id,

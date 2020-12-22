@@ -24,39 +24,39 @@ module.exports = {
     },
     probVend: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     tipoCobranca: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     hrsPrevst: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     vlrProp: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     vlrDesc: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     vlrLiq: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     recLiq: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     prevLucro: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     numParcelas: {
       allowNull: false,
-      type: Sequelize.NUMERIC,
+      type: Sequelize.INTEGER,
     },
     motivo: {
       type: Sequelize.STRING,

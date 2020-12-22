@@ -73,14 +73,11 @@ class CotacaoController {
         include: [{ model: Oportunidade }],
       });
       return res.json(cot);
-    } if (req.params.id === 'limit') {
+    } if (req.query.one === 'true') {
       const cot = await Cotacao.findAll({
+        where: { OportunidadeId: req.params.id },
         limit: 1,
-        where: {
-          OportunidadeId: req.params.update,
-        },
         order: [['createdAt', 'DESC']],
-        include: [{ model: Oportunidade }],
       });
       return res.json(cot);
     } if (req.params.id) {

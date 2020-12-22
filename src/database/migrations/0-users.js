@@ -19,9 +19,9 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    provider: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
+    profile: {
+      type: Sequelize.INTEGER,
+      defaultValue: 100,
       allowNull: false,
     },
     createdAt: {

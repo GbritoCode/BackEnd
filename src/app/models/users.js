@@ -12,7 +12,7 @@ export default class User extends Model {
         email: DataTypes.STRING,
         password: DataTypes.VIRTUAL,
         passwordHash: DataTypes.STRING,
-        provider: DataTypes.BOOLEAN,
+        profile: DataTypes.INTEGER,
       },
       {
         sequelize,

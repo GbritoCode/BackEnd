@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import moment from 'moment';
 import { getDaysInMonth } from 'date-fns';
 import { Op } from 'sequelize';
 import Colab from '../../models/colab';
@@ -40,8 +41,9 @@ class DespesasController {
 
   async get(req, res) {
     if (req.query.total === 'true' && req.query.tipo === 'month' && req.params.id) {
-      const [year, month] = new Date().toLocaleDateString('pt-BR').split('-');
-      const lastDayMonth = getDaysInMonth(new Date(year, month - 1));
+      const year = moment().year();
+      const month = moment().month() + 1;
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
       const despesa = await Despesa.sum('valorDespesa', {
         where: {
           ColabId: req.params.id,

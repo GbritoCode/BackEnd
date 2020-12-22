@@ -1,7 +1,12 @@
+import { Op } from 'sequelize';
+import moment from 'moment';
+import { getDaysInMonth } from 'date-fns';
 import * as yup from 'yup';
 import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import fornec from '../../models/fornec';
+import Horas from '../../models/horas';
+import Recurso from '../../models/recurso';
 
 class ColabController {
   async store(req, res) {
@@ -58,6 +63,39 @@ class ColabController {
         where: { email },
       });
       return res.json(colab);
+    } if (req.query.vlrHrMes === 'true') {
+      const year = moment().year();
+      const month = moment().month() + 1;
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
+      const colab = await Colab.findAll({
+        where: { id: req.params.id },
+        include: [{ model: Recurso, required: true },
+          {
+            model: Horas,
+            where: {
+              dataAtivd: {
+                [Op.between]: [`${year}-${month}-${1}`, `${year}-${month}-${lastDayMonth}`],
+              },
+            },
+            required: true,
+          }],
+      });
+      let sum = 0;
+      for (let i = 0; i < colab.length; i++) {
+        sum += (colab[i].Hora.dataValues.totalApont / 60) * colab[i].Recurso.dataValues.colabVlrHr;
+      }
+      return res.json(sum);
+    } if (req.query.data === 'true') {
+      const { oport } = req.query;
+      const colab = await Colab.findAll({
+        include: [{ model: Recurso, where: { OportunidadeId: oport }, required: true },
+          { model: Horas, where: { OportunidadeId: oport }, required: true }],
+      });
+      let sum = 0;
+      for (let i = 0; i < colab.length; i++) {
+        sum += (colab[i].Hora.dataValues.totalApont / 60) * colab[i].Recurso.dataValues.colabVlrHr;
+      }
+      return res.json(sum);
     }
     if (!req.params.id) {
       const colab = await Colab.findAll({

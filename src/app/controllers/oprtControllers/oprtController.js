@@ -73,7 +73,8 @@ class OportController {
       const { colab } = req.query;
       const oport = await Oportunidade.findAll({
         include: [
-          { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente }, {
+          { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente },
+          {
             model: Segmento, include: [{ model: Area }],
           }, { model: UndNeg }, { model: itmControle },
         ],
@@ -87,6 +88,13 @@ class OportController {
           model: itmControle,
         }, { model: Colab }, { model: Representantes }],
         order: [['createdAt', 'DESC']],
+      });
+      return res.json(oport);
+    }
+    if (req.query.data === 'true') {
+      const oport = await Oportunidade.findAll({
+        where: { id: req.params.id },
+        include: [{ model: Recurso, required: true }],
       });
       return res.json(oport);
     }
