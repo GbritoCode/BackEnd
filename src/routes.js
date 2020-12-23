@@ -47,6 +47,8 @@ import despesasController from './app/controllers/oprtControllers/despesasContro
 
 const routes = new Router();
 
+routes.get('/', (req, res) => res.send('ok'));
+
 routes.post('/oportunidade', oprtController.store);
 routes.get('/oportunidade/:id?', oprtController.get);
 routes.put('/oportunidade/:id', oprtController.update);
