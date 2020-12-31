@@ -6,7 +6,14 @@ class ParametrosController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      impostos: yup.number().required(),
+      IRPJ: yup.number().required(),
+      CSLL: yup.number().required(),
+      COFINS: yup.number().required(),
+      PIS: yup.number().required(),
+      INSS: yup.number().required(),
+      ISS: yup.number().required(),
+      PSProLabor: yup.number().required(),
+      IRRFProLabor: yup.number().required(),
       vlrMinHr: yup.number().required(),
       vlrBsHr: yup.number().required(),
       vlrBsDesp: yup.number().required(),
@@ -20,7 +27,14 @@ class ParametrosController {
 
     const {
       EmpresaId,
-      impostos,
+      IRPJ,
+      CSLL,
+      COFINS,
+      PIS,
+      INSS,
+      ISS,
+      PSProLabor,
+      IRRFProLabor,
       vlrMinHr,
       vlrBsHr,
       vlrBsDesp,
@@ -29,7 +43,14 @@ class ParametrosController {
     } = await Parametros.create(req.body);
     return res.json({
       EmpresaId,
-      impostos,
+      IRPJ,
+      CSLL,
+      COFINS,
+      PIS,
+      INSS,
+      ISS,
+      PSProLabor,
+      IRRFProLabor,
       vlrMinHr,
       vlrBsHr,
       vlrBsDesp,
@@ -39,6 +60,12 @@ class ParametrosController {
   }
 
   async get(req, res) {
+    if (req.query.one === 'true') {
+      const parametros = await Parametros.findOne({
+        order: [['createdAt', 'DESC']],
+      });
+      return res.json(parametros);
+    }
     if (!req.params.id) {
       const parametros = await Parametros.findAll({ include: Empresa });
       return res.json(parametros);
@@ -53,7 +80,14 @@ class ParametrosController {
     const parametros = await Parametros.findByPk(req.params.id);
     const {
       EmpresaId,
-      impostos,
+      IRPJ,
+      CSLL,
+      COFINS,
+      PIS,
+      INSS,
+      ISS,
+      PSProLabor,
+      IRRFProLabor,
       vlrMinHr,
       vlrBsHr,
       vlrBsDesp,
@@ -63,7 +97,14 @@ class ParametrosController {
 
     return res.json({
       EmpresaId,
-      impostos,
+      IRPJ,
+      CSLL,
+      COFINS,
+      PIS,
+      INSS,
+      ISS,
+      PSProLabor,
+      IRRFProLabor,
       vlrMinHr,
       vlrBsHr,
       vlrBsDesp,

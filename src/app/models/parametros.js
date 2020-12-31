@@ -5,7 +5,14 @@ export default class Parametros extends Model {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
-        impostos: DataTypes.DECIMAL,
+        IRPJ: DataTypes.DECIMAL,
+        CSLL: DataTypes.DECIMAL,
+        COFINS: DataTypes.DECIMAL,
+        PIS: DataTypes.DECIMAL,
+        INSS: DataTypes.DECIMAL,
+        ISS: DataTypes.DECIMAL,
+        PSProLabor: DataTypes.DECIMAL,
+        IRRFProLabor: DataTypes.DECIMAL,
         vlrMinHr: DataTypes.DECIMAL,
         vlrBsHr: DataTypes.DECIMAL,
         vlrBsDesp: DataTypes.DECIMAL,
