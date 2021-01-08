@@ -68,7 +68,7 @@ class ColabController {
       const month = moment().month() + 1;
       const lastDayMonth = getDaysInMonth(new Date(year, month));
       const colab = await Colab.findAll({
-        where: { id: req.params.id },
+        where: { email: req.params.id },
         include: [{ model: Recurso, required: true },
           {
             model: Horas,

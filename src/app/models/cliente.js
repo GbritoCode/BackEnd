@@ -20,7 +20,6 @@ export default class Cliente extends Model {
       },
       {
         sequelize,
-        paranoid: true,
       },
     );
 
