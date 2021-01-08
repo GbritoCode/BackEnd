@@ -11,10 +11,6 @@ class CondPgmtoController {
       desc: yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
-
     const {
       EmpresaId, cod, diasPrazo, desc,
     } = await condPgmto.create(req.body);
