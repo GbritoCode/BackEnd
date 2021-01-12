@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Colabs', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       primaryKey: true,
@@ -27,6 +38,14 @@ module.exports = {
       type: Sequelize.INTEGER,
       references: {
         model: 'Perfils',
+        key: 'id',
+      },
+    },
+    UserId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Users',
         key: 'id',
       },
     },
@@ -59,17 +78,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('Colabs'),

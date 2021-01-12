@@ -14,6 +14,7 @@ class ColabController {
       CPF: yup.number().required(),
       FornecId: yup.number().required(),
       EmpresaId: yup.string().required(),
+      UserId: yup.number().required(),
       nome: yup.string().required(),
       dtAdmiss: yup.date().required(),
       cel: yup.string().required(),
@@ -34,6 +35,7 @@ class ColabController {
       CPF,
       FornecId,
       EmpresaId,
+      UserId,
       nome,
       dtAdmiss,
       cel,
@@ -46,6 +48,7 @@ class ColabController {
       CPF,
       FornecId,
       EmpresaId,
+      UserId,
       nome,
       dtAdmiss,
       cel,
@@ -57,10 +60,10 @@ class ColabController {
   }
 
   async get(req, res) {
-    if (req.query.email) {
-      const { email } = req.query;
+    if (req.query.idColab) {
+      const { idColab } = req.query;
       const colab = await Colab.findOne({
-        where: { email },
+        where: { id: idColab },
       });
       return res.json(colab);
     } if (req.query.vlrHrMes === 'true') {
@@ -68,7 +71,7 @@ class ColabController {
       const month = moment().month() + 1;
       const lastDayMonth = getDaysInMonth(new Date(year, month));
       const colab = await Colab.findAll({
-        where: { email: req.params.id },
+        where: { id: req.params.id },
         include: [{ model: Recurso, required: true },
           {
             model: Horas,
@@ -81,8 +84,9 @@ class ColabController {
           }],
       });
       let sum = 0;
-      for (let i = 0; i < colab.length; i++) {
-        sum += (colab[i].Hora.dataValues.totalApont / 60) * colab[i].Recurso.dataValues.colabVlrHr;
+      for (let i = 0; i < colab[0].Horas.length; i++) {
+        sum += (colab[0].Horas[i].dataValues.totalApont / 60)
+        * colab[0].Recursos[i].dataValues.colabVlrHr;
       }
       return res.json(sum);
     } if (req.query.data === 'true') {
@@ -113,6 +117,7 @@ class ColabController {
       CPF,
       FornecId,
       EmpresaId,
+      UserId,
       nome,
       dtAdmiss,
       cel,
@@ -126,6 +131,7 @@ class ColabController {
       CPF,
       FornecId,
       EmpresaId,
+      UserId,
       nome,
       dtAdmiss,
       cel,

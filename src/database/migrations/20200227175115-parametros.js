@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Parametros', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       primaryKey: true,
@@ -38,17 +49,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.NUMERIC,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('Parametros'),

@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('ColabComps', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -38,17 +49,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('ColabComps'),

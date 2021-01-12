@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Parcelas', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
 
     id: {
       allowNull: false,
@@ -56,17 +67,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('Parcelas'),

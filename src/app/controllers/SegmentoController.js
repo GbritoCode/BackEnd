@@ -37,6 +37,16 @@ class SegmentoController {
   }
 
   async get(req, res) {
+    if (req.query.idUndNeg) {
+      const { idUndNeg } = req.query;
+      const segmento = await Segmento.findAll({
+        where: { UndNegId: idUndNeg },
+        include: [{ model: UndNeg }, {
+          model: Produto,
+        }, { model: Area }, { model: Empresa }],
+      });
+      return res.json(segmento);
+    }
     if (!req.params.id) {
       const segmento = await Segmento.findAll({
         include: [{ model: UndNeg }, { model: Produto }, { model: Area }, { model: Empresa }],

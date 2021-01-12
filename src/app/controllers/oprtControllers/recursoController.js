@@ -3,11 +3,13 @@ import Colab from '../../models/colab';
 import Oportunidade from '../../models/oportunidade';
 import Recurso from '../../models/recurso';
 
-class RecurspController {
+class RecursoController {
   async store(req, res) {
     const schema = yup.object().shape({
       OportunidadeId: yup.number().required(),
       ColabId: yup.number().required(),
+      tipoValor: yup.number().required(),
+      tipoAtend: yup.number().required(),
       custoPrev: yup.number().required(),
       dataInclusao: yup.string().required(),
       hrsPrevst: yup.number().required(),
@@ -21,6 +23,8 @@ class RecurspController {
     const {
       OportunidadeId,
       ColabId,
+      tipoValor,
+      tipoAtend,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -30,6 +34,8 @@ class RecurspController {
     return res.json({
       OportunidadeId,
       ColabId,
+      tipoValor,
+      tipoAtend,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -78,7 +84,8 @@ class RecurspController {
 
     const {
       OportunidadeId,
-      ColabId,
+      ColabId, tipoValor,
+      tipoAtend,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -88,6 +95,8 @@ class RecurspController {
     return res.json({
       OportunidadeId,
       ColabId,
+      tipoValor,
+      tipoAtend,
       custoPrev,
       dataInclusao,
       hrsPrevst,
@@ -95,4 +104,4 @@ class RecurspController {
     });
   }
 }
-export default new RecurspController();
+export default new RecursoController();

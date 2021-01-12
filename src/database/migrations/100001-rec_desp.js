@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('RecDesps', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -14,14 +25,6 @@ module.exports = {
         key: 'id',
       },
     },
-    ItmControleId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'ItmControles',
-        key: 'id',
-      },
-    },
     desc: {
       allowNull: false,
       type: Sequelize.STRING,
@@ -30,17 +33,19 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    createdAt: {
-      type: Sequelize.DATE,
+    tipoItem: {
       allowNull: false,
+      type: Sequelize.STRING,
     },
-    updatedAt: {
-      type: Sequelize.DATE,
+    contaContabil: {
       allowNull: false,
+      type: Sequelize.STRING,
     },
-    deletedAt: {
-      type: Sequelize.DATE,
+    centCusto: {
+      allowNull: false,
+      type: Sequelize.STRING,
     },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('RecDesps'),

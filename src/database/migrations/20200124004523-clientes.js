@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Clientes', {
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       primaryKey: true,
@@ -51,17 +62,7 @@ module.exports = {
       allowNull: false,
       type: Sequelize.BOOLEAN,
     },
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
   down: (queryInterface) => queryInterface.dropTable('Clientes'),
 };

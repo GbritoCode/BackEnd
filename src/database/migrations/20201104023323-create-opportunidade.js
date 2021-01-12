@@ -1,5 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Oportunidades', {
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+    },
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -38,11 +49,11 @@ module.exports = {
         key: 'id',
       },
     },
-    ItmControleId: {
+    RecDespId: {
       allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'ItmControles',
+        model: 'RecDesps',
         key: 'id',
       },
     },
@@ -91,17 +102,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   }),
 
   down: (queryInterface) => queryInterface.dropTable('Oportunidades'),

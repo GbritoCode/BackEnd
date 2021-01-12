@@ -6,7 +6,6 @@ import Area from './area';
 import UndNeg from './undNeg';
 import Produto from './produto';
 import Segmento from './segmento';
-import itmControle from './itmControle';
 import Colab from './colab';
 import Representante from './representante';
 import Fornec from './fornec';
@@ -37,9 +36,6 @@ export default class Empresa extends Model {
 
     Empresa.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(Empresa);
-
-    Empresa.hasOne(itmControle, { onDelete: 'cascade', hooks: true });
-    itmControle.belongsTo(Empresa);
 
     Empresa.hasOne(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Empresa);

@@ -73,6 +73,10 @@ class HoraController {
           OportunidadeId: oport,
         },
       });
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(hora)) {
+        return res.json('00:00');
+      }
       const apontHr = Math.trunc(hora / 60);
       const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
       return res.json(`${apontHr}:${apontMin}`);

@@ -1,13 +1,11 @@
 import * as yup from 'yup';
 import RecDesp from '../../models/recDesp';
 import Empresa from '../../models/empresa';
-import itmControle from '../../models/itmControle';
 
 class RecDespController {
   async store(req, res) {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
-      ItmControleId: yup.string().required(),
       desc: yup.string().required(),
       recDesp: yup.string().required(),
     });
@@ -17,11 +15,10 @@ class RecDespController {
     }
 
     const {
-      EmpresaId, ItmControleId, desc, recDesp,
+      EmpresaId, desc, recDesp,
     } = await RecDesp.create(req.body);
     return res.json({
       EmpresaId,
-      ItmControleId,
       desc,
       recDesp,
     });
@@ -31,14 +28,14 @@ class RecDespController {
     if (req.query.rec) {
       const recDesp = await RecDesp.findAll({
         where: { recDesp: 'Rec' },
-        include: [{ model: Empresa }, { model: itmControle }],
+        include: [{ model: Empresa }],
       });
       return res.json(recDesp);
     }
 
     if (!req.params.id) {
       const recDesp = await RecDesp.findAll({
-        include: [{ model: Empresa }, { model: itmControle }],
+        include: [{ model: Empresa }],
       });
       return res.json(recDesp);
     }
@@ -49,12 +46,11 @@ class RecDespController {
   async update(req, res) {
     const recdesp = await RecDesp.findByPk(req.params.id);
     const {
-      EmpresaId, ItmControleId, desc, recDesp,
+      EmpresaId, desc, recDesp,
     } = await recdesp.update(req.body);
 
     return res.json({
       EmpresaId,
-      ItmControleId,
       desc,
       recDesp,
     });

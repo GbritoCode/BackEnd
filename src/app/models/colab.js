@@ -14,6 +14,7 @@ export default class Colab extends Model {
         FornecId: DataTypes.INTEGER,
         PerfilId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
+        UserId: DataTypes.INTEGER,
         nome: DataTypes.STRING,
         dtAdmiss: DataTypes.DATE,
         cel: DataTypes.INTEGER,
@@ -31,13 +32,13 @@ export default class Colab extends Model {
     Colab.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(Colab);
 
-    Colab.hasOne(Recurso, { onDelete: 'cascade', hooks: true });
+    Colab.hasMany(Recurso, { onDelete: 'cascade', hooks: true });
     Recurso.belongsTo(Colab);
 
-    Colab.hasOne(Horas, { onDelete: 'cascade', hooks: true });
+    Colab.hasMany(Horas, { onDelete: 'cascade', hooks: true });
     Horas.belongsTo(Colab);
 
-    Colab.hasOne(Despesas, { onDelete: 'cascade', hooks: true });
+    Colab.hasMany(Despesas, { onDelete: 'cascade', hooks: true });
     Despesas.belongsTo(Colab);
     return this;
   }

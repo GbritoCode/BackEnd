@@ -25,8 +25,6 @@ import segmentoController from './app/controllers/SegmentoController';
 
 import undNegController from './app/controllers/UndNegController';
 
-import itmControleController from './app/controllers/ItmControleController';
-
 import prodtController from './app/controllers/ProdtController';
 
 import recDespController from './app/controllers/auxControllers/RecDespController';
@@ -89,7 +87,8 @@ routes.put('/empresa/:id', empresaController.update);
 routes.get('/empresa/:id?', empresaController.get);
 
 routes.post('/users', userController.store);
-routes.get('/users', userController.get);
+routes.get('/users/:id', userController.get);
+routes.put('/users/:id', userController.update);
 routes.post('/sessions', sessionController.store);
 
 routes.post('/colab', colabController.store);
@@ -123,10 +122,6 @@ routes.post('/segmento', segmentoController.store);
 routes.get('/segmento/:id?', segmentoController.get);
 routes.put('/segmento/:id', segmentoController.update);
 
-routes.post('/itm_controle', itmControleController.store);
-routes.get('/itm_controle/:id?', itmControleController.get);
-routes.put('/itm_controle/:id', itmControleController.update);
-
 routes.post('/rec_desp', recDespController.store);
 routes.get('/rec_desp/:id?', recDespController.get);
 routes.put('/rec_desp/:id', recDespController.update);
@@ -146,7 +141,5 @@ routes.put('/perfil/:id', perfilController.update);
 routes.post('/parametros', parametrosController.store);
 routes.get('/parametros/:id?', parametrosController.get);
 routes.put('/parametros/:id', parametrosController.update);
-
-routes.put('/users', userController.update);
 
 export default routes;

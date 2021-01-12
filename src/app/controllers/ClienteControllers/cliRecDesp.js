@@ -35,12 +35,13 @@ class CliRecDespController {
     }
 
     const {
-      ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
+      id, ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
     } = await CliRecDesp.create(
       req.body,
     );
 
     return res.json({
+      id,
       ClienteId,
       RecDespId,
       tipoCobranca,
@@ -51,8 +52,8 @@ class CliRecDespController {
   }
 
   async get(req, res) {
-    if (req.query.ItmControleId && req.query.cobranca) {
-      const { ItmControleId, cobranca } = req.query;
+    if (req.query.cobranca) {
+      const { cobranca } = req.query;
       const year = moment().year();
       const month = moment().month() + 1;
       const date = moment().date();
@@ -63,9 +64,6 @@ class CliRecDespController {
           dataInic: { [Op.lte]: `${year}-${month}-${date}` },
           dataFim: { [Op.gte]: `${year}-${month}-${date}` },
         },
-        include: [
-          { model: RecDesp, where: { ItmControleId } },
-        ],
       });
       return res.json(recDesp);
     }
@@ -95,12 +93,13 @@ class CliRecDespController {
     const cliRecDesp = await CliRecDesp.findByPk(req.params.id);
 
     const {
-      ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
+      id, ClienteId, RecDespId, tipoCobranca, valorRec, dataInic, dataFim,
     } = await cliRecDesp.update(
       req.body,
     );
 
     return res.json({
+      id,
       ClienteId,
       RecDespId,
       tipoCobranca,

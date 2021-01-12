@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { Op } from 'sequelize';
 import ColabComp from '../../models/colabComp';
 import Colab from '../../models/colab';
 
@@ -17,7 +18,18 @@ class ColabCompController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
-
+    const valueExists = await ColabComp.findOne({
+      where: {
+        tipoValor: req.body.tipoValor,
+        tipoAtend: req.body.tipoAtend,
+        dataFim: {
+          [Op.gte]: req.body.dataInic,
+        },
+      },
+    });
+    if (valueExists) {
+      return res.status(400).json({ error: 'Value already exists in period' });
+    }
     const {
       ColabId,
       nivel,
@@ -39,6 +51,20 @@ class ColabCompController {
   }
 
   async get(req, res) {
+    if (req.query.tipoValorBusca && req.query.tipoAtendBusca) {
+      const today = new Date();
+      const { tipoValorBusca, tipoAtendBusca } = req.query;
+      const complemento = await ColabComp.findOne({
+        where: {
+          ColabId: req.params.id,
+          tipoValor: tipoValorBusca,
+          tipoAtend: tipoAtendBusca,
+          dataInic: { [Op.lte]: today },
+          dataFim: { [Op.gte]: today },
+        },
+      });
+      return res.json(complemento);
+    }
     if (req.params.id && req.params.update) {
       const complemento = await ColabComp.findOne({
         where: { id: req.params.update },
@@ -55,6 +81,7 @@ class ColabCompController {
       });
       return res.json(complemento);
     }
+    return res.json();
   }
 
   async update(req, res) {

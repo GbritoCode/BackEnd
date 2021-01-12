@@ -3,12 +3,12 @@ import Oportunidade from '../../models/oportunidade';
 import Empresas from '../../models/empresa';
 import Cliente from '../../models/cliente';
 import UndNeg from '../../models/undNeg';
-import itmControle from '../../models/itmControle';
 import Colab from '../../models/colab';
 import Representantes from '../../models/representante';
 import Segmento from '../../models/segmento';
 import Recurso from '../../models/recurso';
 import Area from '../../models/area';
+import RecDesp from '../../models/recDesp';
 
 const { Op } = require('sequelize');
 
@@ -19,9 +19,9 @@ class OportController {
       ColabId: yup.number().required(),
       ClienteId: yup.number().required(),
       UndNegId: yup.number().required(),
-      ItmControleId: yup.number().required(),
       SegmentoId: yup.number().required(),
       RepresentanteId: yup.number().required(),
+      RecDespId: yup.number().required(),
       contato: yup.number().required(),
       data: yup.date().required(),
       fase: yup.number().required(),
@@ -42,9 +42,9 @@ class OportController {
       contato,
       cod,
       UndNegId,
-      ItmControleId,
       SegmentoId,
       RepresentanteId,
+      RecDespId,
       desc,
       narrativa,
       totalHoras,
@@ -59,9 +59,9 @@ class OportController {
       contato,
       cod,
       UndNegId,
-      ItmControleId,
       SegmentoId,
       RepresentanteId,
+      RecDespId,
       desc,
       narrativa,
       totalHoras,
@@ -76,7 +76,7 @@ class OportController {
           { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente },
           {
             model: Segmento, include: [{ model: Area }],
-          }, { model: UndNeg }, { model: itmControle },
+          }, { model: UndNeg }, { model: RecDesp },
         ],
       });
       return res.json(oport);
@@ -85,8 +85,8 @@ class OportController {
       const oport = await Oportunidade.findAll({
         limit: 1,
         include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, { model: UndNeg }, {
-          model: itmControle,
-        }, { model: Colab }, { model: Representantes }],
+          model: Colab,
+        }, { model: Representantes }, { model: RecDesp }],
         order: [['createdAt', 'DESC']],
       });
       return res.json(oport);
@@ -103,15 +103,17 @@ class OportController {
         where: {
           fase: { [Op.lt]: 5 },
         },
-        include: [{ model: Empresas }, { model: Cliente }, { model: Segmento }, {
-          model: UndNeg,
-        },
-        { model: itmControle }, { model: Colab }, { model: Representantes }],
+        include: [{ model: Empresas }, { model: Cliente }, {
+          model: Segmento,
+        }, { model: UndNeg }, { model: Colab }, { model: Representantes }, { model: RecDesp }],
       });
       return res.json(oport);
     }
     if (req.params.id) {
-      const oport = await Oportunidade.findOne({ where: { id: req.params.id } });
+      const oport = await Oportunidade.findOne({
+        where: { id: req.params.id },
+        include: [{ model: Segmento }],
+      });
       return res.json(oport);
     }
     return res.json();
@@ -128,9 +130,9 @@ class OportController {
       contato,
       cod,
       UndNegId,
-      ItmControleId,
       SegmentoId,
       RepresentanteId,
+      RecDespId,
       desc,
       narrativa,
       totalHoras,
@@ -145,9 +147,9 @@ class OportController {
       contato,
       cod,
       UndNegId,
-      ItmControleId,
       SegmentoId,
       RepresentanteId,
+      RecDespId,
       desc,
       narrativa,
       totalHoras,

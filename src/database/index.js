@@ -8,7 +8,6 @@ import colabComp from '../app/models/colabComp';
 import Colab from '../app/models/colab';
 import Empresa from '../app/models/empresa';
 import Fornec from '../app/models/fornec';
-import itmControle from '../app/models/itmControle';
 import Parametros from '../app/models/parametros';
 import Produto from '../app/models/produto';
 import recDesp from '../app/models/recDesp';
@@ -47,7 +46,6 @@ const models = [
   Colab,
   Fornec,
   recDesp,
-  itmControle,
   Parametros,
   tipoComiss,
   condPgmto,

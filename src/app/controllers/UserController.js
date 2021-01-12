@@ -4,12 +4,12 @@ import users from '../models/users';
 class UserController {
   async store(req, res) {
     const schema = yup.object().shape({
-      name: yup.string().required(),
+      nome: yup.string().required(),
       email: yup
         .string()
         .email()
         .required(),
-      password: yup
+      senha: yup
         .string()
         .required()
         .min(6),
@@ -25,12 +25,12 @@ class UserController {
     }
 
     const {
-      id, name, email, profile,
+      id, nome, email, profile,
     } = await users.create(req.body);
 
     return res.json({
       id,
-      name,
+      nome,
       email,
       profile,
     });
@@ -38,25 +38,25 @@ class UserController {
 
   async update(req, res) {
     const schema = yup.object().shape({
-      name: yup.string(),
-      email: yup.string().email(),
-      oldPassword: yup.string().min(6),
-      password: yup
+      nome: yup.string(),
+      email: yup.string(),
+      senhaAntiga: yup.string().min(6),
+      senha: yup
         .string()
         .min(6)
-        .when('oldPassword', (oldPassword, field) => (oldPassword ? field.required() : field)),
-      confirmPassword: yup
+        .when('senhaAntiga', (senhaAntiga, field) => (senhaAntiga ? field.required() : field)),
+      confirmSenha: yup
         .string()
-        .when('password', (password, field) => (password ? field.required().oneOf([yup.ref('password')]) : field)),
+        .when('senha', (senha, field) => (senha ? field.required().oneOf([yup.ref('senha')]) : field)),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { email, oldPassword } = req.body;
+    const { email, senhaAntiga } = req.body;
 
-    const user = await users.findByPk(req.userId);
+    const user = await users.findByPk(req.params.id);
 
     if (email !== user.email) {
       const userExists = await users.findOne({ where: { email } });
@@ -65,15 +65,15 @@ class UserController {
       }
     }
 
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+    if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name, profile } = await user.update(req.body);
+    const { id, nome, profile } = await user.update(req.body);
 
     return res.json({
       id,
-      name,
+      nome,
       email,
       profile,
     });
