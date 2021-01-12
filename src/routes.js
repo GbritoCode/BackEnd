@@ -87,7 +87,7 @@ routes.put('/empresa/:id', empresaController.update);
 routes.get('/empresa/:id?', empresaController.get);
 
 routes.post('/users', userController.store);
-routes.get('/users/:id', userController.get);
+routes.get('/users/:id?', userController.get);
 routes.put('/users/:id', userController.update);
 routes.post('/sessions', sessionController.store);
 
