@@ -15,10 +15,6 @@ class UserController {
         .min(6),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
     const userExists = await users.findOne({ where: { email: req.body.email } });
     if (userExists) {
       return res.status(400).json({ error: 'users already exists' });
