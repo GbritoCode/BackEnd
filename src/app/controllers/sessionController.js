@@ -12,13 +12,13 @@ class SessionController {
         .string()
         .email()
         .required(),
-      password: yup.string().required(),
+      senha: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const { email, password } = req.body;
+    const { email, senha } = req.body;
 
     const user = await User.findOne({
       where: { email },
@@ -30,18 +30,18 @@ class SessionController {
       return res.status(401).json({ error: 'User not found' });
     }
 
-    if (!(await user.checkPassword(password))) {
+    if (!(await user.checkPassword(senha))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
     const {
-      id, name, profile, Empresa, Colab,
+      id, nome, profile, Empresa, Colab,
     } = user;
 
     return res.json({
       user: {
         id,
-        name,
+        nome,
         profile,
         Empresa,
         Colab,

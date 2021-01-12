@@ -83,6 +83,9 @@ class ColabController {
             required: true,
           }],
       });
+      if (colab.length === 0) {
+        return res.json(0);
+      }
       let sum = 0;
       for (let i = 0; i < colab[0].Horas.length; i++) {
         sum += (colab[0].Horas[i].dataValues.totalApont / 60)
