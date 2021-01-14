@@ -1,4 +1,6 @@
 import * as yup from 'yup';
+import Colab from '../models/colab';
+import Empresa from '../models/empresa';
 import users from '../models/users';
 
 class UserController {
@@ -80,7 +82,12 @@ class UserController {
       const user = await users.findAll({});
       return res.json(user);
     }
-    const user = await users.findOne({ where: { id: req.params.id } });
+
+    const user = await users.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Empresa },
+        { model: Colab }],
+    });
     return res.json(user);
   }
 }

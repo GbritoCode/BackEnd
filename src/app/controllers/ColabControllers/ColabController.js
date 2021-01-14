@@ -68,28 +68,33 @@ class ColabController {
       return res.json(colab);
     } if (req.query.vlrHrMes === 'true') {
       const year = moment().year();
-      const month = moment().month() + 1;
+      const month = moment().month();
       const lastDayMonth = getDaysInMonth(new Date(year, month));
-      const colab = await Colab.findAll({
+      const colab = await Colab.findOne({
         where: { id: req.params.id },
-        include: [{ model: Recurso, required: true },
-          {
+        include: [{
+          model: Recurso,
+          required: true,
+          include: [{
             model: Horas,
             where: {
               dataAtivd: {
-                [Op.between]: [`${year}-${month}-${1}`, `${year}-${month}-${lastDayMonth}`],
+                [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
               },
             },
             required: true,
           }],
+        }],
       });
-      if (colab.length === 0) {
+      if (colab === null) {
         return res.json(0);
       }
       let sum = 0;
-      for (let i = 0; i < colab[0].Horas.length; i++) {
-        sum += (colab[0].Horas[i].dataValues.totalApont / 60)
-        * colab[0].Recursos[i].dataValues.colabVlrHr;
+      for (let i = 0; i < colab.Recursos.length; i++) {
+        for (let j = 0; j < colab.Recursos[i].Horas.length; j++) {
+          sum += (colab.Recursos[i].Horas[j].dataValues.totalApont / 60)
+        * colab.Recursos[i].dataValues.colabVlrHr;
+        }
       }
       return res.json(sum);
     } if (req.query.data === 'true') {

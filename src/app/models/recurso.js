@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import Horas from './horas';
 
 export default class Recurso extends Model {
   static init(sequelize) {
@@ -17,7 +18,8 @@ export default class Recurso extends Model {
         sequelize,
       },
     );
-
+    Recurso.hasMany(Horas, { onDelete: 'cascade', hooks: true });
+    Horas.belongsTo(Recurso);
     return this;
   }
 }

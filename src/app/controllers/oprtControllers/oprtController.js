@@ -69,6 +69,15 @@ class OportController {
   }
 
   async get(req, res) {
+    if (req.query.idOport && req.query.colab) {
+      const { colab, idOport } = req.query;
+      const oport = await Oportunidade.findOne({
+        include: [
+          { model: Recurso, where: { ColabId: colab, OportunidadeId: idOport }, required: true },
+        ],
+      });
+      return res.json(oport);
+    }
     if (req.query.apont === 'true' && req.query.colab) {
       const { colab } = req.query;
       const oport = await Oportunidade.findAll({

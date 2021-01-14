@@ -6,6 +6,7 @@ export default class Horas extends Model {
       {
         OportunidadeId: DataTypes.INTEGER,
         ColabId: DataTypes.INTEGER,
+        RecursoId: DataTypes.INTEGER,
         dataAtivd: DataTypes.DATEONLY,
         horaInic: DataTypes.STRING,
         horaIntrv: DataTypes.STRING,
