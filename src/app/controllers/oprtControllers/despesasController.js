@@ -42,13 +42,13 @@ class DespesasController {
   async get(req, res) {
     if (req.query.total === 'true' && req.query.tipo === 'month' && req.params.id) {
       const year = moment().year();
-      const month = moment().month() + 1;
+      const month = moment().month();
       const lastDayMonth = getDaysInMonth(new Date(year, month));
       const despesa = await Despesa.sum('valorDespesa', {
         where: {
           ColabId: req.params.id,
           dataDespesa: {
-            [Op.between]: [`${year}-${month}-${1}`, `${year}-${month}-${lastDayMonth}`],
+            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
           },
         },
       });

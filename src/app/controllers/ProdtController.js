@@ -23,7 +23,7 @@ class ProdtController {
 
   async get(req, res) {
     if (!req.params.id) {
-      const prodt = await Prodt.findAll({ include: Empresa });
+      const prodt = await Prodt.findAll({ include: Empresa, order: [['id', 'ASC']] });
       return res.json(prodt);
     }
     const prodt = await Prodt.findOne({ where: { id: req.params.id } });

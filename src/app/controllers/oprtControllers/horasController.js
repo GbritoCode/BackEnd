@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import { getDaysInMonth } from 'date-fns';
 import moment from 'moment';
 import Colab from '../../models/colab';
+import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
 import Hora from '../../models/horas';
 
@@ -48,13 +49,13 @@ class HoraController {
   async get(req, res) {
     if (req.query.total === 'true' && req.query.tipo === 'month' && req.params.id) {
       const year = moment().year();
-      const month = moment().month() + 1;
+      const month = moment().month();
       const lastDayMonth = getDaysInMonth(new Date(year, month));
       const hora = await Hora.sum('totalApont', {
         where: {
           ColabId: req.params.id,
           dataAtivd: {
-            [Op.between]: [`${year}-${month}-${1}`, `${year}-${month}-${lastDayMonth}`],
+            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
           },
         },
       });
@@ -88,12 +89,23 @@ class HoraController {
       });
       return res.json(hora);
     } if (req.params.id) {
+      const year = moment().year();
+      const month = moment().month();
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
       const hora = await Hora.findAll({
         where: {
           ColabId: req.params.id,
+          dataAtivd: {
+            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
+          },
         },
-        include: [{ model: Oportunidade }],
+        include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
       });
+
+      for (let i = 0; i < hora.length; i++) {
+        const horas = hora[i].dataValues.dataAtivd.split('-');
+        hora[i].dataValues.dataAtivd = `${horas[2]}/${horas[1]}/${horas[0]}`;
+      }
       return res.json(hora);
     }
     return res.json();

@@ -20,6 +20,7 @@ class ColabCompController {
     }
     const valueExists = await ColabComp.findOne({
       where: {
+        ColabId: req.body.ColabId,
         tipoValor: req.body.tipoValor,
         tipoAtend: req.body.tipoAtend,
         dataFim: {

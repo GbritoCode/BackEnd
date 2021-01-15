@@ -115,6 +115,7 @@ class OportController {
         include: [{ model: Empresas }, { model: Cliente }, {
           model: Segmento,
         }, { model: UndNeg }, { model: Colab }, { model: Representantes }, { model: RecDesp }],
+        order: [['id', 'ASC']],
       });
       return res.json(oport);
     }
