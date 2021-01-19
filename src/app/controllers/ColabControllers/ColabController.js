@@ -7,6 +7,8 @@ import Empresa from '../../models/empresa';
 import fornec from '../../models/fornec';
 import Horas from '../../models/horas';
 import Recurso from '../../models/recurso';
+import Oportunidade from '../../models/oportunidade';
+import Despesas from '../../models/despesas';
 
 class ColabController {
   async store(req, res) {
@@ -148,6 +150,19 @@ class ColabController {
       email,
       espec,
     });
+  }
+
+  async delete(req, res) {
+    const colab = await Colab.findOne({
+      where: { id: req.params.id },
+      include: [Oportunidade, Recurso, Horas, Despesas],
+    });
+    if (colab.Oportunidade === null && colab.Recurso === null && colab.Horas === null
+      && colab.Despesas === null) {
+      colab.destroy();
+      return res.status(200).json(`Registro ${colab.nome} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new ColabController();

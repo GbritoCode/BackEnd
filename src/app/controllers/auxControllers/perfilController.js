@@ -1,6 +1,8 @@
 import * as yup from 'yup';
+import { BelongsTo } from 'sequelize';
 import Perfils from '../../models/perfil';
 import Empresa from '../../models/empresa';
+import Colab from '../../models/colab';
 
 class PerfilController {
   async store(req, res) {
@@ -24,7 +26,7 @@ class PerfilController {
 
   async get(req, res) {
     if (!req.params.id) {
-      const Perfil = await Perfils.findAll({ include: Empresa });
+      const Perfil = await Perfils.findAll({ include: { all: true, isSingleAssociation: true } });
       return res.json(Perfil);
     }
     const Perfil = await Perfils.findOne({ where: { id: req.params.id } });
@@ -40,6 +42,18 @@ class PerfilController {
 
       desc,
     });
+  }
+
+  async delete(req, res) {
+    const Perfil = await Perfils.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Colab }],
+    });
+    if (Perfil.Colab === null) {
+      Perfil.destroy();
+      return res.status(200).json(`Registro ${Perfil.desc} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new PerfilController();

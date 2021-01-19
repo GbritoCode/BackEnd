@@ -1,6 +1,8 @@
 import * as yup from 'yup';
+import CliComp from '../../models/clienteComp';
 import condPgmto from '../../models/condPgmto';
 import Empresa from '../../models/empresa';
+import Fornec from '../../models/fornec';
 
 class CondPgmtoController {
   async store(req, res) {
@@ -46,6 +48,18 @@ class CondPgmtoController {
       diasPrazo,
       desc,
     });
+  }
+
+  async delete(req, res) {
+    const condPgmtos = await condPgmto.findOne({
+      where: { id: req.params.id },
+      include: [CliComp, Fornec],
+    });
+    if (condPgmtos.CliComp === null && condPgmtos.Fornec === null) {
+      condPgmtos.destroy();
+      return res.status(200).json(`Registro ${condPgmtos.desc} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new CondPgmtoController();

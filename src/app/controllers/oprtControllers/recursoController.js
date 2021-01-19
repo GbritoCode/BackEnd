@@ -103,5 +103,13 @@ class RecursoController {
       colabVlrHr,
     });
   }
+
+  async delete(req, res) {
+    const rec = await Recurso.findOne({
+      where: { id: req.params.id },
+    });
+    rec.destroy();
+    return res.status(200).json(`Registro de ${rec.dataInclusao} foi deletado com Sucesso!`);
+  }
 }
 export default new RecursoController();

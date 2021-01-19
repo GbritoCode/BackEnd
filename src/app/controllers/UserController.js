@@ -90,5 +90,17 @@ class UserController {
     });
     return res.json(user);
   }
+
+  async delete(req, res) {
+    const user = await users.findOne({
+      where: { id: req.params.id },
+      include: [Empresa, Colab],
+    });
+    if (user.Colab === null && user.Empresa === null) {
+      user.destroy();
+      return res.status(200).json(`Registro ${user.nome} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
+  }
 }
 export default new UserController();

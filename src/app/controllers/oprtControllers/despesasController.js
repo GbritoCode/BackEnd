@@ -67,6 +67,10 @@ class DespesasController {
         },
         include: [{ model: Oportunidade }, { model: Colab }],
       });
+      for (let i = 0; i < despesa.length; i++) {
+        const desps = despesa[i].dataValues.dataDespesa.split('-');
+        despesa[i].dataValues.dataDespesa = `${desps[2]}/${desps[1]}/${desps[0]}`;
+      }
       return res.json(despesa);
     }
     return res.json();
@@ -91,6 +95,14 @@ class DespesasController {
       valorDespesa,
       desc,
     });
+  }
+
+  async delete(req, res) {
+    const despesa = await Despesa.findOne({
+      where: { id: req.params.id },
+    });
+    despesa.destroy();
+    return res.status(200).json(`Registro de ${despesa.dataDespesa} foi deletado com Sucesso!`);
   }
 }
 export default new DespesasController();

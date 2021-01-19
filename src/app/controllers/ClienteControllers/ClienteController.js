@@ -3,6 +3,7 @@ import Cliente from '../../models/cliente';
 import representantes from '../../models/representante';
 import tipoComiss from '../../models/tipoComiss';
 import Empresa from '../../models/empresa';
+import Oportunidade from '../../models/oportunidade';
 
 class ClienteController {
   async store(req, res) {
@@ -102,9 +103,16 @@ class ClienteController {
     });
   }
 
-  async delete(req) {
-    const cliente = await Cliente.findOne({ where: { id: req.params.id } });
-    cliente.destroy();
+  async delete(req, res) {
+    const cliente = await Cliente.findOne({
+      where: { id: req.params.id },
+      include: [Oportunidade],
+    });
+    if (cliente.Oportunidade === null) {
+      cliente.destroy();
+      return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new ClienteController();

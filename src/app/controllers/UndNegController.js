@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import UndNeg from '../models/undNeg';
 import Empresa from '../models/empresa';
+import Segmento from '../models/segmento';
 
 class UndNegController {
   async store(req, res) {
@@ -38,6 +39,18 @@ class UndNegController {
       EmpresaId,
       descUndNeg,
     });
+  }
+
+  async delete(req, res) {
+    const undneg = await UndNeg.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Segmento }],
+    });
+    if (undneg.Segmento === null) {
+      undneg.destroy();
+      return res.status(200).json(`Registro ${undneg.descArea} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new UndNegController();

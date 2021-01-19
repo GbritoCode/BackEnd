@@ -90,5 +90,13 @@ class CliContController {
       tipoConta,
     });
   }
+
+  async delete(req, res) {
+    const cliCont = await CliCont.findOne({
+      where: { id: req.params.id },
+    });
+    cliCont.destroy();
+    return res.status(200).json(`Registro ${cliCont.nome} foi deletado com Sucesso!`);
+  }
 }
 export default new CliContController();

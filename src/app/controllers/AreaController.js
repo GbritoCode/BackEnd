@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import Area from '../models/area';
 import Empresa from '../models/empresa';
+import Segmento from '../models/segmento';
 
 class AreaController {
   async store(req, res) {
@@ -38,6 +39,18 @@ class AreaController {
       EmpresaId,
       descArea,
     });
+  }
+
+  async delete(req, res) {
+    const area = await Area.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Segmento }],
+    });
+    if (area.Segmento === null) {
+      area.destroy();
+      return res.status(200).json(`Registro ${area.descArea} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new AreaController();

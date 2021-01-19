@@ -21,7 +21,15 @@ class ParcelaController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
-
+    const valueExists = await Parcelas.findOne({
+      where: {
+        parcela: req.body.parcela,
+        OportunidadeId: req.body.OportunidadeId,
+      },
+    });
+    if (valueExists) {
+      return res.status(400).json({ error: 'Essa parcela já existe' });
+    }
     const {
       OportunidadeId,
       parcela,
@@ -74,7 +82,14 @@ class ParcelaController {
           OportunidadeId: req.params.id,
         },
         include: [{ model: Oportunidade }],
+        order: [['parcela', 'ASC']],
       });
+      for (let i = 0; i < parc.length; i++) {
+        if (parc[i].dataValues.dtVencimento) {
+          const parcs = parc[i].dataValues.dtVencimento.split('-');
+          parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+        }
+      }
       return res.json(parc);
     }
   }
@@ -109,6 +124,14 @@ class ParcelaController {
       vlrPago,
       saldo,
     });
+  }
+
+  async delete(req, res) {
+    const parc = await Parcelas.findOne({
+      where: { id: req.params.id },
+    });
+    parc.destroy();
+    return res.status(200).json(`Registro de ${parc.dtEmissao} foi deletado com Sucesso!`);
   }
 }
 export default new ParcelaController();

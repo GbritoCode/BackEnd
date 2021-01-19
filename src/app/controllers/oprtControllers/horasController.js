@@ -153,5 +153,13 @@ class HoraController {
       apontDiff,
     });
   }
+
+  async delete(req, res) {
+    const hora = await Hora.findOne({
+      where: { id: req.params.id },
+    });
+    hora.destroy();
+    return res.status(200).json(`Registro de ${hora.dataAtivd} foi deletado com Sucesso!`);
+  }
 }
 export default new HoraController();

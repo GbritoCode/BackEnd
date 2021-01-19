@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import Fornec from '../models/fornec';
 import condPgmto from '../models/condPgmto';
 import Empresa from '../models/empresa';
+import Colab from '../models/colab';
 
 class FornecController {
   async store(req, res) {
@@ -116,6 +117,18 @@ class FornecController {
       agencia,
       conta,
     });
+  }
+
+  async delete(req, res) {
+    const fornec = await Fornec.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Colab }],
+    });
+    if (fornec.Colab === null) {
+      fornec.destroy();
+      return res.status(200).json(`Registro ${fornec.nome} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new FornecController();

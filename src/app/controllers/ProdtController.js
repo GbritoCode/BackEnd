@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import Prodt from '../models/produto';
 import Empresa from '../models/empresa';
+import Segmento from '../models/segmento';
 
 class ProdtController {
   async store(req, res) {
@@ -38,6 +39,18 @@ class ProdtController {
       EmpresaId,
       descProdt,
     });
+  }
+
+  async delete(req, res) {
+    const prodt = await Prodt.findOne({
+      where: { id: req.params.id },
+      include: [{ model: Segmento }],
+    });
+    if (prodt.Segmento === null) {
+      prodt.destroy();
+      return res.status(200).json(`Registro ${prodt.descProdt} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new ProdtController();

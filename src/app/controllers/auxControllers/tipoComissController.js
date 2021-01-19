@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 import tipoComiss from '../../models/tipoComiss';
 import Empresa from '../../models/empresa';
+import Cliente from '../../models/cliente';
+import Representante from '../../models/representante';
 
 class TipoComissController {
   async store(req, res) {
@@ -50,6 +52,18 @@ class TipoComissController {
       prcnt,
       bsComiss,
     });
+  }
+
+  async delete(req, res) {
+    const TipoComiss = await tipoComiss.findOne({
+      where: { id: req.params.id },
+      include: [Cliente, Representante],
+    });
+    if (TipoComiss.Cliente === null && TipoComiss.Representante === null) {
+      TipoComiss.destroy();
+      return res.status(200).json(`Registro ${TipoComiss.desc} foi deletado com Sucesso!`);
+    }
+    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
   }
 }
 export default new TipoComissController();
