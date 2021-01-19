@@ -81,6 +81,7 @@ class OportController {
     if (req.query.apont === 'true' && req.query.colab) {
       const { colab } = req.query;
       const oport = await Oportunidade.findAll({
+        where: { fase: { [Op.lt]: 5 } },
         include: [
           { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente },
           {

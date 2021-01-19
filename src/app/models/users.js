@@ -14,6 +14,7 @@ export default class User extends Model {
         senha: DataTypes.VIRTUAL,
         passwordHash: DataTypes.STRING,
         profile: DataTypes.INTEGER,
+        aniver: DataTypes.DATEONLY,
       },
       {
         sequelize,

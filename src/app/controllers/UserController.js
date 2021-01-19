@@ -46,6 +46,7 @@ class UserController {
       confirmSenha: yup
         .string()
         .when('senha', (senha, field) => (senha ? field.required().oneOf([yup.ref('senha')]) : field)),
+      aniver: yup.string(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -100,7 +101,7 @@ class UserController {
       user.destroy();
       return res.status(200).json(`Registro ${user.nome} foi deletado com Sucesso!`);
     }
-    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
+    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new UserController();

@@ -21,6 +21,7 @@ export default class Colab extends Model {
         skype: DataTypes.STRING,
         email: DataTypes.STRING,
         espec: DataTypes.STRING,
+        aniver: DataTypes.DATEONLY,
       },
       {
         sequelize,

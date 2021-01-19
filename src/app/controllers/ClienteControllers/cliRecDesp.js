@@ -84,6 +84,10 @@ class CliRecDespController {
           { model: RecDesp },
         ],
       });
+      for (let i = 0; i < recDesp.length; i++) {
+        const data = recDesp[i].dataValues.dataFim.split('-');
+        recDesp[i].dataValues.dataFim = `${data[2]}/${data[1]}/${data[0]}`;
+      }
       return res.json(recDesp);
     }
     return res.json();

@@ -28,6 +28,26 @@ export default class Empresa extends Model {
         sequelize,
       },
     );
+
+    this.addHook('afterSave', async (empresa) => {
+      empresa.sequelize.models.Parametros.create({
+        EmpresaId: empresa.id,
+        IRPJ: 0,
+        CSLL: 0,
+        COFINS: 0,
+        PIS: 0,
+        INSS: 0,
+        ISS: 0,
+        PSProLabor: 0,
+        IRRFProLabor: 0,
+        vlrMinHr: 0,
+        vlrBsHr: 0,
+        vlrBsDesp: 0,
+        adiantaPgmto: 'Não',
+        percAdiantaPgmto: 0,
+      });
+    });
+
     Empresa.hasOne(Clientes, { onDelete: 'cascade', hooks: true });
     Clientes.belongsTo(Empresa);
 

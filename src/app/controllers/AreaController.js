@@ -50,7 +50,7 @@ class AreaController {
       area.destroy();
       return res.status(200).json(`Registro ${area.descArea} foi deletado com Sucesso!`);
     }
-    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
+    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new AreaController();

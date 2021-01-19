@@ -21,26 +21,30 @@ class ClienteController {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const {
-      id,
-      CNPJ,
-      nomeAbv,
-      rzSoc,
-      fantasia,
-      RepresentanteId,
-      TipoComisseId,
-      EmpresaId,
-    } = await Cliente.create(req.body);
-    return res.json({
-      id,
-      CNPJ,
-      nomeAbv,
-      rzSoc,
-      fantasia,
-      RepresentanteId,
-      TipoComisseId,
-      EmpresaId,
-    });
+    try {
+      const {
+        id,
+        CNPJ,
+        nomeAbv,
+        rzSoc,
+        fantasia,
+        RepresentanteId,
+        TipoComisseId,
+        EmpresaId,
+      } = await Cliente.create(req.body);
+      return res.json({
+        id,
+        CNPJ,
+        nomeAbv,
+        rzSoc,
+        fantasia,
+        RepresentanteId,
+        TipoComisseId,
+        EmpresaId,
+      });
+    } catch (err) {
+      return res.status(400).json(err.message);
+    }
   }
 
   async get(req, res) {
@@ -112,7 +116,7 @@ class ClienteController {
       cliente.destroy();
       return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
     }
-    return res.status(400).json({ error: 'Você não pode Excluir esse registro pois ele tem dependências' });
+    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new ClienteController();
