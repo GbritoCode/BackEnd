@@ -65,6 +65,7 @@ class OportController {
       desc,
       narrativa,
       totalHoras,
+
     });
   }
 
