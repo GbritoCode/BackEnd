@@ -18,7 +18,8 @@ class UserController {
     });
 
     const userExists = await users.findOne({ where: { email: req.body.email } });
-    if (userExists) {
+    const colabExists = await Colab.findOne({ where: { CPF: req.body.CPF } });
+    if (userExists || colabExists) {
       return res.status(400).json({ error: 'users already exists' });
     }
 
@@ -53,14 +54,24 @@ class UserController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { email, senhaAntiga } = req.body;
+    const {
+      email, senhaAntiga, colabId, CPF,
+    } = req.body;
 
     const user = await users.findByPk(req.params.id);
+    const colab = await Colab.findByPk(colabId);
 
     if (email !== user.email) {
       const userExists = await users.findOne({ where: { email } });
       if (userExists) {
-        return res.status(400).json({ error: 'users already exists' });
+        return res.status(400).json({ error: 'Este email já está cadastrado em outro colaborador' });
+      }
+    }
+
+    if (CPF !== colab.CPF) {
+      const colabExists = await Colab.findOne({ where: { CPF } });
+      if (colabExists) {
+        return res.status(400).json({ error: 'O CPF já está cadastrado em outro colaborador' });
       }
     }
 

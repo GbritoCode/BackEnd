@@ -98,7 +98,7 @@ class ColabController {
         * colab.Recursos[i].dataValues.colabVlrHr;
         }
       }
-      return res.json(sum);
+      return res.json(Math.trunc(sum));
     } if (req.query.data === 'true') {
       const { oport } = req.query;
       const colab = await Colab.findAll({

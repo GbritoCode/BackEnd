@@ -148,6 +148,7 @@ class OportController {
       desc,
       narrativa,
       totalHoras,
+      motivo,
     } = await oport.update(req.body);
 
     return res.json({
@@ -165,6 +166,7 @@ class OportController {
       desc,
       narrativa,
       totalHoras,
+      motivo,
     });
   }
 }

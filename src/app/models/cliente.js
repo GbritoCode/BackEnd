@@ -36,8 +36,8 @@ export default class Cliente extends Model {
           bairro: response.data.bairro,
           cidade: response.data.municipio,
           uf: response.data.uf,
-          inscMun: 'preencher',
-          inscEst: 'preencher',
+          inscMun: 'Isento',
+          inscEst: 'Isento',
         });
       }
       if (response.data.status === 'ERROR') {

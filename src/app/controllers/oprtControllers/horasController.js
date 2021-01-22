@@ -5,6 +5,7 @@ import Colab from '../../models/colab';
 import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
 import Hora from '../../models/horas';
+import Area from '../../models/area';
 
 class HoraController {
   async store(req, res) {
@@ -88,15 +89,13 @@ class HoraController {
         include: [{ model: Oportunidade }, { model: Colab }],
       });
       return res.json(hora);
-    } if (req.params.id) {
-      const year = moment().year();
-      const month = moment().month();
-      const lastDayMonth = getDaysInMonth(new Date(year, month));
+    } if (req.query.initialDate && req.query.finalDate) {
+      const { initialDate, finalDate } = req.query;
       const hora = await Hora.findAll({
         where: {
           ColabId: req.params.id,
           dataAtivd: {
-            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
+            [Op.between]: [initialDate, finalDate],
           },
         },
         include: [{ model: Oportunidade, include: [{ model: Cliente }] }],

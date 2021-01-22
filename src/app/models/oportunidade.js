@@ -24,6 +24,7 @@ export default class Oportunidade extends Model {
         desc: DataTypes.STRING,
         narrativa: DataTypes.STRING,
         totalHoras: DataTypes.INTEGER,
+        motivo: DataTypes.STRING,
       },
       {
         sequelize,
