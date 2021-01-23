@@ -99,6 +99,7 @@ class HoraController {
           },
         },
         include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+        order: [['dataAtivd', 'DESC']],
       });
 
       for (let i = 0; i < hora.length; i++) {
