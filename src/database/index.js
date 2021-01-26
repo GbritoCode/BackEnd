@@ -25,6 +25,8 @@ import Recurso from '../app/models/recurso';
 import parcela from '../app/models/parcela';
 import Horas from '../app/models/horas';
 import Despesas from '../app/models/despesas';
+import ContaContabil from '../app/models/ContaContabil';
+import CentroCustos from '../app/models/CentroCusto';
 
 const models = [
   cliCont,
@@ -46,6 +48,8 @@ const models = [
   Colab,
   Fornec,
   recDesp,
+  ContaContabil,
+  CentroCustos,
   Parametros,
   tipoComiss,
   condPgmto,

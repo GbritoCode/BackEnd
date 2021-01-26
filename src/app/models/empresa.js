@@ -14,6 +14,8 @@ import perfil from './perfil';
 import condPgmto from './condPgmto';
 import tipoComiss from './tipoComiss';
 import oportunidade from './oportunidade';
+import ContaContabils from './ContaContabil';
+import CentroCustos from './CentroCusto';
 
 export default class Empresa extends Model {
   static init(sequelize) {
@@ -30,7 +32,7 @@ export default class Empresa extends Model {
     );
 
     this.addHook('afterSave', async (empresa) => {
-      empresa.sequelize.models.Parametros.create({
+      await empresa.sequelize.models.Parametros.create({
         EmpresaId: empresa.id,
         IRPJ: 0,
         CSLL: 0,
@@ -45,6 +47,21 @@ export default class Empresa extends Model {
         vlrBsDesp: 0,
         adiantaPgmto: 'Não',
         percAdiantaPgmto: 0,
+      });
+      await empresa.sequelize.models.CentroCustos.create({
+        EmpresaId: empresa.id,
+        cod: '000',
+        desc: 'Sem Centro de Custo',
+      });
+      await empresa.sequelize.models.CondPgmto.create({
+        EmpresaId: empresa.id,
+        cod: '000',
+        desc: 'Condição Padrão',
+        diasPrazo: 0,
+      });
+      await empresa.sequelize.models.Perfil.create({
+        EmpresaId: empresa.id,
+        desc: 'Admnistrador',
       });
     });
 
@@ -90,6 +107,11 @@ export default class Empresa extends Model {
     Empresa.hasOne(oportunidade, { onDelete: 'cascade', hooks: true });
     oportunidade.belongsTo(Empresa);
 
+    Empresa.hasOne(ContaContabils, { onDelete: 'cascade', hooks: true });
+    ContaContabils.belongsTo(Empresa);
+
+    Empresa.hasOne(CentroCustos, { onDelete: 'cascade', hooks: true });
+    CentroCustos.belongsTo(Empresa);
     return this;
   }
 }

@@ -39,12 +39,24 @@ import parcelaController from './app/controllers/oprtControllers/parcelaControll
 
 import horasController from './app/controllers/oprtControllers/horasController';
 import despesasController from './app/controllers/oprtControllers/despesasController';
+import contaContabilController from './app/controllers/auxControllers/contaContabilController';
+import centroCustosController from './app/controllers/auxControllers/centroCustosController';
 
 // import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
 
 routes.get('/', (req, res) => res.send('1'));
+
+routes.post('/contaContabil', contaContabilController.store);
+routes.get('/contaContabil/:id?', contaContabilController.get);
+routes.put('/contaContabil/:id?', contaContabilController.update);
+routes.delete('/contaContabil/:id?', contaContabilController.delete);
+
+routes.post('/centroCusto', centroCustosController.store);
+routes.get('/centroCusto/:id?', centroCustosController.get);
+routes.put('/centroCusto/:id?', centroCustosController.update);
+routes.delete('/centroCusto/:id?', centroCustosController.delete);
 
 routes.post('/oportunidade', oprtController.store);
 routes.get('/oportunidade/:id?', oprtController.get);

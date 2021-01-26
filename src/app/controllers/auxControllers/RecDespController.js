@@ -3,6 +3,8 @@ import RecDesp from '../../models/recDesp';
 import Empresa from '../../models/empresa';
 import CliRecDesp from '../../models/cliRecDesp';
 import Oportunidade from '../../models/oportunidade';
+import CentroCustos from '../../models/CentroCusto';
+import ContaContabils from '../../models/ContaContabil';
 
 class RecDespController {
   async store(req, res) {
@@ -10,6 +12,9 @@ class RecDespController {
       EmpresaId: yup.string().required(),
       desc: yup.string().required(),
       recDesp: yup.string().required(),
+      tipoItem: yup.string().required(),
+      ContaContabilId: yup.string().required(),
+      CentroCustoId: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -17,12 +22,20 @@ class RecDespController {
     }
 
     const {
-      EmpresaId, desc, recDesp,
+      EmpresaId,
+      desc,
+      recDesp,
+      tipoItem,
+      CentroCustoId,
+      ContaContabilId,
     } = await RecDesp.create(req.body);
     return res.json({
       EmpresaId,
       desc,
       recDesp,
+      tipoItem,
+      CentroCustoId,
+      ContaContabilId,
     });
   }
 
@@ -37,7 +50,7 @@ class RecDespController {
 
     if (!req.params.id) {
       const recDesp = await RecDesp.findAll({
-        include: [{ model: Empresa }],
+        include: [{ model: Empresa }, { model: ContaContabils }, { model: CentroCustos }],
       });
       return res.json(recDesp);
     }
@@ -49,12 +62,18 @@ class RecDespController {
     const recdesp = await RecDesp.findByPk(req.params.id);
     const {
       EmpresaId, desc, recDesp,
+      tipoItem,
+      CentroCustoId,
+      ContaContabilId,
     } = await recdesp.update(req.body);
 
     return res.json({
       EmpresaId,
       desc,
       recDesp,
+      tipoItem,
+      CentroCustoId,
+      ContaContabilId,
     });
   }
 

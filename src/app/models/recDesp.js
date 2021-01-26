@@ -11,8 +11,8 @@ export default class RecDesp extends Model {
         desc: DataTypes.STRING,
         recDesp: DataTypes.STRING,
         tipoItem: DataTypes.STRING,
-        contaContabil: DataTypes.STRING,
-        centCusto: DataTypes.STRING,
+        ContaContabilId: DataTypes.STRING,
+        CentroCustoId: DataTypes.STRING,
       },
       {
         sequelize,
@@ -22,6 +22,7 @@ export default class RecDesp extends Model {
     CliRecDesp.belongsTo(RecDesp);
     RecDesp.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(RecDesp);
+
     return this;
   }
 }
