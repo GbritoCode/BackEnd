@@ -51,7 +51,7 @@ class CliCompController {
   async get(req, res) {
     if (req.params.id && req.params.update) {
       const complemento = await CliComp.findOne({
-        where: { id: req.params.update },
+        where: { ClienteId: req.params.update },
       });
       return res.json(complemento);
     } if (req.params.id) {

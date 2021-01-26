@@ -53,7 +53,7 @@ class CliRecDespController {
 
   async get(req, res) {
     if (req.query.cobranca) {
-      const { cobranca } = req.query;
+      const { cobranca, idRecDesp } = req.query;
       const year = moment().year();
       const month = moment().month() + 1;
       const date = moment().date();
@@ -61,6 +61,7 @@ class CliRecDespController {
         where: {
           ClienteId: req.params.id,
           tipoCobranca: cobranca,
+          RecDespId: idRecDesp,
           dataInic: { [Op.lte]: `${year}-${month}-${date}` },
           dataFim: { [Op.gte]: `${year}-${month}-${date}` },
         },

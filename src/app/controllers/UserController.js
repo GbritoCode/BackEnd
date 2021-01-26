@@ -55,12 +55,11 @@ class UserController {
     }
 
     const {
-      email, senhaAntiga, colabId, CPF,
+      email, senhaAntiga, ColabId, CPF,
     } = req.body;
 
     const user = await users.findByPk(req.params.id);
-    const colab = await Colab.findByPk(colabId);
-
+    const colab = await Colab.findByPk(ColabId);
     if (email !== user.email) {
       const userExists = await users.findOne({ where: { email } });
       if (userExists) {
