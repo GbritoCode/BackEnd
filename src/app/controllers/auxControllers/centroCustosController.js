@@ -29,7 +29,7 @@ class CentroCustoController {
       const centCusto = await centroCustos.findAll({ include: Empresa });
       return res.json(centCusto);
     }
-    const centCusto = await centroCustos.findOne({ where: { id: req.params.id } });
+    const centCusto = await centroCustos.findOne({ where: { id: req.params.id }, order: [['cod', 'ASC']] });
     return res.json(centCusto);
   }
 

@@ -29,7 +29,7 @@ class ContaContabilController {
       const contContabil = await ContaContabil.findAll({ include: Empresa });
       return res.json(contContabil);
     }
-    const contContabil = await ContaContabil.findOne({ where: { id: req.params.id } });
+    const contContabil = await ContaContabil.findOne({ where: { id: req.params.id }, order: [['cod', 'ASC']] });
     return res.json(contContabil);
   }
 
