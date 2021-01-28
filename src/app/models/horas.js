@@ -36,6 +36,10 @@ export default class Horas extends Model {
       horas.sequelize.models.Oportunidade.increment({ totalHoras: horas.apontDiff },
         { where: { id: horas.OportunidadeId } });
     });
+    this.addHook('beforeDestroy', async (horas) => {
+      horas.sequelize.models.Oportunidade.increment({ totalHoras: (horas.totalApont * -1) },
+        { where: { id: horas.OportunidadeId } });
+    });
     return this;
   }
 }
