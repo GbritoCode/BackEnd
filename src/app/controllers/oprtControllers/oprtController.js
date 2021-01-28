@@ -119,12 +119,16 @@ class OportController {
         }, { model: UndNeg }, { model: Colab }, { model: Representantes }, { model: RecDesp }],
         order: [['id', 'ASC']],
       });
+      for (let i = 0; i < oport.length; i++) {
+        const data = oport[i].dataValues.data.split('-');
+        oport[i].dataValues.data = `${data[2]}/${data[1]}/${data[0]}`;
+      }
       return res.json(oport);
     }
     if (req.params.id) {
       const oport = await Oportunidade.findOne({
         where: { id: req.params.id },
-        include: [{ model: Segmento }],
+        include: [{ model: Segmento }, { model: Cliente }],
       });
       return res.json(oport);
     }

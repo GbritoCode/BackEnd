@@ -15,6 +15,7 @@ export default class User extends Model {
         passwordHash: DataTypes.STRING,
         profile: DataTypes.INTEGER,
         aniver: DataTypes.DATEONLY,
+        isFirstLogin: DataTypes.BOOLEAN,
       },
       {
         sequelize,
@@ -23,6 +24,11 @@ export default class User extends Model {
     this.addHook('beforeSave', async (user) => {
       if (user.senha) {
         user.passwordHash = await bcrypt.hash(user.senha, 8);
+      }
+    });
+    this.addHook('beforeUpdate', async (user) => {
+      if (user.isFirstLogin === true) {
+        user.isFirstLogin = false;
       }
     });
     User.hasOne(Empresa, { onDelete: 'CASCADE', hooks: true });

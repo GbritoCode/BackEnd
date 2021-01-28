@@ -35,7 +35,7 @@ class SessionController {
     }
 
     const {
-      id, nome, profile, Empresa, Colab,
+      id, nome, profile, isFirstLogin, Empresa, Colab,
     } = user;
 
     return res.json({
@@ -43,6 +43,7 @@ class SessionController {
         id,
         nome,
         profile,
+        isFirstLogin,
         Empresa,
         Colab,
       },

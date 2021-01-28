@@ -102,14 +102,29 @@ class ColabController {
     } if (req.query.data === 'true') {
       const { oport } = req.query;
       const colab = await Colab.findAll({
-        include: [{ model: Recurso, where: { OportunidadeId: oport }, required: true },
-          { model: Horas, where: { OportunidadeId: oport }, required: true }],
+        include: [{
+          model: Recurso,
+          required: true,
+          include: [{
+            model: Horas,
+            where: { OportunidadeId: oport },
+            required: true,
+          }],
+        }],
       });
-      let sum = 0;
-      for (let i = 0; i < colab.length; i++) {
-        sum += (colab[i].Hora.dataValues.totalApont / 60) * colab[i].Recurso.dataValues.colabVlrHr;
+      if (colab === null) {
+        return res.json(0);
       }
-      return res.json(sum);
+      let sum = 0;
+      for (let g = 0; g < colab.length; g++) {
+        for (let i = 0; i < colab[g].Recursos.length; i++) {
+          for (let j = 0; j < colab[g].Recursos[i].Horas.length; j++) {
+            sum += (colab[g].Recursos[i].Horas[j].dataValues.totalApont / 60)
+        * colab[g].Recursos[i].dataValues.colabVlrHr;
+          }
+        }
+      }
+      return res.json(Math.trunc(sum));
     }
     if (!req.params.id) {
       const colab = await Colab.findAll({
