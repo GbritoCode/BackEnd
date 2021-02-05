@@ -98,7 +98,7 @@ class HoraController {
             [Op.between]: [initialDate, finalDate],
           },
         },
-        include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+        include: [{ model: Oportunidade, include: [{ model: Cliente }] }, { model: Colab }],
         order: [['dataAtivd', 'DESC']],
       });
 

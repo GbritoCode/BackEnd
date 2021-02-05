@@ -5,6 +5,7 @@ import { Op } from 'sequelize';
 import Colab from '../../models/colab';
 import Oportunidade from '../../models/oportunidade';
 import Despesa from '../../models/despesas';
+import Cliente from '../../models/cliente';
 
 class DespesasController {
   async store(req, res) {
@@ -60,13 +61,19 @@ class DespesasController {
         include: [{ model: Oportunidade }, { model: Colab }],
       });
       return res.json(despesa);
-    } if (req.params.id) {
+    } if (req.query.initialDate && req.query.finalDate) {
+      const { initialDate, finalDate } = req.query;
       const despesa = await Despesa.findAll({
         where: {
           ColabId: req.params.id,
+          dataDespesa: {
+            [Op.between]: [initialDate, finalDate],
+          },
         },
-        include: [{ model: Oportunidade }, { model: Colab }],
+        include: [{ model: Oportunidade, include: [{ model: Cliente }] }, { model: Colab }],
+        order: [['dataDespesa', 'DESC']],
       });
+
       for (let i = 0; i < despesa.length; i++) {
         const desps = despesa[i].dataValues.dataDespesa.split('-');
         despesa[i].dataValues.dataDespesa = `${desps[2]}/${desps[1]}/${desps[0]}`;
