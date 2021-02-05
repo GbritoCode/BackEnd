@@ -46,7 +46,7 @@ import centroCustosController from './app/controllers/auxControllers/centroCusto
 
 const routes = new Router();
 
-routes.get('/', (req, res) => res.send('ok'));
+routes.get('/', (req, res) => res.send('okok teste'));
 
 routes.post('/contaContabil', contaContabilController.store);
 routes.get('/contaContabil/:id?', contaContabilController.get);
