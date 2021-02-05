@@ -46,32 +46,7 @@ import centroCustosController from './app/controllers/auxControllers/centroCusto
 
 const routes = new Router();
 
-const routesTeste = [
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    icon: 'tim-icons icon-chart-pie-36',
-    component: 'arr ? checkProfile(arr[23]) : null',
-    layout: '/admin',
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    mini: 'L',
-    component: 'signIn',
-    layout: '/auth',
-    redirect: true,
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    mini: 'R',
-    component: 'SignUp',
-    layout: '/auth',
-    redirect: true,
-  },
-];
-routes.get('/', (req, res) => res.send(routesTeste));
+routes.get('/', (req, res) => res.send('ok'));
 
 routes.post('/contaContabil', contaContabilController.store);
 routes.get('/contaContabil/:id?', contaContabilController.get);
