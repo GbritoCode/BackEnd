@@ -16,6 +16,8 @@ import tipoComiss from './tipoComiss';
 import oportunidade from './oportunidade';
 import ContaContabils from './ContaContabil';
 import CentroCustos from './CentroCusto';
+import FechamentoPerido from './fechamentoPeriodos';
+import ResultPeriodo from './resultPeriodo';
 
 export default class Empresa extends Model {
   static init(sequelize) {
@@ -112,6 +114,12 @@ export default class Empresa extends Model {
 
     Empresa.hasOne(CentroCustos, { onDelete: 'cascade', hooks: true });
     CentroCustos.belongsTo(Empresa);
+
+    Empresa.hasOne(FechamentoPerido, { onDelete: 'cascade', hooks: true });
+    FechamentoPerido.belongsTo(Empresa);
+
+    Empresa.hasOne(ResultPeriodo, { onDelete: 'cascade', hooks: true });
+    ResultPeriodo.belongsTo(Empresa);
     return this;
   }
 }

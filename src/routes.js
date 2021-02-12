@@ -41,12 +41,24 @@ import horasController from './app/controllers/oprtControllers/horasController';
 import despesasController from './app/controllers/oprtControllers/despesasController';
 import contaContabilController from './app/controllers/auxControllers/contaContabilController';
 import centroCustosController from './app/controllers/auxControllers/centroCustosController';
+import FechamentoPeriodoController from './app/controllers/fechamentoControllers/periodoController';
+import resultPeriodoController from './app/controllers/fechamentoControllers/resultPeriodoController.js';
 
 // import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
 
 routes.get('/', (req, res) => res.send('okok'));
+
+routes.post('/resultPeriodo', resultPeriodoController.store);
+routes.get('/resultPeriodo/:id?', resultPeriodoController.get);
+routes.put('/resultPeriodo/:id?', resultPeriodoController.update);
+routes.delete('/resultPeriodo/:id?', resultPeriodoController.delete);
+
+routes.post('/fechamentoPeriodo', FechamentoPeriodoController.store);
+routes.get('/fechamentoPeriodo/:id?', FechamentoPeriodoController.get);
+routes.put('/fechamentoPeriodo/:id?', FechamentoPeriodoController.update);
+routes.delete('/fechamentoPeriodo/:id?', FechamentoPeriodoController.delete);
 
 routes.post('/contaContabil', contaContabilController.store);
 routes.get('/contaContabil/:id?', contaContabilController.get);

@@ -54,8 +54,19 @@ class DespesasController {
         },
       });
       return res.json(despesa);
-    }
-    if (req.params.id && req.query.update === 'true') {
+    } if (req.query.total === 'true' && req.query.tipo === 'gerencial') {
+      const year = moment().year();
+      const month = moment().month();
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
+      const despesa = await Despesa.sum('valorDespesa', {
+        where: {
+          dataDespesa: {
+            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
+          },
+        },
+      });
+      return res.json(despesa);
+    } if (req.params.id && req.query.update === 'true') {
       const despesa = await Despesa.findOne({
         where: { id: req.params.id },
         include: [{ model: Oportunidade }, { model: Colab }],

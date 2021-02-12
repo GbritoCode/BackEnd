@@ -5,10 +5,33 @@ import Colab from '../../models/colab';
 import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
 import Hora from '../../models/horas';
-import Area from '../../models/area';
+import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 
 class HoraController {
   async store(req, res) {
+    const checkPeriodo = await FechamentoPeriodo.findOne({
+      where: {
+        [Op.and]: [{
+          dataFim: {
+            [Op.gte]: req.body.dataAtivd,
+          },
+        },
+        {
+          dataInic: {
+            [Op.lte]: req.body.dataAtivd,
+          },
+        },
+        {
+          aberto: true,
+        }],
+      },
+    });
+    if (!checkPeriodo) {
+      const dataAtivdSplit = req.body.dataAtivd.split('-');
+      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    }
+
     const {
       OportunidadeId,
       ColabId,
@@ -82,8 +105,25 @@ class HoraController {
       const apontHr = Math.trunc(hora / 60);
       const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
       return res.json(`${apontHr}:${apontMin}`);
-    }
-    if (req.params.id && req.query.update) {
+    } if (req.query.total === 'true' && req.query.tipo === 'gerencial') {
+      const year = moment().year();
+      const month = moment().month();
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
+      const hora = await Hora.sum('totalApont', {
+        where: {
+          dataAtivd: {
+            [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
+          },
+        },
+      });
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(hora)) {
+        return res.json('00:00');
+      }
+      const apontHr = Math.trunc(hora / 60);
+      const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
+      return res.json(`${apontHr}:${apontMin}`);
+    } if (req.params.id && req.query.update) {
       const hora = await Hora.findOne({
         where: { id: req.params.id },
         include: [{ model: Oportunidade }, { model: Colab }],
