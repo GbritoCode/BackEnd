@@ -130,10 +130,28 @@ class HoraController {
       });
       return res.json(hora);
     } if (req.query.initialDate && req.query.finalDate) {
+      if (req.params.id) {
+        const { initialDate, finalDate } = req.query;
+        const hora = await Hora.findAll({
+          where: {
+            ColabId: req.params.id,
+            dataAtivd: {
+              [Op.between]: [initialDate, finalDate],
+            },
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }, { model: Colab }],
+          order: [['dataAtivd', 'DESC']],
+        });
+
+        for (let i = 0; i < hora.length; i++) {
+          const horas = hora[i].dataValues.dataAtivd.split('-');
+          hora[i].dataValues.dataAtivd = `${horas[2]}/${horas[1]}/${horas[0]}`;
+        }
+        return res.json(hora);
+      }
       const { initialDate, finalDate } = req.query;
       const hora = await Hora.findAll({
         where: {
-          ColabId: req.params.id,
           dataAtivd: {
             [Op.between]: [initialDate, finalDate],
           },
@@ -153,6 +171,28 @@ class HoraController {
 
   async update(req, res) {
     const hora = await Hora.findByPk(req.params.id);
+    const checkPeriodo = await FechamentoPeriodo.findOne({
+      where: {
+        [Op.and]: [{
+          dataFim: {
+            [Op.gte]: req.body.dataAtivd,
+          },
+        },
+        {
+          dataInic: {
+            [Op.lte]: req.body.dataAtivd,
+          },
+        },
+        {
+          aberto: true,
+        }],
+      },
+    });
+    if (!checkPeriodo) {
+      const dataAtivdSplit = req.body.dataAtivd.split('-');
+      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    }
     const {
       OportunidadeId,
       ColabId,
@@ -195,6 +235,28 @@ class HoraController {
   }
 
   async delete(req, res) {
+    const checkPeriodo = await FechamentoPeriodo.findOne({
+      where: {
+        [Op.and]: [{
+          dataFim: {
+            [Op.gte]: req.body.dataAtivd,
+          },
+        },
+        {
+          dataInic: {
+            [Op.lte]: req.body.dataAtivd,
+          },
+        },
+        {
+          aberto: true,
+        }],
+      },
+    });
+    if (!checkPeriodo) {
+      const dataAtivdSplit = req.body.dataAtivd.split('-');
+      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    }
     const hora = await Hora.findOne({
       where: { id: req.params.id },
     });
