@@ -43,12 +43,16 @@ import contaContabilController from './app/controllers/auxControllers/contaConta
 import centroCustosController from './app/controllers/auxControllers/centroCustosController';
 import FechamentoPeriodoController from './app/controllers/fechamentoControllers/periodoController';
 import resultPeriodoController from './app/controllers/fechamentoControllers/resultPeriodoController.js';
+import periodoTokenController from './app/controllers/tokensControllers/periodoTokenController';
 
 // import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
 
 routes.get('/', (req, res) => res.send('okok'));
+
+routes.post('/liberaPeriodo', periodoTokenController.store);
+routes.delete('/liberaPeriodo/:ColabId', periodoTokenController.delete);
 
 routes.post('/resultPeriodo', resultPeriodoController.store);
 routes.get('/resultPeriodo/:id?', resultPeriodoController.get);

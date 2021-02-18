@@ -23,6 +23,7 @@ export default class Colab extends Model {
         email: DataTypes.STRING,
         espec: DataTypes.STRING,
         aniver: DataTypes.DATEONLY,
+        PeriodToken: DataTypes.STRING(500),
       },
       {
         sequelize,

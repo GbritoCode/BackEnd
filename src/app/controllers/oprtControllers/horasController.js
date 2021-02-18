@@ -1,6 +1,8 @@
 import { Op } from 'sequelize';
 import { getDaysInMonth } from 'date-fns';
 import moment from 'moment';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 import Colab from '../../models/colab';
 import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
@@ -20,54 +22,31 @@ class HoraController {
           dataInic: {
             [Op.lte]: req.body.dataAtivd,
           },
-        },
-        {
-          aberto: true,
         }],
       },
     });
-    if (!checkPeriodo) {
-      const dataAtivdSplit = req.body.dataAtivd.split('-');
-      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
-      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    const aberto = checkPeriodo.getDataValue('aberto');
+    if (!aberto) {
+      const colab = await Colab.findByPk(req.body.ColabId);
+      if (!colab) {
+        return res.status(500).json({ error: 'Erro interno de servidor' });
+      }
+      try {
+        const token = colab.getDataValue('PeriodToken');
+        const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+          return res.json(await Hora.create(req.body));
+        }
+        throw 'error';
+      } catch (err) {
+        const dataAtivdSplit = req.body.dataAtivd.split('-');
+        const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+        return res.status(401).json({
+          error: `O período que contém ${formatData} já está fechado, contate o administrador`,
+        });
+      }
     }
-
-    const {
-      OportunidadeId,
-      ColabId,
-      dataAtivd,
-      horaInic,
-      horaIntrv,
-      horaFim,
-      dataLancamento,
-      totalApont,
-      horaInicAudit,
-      horaIntrvAudit,
-      horaFimAudit,
-      dataAtivdAudit,
-      totalApontAudit,
-      solicitante,
-      AreaId,
-      desc,
-    } = await Hora.create(req.body);
-    return res.json({
-      OportunidadeId,
-      ColabId,
-      dataAtivd,
-      horaInic,
-      horaIntrv,
-      horaFim,
-      dataLancamento,
-      totalApont,
-      horaInicAudit,
-      horaIntrvAudit,
-      horaFimAudit,
-      dataAtivdAudit,
-      totalApontAudit,
-      solicitante,
-      AreaId,
-      desc,
-    });
+    return res.json(await Hora.create(req.body));
   }
 
   async get(req, res) {
@@ -182,84 +161,74 @@ class HoraController {
           dataInic: {
             [Op.lte]: req.body.dataAtivd,
           },
-        },
-        {
-          aberto: true,
         }],
       },
     });
-    if (!checkPeriodo) {
-      const dataAtivdSplit = req.body.dataAtivd.split('-');
-      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
-      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    const aberto = checkPeriodo.getDataValue('aberto');
+    if (!aberto) {
+      const colab = await Colab.findByPk(req.body.ColabId);
+      if (!colab) {
+        return res.status(500).json({ error: 'Erro interno de servidor' });
+      }
+      try {
+        const token = colab.getDataValue('PeriodToken');
+        const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+          return res.json(await hora.update(req.body));
+        }
+        throw 'error';
+      } catch (err) {
+        const dataAtivdSplit = req.body.dataAtivd.split('-');
+        const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+        return res.status(401).json({
+          error: `O período que contém ${formatData} já está fechado, contate o administrador`,
+        });
+      }
     }
-    const {
-      OportunidadeId,
-      ColabId,
-      dataAtivd,
-      horaInic,
-      horaIntrv,
-      horaFim,
-      dataLancamento,
-      totalApont,
-      horaInicAudit,
-      horaIntrvAudit,
-      horaFimAudit,
-      dataAtivdAudit,
-      totalApontAudit,
-      solicitante,
-      AreaId,
-      desc,
-      apontDiff,
-    } = await hora.update(req.body);
-
-    return res.json({
-      OportunidadeId,
-      ColabId,
-      dataAtivd,
-      horaInic,
-      horaIntrv,
-      horaFim,
-      dataLancamento,
-      totalApont,
-      horaInicAudit,
-      horaIntrvAudit,
-      horaFimAudit,
-      dataAtivdAudit,
-      totalApontAudit,
-      solicitante,
-      AreaId,
-      desc,
-      apontDiff,
-    });
+    return res.json();
   }
 
   async delete(req, res) {
+    const hora = await Hora.findOne({
+      where: { id: req.params.id },
+    });
     const checkPeriodo = await FechamentoPeriodo.findOne({
       where: {
         [Op.and]: [{
           dataFim: {
-            [Op.gte]: req.body.dataAtivd,
+            [Op.gte]: hora.dataAtivd,
           },
         },
         {
           dataInic: {
-            [Op.lte]: req.body.dataAtivd,
+            [Op.lte]: hora.dataAtivd,
           },
-        },
-        {
-          aberto: true,
         }],
       },
     });
-    if (!checkPeriodo) {
-      const dataAtivdSplit = req.body.dataAtivd.split('-');
-      const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
-      return res.status(401).json({ error: `O período que contém ${formatData} já está fechado, contate o administrador` });
+    const aberto = checkPeriodo.getDataValue('aberto');
+    if (!aberto) {
+      const colab = await Colab.findByPk(hora.ColabId);
+      if (!colab) {
+        return res.status(500).json({ error: 'Erro interno de servidor' });
+      }
+      try {
+        const token = colab.getDataValue('PeriodToken');
+        const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+          hora.destroy();
+          return res.status(200).json(`Registro de ${hora.dataAtivd} foi deletado com Sucesso!`);
+        }
+        throw 'error';
+      } catch (err) {
+        const dataAtivdSplit = hora.dataAtivd.split('-');
+        const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
+        return res.status(401).json({
+          error: `O período que contém ${formatData} já está fechado, contate o administrador`,
+        });
+      }
     }
-    const hora = await Hora.findOne({
-      where: { id: req.params.id },
-    });
+
     hora.destroy();
     return res.status(200).json(`Registro de ${hora.dataAtivd} foi deletado com Sucesso!`);
   }
