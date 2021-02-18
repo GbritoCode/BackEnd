@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { promisify } from 'util';
 import Colabs from '../../models/colab';
 
 class PeriodoTokenController {
@@ -8,7 +7,7 @@ class PeriodoTokenController {
 
     const colab = await Colabs.findByPk(ColabId);
 
-    if (!colab) {
+    if (!colab || !periodo) {
       return res.status(500).json({ error: 'Erro interno de servidor' });
     }
     const token = jwt.sign({ ColabId, periodo }, process.env.TOKENS_SECRET, {
@@ -16,10 +15,7 @@ class PeriodoTokenController {
     });
 
     const aa = await colab.update({ PeriodToken: token });
-
-    return res.json({
-      aa,
-    });
+    return res.json(`O período ${periodo} foi liberado para o colaborador ${aa.nome} por 24Horas`);
   }
 
   async delete(req, res) {
@@ -31,6 +27,8 @@ class PeriodoTokenController {
     }
 
     colab.update({ PeriodToken: '' });
+
+    return res.json(`O colaborador ${colab.nome} não tem mais acesso a períodos fechados`);
   }
 }
 
