@@ -42,7 +42,7 @@ class HoraController {
         const dataAtivdSplit = req.body.dataAtivd.split('-');
         const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
         return res.status(401).json({
-          error: `O período que contém ${formatData} já está fechado, contate o administrador`,
+          error: `O período ${checkPeriodo.nome} já está fechado, contate o administrador`,
         });
       }
     }

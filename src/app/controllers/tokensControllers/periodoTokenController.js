@@ -1,21 +1,25 @@
 import jwt from 'jsonwebtoken';
+import { Op } from 'sequelize';
 import Colabs from '../../models/colab';
+import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 
 class PeriodoTokenController {
   async store(req, res) {
-    const { ColabId, periodo } = req.body;
+    const { ColabId, periodo, ano } = req.body;
 
     const colab = await Colabs.findByPk(ColabId);
 
-    if (!colab || !periodo) {
+    if (!colab || !periodo || !ano) {
       return res.status(500).json({ error: 'Erro interno de servidor' });
     }
-    const token = jwt.sign({ ColabId, periodo }, process.env.TOKENS_SECRET, {
+    const token = jwt.sign({ ColabId, periodo, ano }, process.env.TOKENS_SECRET, {
       expiresIn: process.env.FREE_PERIOD_TOKEN_LIFE,
     });
 
-    const aa = await colab.update({ PeriodToken: token });
-    return res.json(`O período ${periodo} foi liberado para o colaborador ${aa.nome} por 24Horas`);
+    await colab.update({ PeriodToken: token });
+    await FechamentoPeriodo.update({ situacao: 'Em manutenção' }, { where: { [Op.and]: [{ ano, nome: periodo }] } });
+
+    return res.json(`O período ${periodo} de ${ano} foi liberado para o colaborador ${colab.nome} por 24Horas`);
   }
 
   async delete(req, res) {

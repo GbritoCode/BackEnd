@@ -13,7 +13,7 @@ export default class FechamentoPeriodo extends Model {
         ano: DataTypes.STRING,
         dataInic: DataTypes.DATEONLY,
         dataFim: DataTypes.DATEONLY,
-        aberto: DataTypes.BOOLEAN,
+        situacao: DataTypes.STRING,
       },
       {
         sequelize,
@@ -32,17 +32,13 @@ export default class FechamentoPeriodo extends Model {
             periodo: periodoEntry[1].nome,
             ano: periodoEntry[1].ano,
           });
-          console.log(periodoEntry[1]);
         });
       });
-      // for (let i = 0; i < records.length; i++) {
-      //   await ResultPeriodo.create()
-      //   console.log(records[i].dataValues.nome);
-      // }
-      console.log(totalColabs[0].dataValues.id);
     });
     this.addHook('beforeUpdate', async (fechamento) => {
       const data = [];
+
+      await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
       // ----------------------horas
       const horas = await fechamento.sequelize.models.Horas.findAll({
         attributes: [
@@ -108,7 +104,7 @@ export default class FechamentoPeriodo extends Model {
             * receber[i].Recursos[j].dataValues.colabVlrHr;
           }
         }
-        sum[i] = sumColab;
+        sum[i] = Math.trunc(sumColab);
         Object.entries(data).forEach((entry) => {
           if (entry[1].ColabId === receber[i].dataValues.id) {
             entry[1].totalReceb = sum[i];

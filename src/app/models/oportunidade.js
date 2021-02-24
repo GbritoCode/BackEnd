@@ -36,7 +36,7 @@ export default class Oportunidade extends Model {
     Oportunidade.hasOne(Recurso, { onDelete: 'cascade', hooks: true });
     Recurso.belongsTo(Oportunidade);
 
-    Oportunidade.hasOne(Parcela, { onDelete: 'cascade', hooks: true });
+    Oportunidade.hasMany(Parcela, { onDelete: 'cascade', hooks: true });
     Parcela.belongsTo(Oportunidade);
 
     Oportunidade.hasOne(Horas, { onDelete: 'cascade', hooks: true });

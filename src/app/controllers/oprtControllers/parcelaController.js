@@ -1,6 +1,8 @@
 import * as yup from 'yup';
+import { isBefore, parseISO } from 'date-fns';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
+import Cliente from '../../models/cliente';
 
 class ParcelaController {
   async store(req, res) {
@@ -69,6 +71,65 @@ class ParcelaController {
   }
 */
   async get(req, res) {
+    if (req.query.chartData === 'true' && req.query.tipo === 'gerencial') {
+      const cli = await Cliente.findAll({
+        include: [{ model: Oportunidade, attributes: ['id'], include: [{ model: Parcelas }] }],
+      });
+
+      const labels = [];
+
+      const parcPendente = [];
+      let parcPendenteCountCli = 0;
+      let parcPendenteCount = 0;
+
+      const parcAtrasada = [];
+      let parcAtrasadaCountCli = 0;
+      let parcAtrasadaCount = 0;
+
+      const parcAberta = [];
+      let parcAbertaCountCli = 0;
+      let parcAbertaCount = 0;
+      for (let i = 0; i < cli.length; i++) {
+        parcPendenteCountCli = 0;
+        parcAtrasadaCountCli = 0;
+        parcAbertaCountCli = 0;
+        for (let j = 0; j < cli[i].Oportunidades.length; j++) {
+          for (let k = 0; k < cli[i].Oportunidades[j].Parcelas.length; k++) {
+            labels[i] = cli[i].nomeAbv.slice(0, 3);
+
+            if (cli[i].Oportunidades[j].Parcelas[k].situacao === '1') {
+              parcPendenteCountCli += 1;
+              parcPendenteCount += 1;
+            }
+
+            if (
+              isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date())
+             && cli[i].Oportunidades[j].Parcelas[k].situacao !== '1') {
+              parcAtrasadaCountCli += 1;
+              parcAtrasadaCount += 1;
+            } if (
+              !(isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date()))
+            && cli[i].Oportunidades[j].Parcelas[k].situacao !== '1') {
+              parcAbertaCountCli += 1;
+              parcAbertaCount += 1;
+            }
+            parcPendente[i] = parcPendenteCountCli;
+            parcAtrasada[i] = parcAtrasadaCountCli;
+            parcAberta[i] = parcAbertaCountCli;
+          }
+        }
+      }
+
+      return res.json({
+        labels,
+        parcPendente,
+        parcAtrasada,
+        parcAberta,
+        totalAberta: parcAbertaCount,
+        totalAtrasada: parcAtrasadaCount,
+        totalPendente: parcPendenteCount,
+      });
+    }
     if (req.params.id && req.params.update) {
       const parc = await Parcelas.findOne({
         where: { id: req.params.update },
@@ -92,6 +153,7 @@ class ParcelaController {
       }
       return res.json(parc);
     }
+    return res.json();
   }
 
   async update(req, res) {

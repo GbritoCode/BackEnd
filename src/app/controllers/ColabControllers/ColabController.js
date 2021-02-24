@@ -161,6 +161,7 @@ class ColabController {
     if (!req.params.id) {
       const colab = await Colab.findAll({
         include: [{ model: fornec }, { model: Empresa }],
+        order: [['nome']],
       });
       return res.json(colab);
     }
