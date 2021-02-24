@@ -1,5 +1,7 @@
 import * as yup from 'yup';
+import moment from 'moment';
 import { isBefore, parseISO } from 'date-fns';
+import { Op } from 'sequelize';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
 import Cliente from '../../models/cliente';
@@ -129,6 +131,44 @@ class ParcelaController {
         totalAtrasada: parcAtrasadaCount,
         totalPendente: parcPendenteCount,
       });
+    }
+    if (req.query.listAll === 'true') {
+      if (req.query.tipo === 'pendentes') {
+        const parc = await Parcelas.findAll({
+          where: {
+            situacao: '1',
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          order: [['parcela', 'ASC']],
+        });
+        return res.json(parc);
+      }
+      if (req.query.tipo === 'abertas') {
+        const year = moment().year();
+        const month = moment().month();
+        const date = moment().date();
+        const parc = await Parcelas.findAll({
+          where: {
+            [Op.and]: [{ situacao: { [Op.ne]: '1' }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          order: [['parcela', 'ASC']],
+        });
+        return res.json(parc);
+      }
+      if (req.query.tipo === 'atrasadas') {
+        const year = moment().year();
+        const month = moment().month();
+        const date = moment().date();
+        const parc = await Parcelas.findAll({
+          where: {
+            [Op.and]: [{ situacao: { [Op.ne]: '1' }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          order: [['parcela', 'ASC']],
+        });
+        return res.json(parc);
+      }
     }
     if (req.params.id && req.params.update) {
       const parc = await Parcelas.findOne({
