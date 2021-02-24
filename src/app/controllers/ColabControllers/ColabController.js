@@ -99,7 +99,7 @@ class ColabController {
           }
         }
       }
-      return res.json(sum);
+      return res.json(Math.trunc(sum));
     } if (req.query.vlrHrMes === 'true' && !req.query.gerencial) {
       const year = moment().year();
       const month = moment().month();
