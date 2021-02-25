@@ -38,7 +38,7 @@ class DespesasController {
         }],
       },
     });
-    const aberto = checkPeriodo.getDataValue('aberto');
+    const aberto = checkPeriodo.getDataValue('situacao');
     if (!aberto) {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
@@ -150,7 +150,7 @@ class DespesasController {
         }],
       },
     });
-    const aberto = checkPeriodo.getDataValue('aberto');
+    const aberto = checkPeriodo.getDataValue('situacao');
     if (!aberto) {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
@@ -194,7 +194,7 @@ class DespesasController {
         }],
       },
     });
-    const aberto = checkPeriodo.getDataValue('aberto');
+    const aberto = checkPeriodo.getDataValue('situacao');
     if (!aberto) {
       const colab = await Colab.findByPk(despesa.ColabId);
       if (!colab) {
