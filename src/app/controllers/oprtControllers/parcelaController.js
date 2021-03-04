@@ -139,13 +139,16 @@ class ParcelaController {
 
       labelsAtrasada = labelsAtrasada.filter((el) => (el != null));
       parcAtrasada = parcAtrasada.filter((el) => (el !== 0));
+      parcAtrasada = parcAtrasada.filter((item, pos) => parcAtrasada.indexOf(item) === pos);
+      labelsAtrasada = labelsAtrasada.filter((item, pos) => labelsAtrasada.indexOf(item) === pos);
 
       labelsAberta = labelsAberta.filter((el) => (el != null));
       parcAberta = parcAberta.filter((el) => (el !== 0));
+      parcAberta = parcAberta.filter((item, pos) => parcAberta.indexOf(item) === pos);
+      labelsAberta = labelsAberta.filter((item, pos) => labelsAberta.indexOf(item) === pos);
 
       labelsPendente = labelsPendente.filter((el) => (el != null));
       parcPendente = parcPendente.filter((el) => (el !== 0));
-
       parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
       labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
 
