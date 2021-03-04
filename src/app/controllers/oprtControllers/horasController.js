@@ -7,6 +7,7 @@ import Colab from '../../models/colab';
 import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
 import Hora from '../../models/horas';
+import Area from '../../models/area';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 
 class HoraController {
@@ -46,7 +47,11 @@ class HoraController {
         });
       }
     }
-    return res.json(await Hora.create(req.body));
+    try {
+      return res.json(await Hora.create(req.body));
+    } catch (err) {
+      return res.status(500).json({ error: '500: Erro Interno de Servidor' });
+    }
   }
 
   async get(req, res) {
@@ -121,10 +126,14 @@ class HoraController {
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }, { model: Colab }],
           order: [['dataAtivd', 'DESC']],
         });
-
+        const area = await Area.findAll();
         for (let i = 0; i < hora.length; i++) {
           const horas = hora[i].dataValues.dataAtivd.split('-');
           hora[i].dataValues.dataAtivd = `${horas[2]}/${horas[1]}/${horas[0]}`;
+          const aux = { areaNome: '' };
+          const areaNome = area.find((a) => a.id === hora[i].dataValues.AreaId);
+          aux.areaNome = areaNome.descArea;
+          Object.assign(hora[i].dataValues, aux);
         }
         return res.json(hora);
       }

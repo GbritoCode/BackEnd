@@ -78,42 +78,57 @@ class ParcelaController {
         include: [{ model: Oportunidade, attributes: ['id'], include: [{ model: Parcelas }] }],
       });
 
-      const labels = [];
-
-      const parcPendente = [];
+      let labelsPendente = [];
+      let parcPendente = [];
       let parcPendenteCountCli = 0;
       let parcPendenteCount = 0;
+      let parcPendenteValue = 0;
 
-      const parcAtrasada = [];
+      let labelsAtrasada = [];
+      let parcAtrasada = [];
       let parcAtrasadaCountCli = 0;
       let parcAtrasadaCount = 0;
+      let parcAtrasadaValue = 0;
 
-      const parcAberta = [];
+      let labelsAberta = [];
+      let parcAberta = [];
       let parcAbertaCountCli = 0;
       let parcAbertaCount = 0;
+      let parcAbertaValue = 0;
+
       for (let i = 0; i < cli.length; i++) {
         parcPendenteCountCli = 0;
         parcAtrasadaCountCli = 0;
         parcAbertaCountCli = 0;
         for (let j = 0; j < cli[i].Oportunidades.length; j++) {
           for (let k = 0; k < cli[i].Oportunidades[j].Parcelas.length; k++) {
-            labels[i] = cli[i].nomeAbv.slice(0, 3);
-
-            if (cli[i].Oportunidades[j].Parcelas[k].situacao === '1') {
+            if (cli[i].Oportunidades[j].Parcelas[k].situacao === 1) {
+              labelsPendente[parcPendenteCount] = cli[i].nomeAbv.slice(0, 3);
               parcPendenteCountCli += 1;
               parcPendenteCount += 1;
+              parcPendenteValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             }
 
             if (
               isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date())
-             && cli[i].Oportunidades[j].Parcelas[k].situacao !== '1') {
+             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
+             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
+             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
+            ) {
+              labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAtrasadaCountCli += 1;
               parcAtrasadaCount += 1;
+              parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
               !(isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date()))
-            && cli[i].Oportunidades[j].Parcelas[k].situacao !== '1') {
+            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
+            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
+            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
+            ) {
+              labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAbertaCountCli += 1;
               parcAbertaCount += 1;
+              parcAbertaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             }
             parcPendente[i] = parcPendenteCountCli;
             parcAtrasada[i] = parcAtrasadaCountCli;
@@ -122,14 +137,28 @@ class ParcelaController {
         }
       }
 
+      labelsAtrasada = labelsAtrasada.filter((el) => (el != null));
+      parcAtrasada = parcAtrasada.filter((el) => (el !== 0));
+
+      labelsAberta = labelsAberta.filter((el) => (el != null));
+      parcAberta = parcAberta.filter((el) => (el !== 0));
+
+      labelsPendente = labelsPendente.filter((el) => (el != null));
+      parcPendente = parcPendente.filter((el) => (el !== 0));
+
+      parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
+      labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
+
       return res.json({
-        labels,
+        labelsPendente,
+        labelsAtrasada,
+        labelsAberta,
         parcPendente,
         parcAtrasada,
         parcAberta,
-        totalAberta: parcAbertaCount,
-        totalAtrasada: parcAtrasadaCount,
-        totalPendente: parcPendenteCount,
+        totalAberta: parcAbertaValue,
+        totalAtrasada: parcAtrasadaValue,
+        totalPendente: parcPendenteValue,
       });
     }
     if (req.query.listAll === 'true') {
