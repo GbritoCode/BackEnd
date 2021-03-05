@@ -78,7 +78,7 @@ class ParcelaController {
         include: [{ model: Oportunidade, attributes: ['id'], include: [{ model: Parcelas }] }],
       });
 
-      const labelsPendente = [];
+      let labelsPendente = [];
       const parcPendente = [];
       let parcPendenteCountCli = 0;
       let parcPendenteCount = 0;
@@ -147,7 +147,7 @@ class ParcelaController {
       parcAberta = parcAberta.filter((item, pos) => parcAberta.indexOf(item) === pos);
       labelsAberta = labelsAberta.filter((item, pos) => labelsAberta.indexOf(item) === pos);
 
-      // labelsPendente = labelsPendente.filter((el) => (el != null));
+      labelsPendente = labelsPendente.filter((el) => (el != null));
       // parcPendente = parcPendente.filter((el) => (el !== 0));
       // parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
       // labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
