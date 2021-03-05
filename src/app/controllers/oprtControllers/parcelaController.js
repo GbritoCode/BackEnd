@@ -150,7 +150,7 @@ class ParcelaController {
       labelsPendente = labelsPendente.filter((el) => (el != null));
       // parcPendente = parcPendente.filter((el) => (el !== 0));
       // parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
-      // labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
+      labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
 
       console.log(
         labelsPendente,
