@@ -152,17 +152,6 @@ class ParcelaController {
       // parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
       labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
 
-      console.log(
-        labelsPendente,
-        parcPendente,
-        parcPendenteValue,
-        labelsAberta,
-        parcAberta,
-        parcAbertaValue,
-        labelsAtrasada,
-        parcAtrasada,
-        parcAtrasadaValue,
-      );
       return res.json({
         labelsPendente,
         labelsAtrasada,
@@ -192,7 +181,7 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.ne]: '1' }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{ situacao: { [Op.eq]: '2' }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
@@ -205,7 +194,7 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.ne]: '1' }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{ situacao: { [Op.eq]: '2' }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],

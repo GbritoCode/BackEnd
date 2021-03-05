@@ -8,6 +8,7 @@ module.exports = {
     }, { transaction: t }),
     queryInterface.changeColumn('Parcelas', 'situacao', {
       type: Sequelize.DataTypes.INTEGER,
+      defaultValue: 1,
     }, { transaction: t }),
   ])),
 
