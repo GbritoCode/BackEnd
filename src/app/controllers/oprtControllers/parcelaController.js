@@ -151,7 +151,17 @@ class ParcelaController {
       parcPendente = parcPendente.filter((el) => (el !== 0));
       parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
       labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
-
+      console.log(
+        labelsPendente,
+        parcPendente,
+        parcPendenteValue,
+        labelsAberta,
+        parcAberta,
+        parcAbertaValue,
+        labelsAtrasada,
+        parcAtrasada,
+        parcAtrasadaValue,
+      );
       return res.json({
         labelsPendente,
         labelsAtrasada,

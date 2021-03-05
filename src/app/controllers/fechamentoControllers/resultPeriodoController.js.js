@@ -6,7 +6,7 @@ class ResultPeriodoController {
   }
 
   async get(req, res) {
-    const result = await ResultPeriodo.findAll({ where: { ColabId: req.params.id }, order: ['createdAt'] });
+    const result = await ResultPeriodo.findAll({ where: { ColabId: req.params.id }, order: ['id'] });
     return res.json(result);
   }
 

@@ -39,7 +39,7 @@ class DespesasController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
@@ -151,7 +151,7 @@ class DespesasController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
@@ -195,7 +195,7 @@ class DespesasController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(despesa.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });

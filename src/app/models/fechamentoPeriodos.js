@@ -41,44 +41,67 @@ export default class FechamentoPeriodo extends Model {
       await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
       // ----------------------horas
       const horas = await fechamento.sequelize.models.Horas.findAll({
+        where: {
+          dataAtivd: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+        },
         attributes: [
           'ColabId',
           [sequelize.fn('sum', sequelize.col('totalApont')), 'total'],
         ],
         group: ['ColabId'],
       });
-      for (let i = 0; i < horas.length; i++) {
-        data[i] = {
-          ColabId: horas[i].dataValues.ColabId,
-          totalHrs: horas[i].dataValues.total,
+      if (horas.length > 0) {
+        for (let i = 0; i < horas.length; i++) {
+          data[i] = {
+            ColabId: horas[i].dataValues.ColabId,
+            totalHrs: horas[i].dataValues.total,
+            totalDesp: 0,
+            totalReceb: 0,
+          };
+        }
+      } else {
+        data[0] = {
+          ColabId: 0,
+          totalHrs: 0,
           totalDesp: 0,
           totalReceb: 0,
         };
       }
+
       // --------------------despesas
       const despesas = await fechamento.sequelize.models.Despesas.findAll({
+        where: {
+          dataDespesa: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+        },
         attributes: [
           'ColabId',
           [sequelize.fn('sum', sequelize.col('valorDespesa')), 'total'],
         ],
         group: ['ColabId'],
       });
-      for (let i = 0; i < despesas.length; i++) {
+      if (despesas.length > 0) {
+        for (let i = 0; i < despesas.length; i++) {
+          Object.entries(data).forEach((entry) => {
+            if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
+              entry[1].totalDesp = despesas[i].dataValues.total;
+            }
+            if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
+              data.push({
+                ColabId: despesas[i].dataValues.ColabId,
+                totalHrs: 0,
+                totalDesp: despesas[i].dataValues.total,
+                totalReceb: despesas[i].dataValues.total,
+              });
+            }
+          });
+        }
+      } else {
         Object.entries(data).forEach((entry) => {
-          if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
-            entry[1].totalDesp = despesas[i].dataValues.total;
-          }
-          if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
-            data.push({
-              ColabId: despesas[i].dataValues.ColabId,
-              totalHrs: 0,
-              totalDesp: despesas[i].dataValues.total,
-              totalReceb: 0,
-            });
-          }
+          entry[1].totalDesp = 0;
         });
       }
       // --------------------Receber
+
       const receber = await fechamento.sequelize.models.Colab.findAll({
         include: [{
           model: Recurso,
@@ -107,18 +130,19 @@ export default class FechamentoPeriodo extends Model {
         sum[i] = Math.trunc(sumColab);
         Object.entries(data).forEach((entry) => {
           if (entry[1].ColabId === receber[i].dataValues.id) {
-            entry[1].totalReceb = sum[i];
+            entry[1].totalReceb = parseInt(sum[i], 10) + parseInt(entry[1].totalDesp, 10);
           }
           if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
             data.push({
               ColabId: receber[i].dataValues.id,
               totalHrs: 0,
-              totalDesp: receber[i].dataValues.total,
+              totalDesp: 0,
               totalReceb: sum[i],
             });
           }
         });
       }
+
       Object.entries(data).forEach((entry) => {
         entry[1].periodo = fechamento.nome;
         entry[1].EmpresaId = fechamento.EmpresaId;
@@ -135,10 +159,10 @@ export default class FechamentoPeriodo extends Model {
               totalDesp: entry[1].totalDesp,
               totalReceb: entry[1].totalReceb,
             },
-            { where: { [Op.and]: [{ ColabId: entry[1].ColabId }, { periodo: fechamento.nome }] } },
+            { where: { [Op.and]: [{ ColabId: entry[1].ColabId }, { periodo: fechamento.nome }, { ano: fechamento.ano }] } },
             { returning: true },
-          )
-            .then((result) => console.log(result));
+          );
+          // .then((result) => console.log(result));
         });
       } else {
         await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true })

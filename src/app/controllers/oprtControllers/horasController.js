@@ -27,7 +27,7 @@ class HoraController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
@@ -174,7 +174,7 @@ class HoraController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(req.body.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
@@ -216,7 +216,7 @@ class HoraController {
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
-    if (!aberto) {
+    if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(hora.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
