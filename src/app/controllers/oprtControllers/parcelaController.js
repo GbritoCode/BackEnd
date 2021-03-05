@@ -130,10 +130,10 @@ class ParcelaController {
               parcAbertaCount += 1;
               parcAbertaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             }
-            parcPendente[i] = parcPendenteCountCli;
-            parcAtrasada[i] = parcAtrasadaCountCli;
-            parcAberta[i] = parcAbertaCountCli;
           }
+          parcPendente[i] = parcPendenteCountCli;
+          parcAtrasada[i] = parcAtrasadaCountCli;
+          parcAberta[i] = parcAbertaCountCli;
         }
       }
 
@@ -151,6 +151,7 @@ class ParcelaController {
       parcPendente = parcPendente.filter((el) => (el !== 0));
       parcPendente = parcPendente.filter((item, pos) => parcPendente.indexOf(item) === pos);
       labelsPendente = labelsPendente.filter((item, pos) => labelsPendente.indexOf(item) === pos);
+
       console.log(
         labelsPendente,
         parcPendente,
