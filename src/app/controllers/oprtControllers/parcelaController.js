@@ -96,6 +96,8 @@ class ParcelaController {
       let parcAbertaCount = 0;
       let parcAbertaValue = 0;
 
+      const today = new Date();
+
       for (let i = 0; i < cli.length; i++) {
         parcPendenteCountCli = 0;
         parcAtrasadaCountCli = 0;
@@ -110,7 +112,7 @@ class ParcelaController {
             }
 
             if (
-              isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date())
+              isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today)
              && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
              && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
              && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
@@ -120,7 +122,7 @@ class ParcelaController {
               parcAtrasadaCount += 1;
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
-              !(isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), new Date()))
+              !(isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today))
             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
