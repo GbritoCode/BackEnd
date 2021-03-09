@@ -111,7 +111,7 @@ class ParcelaController {
             }
 
             if (
-              moment(cli[i].Oportunidades[j].Parcelas[k].dtVencimento).isAfter(today, 'day')
+              moment(cli[i].Oportunidades[j].Parcelas[k].dtVencimento).isAfter(`${year}-${month}-${date}`)
              && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
