@@ -113,7 +113,7 @@ class ParcelaController {
             }
 
             if (
-              moment(cli[i].Oportunidades[j].Parcelas[k].dtVencimento).isBefore(`${year}-${month + 1}-${date}`)
+              moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento)
              && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
@@ -121,7 +121,7 @@ class ParcelaController {
               parcAtrasadaCount += 1;
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
-              moment(cli[i].Oportunidades[j].Parcelas[k].dtVencimento).isAfter(`${year}-${month + 1}-${date}`)
+              (moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
               && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
