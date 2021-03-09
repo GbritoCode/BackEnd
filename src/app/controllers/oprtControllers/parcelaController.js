@@ -121,7 +121,7 @@ class ParcelaController {
               parcAtrasadaCount += 1;
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
-              (moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
+              !(moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
               && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
