@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 import moment from 'moment';
-import { isAfter, isBefore, parseISO } from 'date-fns';
+import {
+  isAfter, isBefore, isEqual, parseISO,
+} from 'date-fns';
 import { Op } from 'sequelize';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
@@ -121,7 +123,8 @@ class ParcelaController {
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
               (isAfter(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today))
-            && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+              && !(isEqual(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today))
+              && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAbertaCountCli += 1;
