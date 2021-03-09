@@ -94,7 +94,9 @@ class ParcelaController {
       let parcAbertaCountCli = 0;
       let parcAbertaCount = 0;
       let parcAbertaValue = 0;
-      const [date, month, year] = new Date().toLocaleDateString('pt-BR').split('/');
+      const year = moment().year();
+      const month = moment().month();
+      const date = moment().date();
       const today = new Date(year, month, date);
 
       for (let i = 0; i < cli.length; i++) {
