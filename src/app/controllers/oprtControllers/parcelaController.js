@@ -139,12 +139,12 @@ class ParcelaController {
 
       labelsAtrasada = labelsAtrasada.filter((el) => (el != null));
       parcAtrasada = parcAtrasada.filter((el) => (el !== 0));
-      parcAtrasada = parcAtrasada.filter((item, pos) => parcAtrasada.indexOf(item) === pos);
+      // parcAtrasada = parcAtrasada.filter((item, pos) => parcAtrasada.indexOf(item) === pos);
       labelsAtrasada = labelsAtrasada.filter((item, pos) => labelsAtrasada.indexOf(item) === pos);
 
       labelsAberta = labelsAberta.filter((el) => (el != null));
       parcAberta = parcAberta.filter((el) => (el !== 0));
-      parcAberta = parcAberta.filter((item, pos) => parcAberta.indexOf(item) === pos);
+      // parcAberta = parcAberta.filter((item, pos) => parcAberta.indexOf(item) === pos);
       labelsAberta = labelsAberta.filter((item, pos) => labelsAberta.indexOf(item) === pos);
 
       labelsPendente = labelsPendente.filter((el) => (el != null));
@@ -173,6 +173,12 @@ class ParcelaController {
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
         });
+        for (let i = 0; i < parc.length; i++) {
+          let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
+          createdFormat = createdFormat.split('-');
+          parc[i].dataValues.createdAt = `${createdFormat[2]}/${createdFormat[1]}/${createdFormat[0]}`;
+        }
+
         return res.json(parc);
       }
       if (req.query.tipo === 'abertas') {
@@ -186,6 +192,16 @@ class ParcelaController {
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
         });
+        for (let i = 0; i < parc.length; i++) {
+          if (parc[i].dataValues.dtVencimento) {
+            const parcs = parc[i].dataValues.dtVencimento.split('-');
+            parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+
+            let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
+            createdFormat = createdFormat.split('-');
+            parc[i].dataValues.createdAt = `${createdFormat[2]}/${createdFormat[1]}/${createdFormat[0]}`;
+          }
+        }
         return res.json(parc);
       }
       if (req.query.tipo === 'atrasadas') {
@@ -199,6 +215,16 @@ class ParcelaController {
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
         });
+        for (let i = 0; i < parc.length; i++) {
+          if (parc[i].dataValues.dtVencimento) {
+            const parcs = parc[i].dataValues.dtVencimento.split('-');
+            parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+
+            let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
+            createdFormat = createdFormat.split('-');
+            parc[i].dataValues.createdAt = `${createdFormat[2]}/${createdFormat[1]}/${createdFormat[0]}`;
+          }
+        }
         return res.json(parc);
       }
     }
