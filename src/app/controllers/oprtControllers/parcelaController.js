@@ -166,7 +166,7 @@ class ParcelaController {
       if (req.query.tipo === 'pendentes') {
         const parc = await Parcelas.findAll({
           where: {
-            situacao: '1',
+            situacao: 1,
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
@@ -185,7 +185,7 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.eq]: '2' }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{ situacao: { [Op.eq]: 2 }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
@@ -208,7 +208,7 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.eq]: '2' }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{ situacao: { [Op.eq]: 2 }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
