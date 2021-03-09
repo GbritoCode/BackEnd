@@ -1,8 +1,5 @@
 import * as yup from 'yup';
 import moment from 'moment';
-import {
-  isAfter, isBefore, isEqual, parseISO,
-} from 'date-fns';
 import { Op } from 'sequelize';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
