@@ -113,9 +113,7 @@ class ParcelaController {
 
             if (
               isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today)
-             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
-             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
-             && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
+             && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAtrasadaCountCli += 1;
@@ -123,9 +121,7 @@ class ParcelaController {
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
               !(isBefore(parseISO(cli[i].Oportunidades[j].Parcelas[k].dtVencimento), today))
-            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 1
-            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 3
-            && cli[i].Oportunidades[j].Parcelas[k].situacao !== 4
+            && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
             ) {
               labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAbertaCountCli += 1;
