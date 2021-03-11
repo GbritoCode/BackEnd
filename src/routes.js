@@ -42,8 +42,9 @@ import despesasController from './app/controllers/oprtControllers/despesasContro
 import contaContabilController from './app/controllers/auxControllers/contaContabilController';
 import centroCustosController from './app/controllers/auxControllers/centroCustosController';
 import FechamentoPeriodoController from './app/controllers/fechamentoControllers/periodoController';
-import resultPeriodoController from './app/controllers/fechamentoControllers/resultPeriodoController.js';
+import resultPeriodoController from './app/controllers/fechamentoControllers/resultPeriodoController';
 import periodoTokenController from './app/controllers/tokensControllers/periodoTokenController';
+import resultPeriodoGerencialController from './app/controllers/fechamentoControllers/resultPeriodoGerencialController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -58,6 +59,11 @@ routes.post('/resultPeriodo', resultPeriodoController.store);
 routes.get('/resultPeriodo/:id?', resultPeriodoController.get);
 routes.put('/resultPeriodo/:id?', resultPeriodoController.update);
 routes.delete('/resultPeriodo/:id?', resultPeriodoController.delete);
+
+routes.post('/resultPeriodoGerencial', resultPeriodoGerencialController.store);
+routes.get('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.get);
+routes.put('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.update);
+routes.delete('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.delete);
 
 routes.post('/fechamentoPeriodo', FechamentoPeriodoController.store);
 routes.get('/fechamentoPeriodo/:id?', FechamentoPeriodoController.get);

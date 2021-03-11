@@ -99,10 +99,10 @@ class FechamentoPeriodoController {
   }
 
   async update(req, res) {
-    const colab = await FechamentoPeriodo.findByPk(req.params.id);
+    const periodo = await FechamentoPeriodo.findByPk(req.params.id);
     const {
       EmpresaId, nome, dataInic, dataFim, aberto,
-    } = await colab.update(req.body);
+    } = await periodo.update(req.body);
 
     return res.json({
       EmpresaId,

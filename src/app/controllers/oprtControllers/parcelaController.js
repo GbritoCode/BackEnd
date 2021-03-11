@@ -215,9 +215,13 @@ class ParcelaController {
           order: [['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
+          x;
           if (parc[i].dataValues.dtVencimento) {
             const parcs = parc[i].dataValues.dtVencimento.split('-');
             parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+
+            const dataEmissao = parc[i].dataValues.dtEmissao.split('-');
+            parc[i].dataValues.dtEmissao = `${dataEmissao[2]}/${dataEmissao[1]}/${dataEmissao[0]}`;
 
             let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
             createdFormat = createdFormat.split('-');
@@ -255,6 +259,10 @@ class ParcelaController {
 
   async update(req, res) {
     const parc = await Parcelas.findByPk(req.params.id);
+
+    if (req.body.dtEmissao > req.body.dtVencimento) {
+      return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
+    }
 
     const {
       OportunidadeId,

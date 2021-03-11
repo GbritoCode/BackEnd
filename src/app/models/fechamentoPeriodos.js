@@ -3,6 +3,7 @@ import Colab from './colab';
 import Horas from './horas';
 import Recurso from './recurso';
 import ResultPeriodo from './resultPeriodo';
+import resultPeriodoGerencial from './resultPeriodoGerencial';
 
 export default class FechamentoPeriodo extends Model {
   static init(sequelize) {
@@ -32,6 +33,16 @@ export default class FechamentoPeriodo extends Model {
             periodo: periodoEntry[1].nome,
             ano: periodoEntry[1].ano,
           });
+        });
+      });
+      Object.entries(records).forEach(async (periodoEntry) => {
+        await resultPeriodoGerencial.create({
+          EmpresaId: periodoEntry[1].EmpresaId,
+          totalHrs: 0,
+          totalDesp: 0,
+          totalReceb: 0,
+          periodo: periodoEntry[1].nome,
+          ano: periodoEntry[1].ano,
         });
       });
     });
@@ -159,7 +170,12 @@ export default class FechamentoPeriodo extends Model {
               totalDesp: entry[1].totalDesp,
               totalReceb: entry[1].totalReceb,
             },
-            { where: { [Op.and]: [{ ColabId: entry[1].ColabId }, { periodo: fechamento.nome }, { ano: fechamento.ano }] } },
+            {
+              where: {
+                [Op.and]: [{ ColabId: entry[1].ColabId },
+                  { periodo: fechamento.nome }, { ano: fechamento.ano }],
+              },
+            },
             { returning: true },
           );
           // .then((result) => console.log(result));
@@ -168,6 +184,34 @@ export default class FechamentoPeriodo extends Model {
         await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true })
           .then((result) => console.log(result));
       }
+
+      const result = await ResultPeriodo.findAll({
+        where: { ano: fechamento.ano, periodo: fechamento.nome },
+        attributes: [
+          'periodo',
+          [sequelize.fn('sum', sequelize.col('totalHrs')), 'totalHrs'],
+          [sequelize.fn('sum', sequelize.col('totalDesp')), 'totalDesp'],
+          [sequelize.fn('sum', sequelize.col('totalReceb')), 'totalReceb'],
+        ],
+        group: ['periodo'],
+      });
+      Object.entries(result).forEach(async (entry) => {
+        await resultPeriodoGerencial.update(
+          {
+            totalHrs: entry[1].dataValues.totalHrs,
+            totalDesp: entry[1].dataValues.totalDesp,
+            totalReceb: entry[1].dataValues.totalReceb,
+          },
+          {
+            where: {
+              [Op.and]: [{ periodo: fechamento.nome }, { ano: fechamento.ano }],
+            },
+          },
+          { returning: true },
+        )
+          .then((result) => console.log(result));
+        console.log(entry[1].dataValues);
+      });
     });
     return this;
   }
