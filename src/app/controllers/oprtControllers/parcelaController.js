@@ -215,7 +215,6 @@ class ParcelaController {
           order: [['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
-          x;
           if (parc[i].dataValues.dtVencimento) {
             const parcs = parc[i].dataValues.dtVencimento.split('-');
             parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
