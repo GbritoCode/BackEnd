@@ -114,7 +114,10 @@ class ParcelaController {
 
             if (
               moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento)
-             && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+             && (
+               cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+              || cli[i].Oportunidades[j].Parcelas[k].situacao === 3
+             )
             ) {
               labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAtrasadaCountCli += 1;
@@ -122,7 +125,10 @@ class ParcelaController {
               parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
             } if (
               !(moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
-              && cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+              && (
+                cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+                || cli[i].Oportunidades[j].Parcelas[k].situacao === 3
+              )
             ) {
               labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
               parcAbertaCountCli += 1;
@@ -186,7 +192,10 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.eq]: 2 }, dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` },
+            }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
@@ -209,7 +218,10 @@ class ParcelaController {
         const date = moment().date();
         const parc = await Parcelas.findAll({
           where: {
-            [Op.and]: [{ situacao: { [Op.eq]: 2 }, dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` } }],
+            [Op.and]: [{
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` },
+            }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
           order: [['parcela', 'ASC']],
