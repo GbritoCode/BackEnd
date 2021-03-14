@@ -23,6 +23,13 @@ class AreaController {
   }
 
   async get(req, res) {
+    if (req.query.one === 'true') {
+      const area = await Area.findAll({
+        limit: 1,
+        order: [['createdAt', 'DESC']],
+      });
+      return res.json(area);
+    }
     if (!req.params.id) {
       const area = await Area.findAll({ include: Empresa });
       return res.json(area);

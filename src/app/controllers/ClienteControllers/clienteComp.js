@@ -55,7 +55,7 @@ class CliCompController {
       });
       return res.json(complemento);
     } if (req.params.id) {
-      const complemento = await CliComp.findAll({
+      const complemento = await CliComp.findOne({
         where: {
           ClienteId: req.params.id,
         },

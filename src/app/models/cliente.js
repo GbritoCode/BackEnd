@@ -54,7 +54,7 @@ export default class Cliente extends Model {
     Cliente.hasOne(CliRecDesp, { onDelete: 'cascade', hooks: true });
     CliRecDesp.belongsTo(Cliente);
 
-    Cliente.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Cliente.hasMany(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(Cliente);
 
     return this;

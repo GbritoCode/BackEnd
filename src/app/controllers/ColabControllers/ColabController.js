@@ -68,7 +68,39 @@ class ColabController {
         where: { id: idColab },
       });
       return res.json(colab);
-    } if (req.query.vlrHrMes === 'true') {
+    } if (req.query.vlrHrMes === 'true' && req.query.tipo === 'gerencial') {
+      const year = moment().year();
+      const month = moment().month();
+      const lastDayMonth = getDaysInMonth(new Date(year, month));
+      const colab = await Colab.findAll({
+        include: [{
+          model: Recurso,
+          required: true,
+          include: [{
+            model: Horas,
+            where: {
+              dataAtivd: {
+                [Op.between]: [`${year}-${month + 1}-${1}`, `${year}-${month + 1}-${lastDayMonth}`],
+              },
+            },
+            required: true,
+          }],
+        }],
+      });
+      if (colab === null) {
+        return res.json(0);
+      }
+      let sum = 0;
+      for (let i = 0; i < colab.length; i++) {
+        for (let j = 0; j < colab[i].Recursos.length; j++) {
+          for (let k = 0; k < colab[i].Recursos[j].Horas.length; k++) {
+            sum += (colab[i].Recursos[j].Horas[k].dataValues.totalApont / 60)
+            * colab[i].Recursos[j].dataValues.colabVlrHr;
+          }
+        }
+      }
+      return res.json(Math.trunc(sum));
+    } if (req.query.vlrHrMes === 'true' && !req.query.gerencial) {
       const year = moment().year();
       const month = moment().month();
       const lastDayMonth = getDaysInMonth(new Date(year, month));
@@ -129,6 +161,7 @@ class ColabController {
     if (!req.params.id) {
       const colab = await Colab.findAll({
         include: [{ model: fornec }, { model: Empresa }],
+        order: [['nome']],
       });
       return res.json(colab);
     }

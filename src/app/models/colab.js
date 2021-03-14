@@ -5,6 +5,7 @@ import Recurso from './recurso';
 import ColabComp from './colabComp';
 import Horas from './horas';
 import Despesas from './despesas';
+import ResultPeriodo from './resultPeriodo';
 
 export default class Colab extends Model {
   static init(sequelize) {
@@ -22,6 +23,7 @@ export default class Colab extends Model {
         email: DataTypes.STRING,
         espec: DataTypes.STRING,
         aniver: DataTypes.DATEONLY,
+        PeriodToken: DataTypes.STRING(500),
       },
       {
         sequelize,
@@ -41,6 +43,9 @@ export default class Colab extends Model {
 
     Colab.hasMany(Despesas, { onDelete: 'cascade', hooks: true });
     Despesas.belongsTo(Colab);
+
+    Colab.hasMany(ResultPeriodo, { onDelete: 'cascade', hooks: true });
+    ResultPeriodo.belongsTo(Colab);
     return this;
   }
 }

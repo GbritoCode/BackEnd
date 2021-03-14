@@ -27,6 +27,9 @@ import Horas from '../app/models/horas';
 import Despesas from '../app/models/despesas';
 import ContaContabil from '../app/models/ContaContabil';
 import CentroCustos from '../app/models/CentroCusto';
+import FechamentoPeriodo from '../app/models/fechamentoPeriodos';
+import ResultPeriodo from '../app/models/resultPeriodo';
+import ResultPeriodoGerencial from '../app/models/resultPeriodoGerencial';
 
 const models = [
   cliCont,
@@ -44,6 +47,8 @@ const models = [
   Area,
   UndNeg,
   Produto,
+  ResultPeriodo,
+  ResultPeriodoGerencial,
   colabComp,
   Colab,
   Fornec,
@@ -54,6 +59,7 @@ const models = [
   tipoComiss,
   condPgmto,
   perfil,
+  FechamentoPeriodo,
   Empresa,
   users,
 ];
