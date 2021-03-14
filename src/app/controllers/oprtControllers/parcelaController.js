@@ -114,26 +114,33 @@ class ParcelaController {
 
             if (
               moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento)
-             && (
-               cli[i].Oportunidades[j].Parcelas[k].situacao === 2
-              || cli[i].Oportunidades[j].Parcelas[k].situacao === 3
-             )
             ) {
-              labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
-              parcAtrasadaCountCli += 1;
-              parcAtrasadaCount += 1;
-              parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
-            } if (
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+                labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
+                parcAtrasadaCountCli += 1;
+                parcAtrasadaCount += 1;
+                parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
+              } else if (cli[i].Oportunidades[j].Parcelas[k].situacao === 3) {
+                labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
+                parcAtrasadaCountCli += 1;
+                parcAtrasadaCount += 1;
+                parcAtrasadaValue += cli[i].Oportunidades[j].Parcelas[k].saldo;
+              }
+            }
+            if (
               !(moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
-              && (
-                cli[i].Oportunidades[j].Parcelas[k].situacao === 2
-                || cli[i].Oportunidades[j].Parcelas[k].situacao === 3
-              )
             ) {
-              labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
-              parcAbertaCountCli += 1;
-              parcAbertaCount += 1;
-              parcAbertaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+                labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
+                parcAbertaCountCli += 1;
+                parcAbertaCount += 1;
+                parcAbertaValue += cli[i].Oportunidades[j].Parcelas[k].vlrParcela;
+              } else if (cli[i].Oportunidades[j].Parcelas[k].situacao === 3) {
+                labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
+                parcAbertaCountCli += 1;
+                parcAbertaCount += 1;
+                parcAbertaValue += cli[i].Oportunidades[j].Parcelas[k].saldo;
+              }
             }
           }
           parcPendente[i] = parcPendenteCountCli;
