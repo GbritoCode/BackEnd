@@ -316,7 +316,7 @@ class ParcelaController {
       where: { id: req.params.id },
     });
     parc.destroy();
-    return res.status(200).json(`Registro de ${parc.dtEmissao} foi deletado com Sucesso!`);
+    return res.status(200).json('Registro foi deletado com Sucesso!');
   }
 }
 export default new ParcelaController();
