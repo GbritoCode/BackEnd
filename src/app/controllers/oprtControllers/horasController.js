@@ -194,7 +194,7 @@ class HoraController {
         });
       }
     }
-    return res.json();
+    return res.json(await hora.update(req.body));
   }
 
   async delete(req, res) {
