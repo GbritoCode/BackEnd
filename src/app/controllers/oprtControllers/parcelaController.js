@@ -183,7 +183,7 @@ class ParcelaController {
             situacao: 1,
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
-          order: [['parcela', 'ASC']],
+          order: [[Oportunidade, Cliente, 'nome', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
           let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
@@ -205,7 +205,7 @@ class ParcelaController {
             }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
-          order: [['parcela', 'ASC']],
+          order: [[Oportunidade, Cliente, 'nome', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
           if (parc[i].dataValues.dtVencimento) {
@@ -231,7 +231,7 @@ class ParcelaController {
             }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
-          order: [['parcela', 'ASC']],
+          order: [[Oportunidade, Cliente, 'nome', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
           if (parc[i].dataValues.dtVencimento) {
@@ -316,7 +316,7 @@ class ParcelaController {
       where: { id: req.params.id },
     });
     parc.destroy();
-    return res.status(200).json(`Registro de ${parc.dtEmissao} foi deletado com Sucesso!`);
+    return res.status(200).json('Registro foi deletado com Sucesso!');
   }
 }
 export default new ParcelaController();

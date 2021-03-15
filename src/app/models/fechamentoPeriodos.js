@@ -181,8 +181,7 @@ export default class FechamentoPeriodo extends Model {
           // .then((result) => console.log(result));
         });
       } else {
-        await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true })
-          .then((result) => console.log(result));
+        await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
       }
 
       const result = await ResultPeriodo.findAll({
@@ -210,7 +209,33 @@ export default class FechamentoPeriodo extends Model {
           { returning: true },
         )
           .then((result) => console.log(result));
-        console.log(entry[1].dataValues);
+      });
+    });
+    this.addHook('afterUpdate', async (fechamento) => {
+      const result = await ResultPeriodo.findAll({
+        where: { ano: fechamento.ano, periodo: fechamento.nome },
+        attributes: [
+          'periodo',
+          [sequelize.fn('sum', sequelize.col('totalHrs')), 'totalHrs'],
+          [sequelize.fn('sum', sequelize.col('totalDesp')), 'totalDesp'],
+          [sequelize.fn('sum', sequelize.col('totalReceb')), 'totalReceb'],
+        ],
+        group: ['periodo'],
+      });
+      Object.entries(result).forEach(async (entry) => {
+        await resultPeriodoGerencial.update(
+          {
+            totalHrs: entry[1].dataValues.totalHrs,
+            totalDesp: entry[1].dataValues.totalDesp,
+            totalReceb: entry[1].dataValues.totalReceb,
+          },
+          {
+            where: {
+              [Op.and]: [{ periodo: fechamento.nome }, { ano: fechamento.ano }],
+            },
+          },
+          { returning: true },
+        );
       });
     });
     return this;
