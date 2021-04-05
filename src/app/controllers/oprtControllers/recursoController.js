@@ -3,6 +3,8 @@ import Colab from '../../models/colab';
 import Oportunidade from '../../models/oportunidade';
 import Recurso from '../../models/recurso';
 
+import Notifications from '../../schemas/notifications';
+
 class RecursoController {
   async store(req, res) {
     const schema = yup.object().shape({
@@ -19,29 +21,16 @@ class RecursoController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
+    const response = await Recurso.create(req.body);
 
-    const {
-      OportunidadeId,
-      ColabId,
-      tipoValor,
-      tipoAtend,
-      custoPrev,
-      dataInclusao,
-      hrsPrevst,
-      colabVlrHr,
-      recLiq,
-    } = await Recurso.create(req.body);
-    return res.json({
-      OportunidadeId,
-      ColabId,
-      tipoValor,
-      tipoAtend,
-      custoPrev,
-      dataInclusao,
-      hrsPrevst,
-      colabVlrHr,
-      recLiq,
+    const oport = await Oportunidade.findOne({ where: { id: req.body.OportunidadeId } });
+
+    Notifications.create({
+      content: `Você foi cadastrado na oportunidade ${oport.cod}`,
+      colab: req.body.ColabId,
     });
+
+    return res.json(response);
   }
 
   /*  async get(req, res) {

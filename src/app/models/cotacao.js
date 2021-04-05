@@ -17,6 +17,7 @@ export default class Cotacao extends Model {
         numParcelas: DataTypes.INTEGER,
         motivo: DataTypes.STRING,
         desc: DataTypes.STRING,
+        CotacaoFileId: DataTypes.INTEGER,
       },
       {
         sequelize,

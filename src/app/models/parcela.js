@@ -15,6 +15,7 @@ export default class Parcela extends Model {
         dtLiquidacao: DataTypes.DATEONLY,
         vlrPago: DataTypes.INTEGER,
         saldo: DataTypes.INTEGER,
+        CotacaoFileId: DataTypes.INTEGER,
 
       },
       {

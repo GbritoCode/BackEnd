@@ -16,6 +16,7 @@ export default class User extends Model {
         profile: DataTypes.INTEGER,
         aniver: DataTypes.DATEONLY,
         isFirstLogin: DataTypes.BOOLEAN,
+        AvatarId: DataTypes.INTEGER,
       },
       {
         sequelize,

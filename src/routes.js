@@ -1,5 +1,8 @@
 import { Router } from 'express';
 
+import multer from 'multer';
+import { avatar, oportunidadeCotacao } from './config/multer';
+
 import clienteController from './app/controllers/ClienteControllers/ClienteController';
 // eslint-disable-next-line import/no-unresolved
 import cliCompController from './app/controllers/ClienteControllers/clienteComp';
@@ -8,7 +11,7 @@ import cliContController from './app/controllers/ClienteControllers/cliCont';
 
 import empresaController from './app/controllers/EmpresaController';
 
-import userController from './app/controllers/UserController';
+import userController from './app/controllers/Users/UserController';
 import sessionController from './app/controllers/sessionController';
 
 import colabController from './app/controllers/ColabControllers/ColabController';
@@ -45,12 +48,23 @@ import FechamentoPeriodoController from './app/controllers/fechamentoControllers
 import resultPeriodoController from './app/controllers/fechamentoControllers/resultPeriodoController';
 import periodoTokenController from './app/controllers/tokensControllers/periodoTokenController';
 import resultPeriodoGerencialController from './app/controllers/fechamentoControllers/resultPeriodoGerencialController';
+import notificationsController from './app/controllers/Notifications/notificationsController';
+import emailController from './app/controllers/email/emailController';
+import oportFileController from './app/controllers/oprtControllers/oportFileController';
 
 // import authMiddleware from './app/middleware/auth';
 
 const routes = new Router();
 
+const uploadCotacao = multer(oportunidadeCotacao);
+
 routes.get('/', (req, res) => res.send('okok'));
+
+routes.post('/email', emailController.store);
+routes.get('/notifications/:colabId', notificationsController.index);
+routes.put('/notifications/:id', notificationsController.update);
+
+routes.post('/files/oport/cotacao', uploadCotacao.single('file'), oportFileController.store, emailController.store);
 
 routes.post('/liberaPeriodo', periodoTokenController.store);
 routes.delete('/liberaPeriodo/:ColabId', periodoTokenController.delete);
