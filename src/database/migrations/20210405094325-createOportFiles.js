@@ -17,6 +17,14 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
+    EmpresaId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Empresas',
+        key: 'id',
+      },
+    },
     nome: {
       allowNull: false,
       type: Sequelize.STRING,
