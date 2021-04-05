@@ -118,7 +118,6 @@ class AwsSesController {
         where: { id: cotacaoId }, include: [{ model: Oportunidade }, { model: CotacaoFiles }],
       });
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
-      console.log(cotacao);
       console.log(contato);
       const dataReview = {
         codOport: cotacao.Oportunidade.cod,
