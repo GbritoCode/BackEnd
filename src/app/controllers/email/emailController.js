@@ -63,10 +63,13 @@ class AwsSesController {
     };
 
     if (req.query.tipo === 'cotacao' && req.query.situacao === 'orcamento') {
-      let { cotacaoId } = req.query;
-      cotacaoId = parseInt(cotacaoId, 10);
+      let { oportId } = req.query;
+      oportId = parseInt(oportId, 10);
       const cotacao = await Cotacao.findOne({
-        where: { id: cotacaoId }, include: [{ model: Oportunidade }, { model: CotacaoFiles }],
+        where: { OportunidadeId: oportId },
+        include: [{ model: Oportunidade }, { model: CotacaoFiles }],
+        limit: 1,
+        order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
 
@@ -112,10 +115,13 @@ class AwsSesController {
         return res.json(err);
       }
     } else if (req.query.tipo === 'cotacao' && req.query.situacao === 'revisao') {
-      let { cotacaoId } = req.query;
-      cotacaoId = parseInt(cotacaoId, 10);
+      let { oportId } = req.query;
+      oportId = parseInt(oportId, 10);
       const cotacao = await Cotacao.findOne({
-        where: { id: cotacaoId }, include: [{ model: Oportunidade }, { model: CotacaoFiles }],
+        where: { OportunidadeId: oportId },
+        include: [{ model: Oportunidade }, { model: CotacaoFiles }],
+        limit: 1,
+        order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
       const dataReview = {
@@ -159,17 +165,16 @@ class AwsSesController {
         return res.json(err);
       }
     } else if (req.query.tipo === 'parcela' && req.query.situacao === 'fatura') {
-      let { parcelaId } = req.query;
-      parcelaId = parseInt(parcelaId, 10);
+      let { oportId } = req.query;
+      oportId = parseInt(oportId, 10);
       const parcela = await Parcela.findOne({
-        where: { id: parcelaId },
-        include:
-         [
-           { model: Oportunidade }, { model: CotacaoFiles },
-         ],
+        where: { OportunidadeId: oportId },
+        include: [{ model: Oportunidade }, { model: CotacaoFiles }],
+        limit: 1,
+        order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
-
+      console.log(parcela);
       const dataBill = {
         codOport: parcela.Oportunidade.cod,
         descOport: parcela.Oportunidade.desc,

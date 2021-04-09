@@ -6,23 +6,33 @@ class OportFileController {
   async store(req, res, next) {
     if (req.query.table === 'cotacao') {
       const { originalname: nome, filename: path } = req.file;
-      let { cotacaoId } = req.query;
+      let { oportId } = req.query;
       const cotacaoFile = await CotacaoFile.create({ nome, path });
+      oportId = parseInt(oportId, 10);
 
-      cotacaoId = parseInt(cotacaoId, 10);
+      const cotacao = await Cotacao.findOne({
+        where: { OportunidadeId: oportId },
+        limit: 1,
+        order: [['createdAt', 'DESC']],
+      });
 
-      await Cotacao.update({ CotacaoFileId: cotacaoFile.id }, { where: { id: cotacaoId } });
+      await cotacao.update({ CotacaoFileId: cotacaoFile.id });
 
       next();
       return res.json();
     } if (req.query.table === 'parcela') {
       const { originalname: nome, filename: path } = req.file;
-      let { parcelaId } = req.query;
+      let { oportId } = req.query;
       const cotacaoFile = await CotacaoFile.create({ nome, path });
+      oportId = parseInt(oportId, 10);
 
-      parcelaId = parseInt(parcelaId, 10);
+      const parcela = await Parcela.findOne({
+        where: { OportunidadeId: oportId },
+        limit: 1,
+        order: [['createdAt', 'DESC']],
+      });
 
-      await Parcela.update({ CotacaoFileId: cotacaoFile.id }, { where: { id: parcelaId } });
+      await parcela.update({ CotacaoFileId: cotacaoFile.id });
 
       next();
     }

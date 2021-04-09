@@ -80,6 +80,12 @@ class CotacaoController {
         order: [['createdAt', 'DESC']],
       });
       return res.json(cot);
+    } if (req.query.last === 'true') {
+      const cot = await Cotacao.findOne({
+        limit: 1,
+        order: [['createdAt', 'DESC']],
+      });
+      return res.json(cot);
     } if (req.params.id) {
       const cot = await Cotacao.findAll({
         where: {
