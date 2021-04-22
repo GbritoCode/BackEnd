@@ -202,7 +202,7 @@ class AwsSesController {
         vlrParcelaOport: (parcela.vlrParcela / 100).toFixed(2),
         dtVencParcela: parcela.dtVencimento,
         NFeParcela: parcela.notaFiscal,
-        pedidoCliOport: parcela.pedidoCliente,
+        pedidoCliOport: parcela.pedidoCliente || 'Não Informado',
       };
 
       const exampleSendEmail = async () => {
