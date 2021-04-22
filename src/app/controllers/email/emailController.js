@@ -237,7 +237,7 @@ class AwsSesController {
         const response = await exampleSendEmail();
         console.log(response);
       } catch (err) {
-        console.log(err);
+        console.log(`erro ${err}`);
       }
     }
     return res.json();
