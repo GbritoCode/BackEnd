@@ -91,7 +91,7 @@ class AwsSesController {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
           bcc: Bcc,
-          subject: 'Message title',
+          subject: `Orçamento | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: budgetEmail(dataBudget),
           attachments: [{
@@ -143,7 +143,7 @@ class AwsSesController {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
           bcc: Bcc,
-          subject: 'Message title',
+          subject: `Revisão | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: reviewEmail(dataReview),
           attachments: [{
@@ -198,7 +198,7 @@ class AwsSesController {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
           bcc: Bcc,
-          subject: 'Message title',
+          subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: billEmail(dataBill),
           attachments: [{
