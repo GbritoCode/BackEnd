@@ -102,8 +102,10 @@ export default function generateReviewEmail(data) {
                                                                     <td style="color: #153643; font-family: Segoe UI Light; font-size: 14px; line-height: 20px;" colspan="3"><span style="font-size: 14px; background-color: #ffffff; font-family: Segoe UI Light; color: #153643;">${data.parcelasOport}</span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="color: #153643; line-height: 20px; font-family: Segoe UI Light; font-size: 14px; background-color: #d8d8d8;">&nbsp;Pedido Cliente</td>
-                                                                    <td style="color: #153643; line-height: 20px; font-family: Segoe UI Light; font-size: 14px; background-color: #d8d8d8;" colspan="3">${data.cotacaoDesc}<br />
+                                                                    <td style="color: #153643; line-height: 20px; font-family: Segoe UI Light; font-size: 14px; text-align: left;" colspan="4">Motivo de Revisão</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="color: #153643; line-height: 20px; font-family: Segoe UI Light; font-size: 14px; background-color: #f2f2f2; text-align: center;" colspan="4">${data.cotacaoDesc}<br />
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

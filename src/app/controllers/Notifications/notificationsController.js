@@ -1,11 +1,15 @@
+import { differenceInDays, parseISO } from 'date-fns';
 import Notifications from '../../schemas/notifications';
 
 class NotificationController {
   async index(req, res) {
-    const notifications = await Notifications.find({
+    let notifications = await Notifications.find({
       colab: req.params.colabId,
     }).sort({ createdAt: 'desc' });
-
+    notifications = notifications.filter((notify) => (
+      !notify.read
+      || (notify.read && differenceInDays(new Date(), notify.createdAt) < 6)
+    ));
     return res.json(notifications);
   }
 

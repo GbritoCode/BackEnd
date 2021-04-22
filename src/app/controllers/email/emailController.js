@@ -54,6 +54,8 @@ class AwsSesController {
       const mailOptions = {
         from: message.fromEmail,
         to: message.to,
+        cc: message.cc,
+        bcc: message.bcc,
         subject: message.subject,
         text: message.bodyTxt,
         html: message.bodyHtml,
@@ -63,8 +65,10 @@ class AwsSesController {
     };
 
     if (req.query.tipo === 'cotacao' && req.query.situacao === 'orcamento') {
-      let { oportId } = req.query;
+      let { oportId, Bcc } = req.query;
       oportId = parseInt(oportId, 10);
+      Bcc = Bcc.split(',');
+      Bcc = Bcc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -85,7 +89,8 @@ class AwsSesController {
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
-          to: [contato.email, 'jsilva@aidera.com.br', 'cbrito@aidera.com.br'],
+          to: [contato.email],
+          bcc: Bcc,
           subject: 'Message title',
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: budgetEmail(dataBudget),
@@ -94,29 +99,30 @@ class AwsSesController {
             data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${cotacao.CotacaoFile.path}`),
           }],
         };
-
         const ses = new AWS.SESV2(sesConfig);
         const params = {
           Content: { Raw: { Data: await generateRawMailData(message) } },
           Destination: {
             ToAddresses: message.to,
             BccAddresses: message.bcc,
+            CcAddresses: message.cc,
           },
           FromEmailAddress: message.fromEmail,
           ReplyToAddresses: message.replyTo,
         };
-
         return ses.sendEmail(params).promise();
       };
       try {
         const response = await exampleSendEmail();
-        return res.json(response);
+        console.log(response);
       } catch (err) {
-        return res.json(err);
+        console.log(err);
       }
     } else if (req.query.tipo === 'cotacao' && req.query.situacao === 'revisao') {
-      let { oportId } = req.query;
+      let { oportId, Bcc } = req.query;
       oportId = parseInt(oportId, 10);
+      Bcc = Bcc.split(',');
+      Bcc = Bcc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -135,7 +141,8 @@ class AwsSesController {
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
-          to: [contato.email, 'jsilva@aidera.com.br', 'cbrito@aidera.com.br'],
+          to: [contato.email],
+          bcc: Bcc,
           subject: 'Message title',
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: reviewEmail(dataReview),
@@ -165,8 +172,10 @@ class AwsSesController {
         return res.json(err);
       }
     } else if (req.query.tipo === 'parcela' && req.query.situacao === 'fatura') {
-      let { oportId } = req.query;
+      let { oportId, Bcc } = req.query;
       oportId = parseInt(oportId, 10);
+      Bcc = Bcc.split(',');
+      Bcc = Bcc.filter((v) => v !== '');
       const parcela = await Parcela.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -174,7 +183,6 @@ class AwsSesController {
         order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
-      console.log(parcela);
       const dataBill = {
         codOport: parcela.Oportunidade.cod,
         descOport: parcela.Oportunidade.desc,
@@ -188,7 +196,8 @@ class AwsSesController {
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
-          to: [contato.email, 'jsilva@aidera.com.br', 'cbrito@aidera.com.br'],
+          to: [contato.email],
+          bcc: Bcc,
           subject: 'Message title',
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: billEmail(dataBill),
@@ -218,5 +227,6 @@ class AwsSesController {
         return res.json(err);
       }
     }
+    return res.json();
   }
 } export default new AwsSesController();

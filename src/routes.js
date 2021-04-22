@@ -65,6 +65,7 @@ routes.get('/notifications/:colabId', notificationsController.index);
 routes.put('/notifications/:id', notificationsController.update);
 
 routes.post('/files/oport/cotacao', uploadCotacao.single('file'), oportFileController.store, emailController.store);
+routes.get('/download/oport/:id', oportFileController.download);
 
 routes.post('/liberaPeriodo', periodoTokenController.store);
 routes.delete('/liberaPeriodo/:ColabId', periodoTokenController.delete);

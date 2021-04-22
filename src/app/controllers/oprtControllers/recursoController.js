@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import Cliente from '../../models/cliente';
 import Colab from '../../models/colab';
 import Oportunidade from '../../models/oportunidade';
 import Recurso from '../../models/recurso';
@@ -23,10 +24,13 @@ class RecursoController {
     }
     const response = await Recurso.create(req.body);
 
-    const oport = await Oportunidade.findOne({ where: { id: req.body.OportunidadeId } });
+    const oport = await Oportunidade.findOne({
+      where: { id: req.body.OportunidadeId },
+      include: [{ model: Cliente }],
+    });
 
     Notifications.create({
-      content: `Você foi cadastrado na oportunidade ${oport.cod}`,
+      content: `Você foi cadastrado na oportunidade ${oport.cod},${oport.Cliente.nomeAbv}, ${oport.desc}`,
       colab: req.body.ColabId,
     });
 
