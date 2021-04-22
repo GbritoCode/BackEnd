@@ -49,6 +49,15 @@ class AwsSesController {
     //     .promise()
     //     .then((result) => result);
     //   return res.json(response);
+    const checkCobranca = (value) => {
+      switch (value) {
+        case 1:
+          return 'Por Hora';
+        case 2:
+          return 'Por Projeto';
+        default:
+      }
+    };
 
     const generateRawMailData = (message) => {
       const mailOptions = {
@@ -68,6 +77,7 @@ class AwsSesController {
       let { oportId, Bcc } = req.query;
       oportId = parseInt(oportId, 10);
       Bcc = Bcc.split(',');
+      console.log(Bcc);
       Bcc = Bcc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
         where: { OportunidadeId: oportId },
@@ -110,6 +120,7 @@ class AwsSesController {
           FromEmailAddress: message.fromEmail,
           ReplyToAddresses: message.replyTo,
         };
+        console.log(params.Destination);
         return ses.sendEmail(params).promise();
       };
       try {
