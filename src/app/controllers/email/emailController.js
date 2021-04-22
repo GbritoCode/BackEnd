@@ -169,6 +169,7 @@ class AwsSesController {
           Destination: {
             ToAddresses: message.to,
             BccAddresses: message.bcc,
+            CcAddresses: message.cc,
           },
           FromEmailAddress: message.fromEmail,
           ReplyToAddresses: message.replyTo,
@@ -178,9 +179,9 @@ class AwsSesController {
       };
       try {
         const response = await exampleSendEmail();
-        return res.json(response);
+        console.log(response);
       } catch (err) {
-        return res.json(err);
+        console.log(err);
       }
     } else if (req.query.tipo === 'parcela' && req.query.situacao === 'fatura') {
       let { oportId, Bcc } = req.query;
@@ -224,6 +225,7 @@ class AwsSesController {
           Destination: {
             ToAddresses: message.to,
             BccAddresses: message.bcc,
+            CcAddresses: message.cc,
           },
           FromEmailAddress: message.fromEmail,
           ReplyToAddresses: message.replyTo,
@@ -233,9 +235,9 @@ class AwsSesController {
       };
       try {
         const response = await exampleSendEmail();
-        return res.json(response);
+        console.log(response);
       } catch (err) {
-        return res.json(err);
+        console.log(err);
       }
     }
     return res.json();
