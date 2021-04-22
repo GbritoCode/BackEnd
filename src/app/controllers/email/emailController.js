@@ -90,7 +90,7 @@ class AwsSesController {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
-          bcc: Bcc,
+          cc: Bcc,
           subject: `Orçamento | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: budgetEmail(dataBudget),
@@ -142,7 +142,7 @@ class AwsSesController {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
-          bcc: Bcc,
+          cc: Bcc,
           subject: `Revisão | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: reviewEmail(dataReview),
@@ -197,7 +197,7 @@ class AwsSesController {
         const message = {
           fromEmail: 'contato@tovoit.com.br',
           to: [contato.email],
-          bcc: Bcc,
+          cc: Bcc,
           subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: billEmail(dataBill),
