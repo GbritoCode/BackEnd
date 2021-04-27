@@ -51,6 +51,7 @@ import resultPeriodoGerencialController from './app/controllers/fechamentoContro
 import notificationsController from './app/controllers/Notifications/notificationsController';
 import emailController from './app/controllers/email/emailController';
 import oportFileController from './app/controllers/oprtControllers/oportFileController';
+import emailParametrosController from './app/controllers/email/emailParametrosController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -61,11 +62,14 @@ const uploadCotacao = multer(oportunidadeCotacao);
 routes.get('/', (req, res) => res.send('okok'));
 
 routes.post('/email', emailController.store);
-routes.get('/notifications/:colabId', notificationsController.index);
-routes.put('/notifications/:id', notificationsController.update);
-
+routes.post('/emailParams', emailParametrosController.store);
+routes.get('/emailParams', emailParametrosController.get);
+routes.put('/emailParams/:id', emailParametrosController.update);
 routes.post('/files/oport/cotacao', uploadCotacao.single('file'), oportFileController.store, emailController.store);
 routes.get('/download/oport/:id', oportFileController.download);
+
+routes.get('/notifications/:colabId', notificationsController.index);
+routes.put('/notifications/:id', notificationsController.update);
 
 routes.post('/liberaPeriodo', periodoTokenController.store);
 routes.delete('/liberaPeriodo/:ColabId', periodoTokenController.delete);

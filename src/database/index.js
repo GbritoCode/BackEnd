@@ -32,8 +32,10 @@ import FechamentoPeriodo from '../app/models/fechamentoPeriodos';
 import ResultPeriodo from '../app/models/resultPeriodo';
 import ResultPeriodoGerencial from '../app/models/resultPeriodoGerencial';
 import CotacaoFiles from '../app/models/cotacaoFiles';
+import EmailParametros from '../app/models/emailParametros';
 
 const models = [
+  EmailParametros,
   cliCont,
   cliComp,
   cliRecDesp,

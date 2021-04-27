@@ -9,6 +9,7 @@ import Oportunidade from '../../models/oportunidade';
 import CotacaoFiles from '../../models/cotacaoFiles';
 import CliCont from '../../models/cliCont';
 import Parcela from '../../models/parcela';
+import EmailParametros from '../../models/emailParametros';
 
 class AwsSesController {
   async store(req, res) {
@@ -19,36 +20,6 @@ class AwsSesController {
       region: process.env.AWS_SES_REGION,
     };
 
-    //   const emailCli = 'gabrielcabeca26@gmail.com';
-    //   const cod = '153878';
-
-    //   const params = {
-    //     Source: 'contato@tovoit.com.br',
-    //     Destination: {
-    //       ToAddresses: [emailCli],
-    //     },
-    //     Message: {
-    //       Body: {
-    //         Html: {
-    //           Charset: 'UTF-8',
-    //           Data: `
-    //           <h1>teste</h1>
-    //           <p> o email enviou para ${emailCli} </p>
-    //           `,
-    //         },
-    //       },
-    //       Subject: {
-    //         Charset: 'UTF-8',
-    //         Data: `cotação ${cod}`,
-    //       },
-    //     },
-    //   };
-    //   const response = await new AWS
-    //     .SES(sesConfig)
-    //     .sendEmail(params)
-    //     .promise()
-    //     .then((result) => result);
-    //   return res.json(response);
     const checkCobranca = (value) => {
       switch (value) {
         case 1:
@@ -73,12 +44,18 @@ class AwsSesController {
       return new MailComposer(mailOptions).compile().build();
     };
 
+    const parametros = await EmailParametros.findOne({
+      order: [['createdAt', 'DESC']],
+    });
+    console.log(parametros.bccEmailOrc.split(','));
     if (req.query.tipo === 'cotacao' && req.query.situacao === 'orcamento') {
-      let { oportId, Bcc } = req.query;
-      oportId = parseInt(oportId, 10);
-      Bcc = Bcc.split(',');
-      console.log(Bcc);
+      let { oportId, Cc } = req.query;
+      const from = parametros.fromEmailOrc;
+      let Bcc = parametros.bccEmailOrc.split(',');
       Bcc = Bcc.filter((v) => v !== '');
+      oportId = parseInt(oportId, 10);
+      Cc = Cc.split(',');
+      Cc = Cc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -92,15 +69,16 @@ class AwsSesController {
         vlrLiqOport: (cotacao.vlrLiq / 100).toFixed(2),
         descOport: cotacao.Oportunidade.desc,
         parcelasOport: cotacao.numParcelas,
-        tipoCobrancaOport: cotacao.tipoCobranca,
+        tipoCobrancaOport: checkCobranca(cotacao.tipoCobranca),
         cotacaoDesc: cotacao.desc,
       };
 
       const exampleSendEmail = async () => {
         const message = {
-          fromEmail: 'contato@tovoit.com.br',
+          fromEmail: from,
           to: [contato.email],
-          cc: Bcc,
+          cc: Cc,
+          bcc: Bcc,
           subject: `Orçamento | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: budgetEmail(dataBudget),
@@ -130,10 +108,13 @@ class AwsSesController {
         console.log(err);
       }
     } else if (req.query.tipo === 'cotacao' && req.query.situacao === 'revisao') {
-      let { oportId, Bcc } = req.query;
+      let { oportId, Cc } = req.query;
+      const from = parametros.fromEmailRev;
+      let Bcc = parametros.bccEmailRev.split(',');
       oportId = parseInt(oportId, 10);
-      Bcc = Bcc.split(',');
       Bcc = Bcc.filter((v) => v !== '');
+      Cc = Cc.split(',');
+      Cc = Cc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -151,9 +132,10 @@ class AwsSesController {
 
       const exampleSendEmail = async () => {
         const message = {
-          fromEmail: 'contato@tovoit.com.br',
+          fromEmail: from,
           to: [contato.email],
-          cc: Bcc,
+          cc: Cc,
+          bcc: Bcc,
           subject: `Revisão | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: reviewEmail(dataReview),
@@ -184,10 +166,13 @@ class AwsSesController {
         console.log(err);
       }
     } else if (req.query.tipo === 'parcela' && req.query.situacao === 'fatura') {
-      let { oportId, Bcc } = req.query;
-      oportId = parseInt(oportId, 10);
-      Bcc = Bcc.split(',');
+      let { oportId, Cc } = req.query;
+      const from = parametros.fromEmailFat;
+      let Bcc = parametros.bccEmailFat.split(',');
       Bcc = Bcc.filter((v) => v !== '');
+      oportId = parseInt(oportId, 10);
+      Cc = Cc.split(',');
+      Cc = Cc.filter((v) => v !== '');
       const parcela = await Parcela.findOne({
         where: { OportunidadeId: oportId },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
@@ -207,9 +192,10 @@ class AwsSesController {
 
       const exampleSendEmail = async () => {
         const message = {
-          fromEmail: 'contato@tovoit.com.br',
+          fromEmail: from,
           to: [contato.email],
-          cc: Bcc,
+          cc: Cc,
+          bcc: Bcc,
           subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: billEmail(dataBill),
@@ -230,6 +216,7 @@ class AwsSesController {
           FromEmailAddress: message.fromEmail,
           ReplyToAddresses: message.replyTo,
         };
+        console.log(params.Destination);
 
         return ses.sendEmail(params).promise();
       };
