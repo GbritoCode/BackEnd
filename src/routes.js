@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import multer from 'multer';
-import { avatar, oportunidadeCotacao } from './config/multer';
+import { avatar, oportunidadeFile } from './config/multer';
 
 import clienteController from './app/controllers/ClienteControllers/ClienteController';
 // eslint-disable-next-line import/no-unresolved
@@ -57,7 +57,7 @@ import emailParametrosController from './app/controllers/email/emailParametrosCo
 
 const routes = new Router();
 
-const uploadCotacao = multer(oportunidadeCotacao);
+const uploadCotacao = multer(oportunidadeFile);
 
 routes.get('/', (req, res) => res.send('okok'));
 
@@ -65,7 +65,7 @@ routes.post('/email', emailController.store);
 routes.post('/emailParams', emailParametrosController.store);
 routes.get('/emailParams', emailParametrosController.get);
 routes.put('/emailParams/:id', emailParametrosController.update);
-routes.post('/files/oport/cotacao', uploadCotacao.single('file'), oportFileController.store, emailController.store);
+routes.post('/files/oport/cotacao', uploadCotacao.array('file'), oportFileController.store, emailController.store);
 routes.get('/download/oport/:id', oportFileController.download);
 
 routes.get('/notifications/:colabId', notificationsController.index);

@@ -15,14 +15,16 @@ export const avatar = {
   }),
 };
 
-export const oportunidadeCotacao = {
+export const oportunidadeFile = {
   storage: multer.diskStorage({
     destination: resolve(__dirname, '..', '..', 'tmp', 'uploads', 'oportunidades'),
     filename: (req, file, cb) => {
+      const { query } = req;
       crypto.randomBytes(16, (err, res) => {
         if (err) return cb(err);
-        console.log(file);
-        return cb(null, res.toString('hex') + extname(file.originalname));
+        const date = new Date().toLocaleString('pt-br').replace(/\//g, '-').slice(0, 10);
+        return cb(null,
+          `${query.tipo}Id=${query.id}_oportId=${query.oportId}_${date}_${Math.round(Math.random() * 1E9)}${extname(file.originalname)}`);
       });
     },
   }),

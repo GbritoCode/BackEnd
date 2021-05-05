@@ -2,39 +2,41 @@ import { resolve } from 'path';
 import Cotacao from '../../models/cotacao';
 import CotacaoFile from '../../models/cotacaoFiles';
 import Parcela from '../../models/parcela';
+import ParcelaFiles from '../../models/parcelaFile';
 
 class OportFileController {
   async store(req, res, next) {
     if (req.query.table === 'cotacao') {
-      const { originalname: nome, filename: path } = req.file;
-      let { oportId } = req.query;
-      const cotacaoFile = await CotacaoFile.create({ nome, path });
-      oportId = parseInt(oportId, 10);
+      const { files, query } = req;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of files) {
+        const { originalname: nome, filename: path } = file;
 
-      const cotacao = await Cotacao.findOne({
-        where: { OportunidadeId: oportId },
-        limit: 1,
-        order: [['createdAt', 'DESC']],
-      });
+        // eslint-disable-next-line no-await-in-loop
+        const cotacao = await Cotacao.findOne({
+          where: { id: query.id },
+        });
 
-      await cotacao.update({ CotacaoFileId: cotacaoFile.id });
+        // eslint-disable-next-line no-await-in-loop
+        const cotacaoFile = await CotacaoFile.create({ nome, path, CotacaoId: cotacao.id });
 
+        // eslint-disable-next-line no-await-in-loop
+        console.log(cotacaoFile);
+      }
       next();
       return res.json();
     } if (req.query.table === 'parcela') {
-      const { originalname: nome, filename: path } = req.file;
-      let { oportId } = req.query;
-      const cotacaoFile = await CotacaoFile.create({ nome, path });
-      oportId = parseInt(oportId, 10);
+      const { query, files } = req;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of files) {
+        const { originalname: nome, filename: path } = file;
 
-      const parcela = await Parcela.findOne({
-        where: { OportunidadeId: oportId },
-        limit: 1,
-        order: [['createdAt', 'DESC']],
-      });
-
-      await parcela.update({ CotacaoFileId: cotacaoFile.id });
-
+        const parcela = await Parcela.findOne({
+          where: { id: query.id },
+        });
+        const parcelaFile = await ParcelaFiles.create({ nome, path, ParcelaId: parcela.id });
+        console.log(parcelaFile);
+      }
       next();
     }
     return res.json();

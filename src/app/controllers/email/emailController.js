@@ -10,6 +10,7 @@ import CotacaoFiles from '../../models/cotacaoFiles';
 import CliCont from '../../models/cliCont';
 import Parcela from '../../models/parcela';
 import EmailParametros from '../../models/emailParametros';
+import ParcelaFiles from '../../models/parcelaFile';
 
 class AwsSesController {
   async store(req, res) {
@@ -47,20 +48,17 @@ class AwsSesController {
     const parametros = await EmailParametros.findOne({
       order: [['createdAt', 'DESC']],
     });
-    console.log(parametros.bccEmailOrc.split(','));
     if (req.query.tipo === 'cotacao' && req.query.situacao === 'orcamento') {
-      let { oportId, Cc } = req.query;
+      let { Cc } = req.query;
+      const { id } = req.query;
       const from = parametros.fromEmailOrc;
       let Bcc = parametros.bccEmailOrc.split(',');
       Bcc = Bcc.filter((v) => v !== '');
-      oportId = parseInt(oportId, 10);
       Cc = Cc.split(',');
       Cc = Cc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
-        where: { OportunidadeId: oportId },
+        where: { id },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
-        limit: 1,
-        order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
 
@@ -82,10 +80,10 @@ class AwsSesController {
           subject: `Orçamento | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: budgetEmail(dataBudget),
-          attachments: [{
-            name: `${cotacao.CotacaoFile.path}`,
-            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${cotacao.CotacaoFile.path}`),
-          }],
+          attachments: cotacao.CotacaoFiles.map(((arr) => ({
+            name: `${arr.nome}`,
+            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${arr.path}`),
+          }))),
         };
         const ses = new AWS.SESV2(sesConfig);
         const params = {
@@ -108,18 +106,16 @@ class AwsSesController {
         console.log(err);
       }
     } else if (req.query.tipo === 'cotacao' && req.query.situacao === 'revisao') {
-      let { oportId, Cc } = req.query;
+      let { Cc } = req.query;
+      const { id } = req.query;
       const from = parametros.fromEmailRev;
       let Bcc = parametros.bccEmailRev.split(',');
-      oportId = parseInt(oportId, 10);
       Bcc = Bcc.filter((v) => v !== '');
       Cc = Cc.split(',');
       Cc = Cc.filter((v) => v !== '');
       const cotacao = await Cotacao.findOne({
-        where: { OportunidadeId: oportId },
+        where: { id },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
-        limit: 1,
-        order: [['createdAt', 'DESC']],
       });
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
       const dataReview = {
@@ -139,10 +135,10 @@ class AwsSesController {
           subject: `Revisão | ${cotacao.Oportunidade.cod} - ${cotacao.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: reviewEmail(dataReview),
-          attachments: [{
-            name: `${cotacao.CotacaoFile.path}`,
-            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${cotacao.CotacaoFile.path}`),
-          }],
+          attachments: cotacao.CotacaoFiles.map((arr) => ({
+            name: `${arr.nome}`,
+            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${arr.path}`),
+          })),
         };
 
         const ses = new AWS.SESV2(sesConfig);
@@ -166,18 +162,16 @@ class AwsSesController {
         console.log(err);
       }
     } else if (req.query.tipo === 'parcela' && req.query.situacao === 'fatura') {
-      let { oportId, Cc } = req.query;
+      let { Cc } = req.query;
+      const { id } = req.query;
       const from = parametros.fromEmailFat;
       let Bcc = parametros.bccEmailFat.split(',');
       Bcc = Bcc.filter((v) => v !== '');
-      oportId = parseInt(oportId, 10);
       Cc = Cc.split(',');
       Cc = Cc.filter((v) => v !== '');
       const parcela = await Parcela.findOne({
-        where: { OportunidadeId: oportId },
-        include: [{ model: Oportunidade }, { model: CotacaoFiles }],
-        limit: 1,
-        order: [['createdAt', 'DESC']],
+        where: { id },
+        include: [{ model: Oportunidade }, { model: ParcelaFiles }],
       });
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
       const dataBill = {
@@ -199,10 +193,10 @@ class AwsSesController {
           subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
           bodyTxt: 'Plaintext version of the message',
           bodyHtml: billEmail(dataBill),
-          attachments: [{
-            name: `${parcela.CotacaoFile.path}`,
-            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${parcela.CotacaoFile.path}`),
-          }],
+          attachments: parcela.ParcelaFiles.map(((arr) => ({
+            name: `${arr.nome}`,
+            data: resolve(__dirname, `../../../../tmp/uploads/oportunidades/${arr.path}`),
+          }))),
         };
 
         const ses = new AWS.SESV2(sesConfig);

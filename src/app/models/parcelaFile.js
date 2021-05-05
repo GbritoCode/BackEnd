@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { Model, DataTypes } from 'sequelize';
 
-export default class CotacaoFiles extends Model {
+export default class ParcelaFiles extends Model {
   static init(sequelize) {
     super.init(
       {
         nome: DataTypes.STRING,
         path: DataTypes.STRING,
-        CotacaoId: DataTypes.INTEGER,
+        ParcelaId: DataTypes.INTEGER,
       },
       {
         sequelize,

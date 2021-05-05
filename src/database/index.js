@@ -33,6 +33,7 @@ import ResultPeriodo from '../app/models/resultPeriodo';
 import ResultPeriodoGerencial from '../app/models/resultPeriodoGerencial';
 import CotacaoFiles from '../app/models/cotacaoFiles';
 import EmailParametros from '../app/models/emailParametros';
+import ParcelaFiles from '../app/models/parcelaFile';
 
 const models = [
   EmailParametros,
@@ -41,9 +42,10 @@ const models = [
   cliRecDesp,
   Horas,
   Recurso,
+  CotacaoFiles,
+  ParcelaFiles,
   cotacao,
   parcela,
-  CotacaoFiles,
   Despesas,
   oportunidade,
   Cliente,
