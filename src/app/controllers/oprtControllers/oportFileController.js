@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import Cotacao from '../../models/cotacao';
+import CotacaoFiles from '../../models/cotacaoFiles';
 import CotacaoFile from '../../models/cotacaoFiles';
 import Parcela from '../../models/parcela';
 import ParcelaFiles from '../../models/parcelaFile';
@@ -62,6 +63,19 @@ class OportFileController {
         const { id } = params;
 
         const file = await ParcelaFiles.findByPk(id);
+
+        const directoryPath = resolve(__dirname, `../../../../tmp/uploads/oportunidades/${file.path}`);
+        res.download(directoryPath, file.nome, (err) => {
+          if (err) {
+            res.status(500).send({
+              message: `Could not download the file. ${err}`,
+            });
+          }
+        });
+      } else {
+        const { id } = params;
+
+        const file = await CotacaoFiles.findByPk(id);
 
         const directoryPath = resolve(__dirname, `../../../../tmp/uploads/oportunidades/${file.path}`);
         res.download(directoryPath, file.nome, (err) => {
