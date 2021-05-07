@@ -8,6 +8,7 @@ export default class CotacaoFiles extends Model {
         nome: DataTypes.STRING,
         path: DataTypes.STRING,
         CotacaoId: DataTypes.INTEGER,
+        size: DataTypes.INTEGER,
       },
       {
         sequelize,

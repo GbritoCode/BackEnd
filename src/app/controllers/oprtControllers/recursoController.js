@@ -30,7 +30,7 @@ class RecursoController {
     });
 
     Notifications.create({
-      content: `Você foi cadastrado na oportunidade ${oport.cod},${oport.Cliente.nomeAbv}, ${oport.desc}`,
+      content: `Você foi cadastrado em uma nova oportunidade,${oport.Cliente.nomeAbv} - ${oport.cod}, ${oport.desc}`,
       colab: req.body.ColabId,
     });
 

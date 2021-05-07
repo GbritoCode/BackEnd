@@ -34,8 +34,10 @@ import ResultPeriodoGerencial from '../app/models/resultPeriodoGerencial';
 import CotacaoFiles from '../app/models/cotacaoFiles';
 import EmailParametros from '../app/models/emailParametros';
 import ParcelaFiles from '../app/models/parcelaFile';
+import EmailHists from '../app/models/emailHist';
 
 const models = [
+  EmailHists,
   EmailParametros,
   cliCont,
   cliComp,

@@ -62,11 +62,12 @@ const uploadCotacao = multer(oportunidadeFile);
 routes.get('/', (req, res) => res.send('okok'));
 
 routes.post('/email', emailController.store);
+routes.post('/emailResend/oport/cotacao', emailController.resendMail);
 routes.post('/emailParams', emailParametrosController.store);
 routes.get('/emailParams', emailParametrosController.get);
 routes.put('/emailParams/:id', emailParametrosController.update);
 routes.post('/files/oport/cotacao', uploadCotacao.array('file'), oportFileController.store, emailController.store);
-routes.get('/download/oport/:id', oportFileController.download);
+routes.get('/download/oport/:method/:id', oportFileController.download);
 
 routes.get('/notifications/:colabId', notificationsController.index);
 routes.put('/notifications/:id', notificationsController.update);
