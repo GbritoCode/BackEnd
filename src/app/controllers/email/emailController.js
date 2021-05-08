@@ -201,7 +201,7 @@ class AwsSesController {
       });
 
       const parcelaDateAux = parcela.dtVencimento.split('-');
-      parcela.dtVencimento = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
+      const dateAux = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
 
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
 
@@ -210,7 +210,7 @@ class AwsSesController {
         descOport: parcela.Oportunidade.desc,
         parcelasOport: parcela.parcela,
         vlrParcelaOport: (parcela.vlrParcela / 100).toFixed(2),
-        dtVencParcela: parcela.dtVencimento,
+        dtVencParcela: dateAux,
         NFeParcela: parcela.notaFiscal,
         pedidoCliOport: parcela.pedidoCliente || 'Não Informado',
       };
@@ -424,7 +424,7 @@ class AwsSesController {
         include: [{ model: Oportunidade }, { model: ParcelaFiles }],
       });
       const parcelaDateAux = parcela.dtVencimento.split('-');
-      parcela.dtVencimento = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
+      const dateAux = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
 
       const firstEmailData = await EmailHists.findOne(
@@ -444,7 +444,7 @@ class AwsSesController {
         descOport: parcela.Oportunidade.desc,
         parcelasOport: parcela.parcela,
         vlrParcelaOport: (parcela.vlrParcela / 100).toFixed(2),
-        dtVencParcela: parcela.dtVencimento,
+        dtVencParcela: dateAux,
         NFeParcela: parcela.notaFiscal,
         pedidoCliOport: parcela.pedidoCliente || 'Não Informado',
       };
