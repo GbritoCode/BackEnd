@@ -60,6 +60,7 @@ class AwsSesController {
         where: { id },
         include: [{ model: Oportunidade }, { model: CotacaoFiles }],
       });
+
       const contato = await CliCont.findOne({ where: { id: cotacao.Oportunidade.contato } });
 
       const dataBudget = {
@@ -198,7 +199,12 @@ class AwsSesController {
         where: { id },
         include: [{ model: Oportunidade }, { model: ParcelaFiles }],
       });
+
+      const parcelaDateAux = parcela.dtVencimento.split('-');
+      parcela.dtVencimento = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
+
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
+
       const dataBill = {
         codOport: parcela.Oportunidade.cod,
         descOport: parcela.Oportunidade.desc,
@@ -417,7 +423,8 @@ class AwsSesController {
         where: { id },
         include: [{ model: Oportunidade }, { model: ParcelaFiles }],
       });
-
+      const parcelaDateAux = parcela.dtVencimento.split('-');
+      parcela.dtVencimento = `${parcelaDateAux[2]}/${parcelaDateAux[1]}/${parcelaDateAux[0]}`;
       const contato = await CliCont.findOne({ where: { id: parcela.Oportunidade.contato } });
 
       const firstEmailData = await EmailHists.findOne(
