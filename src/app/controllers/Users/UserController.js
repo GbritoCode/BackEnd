@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import Colab from '../models/colab';
-import Empresa from '../models/empresa';
-import users from '../models/users';
+import Colab from '../../models/colab';
+import Empresa from '../../models/empresa';
+import users from '../../models/users';
 
 class UserController {
   async store(req, res) {

@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import Cotacao from '../../models/cotacao';
+import CotacaoFiles from '../../models/cotacaoFiles';
 import Oportunidade from '../../models/oportunidade';
 
 class CotacaoController {
@@ -70,12 +71,18 @@ class CotacaoController {
     if (req.params.id && req.params.update) {
       const cot = await Cotacao.findOne({
         where: { id: req.params.update },
-        include: [{ model: Oportunidade }],
+        include: [{ model: Oportunidade }, { model: CotacaoFiles }],
       });
       return res.json(cot);
     } if (req.query.one === 'true') {
       const cot = await Cotacao.findAll({
         where: { OportunidadeId: req.params.id },
+        limit: 1,
+        order: [['createdAt', 'DESC']],
+      });
+      return res.json(cot);
+    } if (req.query.last === 'true') {
+      const cot = await Cotacao.findOne({
         limit: 1,
         order: [['createdAt', 'DESC']],
       });

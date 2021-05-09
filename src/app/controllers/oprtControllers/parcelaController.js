@@ -1,9 +1,12 @@
 import * as yup from 'yup';
 import moment from 'moment';
 import { Op } from 'sequelize';
+import { dirname, resolve } from 'path';
+import { unlink } from 'fs';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
 import Cliente from '../../models/cliente';
+import ParcelaFiles from '../../models/parcelaFile';
 
 class ParcelaController {
   async store(req, res) {
@@ -252,7 +255,7 @@ class ParcelaController {
     if (req.params.id && req.params.update) {
       const parc = await Parcelas.findOne({
         where: { id: req.params.update },
-        include: [{ model: Oportunidade }],
+        include: [{ model: Oportunidade }, { model: ParcelaFiles }],
       });
       return res.json(parc);
     }
@@ -313,8 +316,18 @@ class ParcelaController {
 
   async delete(req, res) {
     const parc = await Parcelas.findOne({
-      where: { id: req.params.id },
+      where: { id: req.params.id }, include: [{ model: ParcelaFiles }],
     });
+
+    parc.ParcelaFiles.map((arr) => {
+      const path = resolve(__dirname, `../../../../tmp/uploads/oportunidades/${arr.path}`);
+
+      unlink(path, (err) => {
+        if (err) throw err;
+        console.log('file deleted');
+      });
+    });
+
     parc.destroy();
     return res.status(200).json('Registro foi deletado com Sucesso!');
   }

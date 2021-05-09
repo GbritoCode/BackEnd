@@ -18,6 +18,7 @@ import ContaContabils from './ContaContabil';
 import CentroCustos from './CentroCusto';
 import FechamentoPerido from './fechamentoPeriodos';
 import ResultPeriodo from './resultPeriodo';
+import EmailParametros from './emailParametros';
 
 export default class Empresa extends Model {
   static init(sequelize) {
@@ -120,6 +121,9 @@ export default class Empresa extends Model {
 
     Empresa.hasOne(ResultPeriodo, { onDelete: 'cascade', hooks: true });
     ResultPeriodo.belongsTo(Empresa);
+
+    Empresa.hasOne(EmailParametros, { onDelete: 'cascade', hooks: true });
+    EmailParametros.belongsTo(Empresa);
     return this;
   }
 }

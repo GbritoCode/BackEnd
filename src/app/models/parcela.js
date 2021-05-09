@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import ParcelaFiles from './parcelaFile';
 
 export default class Parcela extends Model {
   static init(sequelize) {
@@ -21,7 +22,8 @@ export default class Parcela extends Model {
         sequelize,
       },
     );
-
+    Parcela.hasMany(ParcelaFiles, { onDelete: 'CASCADE', hooks: true });
+    ParcelaFiles.belongsTo(Parcela);
     return this;
   }
 }

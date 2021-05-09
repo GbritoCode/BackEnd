@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import CotacaoFiles from './cotacaoFiles';
 
 export default class Cotacao extends Model {
   static init(sequelize) {
@@ -22,7 +23,8 @@ export default class Cotacao extends Model {
         sequelize,
       },
     );
-
+    Cotacao.hasMany(CotacaoFiles, { onDelete: 'CASCADE', hooks: true });
+    CotacaoFiles.belongsTo(Cotacao);
     return this;
   }
 }

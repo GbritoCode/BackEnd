@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 import Area from '../app/models/area';
 import cliCont from '../app/models/cliCont';
 import cliRecDesp from '../app/models/cliRecDesp';
@@ -30,13 +31,21 @@ import CentroCustos from '../app/models/CentroCusto';
 import FechamentoPeriodo from '../app/models/fechamentoPeriodos';
 import ResultPeriodo from '../app/models/resultPeriodo';
 import ResultPeriodoGerencial from '../app/models/resultPeriodoGerencial';
+import CotacaoFiles from '../app/models/cotacaoFiles';
+import EmailParametros from '../app/models/emailParametros';
+import ParcelaFiles from '../app/models/parcelaFile';
+import EmailHists from '../app/models/emailHist';
 
 const models = [
+  EmailHists,
+  EmailParametros,
   cliCont,
   cliComp,
   cliRecDesp,
   Horas,
   Recurso,
+  CotacaoFiles,
+  ParcelaFiles,
   cotacao,
   parcela,
   Despesas,
@@ -67,12 +76,24 @@ const models = [
 class Database {
   constructor() {
     this.init();
+    this.mongo();
   }
 
   init() {
     this.connection = new Sequelize(databaseConfig);
 
     models.map((model) => model.init(this.connection));
+  }
+
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      'mongodb://localhost:27017/tovo',
+      {
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true,
+      },
+    );
   }
 }
 

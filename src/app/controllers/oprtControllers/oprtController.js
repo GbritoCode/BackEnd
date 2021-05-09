@@ -108,8 +108,22 @@ class OportController {
         include: [{ model: Recurso, required: true }],
       });
       return res.json(oport);
-    }
-    if (!req.params.id) {
+    } if (!req.params.id && req.query.finalizadas === 'true') {
+      const oport = await Oportunidade.findAll({
+        where: {
+          fase: { [Op.gte]: 5 },
+        },
+        include: [{ model: Empresas }, { model: Cliente }, {
+          model: Segmento,
+        }, { model: UndNeg }, { model: Colab }, { model: Representantes }, { model: RecDesp }],
+        order: [['id', 'ASC']],
+      });
+      for (let i = 0; i < oport.length; i++) {
+        const data = oport[i].dataValues.data.split('-');
+        oport[i].dataValues.data = `${data[2]}/${data[1]}/${data[0]}`;
+      }
+      return res.json(oport);
+    } if (!req.params.id) {
       const oport = await Oportunidade.findAll({
         where: {
           fase: { [Op.lt]: 5 },
@@ -124,8 +138,7 @@ class OportController {
         oport[i].dataValues.data = `${data[2]}/${data[1]}/${data[0]}`;
       }
       return res.json(oport);
-    }
-    if (req.params.id) {
+    } if (req.params.id) {
       const oport = await Oportunidade.findOne({
         where: { id: req.params.id },
         include: [{ model: Segmento }, { model: Cliente }],
