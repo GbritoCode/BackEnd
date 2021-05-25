@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import authConfig from '../../config/auth';
 import Colabs from '../models/colab';
 import Empresas from '../models/empresa';
+import Perfil from '../models/perfil';
 import User from '../models/users';
 
 class SessionController {
@@ -23,7 +24,7 @@ class SessionController {
     const user = await User.findOne({
       where: { email },
       include: [{ model: Empresas },
-        { model: Colabs }],
+        { model: Colabs, include: [{ model: Perfil }] }],
     });
 
     if (!user) {
@@ -38,6 +39,8 @@ class SessionController {
       id, nome, profile, isFirstLogin, Empresa, Colab,
     } = user;
 
+    console.log(Colab);
+    const permittedPages = Colab.Perfil.permittedPages.split(',');
     return res.json({
       user: {
         id,
@@ -47,7 +50,7 @@ class SessionController {
         Empresa,
         Colab,
       },
-      token: jwt.sign({ id }, authConfig.secret, {
+      token: jwt.sign({ id, acessible: permittedPages }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     });

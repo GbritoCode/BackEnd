@@ -9,17 +9,22 @@ class PerfilController {
     const schema = yup.object().shape({
       EmpresaId: yup.string().required(),
       desc: yup.string().required(),
+      cod: yup.string().required(),
+      permittedPages: yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const { EmpresaId, desc } = await Perfils.create(req.body);
+    const {
+      EmpresaId, desc, cod, permittedPages,
+    } = await Perfils.create(req.body);
 
     return res.json({
       EmpresaId,
-
+      cod,
+      permittedPages,
       desc,
     });
   }
@@ -35,12 +40,15 @@ class PerfilController {
 
   async update(req, res) {
     const Perfil = await Perfils.findByPk(req.params.id);
-    const { EmpresaId, desc } = await Perfil.update(req.body);
+    const {
+      EmpresaId, desc, cod, permittedPages,
+    } = await Perfil.update(req.body);
 
     return res.json({
       EmpresaId,
-
+      cod,
       desc,
+      permittedPages,
     });
   }
 

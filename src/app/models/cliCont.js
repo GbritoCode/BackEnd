@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import FollowUps from './FollowUps';
 
 export default class CliCont extends Model {
   static init(sequelize) {
@@ -17,7 +18,8 @@ export default class CliCont extends Model {
         sequelize,
       },
     );
-
+    CliCont.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
+    FollowUps.belongsTo(CliCont);
     return this;
   }
 }

@@ -52,6 +52,9 @@ import notificationsController from './app/controllers/Notifications/notificatio
 import emailController from './app/controllers/email/emailController';
 import oportFileController from './app/controllers/oprtControllers/oportFileController';
 import emailParametrosController from './app/controllers/email/emailParametrosController';
+import followUpController from './app/controllers/ClienteControllers/followUpController';
+import campanhaController from './app/controllers/ClienteControllers/campanhaController';
+import campoDinamicosProspectController from './app/controllers/ClienteControllers/campoDinamicosProspectController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -123,6 +126,21 @@ routes.post('/despesas', despesasController.store);
 routes.get('/despesas/:id?', despesasController.get);
 routes.put('/despesas/:id?', despesasController.update);
 routes.delete('/despesas/:id?', despesasController.delete);
+
+routes.post('/followUp', followUpController.store);
+routes.get('/followUp/:id/:update', followUpController.get);
+routes.put('/followUp/:id', followUpController.update);
+routes.delete('/followUp/:id', followUpController.delete);
+
+routes.post('/campanha', campanhaController.store);
+routes.get('/campanha/:id?/:update?', campanhaController.get);
+routes.put('/campanha/:id', campanhaController.update);
+routes.delete('/campanha/:id', campanhaController.delete);
+
+routes.post('/camposDinamicos', campoDinamicosProspectController.store);
+routes.get('/camposDinamicos/:id?/:update?', campoDinamicosProspectController.get);
+routes.put('/camposDinamicos/:id', campoDinamicosProspectController.update);
+routes.delete('/camposDinamicos/:id', campoDinamicosProspectController.delete);
 
 routes.post('/cliente', clienteController.store);
 routes.get('/cliente/:id?', clienteController.get);

@@ -1,22 +1,20 @@
 import { Model, DataTypes } from 'sequelize';
+import Cliente from './cliente';
 
-import Colab from './colab';
-
-export default class Perfil extends Model {
+export default class Campanhas extends Model {
   static init(sequelize) {
     super.init(
       {
         EmpresaId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
         cod: DataTypes.STRING,
-        permittedPages: DataTypes.STRING(500),
       },
       {
         sequelize,
       },
     );
-    Perfil.hasMany(Colab, { onDelete: 'cascade', hooks: true });
-    Colab.belongsTo(Perfil);
+    Campanhas.hasMany(Cliente, { onDelete: 'cascade', hooks: true });
+    Cliente.belongsTo(Campanhas);
     return this;
   }
 }

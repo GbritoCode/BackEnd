@@ -35,8 +35,13 @@ import CotacaoFiles from '../app/models/cotacaoFiles';
 import EmailParametros from '../app/models/emailParametros';
 import ParcelaFiles from '../app/models/parcelaFile';
 import EmailHists from '../app/models/emailHist';
+import FollowUps from '../app/models/FollowUps';
+import CamposDinamicosProspect from '../app/models/camposDinamicosProspects';
+import Campanhas from '../app/models/campanhas';
 
 const models = [
+  FollowUps,
+  CamposDinamicosProspect,
   EmailHists,
   EmailParametros,
   cliCont,
@@ -51,6 +56,7 @@ const models = [
   Despesas,
   oportunidade,
   Cliente,
+  Campanhas,
   Representante,
   Segmento,
   Area,

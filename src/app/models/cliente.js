@@ -5,6 +5,7 @@ import ClienteComp from './clienteComp';
 import cliCont from './cliCont';
 import CliRecDesp from './cliRecDesp';
 import Oportunidade from './oportunidade';
+import FollowUps from './FollowUps';
 
 export default class Cliente extends Model {
   static init(sequelize) {
@@ -18,6 +19,12 @@ export default class Cliente extends Model {
         TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         prospect: DataTypes.BOOLEAN,
+        CampanhaId: DataTypes.INTEGER,
+        CustomField1: DataTypes.STRING,
+        CustomField2: DataTypes.STRING,
+        CustomField3: DataTypes.STRING,
+        CustomField4: DataTypes.STRING,
+        CustomField5: DataTypes.STRING,
       },
       {
         sequelize,
@@ -56,6 +63,9 @@ export default class Cliente extends Model {
 
     Cliente.hasMany(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(Cliente);
+
+    Cliente.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
+    FollowUps.belongsTo(Cliente);
 
     return this;
   }

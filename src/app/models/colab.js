@@ -6,6 +6,7 @@ import ColabComp from './colabComp';
 import Horas from './horas';
 import Despesas from './despesas';
 import ResultPeriodo from './resultPeriodo';
+import FollowUps from './FollowUps';
 
 export default class Colab extends Model {
   static init(sequelize) {
@@ -46,6 +47,9 @@ export default class Colab extends Model {
 
     Colab.hasMany(ResultPeriodo, { onDelete: 'cascade', hooks: true });
     ResultPeriodo.belongsTo(Colab);
+
+    Colab.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
+    FollowUps.belongsTo(Colab);
     return this;
   }
 }
