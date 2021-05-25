@@ -22,6 +22,14 @@ class CampanhaController {
         const followUps = await FollowUps.findAll(
           { where: { ClienteId }, include: [{ model: Cliente }, { model: CliCont }] },
         );
+
+        for (let i = 0; i < followUps.length; i++) {
+          const newDateContact = followUps[i].dataContato.split('-');
+          followUps[i].dataValues.dataContato = `${newDateContact[2]}/${newDateContact[1]}/${newDateContact[0]}`;
+          const newDateProxContact = followUps[i].dataProxContato.split('-');
+          followUps[i].dataValues.dataProxContato = `${newDateProxContact[2]}/${newDateProxContact[1]}/${newDateProxContact[0]}`;
+        }
+
         return res.json(followUps);
       }
       return res.end();
