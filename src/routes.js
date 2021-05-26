@@ -103,7 +103,7 @@ routes.delete('/centroCusto/:id?', centroCustosController.delete);
 routes.post('/oportunidade', oprtController.store);
 routes.get('/oportunidade/:id?', oprtController.get);
 routes.put('/oportunidade/:id', oprtController.update);
-routes.post('/cotacao', cotacaoController.store);
+routes.post('/cotacao', uploadCotacao.array('file'), cotacaoController.store);
 routes.get('/cotacao/:id?/:update?', cotacaoController.get);
 routes.put('/cotacao/:id?', cotacaoController.update);
 routes.post('/recurso', recursoController.store);
