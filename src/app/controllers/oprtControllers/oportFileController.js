@@ -12,6 +12,7 @@ class OportFileController {
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
         const { originalname: nome, filename: path, size } = file;
+        console.log(req);
 
         // eslint-disable-next-line no-await-in-loop
         const cotacao = await Cotacao.findOne({
