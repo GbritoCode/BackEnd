@@ -24,7 +24,7 @@ export const oportunidadeFile = {
         if (err) return cb(err);
         const date = new Date().toLocaleString('pt-br').replace(/\//g, '-').slice(0, 10);
         return cb(null,
-          `${query.tipo}Id=${query.id}_oportId=${query.oportId}_${date}_${Math.round(Math.random() * 1E9)}${extname(file.originalname)}`);
+          `${res.toString('hex')}_${Math.round(Math.random() * 1E9)}${extname(file.originalname)}`);
       });
     },
   }),
