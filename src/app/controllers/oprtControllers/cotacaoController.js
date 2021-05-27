@@ -60,7 +60,7 @@ class CotacaoController {
           cotacao.id}_oportId=${cotacao.OportunidadeId}_${date}_${
           Math.round(Math.random() * 1E9)}${extname(file.originalname)}`;
         // eslint-disable-next-line no-await-in-loop
-        await rename(file.path, `${file.destination}\\${path}`,
+        await rename(file.path, `${file.destination}/${path}`,
           (err) => {
             if (err) throw err;
             console.log('Rename complete!');
@@ -189,7 +189,7 @@ class CotacaoController {
         }
         console.log(Cc === [] ? Cc : '');
         await EmailHists.create({
-          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: parseInt(id, 10),
+          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: cotacaoEmail.id,
         });
 
         const exampleSendEmail = async () => {
