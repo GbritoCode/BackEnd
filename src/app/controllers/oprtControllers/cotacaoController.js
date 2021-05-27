@@ -189,7 +189,7 @@ class CotacaoController {
         }
         console.log(Cc === [] ? Cc : '');
         await EmailHists.create({
-          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: parseInt(id, 10),
+          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: cotacao.id,
         });
 
         const exampleSendEmail = async () => {
