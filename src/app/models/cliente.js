@@ -30,7 +30,7 @@ export default class Cliente extends Model {
         sequelize,
       },
     );
-    this.addHook('afterSave', async (cliente) => {
+    this.addHook('afterCreate', async (cliente) => {
       const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`);
       if (response.data.status === 'OK') {
         cliente.sequelize.models.CliComp.create({
