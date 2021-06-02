@@ -5,7 +5,7 @@ import CliComp from '../../models/clienteComp';
 class ProspectController {
   async store(req, res) {
     try {
-      const { Endereço: endereco, 'Informações básicas': basicInfo, Contato: contato } = req.body;
+      const { 'Complemento Prospect': endereco, 'Informações básicas': basicInfo, 'Contato Prospect': contato } = req.body;
 
       basicInfo.CNPJ = basicInfo.CNPJ.replace(/[^\d]+/g, '');
       console.log(basicInfo);
