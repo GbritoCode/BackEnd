@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import Campanhas_Clientes from './Campanhas_Clientes';
 import Cliente from './cliente';
 
 export default class Campanhas extends Model {
@@ -8,13 +9,16 @@ export default class Campanhas extends Model {
         EmpresaId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
         cod: DataTypes.STRING,
+        objetivo: DataTypes.STRING,
+        dataInic: DataTypes.DATEONLY,
+        dataFim: DataTypes.DATEONLY,
+        ColabId: DataTypes.INTEGER,
       },
       {
         sequelize,
       },
     );
-    Campanhas.hasMany(Cliente, { onDelete: 'cascade', hooks: true });
-    Cliente.belongsTo(Campanhas);
+
     return this;
   }
 }

@@ -14,17 +14,17 @@ class OportFileController {
         const { originalname: nome, filename: path, size } = file;
         console.log(req);
 
-        // eslint-disable-next-line no-await-in-loop
+        //
         const cotacao = await Cotacao.findOne({
           where: { id: query.id },
         });
 
-        // eslint-disable-next-line no-await-in-loop
+        //
         const cotacaoFile = await CotacaoFile.create({
           nome, path, CotacaoId: cotacao.id, size,
         });
 
-        // eslint-disable-next-line no-await-in-loop
+        //
         console.log(cotacaoFile);
       }
       next();

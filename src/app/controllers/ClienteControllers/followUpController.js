@@ -11,7 +11,7 @@ class CampanhaController {
   async get(req, res) {
     try {
       const { update, id } = req.params;
-      const { ClienteId } = req.query;
+      const { ClienteId, CampanhaId } = req.query;
       if (update === 'true') {
         const followUps = await FollowUps.findOne({
           where: { id },
@@ -20,7 +20,10 @@ class CampanhaController {
       }
       if (id && update !== 'true') {
         const followUps = await FollowUps.findAll(
-          { where: { ClienteId }, include: [{ model: Cliente }, { model: CliCont }] },
+          {
+            where: { ClienteId, CampanhasId: CampanhaId },
+            include: [{ model: Cliente }, { model: CliCont }],
+          },
         );
 
         for (let i = 0; i < followUps.length; i++) {

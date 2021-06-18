@@ -6,6 +6,8 @@ import cliCont from './cliCont';
 import CliRecDesp from './cliRecDesp';
 import Oportunidade from './oportunidade';
 import FollowUps from './FollowUps';
+import Campanhas from './campanhas';
+import Campanhas_Clientes from './Campanhas_Clientes';
 
 export default class Cliente extends Model {
   static init(sequelize) {
@@ -19,7 +21,6 @@ export default class Cliente extends Model {
         TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         prospect: DataTypes.BOOLEAN,
-        CampanhaId: DataTypes.INTEGER,
         CustomField1: DataTypes.STRING,
         CustomField2: DataTypes.STRING,
         CustomField3: DataTypes.STRING,
@@ -52,6 +53,10 @@ export default class Cliente extends Model {
         return Promise.reject(new Error('Há um erro no CNPJ, cliente não criado, por favor verifique os dados e tente novamente'));
       }
     });
+
+    Cliente.belongsToMany(Campanhas, { through: 'Campanhas_Clientes', foreignKey: 'ClienteId' });
+    Campanhas.belongsToMany(Cliente, { through: 'Campanhas_Clientes', foreignKey: 'CampanhaId' });
+
     Cliente.hasOne(ClienteComp, { onDelete: 'cascade', hooks: true });
     ClienteComp.belongsTo(Cliente);
 

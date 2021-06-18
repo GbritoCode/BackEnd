@@ -1,3 +1,4 @@
+import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import CliCont from '../../models/cliCont';
 import Cliente from '../../models/cliente';
 import CliComp from '../../models/clienteComp';
@@ -8,11 +9,18 @@ class ProspectController {
       const { 'Complemento Prospect': endereco, 'Informações básicas': basicInfo, 'Contato Prospect': contato } = req.body;
 
       basicInfo.CNPJ = basicInfo.CNPJ.replace(/[^\d]+/g, '');
-      console.log(basicInfo);
-      console.log(endereco);
-      console.log(contato);
 
       const cliente = await Cliente.create(basicInfo);
+
+      if (basicInfo.CampanhaIds) {
+        for (let i = 0; i < basicInfo.CampanhaIds.length; i++) {
+          await Campanhas_Clientes.create({
+            ClienteId: cliente.id,
+            CampanhaId: basicInfo.CampanhaIds[i],
+          });
+        }
+      }
+
       contato.ClienteId = cliente.id;
       const delay = (ms) => new Promise((resp) => setTimeout(resp, ms));
       await delay(250);

@@ -4,51 +4,47 @@ import representantes from '../../models/representante';
 import tipoComiss from '../../models/tipoComiss';
 import Empresa from '../../models/empresa';
 import Oportunidade from '../../models/oportunidade';
+import Campanhas_Clientes from '../../models/Campanhas_Clientes';
+import Campanhas from '../../models/campanhas';
 
 class ClienteController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      CNPJ: yup.string().required(),
-      nomeAbv: yup.string().required(),
-      rzSoc: yup.string().required(),
-      fantasia: yup.string().optional(),
-      RepresentanteId: yup.string().required(),
-      TipoComisseId: yup.number(),
-      EmpresaId: yup.number().required(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
     try {
-      const {
-        id,
-        CNPJ,
-        nomeAbv,
-        rzSoc,
-        fantasia,
-        RepresentanteId,
-        TipoComisseId,
-        EmpresaId,
-      } = await Cliente.create(req.body);
-      return res.json({
-        id,
-        CNPJ,
-        nomeAbv,
-        rzSoc,
-        fantasia,
-        RepresentanteId,
-        TipoComisseId,
-        EmpresaId,
+      const { body } = req;
+      const schema = yup.object().shape({
+        CNPJ: yup.string().required(),
+        nomeAbv: yup.string().required(),
+        rzSoc: yup.string().required(),
+        fantasia: yup.string().optional(),
+        RepresentanteId: yup.string().required(),
+        TipoComisseId: yup.number(),
+        EmpresaId: yup.number().required(),
       });
+
+      if (!(await schema.isValid(body))) {
+        return res.status(400).json({ error: 'Validation Fails' });
+      }
+      const cliente = await Cliente.create(body);
+
+      if (body.CampanhaIds) {
+        for (let i = 0; i < body.CampanhaIds.length; i++) {
+          await Campanhas_Clientes.create({
+            ClienteId: cliente.id,
+            CampanhaId: body.CampanhaIds[i],
+          });
+        }
+      }
+
+      return res.json(cliente);
     } catch (err) {
-      return res.status(400).json(err.message);
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
   }
 
   async get(req, res) {
-    if (req.query.prospect) {
-      const { prospect } = req.query;
+    const { prospect, CampanhaId } = req.query;
+    if (prospect) {
       if (prospect === 'true') {
         const cliente = await Cliente.findAll({
           where: { prospect: true },
@@ -63,6 +59,17 @@ class ClienteController {
       const cliente = await Cliente.findAll({
         where: { prospect: false },
         include: [
+          { model: representantes },
+          { model: tipoComiss },
+          { model: Empresa },
+        ],
+      });
+      return res.json(cliente);
+    }
+    if (CampanhaId) {
+      const cliente = await Cliente.findAll({
+        include: [
+          { model: Campanhas, where: { id: CampanhaId } },
           { model: representantes },
           { model: tipoComiss },
           { model: Empresa },

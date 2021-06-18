@@ -12,6 +12,7 @@ export default class FollowUps extends Model {
         dataProxContato: DataTypes.DATEONLY,
         detalhes: DataTypes.STRING,
         reacao: DataTypes.STRING,
+        CampanhasId: DataTypes.INTEGER,
       },
       {
         sequelize,

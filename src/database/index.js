@@ -38,6 +38,7 @@ import EmailHists from '../app/models/emailHist';
 import FollowUps from '../app/models/FollowUps';
 import CamposDinamicosProspect from '../app/models/camposDinamicosProspects';
 import Campanhas from '../app/models/campanhas';
+import Campanhas_Clientes from '../app/models/Campanhas_Clientes';
 
 const models = [
   FollowUps,
@@ -55,8 +56,9 @@ const models = [
   parcela,
   Despesas,
   oportunidade,
-  Cliente,
   Campanhas,
+  Cliente,
+  Campanhas_Clientes,
   Representante,
   Segmento,
   Area,
@@ -87,8 +89,7 @@ class Database {
 
   init() {
     this.connection = new Sequelize(databaseConfig);
-
-    models.map((model) => model.init(this.connection));
+    models.forEach((model) => model.init(this.connection));
   }
 
   mongo() {
