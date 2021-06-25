@@ -1,7 +1,10 @@
+import { differenceInHours, parseISO } from 'date-fns';
+import differenceInDays from 'date-fns/differenceInDays';
 import Campanha from '../../models/campanhas';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Cliente from '../../models/cliente';
 import Colab from '../../models/colab';
+import FollowUps from '../../models/FollowUps';
 import Representante from '../../models/representante';
 import TipoComisse from '../../models/tipoComiss';
 
@@ -42,6 +45,10 @@ class CampanhaController {
           model: Cliente,
           include: [
             { model: Representante }, { model: TipoComisse },
+            {
+              model: FollowUps,
+              order: [['createdAt', 'DESC']],
+            },
           ],
         },
         {
@@ -49,6 +56,19 @@ class CampanhaController {
         },
       ],
     });
+    for (let i = 0; i < campanha.length; i++) {
+      for (let j = 0; j < campanha[i].Clientes.length; j++) {
+        for (let k = 0; k < campanha[i].Clientes[j].FollowUps.length; k++) {
+          const data = campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato.split('-');
+          campanha[i].Clientes[j].FollowUps[k].dataValues.distanceFromToday = Math.ceil(
+            differenceInHours(
+              parseISO(campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato), new Date(),
+            ) / 24,
+          ) || 0;
+          campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato = `${data[2]}/${data[1]}/${data[0]}`;
+        }
+      }
+    }
     return res.json(campanha);
   }
 

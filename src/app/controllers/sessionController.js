@@ -39,7 +39,6 @@ class SessionController {
       id, nome, profile, isFirstLogin, Empresa, Colab,
     } = user;
 
-    console.log(Colab);
     const permittedPages = Colab.Perfil.permittedPages.split(',');
     return res.json({
       user: {
@@ -50,9 +49,10 @@ class SessionController {
         Empresa,
         Colab,
       },
-      token: jwt.sign({ id, acessible: permittedPages }, authConfig.secret, {
+      token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
+      acessible: permittedPages,
     });
   }
 }

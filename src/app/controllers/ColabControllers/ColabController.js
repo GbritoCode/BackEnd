@@ -3,6 +3,7 @@ import moment from 'moment';
 import { getDaysInMonth } from 'date-fns';
 import * as yup from 'yup';
 import Colab from '../../models/colab';
+import Perfil from '../../models/perfil';
 import Empresa from '../../models/empresa';
 import fornec from '../../models/fornec';
 import Horas from '../../models/horas';
@@ -160,7 +161,7 @@ class ColabController {
     }
     if (!req.params.id) {
       const colab = await Colab.findAll({
-        include: [{ model: fornec }, { model: Empresa }],
+        include: [{ model: fornec }, { model: Empresa }, { model: Perfil }],
         order: [['nome']],
       });
       return res.json(colab);

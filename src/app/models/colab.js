@@ -8,6 +8,7 @@ import Despesas from './despesas';
 import ResultPeriodo from './resultPeriodo';
 import FollowUps from './FollowUps';
 import Campanhas from './campanhas';
+import Representante from './representante';
 
 export default class Colab extends Model {
   static init(sequelize) {
@@ -34,7 +35,7 @@ export default class Colab extends Model {
     Colab.hasOne(ColabComp, { onDelete: 'cascade', hooks: true });
     ColabComp.belongsTo(Colab);
 
-    Colab.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Colab.hasMany(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(Colab);
 
     Colab.hasMany(Recurso, { onDelete: 'cascade', hooks: true });
@@ -54,6 +55,9 @@ export default class Colab extends Model {
 
     Colab.hasMany(Campanhas, { onDelete: 'cascade', hooks: true });
     Campanhas.belongsTo(Colab);
+
+    Colab.hasOne(Representante, { onDelete: 'cascade', hooks: true });
+    Representante.belongsTo(Colab);
     return this;
   }
 }

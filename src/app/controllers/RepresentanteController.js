@@ -11,24 +11,15 @@ class RepresentanteController {
       nome: yup.string().required(),
       TipoComisseId: yup.number().required(),
       vlrFixMens: yup.number().required(),
+      ColabId: yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const {
-      EmpresaId,
-      nome,
-      TipoComisseId,
-      vlrFixMens,
-    } = await Representante.create(req.body);
-    return res.json({
-      EmpresaId,
-      nome,
-      TipoComisseId,
-      vlrFixMens,
-    });
+    const representante = await Representante.create(req.body);
+    return res.json(representante);
   }
 
   async get(req, res) {

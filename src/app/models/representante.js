@@ -11,6 +11,7 @@ export default class Representante extends Model {
         nome: DataTypes.STRING,
         TipoComisseId: DataTypes.DECIMAL,
         vlrFixMens: DataTypes.DECIMAL,
+        ColabId: DataTypes.INTEGER,
       },
       {
         sequelize,
