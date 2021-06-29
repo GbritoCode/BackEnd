@@ -75,6 +75,12 @@ class ClienteController {
           { model: Empresa },
         ],
       });
+      // for (let i = 0; i < cliente.length; i++) {
+      //   const created = cliente[i].dataValues.createdAt.slice(9);
+      //   console.log(created);
+      //   const data = cliente[i].dataValues.createdAt.split('-');
+      //   cliente[i].dataValues.createdAt = `${data[2]}/${data[1]}/${data[0]}`;
+      // }
       return res.json(cliente);
     }
     if (!req.params.id) {
