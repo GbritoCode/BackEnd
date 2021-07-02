@@ -3,6 +3,8 @@ import Representante from '../models/representante';
 import tipoComiss from '../models/tipoComiss';
 import Empresa from '../models/empresa';
 import Cliente from '../models/cliente';
+import Colab from '../models/colab';
+import Perfil from '../models/perfil';
 
 class RepresentanteController {
   async store(req, res) {
@@ -25,7 +27,9 @@ class RepresentanteController {
   async get(req, res) {
     if (!req.params.id) {
       const representante = await Representante.findAll({
-        include: [{ model: tipoComiss }, { model: Empresa }],
+        include: [{ model: tipoComiss }, { model: Empresa }, {
+          model: Colab, include: [{ model: Perfil }],
+        }],
       });
       return res.json(representante);
     }
