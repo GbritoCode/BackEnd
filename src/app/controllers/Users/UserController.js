@@ -74,9 +74,9 @@ class UserController {
       }
     }
 
-    if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
-      return res.status(401).json({ error: 'Password does not match' });
-    }
+   // if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
+   //  return res.status(401).json({ error: 'Password does not match' });
+   // }
 
     const { id, nome, profile } = await user.update(req.body);
 
