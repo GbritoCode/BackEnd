@@ -129,6 +129,7 @@ routes.put('/despesas/:id?', despesasController.update);
 routes.delete('/despesas/:id?', despesasController.delete);
 
 routes.post('/followUp', followUpController.store);
+routes.post('/followUp/meeting', followUpController.meeting);
 routes.get('/followUp/:id/:update', followUpController.get);
 routes.put('/followUp/:id', followUpController.update);
 routes.delete('/followUp/:id', followUpController.delete);

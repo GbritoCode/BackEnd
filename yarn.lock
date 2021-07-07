@@ -84,6 +84,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.66.tgz#dd035d409df322acc83dff62a602f12a5783bbb3"
   integrity sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==
 
+"@types/uuid@8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
+  integrity sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -721,6 +726,11 @@ commander@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
+
+commander@~2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.6.0.tgz#9df7e52fb2a0cb0fb89058ee80c3104225f37e1d"
+  integrity sha1-nfflL7Kgyw+4kFjugMMQQiXzfh0=
 
 component-emitter@^1.2.1:
   version "1.3.0"
@@ -1900,6 +1910,20 @@ http-signature@~1.2.0:
     assert-plus "^1.0.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
+
+ical-toolkit@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/ical-toolkit/-/ical-toolkit-1.0.9.tgz#4a15eb93c99ee23b636568add61a635d0590794e"
+  integrity sha1-ShXrk8me4jtjZWit1hpjXQWQeU4=
+  dependencies:
+    ical2json "^0.2.0"
+
+ical2json@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ical2json/-/ical2json-0.2.0.tgz#66408108b73a51b542244c9eed37e645759fe63a"
+  integrity sha1-ZkCBCLc6UbVCJEye7TfmRXWf5jo=
+  dependencies:
+    commander "~2.6.0"
 
 iconv-lite@0.4.15:
   version "0.4.15"
@@ -4412,15 +4436,23 @@ uuid@3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
+uuid@8.3.2, uuid@^8.1.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
 uuid@^3.1.0, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-uuid@^8.1.0:
-  version "8.3.2"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
-  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+uuidv4@^6.2.11:
+  version "6.2.11"
+  resolved "https://registry.yarnpkg.com/uuidv4/-/uuidv4-6.2.11.tgz#34d5a03324eb38296b87ae523a64233b5286cc27"
+  integrity sha512-OTS4waH9KplrXNADKo+Q1kT9AHWr8DaC0S5F54RQzEwcUaEzBEWQQlJyDUw/u1bkRhJyqkqhLD4M4lbFbV+89g==
+  dependencies:
+    "@types/uuid" "8.3.1"
+    uuid "8.3.2"
 
 v8-compile-cache@^2.0.3:
   version "2.2.0"

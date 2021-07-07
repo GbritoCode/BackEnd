@@ -1,5 +1,7 @@
 import MailComposer from 'nodemailer/lib/mail-composer';
 import AWS from 'aws-sdk';
+import icalToolkit from 'ical-toolkit';
+import { uuid } from 'uuidv4';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
 import Cliente from '../../models/cliente';
@@ -24,6 +26,8 @@ class CampanhaController {
       });
 
       if (req.body.proxPasso === '10') {
+        // Create a builder
+
         const generateRawMailData = (message) => {
           const mailOptions = {
             from: message.fromEmail,
@@ -48,7 +52,7 @@ class CampanhaController {
         const exampleSendEmail = async () => {
           const message = {
             fromEmail: from,
-            to: [from],
+            to: ['jsilva@aidera.com.br', 'gabrielcabeca26@gmail.com'],
             cc: [],
             bcc: Bcc,
             subject: 'Prospecção em campanha finalizada',
@@ -72,28 +76,130 @@ class CampanhaController {
             FromEmailAddress: message.fromEmail,
             ReplyToAddresses: message.replyTo,
           };
-          console.log(params.Destination);
           try {
-            const response = await ses.sendEmail(params).promise();
-            console.log(response);
-            return res.status(200).json({ message: 'Email Enviado' });
+            await ses.sendEmail(params).promise();
           } catch (err) {
             throw new SequelizeDelete(err, followUps);
           }
         };
         try {
-          const response = await exampleSendEmail();
-          console.log(response);
-          return res.status(200).json({ message: 'Email Enviado' });
+          await exampleSendEmail();
+          return res.status(200);
         } catch (err) {
           console.log(err.message);
-          console.log(err);
           err.sequelizeObject.destroy();
           return res.status(500).json({ error: 'Erro Interno do Servidor' });
         }
       }
       return res.json(followUps);
     } catch (err) {
+      return res.status(500).json({ error: 'Erro Interno do Servidor, Email não enviado' });
+    }
+  }
+
+  async meeting(req, res) {
+    const { meetingValues, tagsinput } = req.body;
+    // tagsinput.concat(meetingValues.organizerEmail, meetingValues.mainP articipant);
+    console.log(meetingValues);
+    const startHour = meetingValues.startTime.value.split(':');
+    const endHour = meetingValues.endTime.value.split(':');
+
+    const initialDate = `${meetingValues.date.value}T${startHour[0]}:${startHour[1]}:00-03:00`;
+    const finalDate = `${meetingValues.date.value}T${endHour[0]}:${endHour[1]}:00-03:00`;
+    console.log(new Date(initialDate));
+
+    try {
+      // Create a builder
+      const builder = icalToolkit.createIcsFileBuilder();
+      builder.method = 'REQUEST'; // The method of the request that you want, could be REQUEST, PUBLISH, etc
+
+      // Add events
+      builder.events.push({
+        start: new Date(initialDate),
+        end: new Date(finalDate),
+        summary: meetingValues.title.value,
+        categories: [{ name: 'MEETING' }],
+        location: meetingValues.location.value,
+        description: meetingValues.description.value,
+        // attendees: [
+        //   {
+        //     name: 'A1', // Required
+        //     email: 'gabrielcabeca26@gmail.com', // Required
+        //     rsvp: true, // Optional, adds 'RSVP=TRUE' , tells the application that organiser needs a RSVP response.
+        //   },
+        // ],
+        organizer: {
+          name: meetingValues.organizerName.value,
+          email: meetingValues.organizerEmail.value,
+        },
+      });
+
+      // Try to build
+      const icsFileContent = builder.toString();
+      // console.log(icsFileContent);
+
+      // Check if there was an error (Only required if yu configured to return error, else error will be thrown.)
+      if (icsFileContent instanceof Error) {
+        console.log('Returned Error, you can also configure to throw errors!');
+        // handle error
+      }
+      const generateRawMailData = (message) => {
+        const mailOptions = {
+          from: message.fromEmail,
+          to: message.to,
+          cc: message.cc,
+          bcc: message.bcc,
+          subject: message.subject,
+          text: message.bodyTxt,
+          html: message.bodyHtml,
+          alternatives: [
+            {
+              contentType: 'text/calendar; charset="utf-8"; method=REQUEST',
+              content: icsFileContent.toString(),
+            },
+          ],
+        };
+        return new MailComposer(mailOptions).compile().build();
+      };
+      const exampleSendEmail = async () => {
+        const message = {
+          fromEmail: 'gbrito@aidera.com.br',
+          to: tagsinput,
+          cc: [],
+          bcc: [],
+          subject: 'Prospecção em campanha finalizada',
+          bodyTxt: '',
+        };
+        const ses = new AWS.SESV2(sesConfig);
+        const params = {
+          Content: { Raw: { Data: await generateRawMailData(message) } },
+          Destination: {
+            ToAddresses: message.to,
+            BccAddresses: message.bcc,
+            CcAddresses: message.cc,
+          },
+          FromEmailAddress: message.fromEmail,
+          ReplyToAddresses: message.replyTo,
+        };
+        console.log(params.Destination);
+        try {
+          await ses.sendEmail(params).promise();
+        } catch (err) {
+          console.log(err);
+          throw new Error(err);
+        }
+      };
+      try {
+        await exampleSendEmail();
+        return res.status(200).json({ message: 'Email Enviado' });
+      } catch (err) {
+        console.log(err.message);
+        console.log(err);
+        err.sequelizeObject.destroy();
+        return res.status(500).json({ error: 'Erro Interno do Servidor' });
+      }
+    } catch (err) {
+      console.log(err);
       return res.status(500).json({ error: 'Erro Interno do Servidor, Email não enviado' });
     }
   }
