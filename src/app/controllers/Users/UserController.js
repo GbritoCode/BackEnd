@@ -78,6 +78,8 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
+    await colab.update({ aniver: req.body.aniver });
+
     const { id, nome, profile } = await user.update(req.body);
 
     return res.json({

@@ -35,7 +35,7 @@ class SessionController {
       if (!(await user.checkPassword(senha))) {
         return res.status(401).json({ error: 'Password does not match' });
       }
-
+      console.log(user);
       const {
         id, nome, profile, isFirstLogin, Empresa, Colab,
       } = user;
