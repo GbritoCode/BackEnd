@@ -35,10 +35,11 @@ class SessionController {
       if (!(await user.checkPassword(senha))) {
         return res.status(401).json({ error: 'Password does not match' });
       }
-      console.log(user);
+
       const {
-        id, nome, profile, isFirstLogin, Empresa, Colab,
+        id, nome, profile, isFirstLogin, Colab,
       } = user;
+      const empresa = Empresas.findByPk(Colab.EmpresaId);
 
       const permittedPages = Colab === null ? '' : Colab.Perfil === null ? '' : Colab.Perfil.permittedPages.split(',');
       return res.json({
@@ -47,7 +48,7 @@ class SessionController {
           nome,
           profile,
           isFirstLogin,
-          Empresa,
+          empresa,
           Colab,
         },
         token: jwt.sign({ id }, authConfig.secret, {
