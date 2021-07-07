@@ -12,7 +12,7 @@ export default class FollowUps extends Model {
         dataProxContato: DataTypes.DATEONLY,
         detalhes: DataTypes.STRING,
         reacao: DataTypes.STRING,
-        CampanhasId: DataTypes.INTEGER,
+        CampanhaId: DataTypes.INTEGER,
         proxPasso: DataTypes.INTEGER,
         prefContato: DataTypes.INTEGER,
       },

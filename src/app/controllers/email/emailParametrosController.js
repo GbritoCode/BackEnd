@@ -23,17 +23,6 @@ class ParametrosController {
 
   async update(req, res) {
     const parametros = await ParametrosEmail.findByPk(req.params.id);
-    const {
-      EmpresaId,
-      bccEmailOrc,
-      bccEmailRev,
-      bccEmailFat,
-      fromEmailOrc,
-      fromEmailRev,
-      fromEmailFat,
-    } = req.body;
-    console.log(EmpresaId,
-      bccEmailOrc);
 
     const param = await parametros.update(req.body);
 

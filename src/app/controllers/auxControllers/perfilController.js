@@ -6,27 +6,32 @@ import Colab from '../../models/colab';
 
 class PerfilController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      EmpresaId: yup.string().required(),
-      desc: yup.string().required(),
-      cod: yup.string().required(),
-      permittedPages: yup.string().required(),
-    });
+    try {
+      const schema = yup.object().shape({
+        EmpresaId: yup.string().required(),
+        desc: yup.string().required(),
+        cod: yup.string().required(),
+        permittedPages: yup.string().required(),
+      });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation Fails' });
+      }
+
+      const {
+        EmpresaId, desc, cod, permittedPages,
+      } = await Perfils.create(req.body);
+
+      return res.json({
+        EmpresaId,
+        cod,
+        permittedPages,
+        desc,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    const {
-      EmpresaId, desc, cod, permittedPages,
-    } = await Perfils.create(req.body);
-
-    return res.json({
-      EmpresaId,
-      cod,
-      permittedPages,
-      desc,
-    });
   }
 
   async get(req, res) {

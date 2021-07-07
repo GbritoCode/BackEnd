@@ -38,6 +38,18 @@ export default class Empresa extends Model {
     );
 
     this.addHook('afterSave', async (empresa) => {
+      const user = await empresa.sequelize.models.ParametrosEmail.findByPk(empresa.UserId);
+      await empresa.sequelize.models.ParametrosEmail.create({
+        EmpresaId: empresa.id,
+        bccEmailOrc: user.email,
+        bccEmailRev: user.email,
+        bccEmailFat: user.email,
+        bccEmailCRM: user.email,
+        fromEmailOrc: user.email,
+        fromEmailRev: user.email,
+        fromEmailFat: user.email,
+        fromEmailCRM: user.email,
+      });
       await empresa.sequelize.models.Parametros.create({
         EmpresaId: empresa.id,
         IRPJ: 0,
@@ -68,6 +80,8 @@ export default class Empresa extends Model {
       await empresa.sequelize.models.Perfil.create({
         EmpresaId: empresa.id,
         desc: 'Admnistrador',
+        cod: 'admin',
+        permittedPages: 'Pessoal Dash,Gerencial Dash,Comercial Dash,Parametros Up,Emails Up,Perfis Tab,Períodos Tab,Liberar Períodos Tab,Prospecção,acessoTotal,Condição de Pagamento Tab,Tipos de Comissão Tab,Conta Contábil Tab,Centro de Custo Tab,Receita e Despesa Tab,Representante Tab,Clientes Tab,Prospects Tab,Campanhas Tab,Campos Dinâmicos Tab,Fornecedor Tab,Colaborador Tab,Area Tab,Empresa Tab,Produto Tab,Unidade de Negócio Tab,Segmento Tab,Projetos Tab,Oportunidades Tab,Finalizadas Tab,Dashboards,Administração,Vendas,Cadastros,Apontamentos,Oportunidades,',
       });
     });
 
