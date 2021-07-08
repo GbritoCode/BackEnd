@@ -99,8 +99,9 @@ class CampanhaController {
 
   async meeting(req, res) {
     const { meetingValues, tagsinput } = req.body;
-    const Cc = [];
-    Cc.push(meetingValues.organizerEmail.value, meetingValues.mainParticipant.value);
+    let Cc = [];
+    Cc.push(meetingValues.organizerEmail.value);
+    Cc = Cc.concat(tagsinput);
     console.log(Cc);
     const startHour = meetingValues.startTime.value.split(':');
     const endHour = meetingValues.endTime.value.split(':');
@@ -165,7 +166,7 @@ class CampanhaController {
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: meetingValues.organizerEmail.value,
-          to: tagsinput,
+          to: [meetingValues.mainParticipant.value],
           cc: Cc,
           bcc: [],
           subject: 'Prospecção em campanha finalizada',
