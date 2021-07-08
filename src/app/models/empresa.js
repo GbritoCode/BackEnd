@@ -38,7 +38,7 @@ export default class Empresa extends Model {
     );
 
     this.addHook('afterSave', async (empresa) => {
-      const user = await empresa.sequelize.models.ParametrosEmail.findByPk(empresa.UserId);
+      const user = await empresa.sequelize.models.users.findByPk(empresa.UserId);
       await empresa.sequelize.models.ParametrosEmail.create({
         EmpresaId: empresa.id,
         bccEmailOrc: user.email,
