@@ -39,8 +39,8 @@ class SessionController {
       const {
         id, nome, profile, isFirstLogin, Colab,
       } = user;
-      const empresa = await Empresas.findByPk(Colab.EmpresaId);
-      console.log(empresa);
+      const empresa = Colab === null ? '' : await Empresas.findByPk(Colab.EmpresaId);
+
       const permittedPages = Colab === null ? '' : Colab.Perfil === null ? '' : Colab.Perfil.permittedPages.split(',');
       return res.json({
         user: {
