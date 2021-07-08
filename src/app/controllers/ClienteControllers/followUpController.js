@@ -99,7 +99,7 @@ class CampanhaController {
 
   async meeting(req, res) {
     const { meetingValues, tagsinput } = req.body;
-    tagsinput.concat(meetingValues.organizerEmail, meetingValues.mainParticipant);
+    tagsinput.concat(meetingValues.organizerEmail.value, meetingValues.mainParticipant.value);
     console.log(meetingValues);
     const startHour = meetingValues.startTime.value.split(':');
     const endHour = meetingValues.endTime.value.split(':');
