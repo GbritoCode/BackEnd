@@ -106,7 +106,7 @@ class CampanhaController {
 
     const initialDate = `${meetingValues.date.value}T${startHour[0]}:${startHour[1]}:00-03:00`;
     const finalDate = `${meetingValues.date.value}T${endHour[0]}:${endHour[1]}:00-03:00`;
-    console.log(new Date(initialDate));
+    console.log(new Date('teste'));
 
     try {
       // Create a builder
