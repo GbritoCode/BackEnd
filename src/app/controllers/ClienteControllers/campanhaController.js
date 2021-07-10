@@ -31,6 +31,26 @@ class CampanhaController {
     }
   }
 
+  async relateNewCli(req, res) {
+    try {
+      const { body, query } = req;
+
+      if (body.ClienteIds) {
+        for (let i = 0; i < body.ClienteIds.length; i++) {
+          await Campanhas_Clientes.create({
+            CampanhaId: query.CampanhaId,
+            ClienteId: body.ClienteIds[i],
+          });
+        }
+      }
+
+      return res.json({ message: 'O cliente foi relacionado à campanha' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
+  }
+
   async get(req, res) {
     const { update, id } = req.params;
     if (update === 'true') {
@@ -57,6 +77,10 @@ class CampanhaController {
       ],
     });
     for (let i = 0; i < campanha.length; i++) {
+      const dataInic = campanha[i].dataValues.dataInic.split('-');
+      campanha[i].dataValues.dataInic = `${dataInic[2]}/${dataInic[1]}/${dataInic[0]}`;
+      const dataFim = campanha[i].dataValues.dataFim.split('-');
+      campanha[i].dataValues.dataFim = `${dataFim[2]}/${dataFim[1]}/${dataFim[0]}`;
       for (let j = 0; j < campanha[i].Clientes.length; j++) {
         for (let k = 0; k < campanha[i].Clientes[j].FollowUps.length; k++) {
           const data = campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato.split('-');

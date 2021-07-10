@@ -11,7 +11,6 @@ class ProspectController {
       basicInfo.CNPJ = basicInfo.CNPJ.replace(/[^\d]+/g, '');
 
       const cliente = await Cliente.create(basicInfo);
-
       if (basicInfo.CampanhaIds) {
         for (let i = 0; i < basicInfo.CampanhaIds.length; i++) {
           await Campanhas_Clientes.create({

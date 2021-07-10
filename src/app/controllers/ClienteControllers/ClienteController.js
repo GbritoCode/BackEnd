@@ -24,6 +24,11 @@ class ClienteController {
       if (!(await schema.isValid(body))) {
         return res.status(400).json({ error: 'Validation Fails' });
       }
+
+      const alreadyExists = await Cliente.findOne({ where: { id: body.CNPJ } });
+      if (alreadyExists) {
+        return res.status(400).json({ error: 'O cliente já existe' });
+      }
       const cliente = await Cliente.create(body);
 
       if (body.CampanhaIds) {
@@ -43,7 +48,13 @@ class ClienteController {
   }
 
   async get(req, res) {
-    const { prospect, CampanhaId } = req.query;
+    const { prospect, CampanhaId, cnpj } = req.query;
+    if (cnpj) {
+      const cliente = await Cliente.findOne({
+        where: { CNPJ: cnpj },
+      });
+      return res.json(cliente);
+    }
     if (prospect) {
       if (prospect === 'true') {
         const cliente = await Cliente.findAll({

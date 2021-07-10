@@ -1,7 +1,6 @@
 import MailComposer from 'nodemailer/lib/mail-composer';
 import AWS from 'aws-sdk';
 import icalToolkit from 'ical-toolkit';
-import { uuid } from 'uuidv4';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
 import Cliente from '../../models/cliente';
@@ -22,7 +21,7 @@ class CampanhaController {
     try {
       const followUps = await FollowUps.create(req.body);
       const followUpEmail = await FollowUps.findByPk(followUps.getDataValue('id'), {
-        include: [{ model: Cliente }, { model: Campanhas }, { model: Colab }],
+        include: [{ model: Cliente }, { model: Campanhas }, { model: Colab }, { model: CliCont }],
       });
 
       if (req.body.proxPasso === '10') {
@@ -48,11 +47,10 @@ class CampanhaController {
         const from = parametros.fromEmailCRM;
         let Bcc = parametros.bccEmailCRM.split(',');
         Bcc = Bcc.filter((v) => v !== '');
-
         const exampleSendEmail = async () => {
           const message = {
             fromEmail: from,
-            to: ['jsilva@aidera.com.br', 'gabrielcabeca26@gmail.com'],
+            to: [from],
             cc: [],
             bcc: Bcc,
             subject: 'Prospecção em campanha finalizada',
@@ -103,6 +101,13 @@ class CampanhaController {
     Cc.push(meetingValues.organizerEmail.value);
     Cc = Cc.concat(tagsinput);
     console.log(Cc);
+
+    const parametros = await ParametrosEmail.findOne({
+      order: [['createdAt', 'DESC']],
+    });
+
+    const from = parametros.fromEmailCRM;
+
     const startHour = meetingValues.startTime.value.split(':');
     const endHour = meetingValues.endTime.value.split(':');
 
@@ -130,10 +135,6 @@ class CampanhaController {
         //     rsvp: true, // Optional, adds 'RSVP=TRUE' , tells the application that organiser needs a RSVP response.
         //   },
         // ],
-        organizer: {
-          name: meetingValues.organizerName.value,
-          email: meetingValues.organizerEmail.value,
-        },
       });
 
       // Try to build
@@ -165,11 +166,11 @@ class CampanhaController {
       };
       const exampleSendEmail = async () => {
         const message = {
-          fromEmail: meetingValues.organizerEmail.value,
+          fromEmail: from,
           to: [meetingValues.mainParticipant.value],
           cc: Cc,
           bcc: [],
-          subject: 'Prospecção em campanha finalizada',
+          subject: meetingValues.title.value,
           bodyTxt: '',
         };
         const ses = new AWS.SESV2(sesConfig);
@@ -212,7 +213,7 @@ class CampanhaController {
       const { ClienteId, CampanhaId } = req.query;
       if (update === 'true') {
         const followUps = await FollowUps.findOne({
-          where: { id },
+          where: { id }, include: [{ model: Campanhas }],
         });
         return res.json(followUps);
       }

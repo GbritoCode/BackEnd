@@ -78,6 +78,7 @@ class ParametrosController {
 
   async update(req, res) {
     const parametros = await Parametros.findByPk(req.params.id);
+    console.log(req.body);
     const {
       EmpresaId,
       IRPJ,

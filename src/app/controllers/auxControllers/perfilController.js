@@ -62,7 +62,7 @@ class PerfilController {
       where: { id: req.params.id },
       include: [{ model: Colab }],
     });
-    if (Perfil.Colab === null) {
+    if (Perfil.Colab === null || Perfil.Colab === [] || Perfil.Colab === undefined) {
       Perfil.destroy();
       return res.status(200).json(`Registro ${Perfil.desc} foi deletado com Sucesso!`);
     }

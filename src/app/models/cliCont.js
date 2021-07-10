@@ -13,6 +13,7 @@ export default class CliCont extends Model {
         email: DataTypes.STRING,
         aniver: DataTypes.DATE,
         tipoConta: DataTypes.STRING,
+        linkedin: DataTypes.STRING,
       },
       {
         sequelize,

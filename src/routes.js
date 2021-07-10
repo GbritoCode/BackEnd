@@ -134,6 +134,7 @@ routes.get('/followUp/:id/:update', followUpController.get);
 routes.put('/followUp/:id', followUpController.update);
 routes.delete('/followUp/:id', followUpController.delete);
 routes.post('/campanha', campanhaController.store);
+routes.post('/campanha/relate', campanhaController.relateNewCli);
 routes.get('/campanha/:id?/:update?', campanhaController.get);
 routes.put('/campanha/:id', campanhaController.update);
 routes.delete('/campanha/:id', campanhaController.delete);

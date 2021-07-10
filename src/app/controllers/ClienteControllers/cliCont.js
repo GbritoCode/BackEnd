@@ -15,6 +15,7 @@ class CliContController {
         .required(),
       aniver: yup.date(),
       tipoConta: yup.string().required(),
+      linkedin: yup.string().required(),
     });
 
     const {
@@ -39,16 +40,6 @@ class CliContController {
     });
   }
 
-  /*  async get(req, res) {
-    sequelize
-      .query('select * from cliConts where id 1', {
-        type: sequelize.QueryTypes.SELECT,
-      })
-      .then(function(cliCont) {
-        res.json(cliCont);
-      });
-  }
-*/
   async get(req, res) {
     if (req.params.id && req.params.update) {
       const contato = await CliCont.findOne({
