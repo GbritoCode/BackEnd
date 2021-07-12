@@ -19,6 +19,9 @@ import CentroCustos from './CentroCusto';
 import FechamentoPerido from './fechamentoPeriodos';
 import ResultPeriodo from './resultPeriodo';
 import EmailParametros from './emailParametros';
+import FollowUps from './FollowUps';
+import Campanhas from './campanhas';
+import CamposDinamicosProspect from './camposDinamicosProspects';
 
 export default class Empresa extends Model {
   static init(sequelize) {
@@ -35,6 +38,18 @@ export default class Empresa extends Model {
     );
 
     this.addHook('afterSave', async (empresa) => {
+      const user = await empresa.sequelize.models.User.findByPk(empresa.UserId);
+      await empresa.sequelize.models.ParametrosEmail.create({
+        EmpresaId: empresa.id,
+        bccEmailOrc: user.email,
+        bccEmailRev: user.email,
+        bccEmailFat: user.email,
+        bccEmailCRM: user.email,
+        fromEmailOrc: user.email,
+        fromEmailRev: user.email,
+        fromEmailFat: user.email,
+        fromEmailCRM: user.email,
+      });
       await empresa.sequelize.models.Parametros.create({
         EmpresaId: empresa.id,
         IRPJ: 0,
@@ -65,65 +80,76 @@ export default class Empresa extends Model {
       await empresa.sequelize.models.Perfil.create({
         EmpresaId: empresa.id,
         desc: 'Admnistrador',
+        cod: 'admin',
+        permittedPages: 'Pessoal Dash,Gerencial Dash,Comercial Dash,Parametros Up,Emails Up,Perfis Tab,Períodos Tab,Liberar Períodos Tab,Prospecção,acessoTotal,Condição de Pagamento Tab,Tipos de Comissão Tab,Conta Contábil Tab,Centro de Custo Tab,Receita e Despesa Tab,Representante Tab,Clientes Tab,Prospects Tab,Campanhas Tab,Campos Dinâmicos Tab,Fornecedor Tab,Colaborador Tab,Area Tab,Empresa Tab,Produto Tab,Unidade de Negócio Tab,Segmento Tab,Projetos Tab,Oportunidades Tab,Finalizadas Tab,Dashboards,Administração,Vendas,Cadastros,Apontamentos,Oportunidades side,',
       });
     });
 
-    Empresa.hasOne(Clientes, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Clientes, { onDelete: 'cascade', hooks: true });
     Clientes.belongsTo(Empresa);
 
-    Empresa.hasOne(Area, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Area, { onDelete: 'cascade', hooks: true });
     Area.belongsTo(Empresa);
 
-    Empresa.hasOne(Segmento, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Segmento, { onDelete: 'cascade', hooks: true });
     Segmento.belongsTo(Empresa);
 
-    Empresa.hasOne(Colab, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Empresa);
 
-    Empresa.hasOne(Representante, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Representante, { onDelete: 'cascade', hooks: true });
     Representante.belongsTo(Empresa);
 
-    Empresa.hasOne(Fornec, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Fornec, { onDelete: 'cascade', hooks: true });
     Fornec.belongsTo(Empresa);
 
-    Empresa.hasOne(Parametros, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Parametros, { onDelete: 'cascade', hooks: true });
     Parametros.belongsTo(Empresa);
 
-    Empresa.hasOne(recDesp, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(recDesp, { onDelete: 'cascade', hooks: true });
     recDesp.belongsTo(Empresa);
 
-    Empresa.hasOne(perfil, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(perfil, { onDelete: 'cascade', hooks: true });
     perfil.belongsTo(Empresa);
 
-    Empresa.hasOne(condPgmto, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(condPgmto, { onDelete: 'cascade', hooks: true });
     condPgmto.belongsTo(Empresa);
 
-    Empresa.hasOne(tipoComiss, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(tipoComiss, { onDelete: 'cascade', hooks: true });
     tipoComiss.belongsTo(Empresa);
 
-    Empresa.hasOne(Produto, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(Produto, { onDelete: 'cascade', hooks: true });
     Produto.belongsTo(Empresa);
 
-    Empresa.hasOne(UndNeg, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(UndNeg, { onDelete: 'cascade', hooks: true });
     UndNeg.belongsTo(Empresa);
 
-    Empresa.hasOne(oportunidade, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(oportunidade, { onDelete: 'cascade', hooks: true });
     oportunidade.belongsTo(Empresa);
 
-    Empresa.hasOne(ContaContabils, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(ContaContabils, { onDelete: 'cascade', hooks: true });
     ContaContabils.belongsTo(Empresa);
 
-    Empresa.hasOne(CentroCustos, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(CentroCustos, { onDelete: 'cascade', hooks: true });
     CentroCustos.belongsTo(Empresa);
 
-    Empresa.hasOne(FechamentoPerido, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(FechamentoPerido, { onDelete: 'cascade', hooks: true });
     FechamentoPerido.belongsTo(Empresa);
 
-    Empresa.hasOne(ResultPeriodo, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(ResultPeriodo, { onDelete: 'cascade', hooks: true });
     ResultPeriodo.belongsTo(Empresa);
 
-    Empresa.hasOne(EmailParametros, { onDelete: 'cascade', hooks: true });
+    Empresa.hasMany(EmailParametros, { onDelete: 'cascade', hooks: true });
     EmailParametros.belongsTo(Empresa);
+
+    Empresa.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
+    FollowUps.belongsTo(Empresa);
+
+    Empresa.hasMany(Campanhas, { onDelete: 'cascade', hooks: true });
+    Campanhas.belongsTo(Empresa);
+
+    Empresa.hasMany(CamposDinamicosProspect, { onDelete: 'cascade', hooks: true });
+    CamposDinamicosProspect.belongsTo(Empresa);
     return this;
   }
 }

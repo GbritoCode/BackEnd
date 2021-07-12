@@ -13,6 +13,7 @@
     "rules": {
       "class-methods-use-this": "off",
       "no-plusplus": "off",
-      "no-throw-literal": "off"
+      "no-throw-literal": "off",
+      "no-await-in-loop": "off"
     }
 }

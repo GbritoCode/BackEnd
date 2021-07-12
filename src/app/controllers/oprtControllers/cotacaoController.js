@@ -59,19 +59,19 @@ class CotacaoController {
         const path = `${query.tipo}Id=${
           cotacao.id}_oportId=${cotacao.OportunidadeId}_${date}_${
           Math.round(Math.random() * 1E9)}${extname(file.originalname)}`;
-        // eslint-disable-next-line no-await-in-loop
+        //
         await rename(file.path, `${file.destination}/${path}`,
           (err) => {
             if (err) throw err;
             console.log('Rename complete!');
           });
         const { originalname: nome, size } = file;
-        // eslint-disable-next-line no-await-in-loop
+        //
         await CotacaoFiles.create({
           nome, path, CotacaoId: cotacao.id, size,
         });
 
-        // eslint-disable-next-line no-await-in-loop
+        //
       }
 
       const generateRawMailData = (message) => {
@@ -189,7 +189,7 @@ class CotacaoController {
         }
         console.log(Cc === [] ? Cc : '');
         await EmailHists.create({
-          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: cotacao.id,
+          copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: cotacaoEmail.id,
         });
 
         const exampleSendEmail = async () => {
@@ -235,12 +235,12 @@ class CotacaoController {
       const { files } = req;
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
-        // eslint-disable-next-line no-await-in-loop
+        //
         unlink(file.path, (error) => {
           if (error) throw err;
           console.log('file deleted');
         });
-        // eslint-disable-next-line no-await-in-loop
+        //
       }
       return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }

@@ -6,22 +6,32 @@ import Colab from '../../models/colab';
 
 class PerfilController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      EmpresaId: yup.string().required(),
-      desc: yup.string().required(),
-    });
+    try {
+      const schema = yup.object().shape({
+        EmpresaId: yup.string().required(),
+        desc: yup.string().required(),
+        cod: yup.string().required(),
+        permittedPages: yup.string().required(),
+      });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation Fails' });
+      }
+
+      const {
+        EmpresaId, desc, cod, permittedPages,
+      } = await Perfils.create(req.body);
+
+      return res.json({
+        EmpresaId,
+        cod,
+        permittedPages,
+        desc,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    const { EmpresaId, desc } = await Perfils.create(req.body);
-
-    return res.json({
-      EmpresaId,
-
-      desc,
-    });
   }
 
   async get(req, res) {
@@ -35,12 +45,15 @@ class PerfilController {
 
   async update(req, res) {
     const Perfil = await Perfils.findByPk(req.params.id);
-    const { EmpresaId, desc } = await Perfil.update(req.body);
+    const {
+      EmpresaId, desc, cod, permittedPages,
+    } = await Perfil.update(req.body);
 
     return res.json({
       EmpresaId,
-
+      cod,
       desc,
+      permittedPages,
     });
   }
 
@@ -49,7 +62,7 @@ class PerfilController {
       where: { id: req.params.id },
       include: [{ model: Colab }],
     });
-    if (Perfil.Colab === null) {
+    if (Perfil.Colab === null || Perfil.Colab === [] || Perfil.Colab === undefined) {
       Perfil.destroy();
       return res.status(200).json(`Registro ${Perfil.desc} foi deletado com Sucesso!`);
     }

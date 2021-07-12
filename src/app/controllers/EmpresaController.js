@@ -3,29 +3,34 @@ import Empresa from '../models/empresa';
 
 class EmpresaController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      UserId: yup.number().required(),
-      idFederal: yup.string().required(),
-      nome: yup.string().required(),
-      license: yup.string().required(),
-    });
+    try {
+      const schema = yup.object().shape({
+        UserId: yup.number().required(),
+        idFederal: yup.string().required(),
+        nome: yup.string().required(),
+        license: yup.string().required(),
+      });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation Fails' });
+      }
+
+      const {
+        id, UserId, idFederal, nome, license,
+      } = await Empresa.create(
+        req.body,
+      );
+      return res.json({
+        id,
+        UserId,
+        idFederal,
+        nome,
+        license,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    const {
-      id, UserId, idFederal, nome, license,
-    } = await Empresa.create(
-      req.body,
-    );
-    return res.json({
-      id,
-      UserId,
-      idFederal,
-      nome,
-      license,
-    });
   }
 
   async get(req, res) {
@@ -33,7 +38,7 @@ class EmpresaController {
       const empresa = await Empresa.findAll({});
       return res.json(empresa);
     }
-    const empresa = await Empresa.findOne({ where: { id: req.params.id } });
+    const empresa = await Empresa.findOne({ where: { idFederal: req.params.id } });
     return res.json(empresa);
   }
 

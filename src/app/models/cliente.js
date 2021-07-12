@@ -5,6 +5,9 @@ import ClienteComp from './clienteComp';
 import cliCont from './cliCont';
 import CliRecDesp from './cliRecDesp';
 import Oportunidade from './oportunidade';
+import FollowUps from './FollowUps';
+import Campanhas from './campanhas';
+import Campanhas_Clientes from './Campanhas_Clientes';
 
 export default class Cliente extends Model {
   static init(sequelize) {
@@ -18,12 +21,17 @@ export default class Cliente extends Model {
         TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         prospect: DataTypes.BOOLEAN,
+        CustomField1: DataTypes.STRING,
+        CustomField2: DataTypes.STRING,
+        CustomField3: DataTypes.STRING,
+        CustomField4: DataTypes.STRING,
+        CustomField5: DataTypes.STRING,
       },
       {
         sequelize,
       },
     );
-    this.addHook('afterSave', async (cliente) => {
+    this.addHook('afterCreate', async (cliente) => {
       const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`);
       if (response.data.status === 'OK') {
         cliente.sequelize.models.CliComp.create({
@@ -45,6 +53,10 @@ export default class Cliente extends Model {
         return Promise.reject(new Error('Há um erro no CNPJ, cliente não criado, por favor verifique os dados e tente novamente'));
       }
     });
+
+    Cliente.belongsToMany(Campanhas, { through: 'Campanhas_Clientes', foreignKey: 'ClienteId' });
+    Campanhas.belongsToMany(Cliente, { through: 'Campanhas_Clientes', foreignKey: 'CampanhaId' });
+
     Cliente.hasOne(ClienteComp, { onDelete: 'cascade', hooks: true });
     ClienteComp.belongsTo(Cliente);
 
@@ -56,6 +68,9 @@ export default class Cliente extends Model {
 
     Cliente.hasMany(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(Cliente);
+
+    Cliente.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
+    FollowUps.belongsTo(Cliente);
 
     return this;
   }

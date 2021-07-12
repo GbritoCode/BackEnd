@@ -8,9 +8,11 @@ export default class ParametrosEmail extends Model {
         bccEmailOrc: DataTypes.STRING,
         bccEmailRev: DataTypes.STRING,
         bccEmailFat: DataTypes.STRING,
+        bccEmailCRM: DataTypes.STRING,
         fromEmailOrc: DataTypes.STRING,
         fromEmailRev: DataTypes.STRING,
         fromEmailFat: DataTypes.STRING,
+        fromEmailCRM: DataTypes.STRING,
       },
       {
         sequelize,

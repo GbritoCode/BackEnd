@@ -8,12 +8,14 @@ export default class Perfil extends Model {
       {
         EmpresaId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
+        cod: DataTypes.STRING,
+        permittedPages: DataTypes.STRING(500),
       },
       {
         sequelize,
       },
     );
-    Perfil.hasOne(Colab, { onDelete: 'cascade', hooks: true });
+    Perfil.hasMany(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Perfil);
     return this;
   }
