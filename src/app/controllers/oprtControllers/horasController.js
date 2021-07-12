@@ -26,6 +26,11 @@ class HoraController {
         }],
       },
     });
+    if (!checkPeriodo) {
+      return res.status(400).json({
+        error: 'Não existe nenhum período criado, por favor crie um',
+      });
+    }
     const aberto = checkPeriodo.getDataValue('situacao');
     if (aberto !== 'Aberto') {
       const colab = await Colab.findByPk(req.body.ColabId);
