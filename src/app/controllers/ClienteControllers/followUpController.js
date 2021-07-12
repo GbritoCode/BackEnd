@@ -74,24 +74,20 @@ class CampanhaController {
             FromEmailAddress: message.fromEmail,
             ReplyToAddresses: message.replyTo,
           };
-          try {
-            await ses.sendEmail(params).promise();
-          } catch (err) {
-            throw new SequelizeDelete(err, followUps);
-          }
+          return ses.sendEmail(params).promise();
         };
         try {
-          await exampleSendEmail();
-          return res.status(200);
+          const response = await exampleSendEmail();
+          console.log(response);
+          return res.status(200).json();
         } catch (err) {
           console.log(err.message);
           err.sequelizeObject.destroy();
           return res.status(500).json({ error: 'Erro Interno do Servidor' });
         }
       }
-      return res.json(followUps);
     } catch (err) {
-      return res.status(500).json({ error: 'Erro Interno do Servidor, Email não enviado' });
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
   }
 
