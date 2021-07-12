@@ -56,14 +56,14 @@ class CampanhaController {
             to: [from],
             cc: [],
             bcc: Bcc,
-            subject: 'Prospecção em campanha finalizada',
+            subject: 'Prospecção em Campanha Finalizada',
             bodyTxt: '',
-            bodyHtml: `<h4> Encerramento de Cliente na campanha </h4>
-            <p> cliente: ${followUpEmail.Cliente.nomeAbv}   </p>
-            <p> campanha: ${followUpEmail.Campanha.cod}   </p>
-            <p> responsável: ${followUpEmail.Colab.nome}   </p>
-            <p> motivo: ${followUpEmail.detalhes}   </p>
-            <p> data: ${followUpEmail.dataContato}   </p>
+            bodyHtml: `<h4> Encerramento de Prospecção na campanha </h4>
+            <p> Cliente: ${followUpEmail.Cliente.nomeAbv}   </p>
+            <p> Campanha: ${followUpEmail.Campanha.cod}   </p>
+            <p> Responsável: ${followUpEmail.Colab.nome}   </p>
+            <p> Motivo: ${followUpEmail.detalhes}   </p>
+            <p> Data: ${followUpEmail.dataContato}   </p>
             `,
           };
           const ses = new AWS.SESV2(sesConfig);
