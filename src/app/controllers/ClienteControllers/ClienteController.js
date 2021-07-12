@@ -25,7 +25,7 @@ class ClienteController {
         return res.status(400).json({ error: 'Validation Fails' });
       }
 
-      const alreadyExists = await Cliente.findOne({ where: { id: body.CNPJ } });
+      const alreadyExists = await Cliente.findOne({ where: { CNPJ: body.CNPJ } });
       if (alreadyExists) {
         return res.status(400).json({ error: 'O cliente já existe' });
       }
