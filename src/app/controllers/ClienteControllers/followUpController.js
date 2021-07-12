@@ -8,6 +8,7 @@ import Colab from '../../models/colab';
 import ParametrosEmail from '../../models/emailParametros';
 import FollowUps from '../../models/FollowUps';
 import SequelizeDelete from '../_ErrorControllers/sequelizeNeedsDelete';
+import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 
 const sesConfig = {
   apiVersion: '2019-09-27',
@@ -26,7 +27,9 @@ class CampanhaController {
 
       if (req.body.proxPasso === '10') {
         // Create a builder
-
+        await Campanhas_Clientes.update({ ativo: false }, {
+          where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+        });
         const generateRawMailData = (message) => {
           const mailOptions = {
             from: message.fromEmail,

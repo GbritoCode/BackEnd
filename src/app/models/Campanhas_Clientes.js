@@ -8,6 +8,7 @@ export default class Campanhas_Clientes extends Model {
       {
         CampanhaId: DataTypes.INTEGER,
         ClienteId: DataTypes.INTEGER,
+        ativo: DataTypes.BOOLEAN,
       },
       {
         sequelize,
