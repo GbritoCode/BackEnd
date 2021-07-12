@@ -74,9 +74,9 @@ class UserController {
       }
     }
 
-    if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
-      return res.status(401).json({ error: 'Password does not match' });
-    }
+   // if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
+   //  return res.status(401).json({ error: 'Password does not match' });
+   // }
 
     await colab.update({ aniver: req.body.aniver });
 
