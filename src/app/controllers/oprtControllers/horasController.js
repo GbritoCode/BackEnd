@@ -28,7 +28,7 @@ class HoraController {
     });
     if (!checkPeriodo) {
       return res.status(400).json({
-        error: 'Não existe nenhum período criado, por favor crie um',
+        error: 'Não existe período criado para a data do apontamento',
       });
     }
     const aberto = checkPeriodo.getDataValue('situacao');
