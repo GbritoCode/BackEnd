@@ -6,6 +6,7 @@ import Empresa from '../../models/empresa';
 import Oportunidade from '../../models/oportunidade';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Campanhas from '../../models/campanhas';
+import CliCont from '../../models/cliCont';
 
 class ClienteController {
   async store(req, res) {
@@ -63,6 +64,7 @@ class ClienteController {
             { model: representantes },
             { model: tipoComiss },
             { model: Empresa },
+            { model: CliCont },
           ],
         });
         return res.json(cliente);
@@ -73,6 +75,7 @@ class ClienteController {
           { model: representantes },
           { model: tipoComiss },
           { model: Empresa },
+          { model: CliCont },
         ],
       });
       return res.json(cliente);
@@ -86,12 +89,10 @@ class ClienteController {
           { model: Empresa },
         ],
       });
-      // for (let i = 0; i < cliente.length; i++) {
-      //   const created = cliente[i].dataValues.createdAt.slice(9);
-      //   console.log(created);
-      //   const data = cliente[i].dataValues.createdAt.split('-');
-      //   cliente[i].dataValues.createdAt = `${data[2]}/${data[1]}/${data[0]}`;
-      // }
+      for (let i = 0; i < cliente.length; i++) {
+        const created = new Date(cliente[i].dataValues.createdAt).toLocaleString().slice(0, 10);
+        cliente[i].dataValues.createdAt = created;
+      }
       return res.json(cliente);
     }
     if (!req.params.id) {
@@ -102,6 +103,10 @@ class ClienteController {
           { model: Empresa },
         ],
       });
+      for (let i = 0; i < cliente.length; i++) {
+        const created = new Date(cliente[i].dataValues.createdAt).toLocaleString().slice(0, 10);
+        cliente[i].dataValues.createdAt = created;
+      }
       return res.json(cliente);
     }
     const cliente = await Cliente.findOne({ where: { id: req.params.id } });

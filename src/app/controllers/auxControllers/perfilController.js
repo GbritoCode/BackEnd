@@ -1,8 +1,7 @@
 import * as yup from 'yup';
-import { BelongsTo } from 'sequelize';
 import Perfils from '../../models/perfil';
-import Empresa from '../../models/empresa';
 import Colab from '../../models/colab';
+import Campanhas from '../../models/campanhas';
 
 class PerfilController {
   async store(req, res) {
@@ -58,15 +57,23 @@ class PerfilController {
   }
 
   async delete(req, res) {
-    const Perfil = await Perfils.findOne({
-      where: { id: req.params.id },
-      include: [{ model: Colab }],
-    });
-    if (Perfil.Colab === null || Perfil.Colab === [] || Perfil.Colab === undefined) {
-      Perfil.destroy();
-      return res.status(200).json(`Registro ${Perfil.desc} foi deletado com Sucesso!`);
+    try {
+      const Perfil = await Perfils.findOne({
+        where: { id: req.params.id },
+        include: [{ model: Colab }],
+      });
+      if (Perfil.Colab === null || Perfil.Colab === [] || Perfil.Colab === undefined) {
+        try {
+          await Perfil.destroy();
+          return res.status(200).json(`Registro ${Perfil.desc} foi deletado com Sucesso!`);
+        } catch (err) {
+          return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
+        }
+      }
+      throw new Error();
+    } catch (err) {
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new PerfilController();
