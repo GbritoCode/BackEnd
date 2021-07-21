@@ -89,6 +89,11 @@ class CampanhaController {
               parseISO(campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato), new Date(),
             ) / 24,
           ) || 0;
+          campanha[i].Clientes[j].FollowUps[k].dataValues.daysFromStart = Math.ceil(
+            differenceInHours(
+              parseISO(campanha[i].Clientes[j].FollowUps[k].dataValues.dataContato), new Date(),
+            ) / 24,
+          ) || 0;
           campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato = `${data[2]}/${data[1]}/${data[0]}`;
         }
       }

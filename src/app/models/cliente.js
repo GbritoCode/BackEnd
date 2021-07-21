@@ -21,6 +21,8 @@ export default class Cliente extends Model {
         TipoComisseId: DataTypes.INTEGER,
         EmpresaId: DataTypes.INTEGER,
         prospect: DataTypes.BOOLEAN,
+        fone: DataTypes.STRING,
+        site: DataTypes.STRING,
         CustomField1: DataTypes.STRING,
         CustomField2: DataTypes.STRING,
         CustomField3: DataTypes.STRING,

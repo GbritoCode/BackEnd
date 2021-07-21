@@ -7,6 +7,7 @@ import Oportunidade from '../../models/oportunidade';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
+import person from './person';
 
 class ClienteController {
   async store(req, res) {
@@ -19,6 +20,8 @@ class ClienteController {
         fantasia: yup.string().optional(),
         RepresentanteId: yup.string().required(),
         TipoComisseId: yup.number(),
+        fone: yup.string(),
+        site: yup.string(),
         EmpresaId: yup.number().required(),
       });
 
@@ -41,7 +44,7 @@ class ClienteController {
         }
       }
 
-      return res.json(cliente);
+      return res.json({ message: `Cliente ${cliente.nomeAbv} criado com sucesso` });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno do Servidor' });
@@ -136,15 +139,26 @@ class ClienteController {
   }
 
   async delete(req, res) {
-    const cliente = await Cliente.findOne({
-      where: { id: req.params.id },
-      include: [Oportunidade],
-    });
-    if (cliente.Oportunidade === null) {
-      cliente.destroy();
-      return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
+    try {
+      const cliente = await Cliente.findOne({
+        where: { id: req.params.id },
+        include: [Oportunidade, Campanhas],
+      });
+      if (cliente.Oportunidades.length === 0 && cliente.Campanhas.length === 0) {
+        try {
+          await cliente.destroy();
+          return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
+        } catch (err) {
+          console.log(err);
+          return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
+        }
+      } else {
+        return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno de Servidor' });
     }
-    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new ClienteController();

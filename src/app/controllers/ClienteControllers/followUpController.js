@@ -222,6 +222,7 @@ class CampanhaController {
           {
             where: { ClienteId, CampanhaId },
             include: [{ model: Cliente }, { model: CliCont }],
+            order: [['createdAt', 'DESC']],
           },
         );
 
