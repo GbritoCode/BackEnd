@@ -23,6 +23,7 @@ export default class Cliente extends Model {
         prospect: DataTypes.BOOLEAN,
         fone: DataTypes.STRING,
         site: DataTypes.STRING,
+        atvPrincipal: DataTypes.STRING,
         CustomField1: DataTypes.STRING,
         CustomField2: DataTypes.STRING,
         CustomField3: DataTypes.STRING,

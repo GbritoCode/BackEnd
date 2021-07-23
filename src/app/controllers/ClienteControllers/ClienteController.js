@@ -23,6 +23,7 @@ class ClienteController {
         TipoComisseId: yup.number(),
         fone: yup.string(),
         site: yup.string(),
+        atvPrincipal: yup.string().required(),
         EmpresaId: yup.number().required(),
       });
 
