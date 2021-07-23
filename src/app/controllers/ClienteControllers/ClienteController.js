@@ -7,7 +7,8 @@ import Oportunidade from '../../models/oportunidade';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
-import person from './person';
+import Colab from '../../models/colab';
+import FollowUps from '../../models/FollowUps';
 
 class ClienteController {
   async store(req, res) {
@@ -112,7 +113,31 @@ class ClienteController {
       }
       return res.json(cliente);
     }
-    const cliente = await Cliente.findOne({ where: { id: req.params.id } });
+    const cliente = await Cliente.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: Campanhas,
+          include:
+          [
+            { model: Colab },
+            {
+              model: FollowUps,
+              separate: true,
+              order: [['createdAt', 'DESC']],
+            },
+          ],
+        },
+      ],
+    });
+
+    for (let j = 0; j < cliente.Campanhas.length; j++) {
+      for (let k = 0; k < cliente.Campanhas[j].FollowUps.length; k++) {
+        const dataContato = cliente.Campanhas[j].FollowUps[k].dataValues.dataContato.split('-');
+        cliente.Campanhas[j].FollowUps[k].dataValues.dataContato = `${dataContato[2]}/${dataContato[1]}/${dataContato[0]}`;
+      }
+    }
+
     return res.json(cliente);
   }
 
