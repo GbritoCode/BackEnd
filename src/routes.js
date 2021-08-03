@@ -56,6 +56,7 @@ import followUpController from './app/controllers/ClienteControllers/followUpCon
 import campanhaController from './app/controllers/ClienteControllers/campanhaController';
 import campoDinamicosProspectController from './app/controllers/ClienteControllers/campoDinamicosProspectController';
 import prospectController from './app/controllers/ClienteControllers/prospectController';
+import comercialController from './app/controllers/dashboardsControllers/comercialController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -64,6 +65,8 @@ const routes = new Router();
 const uploadCotacao = multer(oportunidadeFile);
 
 routes.get('/', (req, res) => res.send('okok'));
+
+routes.get('/comercialDash', comercialController.get);
 
 routes.post('/email', emailController.store);
 routes.post('/emailResend/oport/cotacao', emailController.resendMail);
@@ -127,6 +130,8 @@ routes.post('/despesas', despesasController.store);
 routes.get('/despesas/:id?', despesasController.get);
 routes.put('/despesas/:id?', despesasController.update);
 routes.delete('/despesas/:id?', despesasController.delete);
+
+routes.get('/cliente/export', clienteController.exportResume);
 
 routes.post('/followUp', followUpController.store);
 routes.post('/followUp/meeting', followUpController.meeting);
