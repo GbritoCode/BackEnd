@@ -57,29 +57,6 @@ export default class Cliente extends Model {
         });
     });
 
-    this.addHook('afterUpdate', async (cliente) => {
-      await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`)
-        .then((response) => {
-          cliente.sequelize.models.CliComp.create({
-            ClienteId: cliente.id,
-            CondPgmtoId: 1,
-            cep: response.data.cep,
-            rua: response.data.logradouro,
-            numero: response.data.numero,
-            complemento: response.data.complemento,
-            bairro: response.data.bairro,
-            cidade: response.data.municipio,
-            uf: response.data.uf,
-            inscMun: 'Isento',
-            inscEst: 'Isento',
-          });
-        }).catch((err) => {
-          console.log(err);
-
-          return Promise.reject(new Error('Número de requisições excedeu o tempo limite, cliente não criado, por favor aguarde um pouco e tente novamente'));
-        });
-    });
-
     Cliente.belongsToMany(Campanhas, { through: 'Campanhas_Clientes', foreignKey: 'ClienteId' });
     Campanhas.belongsToMany(Cliente, { through: 'Campanhas_Clientes', foreignKey: 'CampanhaId' });
 
