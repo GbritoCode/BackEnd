@@ -60,7 +60,9 @@ export default class Cliente extends Model {
     this.addHook('afterUpdate', async (cliente) => {
       const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`);
       if (response.data.status === 'OK') {
-        cliente.sequelize.models.CliComp.update({
+        cliente.sequelize.models.CliComp.create({
+          ClienteId: cliente.id,
+          CondPgmtoId: 1,
           cep: response.data.cep,
           rua: response.data.logradouro,
           numero: response.data.numero,
@@ -68,6 +70,8 @@ export default class Cliente extends Model {
           bairro: response.data.bairro,
           cidade: response.data.municipio,
           uf: response.data.uf,
+          inscMun: 'Isento',
+          inscEst: 'Isento',
         }, { where: { ClienteId: cliente.id } });
       }
     });
