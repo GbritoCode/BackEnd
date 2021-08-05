@@ -244,7 +244,7 @@ class ClienteRelatorioController {
       // Write Column Title in Excel file
       let headingColumnIndex = 1;
       let titleColumnIndex = 1;
-      sheet.cell(1, titleColumnIndex, 1, headingColumnNames.length, true).string('Cliente').style(styleJustifyAndBorder);
+      sheet.cell(1, titleColumnIndex, 1, headingColumnNames.length, true).string('Empresa').style(styleJustifyAndBorder);
       titleColumnIndex += (headingColumnNames.length);
       sheet.cell(1, titleColumnIndex, 1, titleColumnIndex + headingColumnCampNames.length - 1, true).string('Campanha').style(styleJustifyAndBorder);
       titleColumnIndex += (headingColumnCampNames.length);
