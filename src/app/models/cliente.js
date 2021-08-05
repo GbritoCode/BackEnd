@@ -35,6 +35,29 @@ export default class Cliente extends Model {
       },
     );
     this.addHook('afterCreate', async (cliente) => {
+      await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`)
+        .then((response) => {
+          cliente.sequelize.models.CliComp.create({
+            ClienteId: cliente.id,
+            CondPgmtoId: 1,
+            cep: response.data.cep,
+            rua: response.data.logradouro,
+            numero: response.data.numero,
+            complemento: response.data.complemento,
+            bairro: response.data.bairro,
+            cidade: response.data.municipio,
+            uf: response.data.uf,
+            inscMun: 'Isento',
+            inscEst: 'Isento',
+          });
+        }).catch((err) => {
+          console.log(err);
+          cliente.destroy();
+          return Promise.reject(new Error('Número de requisições excedeu o tempo limite, cliente não criado, por favor aguarde e tente novamente'));
+        });
+    });
+
+    this.addHook('afterUpdate', async (cliente) => {
       const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`);
       if (response.data.status === 'OK') {
         cliente.sequelize.models.CliComp.create({
@@ -50,10 +73,6 @@ export default class Cliente extends Model {
           inscMun: 'Isento',
           inscEst: 'Isento',
         });
-      }
-      if (response.data.status === 'ERROR') {
-        cliente.destroy();
-        return Promise.reject(new Error('Há um erro no CNPJ, cliente não criado, por favor verifique os dados e tente novamente'));
       }
     });
 
