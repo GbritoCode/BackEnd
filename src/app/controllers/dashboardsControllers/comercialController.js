@@ -19,7 +19,7 @@ class ComercialController {
           CampanhaId: camp,
           createdAt: { [Op.between]: [dataInic, dataFim] },
         },
-        // include: [{ model: Cliente, include: [{ model: CliComp }, { model: CliCont }] }, { model: Campanhas }],
+        include: [{ model: Cliente, include: [{ model: CliComp }, { model: CliCont }] }, { model: Campanhas }],
       });
       for (let i = 0; i < cliJoinedCamp.rows.length; i += 1) {
         const created = new Date(cliJoinedCamp.rows[i].dataValues.createdAt)
