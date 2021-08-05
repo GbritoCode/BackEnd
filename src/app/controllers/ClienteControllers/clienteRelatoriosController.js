@@ -63,7 +63,7 @@ class ClienteRelatorioController {
     try {
       let cliente;
       const {
-        filter, campId, inicDate, endDate, finalized, totalFUP,
+        filter, campId, inicDate, endDate, finalized, totalFUP, repeat,
       } = req.query;
       if (filter === 'true' && finalized === 'false') {
         cliente = await Cliente.findAll({
@@ -112,6 +112,7 @@ class ClienteRelatorioController {
                     dataContato: { [Op.between]: [inicDate, endDate] },
                     proxPasso: 10,
                   },
+                  required: true,
                   include: [{ model: Colab }],
                 },
               ],
@@ -184,7 +185,7 @@ class ClienteRelatorioController {
           Código: camp.cod,
           Descrição: camp.desc,
           'Entrada Campanha': normalizeDatetime(camp.Campanhas_Clientes.createdAt),
-          Situação: camp.Campanhas_Clientes.ativo ? 'Em Prospecção' : 'Finalizado',
+          Situação: camp.Campanhas_Clientes.ativo ? 'Em Prospecção' : 'Finalizada',
           follow: camp.FollowUps.filter((arr) => arr.ClienteId === cli.id).map((fup) => ({
             Colaborador: fup.Colab.nome,
             'Data Contato': normalizeDate(fup.dataContato),
@@ -274,8 +275,77 @@ class ClienteRelatorioController {
       // asd
       // as
       // d
+      if (repeat === 'false' && finalized === 'true') {
+        cliMapped.forEach((el) => {
+          // Write Data in Excel file
+          camp = false;
+          let countRowFollowAux = 0;
+          Object.values(el).forEach((recordCli) => {
+            let columnIndex = 1;
+            Object.keys(recordCli).forEach((columnNameCli) => {
+              let countRowFollow = 0;
+              Object.values(el.Campanhas).forEach((recordCamp) => {
+                Object.values(recordCamp.follow).forEach((recordFollow) => {
+                  if (headingColumnNames.find((arr) => arr === columnNameCli)) {
+                    sheet.cell(rowIndex, columnIndex)
+                      .string(recordCli[columnNameCli] === null ? ''
+                        : typeof recordCli[columnNameCli] === 'number' ? `${recordCli[columnNameCli]}`
+                          : recordCli[columnNameCli]);
+                    if (columnNameCli === 'UF') {
+                      camp = true;
+                    }
+                  }
+                  let count = 0;
+                  Object.keys(recordCamp).forEach((columnNameCamp) => {
+                    if (camp) {
+                      if (columnIndex >= 14) {
+                        if (columnNameCamp !== 'follow') {
+                          sheet.cell(rowIndex, columnIndex + 1)
+                            .string(
+                              recordCamp[columnNameCamp] === null ? ''
+                                : typeof recordCamp[columnNameCamp] === 'number' ? `${recordCamp[columnNameCamp]}`
+                                  : recordCamp[columnNameCamp],
+                            );
+                          columnIndex++;
+                          count++;
+                        }
+                      }
+                    }
+                  });
+                  Object.keys(recordFollow).forEach((columnNamesFollow) => {
+                    if (columnIndex >= 18) {
+                      sheet.cell(rowIndex, columnIndex + 1)
+                        .string(
+                          recordFollow[columnNamesFollow] === null ? ''
+                            : typeof recordFollow[columnNamesFollow] === 'number' ? `${recordFollow[columnNamesFollow]}`
+                              : recordFollow[columnNamesFollow],
+                        );
+                      columnIndex++;
+                      count++;
+                    }
+                  });
+                  columnIndex -= count;
 
-      if (1 === 1) {
+                  rowIndex++;
+                  countRowFollow++;
+                });
+              });
+              countRowFollowAux = countRowFollow;
+              rowIndex -= (countRowFollow);
+              columnIndex++;
+            });
+          });
+
+          rowIndex += countRowFollowAux;
+        });
+
+        let today = JSON.stringify(new Date().toLocaleString('pt-br'));
+        today = today.split('/').join('-');
+        today = today.split(':').join('.');
+        console.log(today);
+        return workBook.write(`Relatório ${today}.xlsx`, res);
+      }
+      if (repeat === 'false') {
         cliMapped.forEach((el) => {
           // Write Data in Excel file
           camp = false;
@@ -338,7 +408,6 @@ class ClienteRelatorioController {
                     }
                   }
                   let count = 0;
-                  console.log(Object.keys(recordCamp.follow[`${recordCamp.follow.length - 1}`]));
 
                   Object.keys(recordCamp).forEach((columnNameCamp) => {
                     if (camp) {
@@ -401,7 +470,7 @@ class ClienteRelatorioController {
       // das
       // da
       // sd
-      if (1 > 1) {
+      if (repeat === 'true') {
         cliMapped.forEach((el) => {
           // Write Data in Excel file
           camp = false;
