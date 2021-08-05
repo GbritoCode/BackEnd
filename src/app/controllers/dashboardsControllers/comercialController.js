@@ -7,6 +7,7 @@ import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
 import CliComp from '../../models/clienteComp';
 import CamposDinamicos from '../../models/camposDinamicosProspects';
+import { normalizeDatetime } from '../../../normalize';
 
 class ComercialController {
   async get(req, res) {
@@ -22,9 +23,7 @@ class ComercialController {
         include: [{ model: Cliente, include: [{ model: CliComp }, { model: CliCont }] }, { model: Campanhas }],
       });
       for (let i = 0; i < cliJoinedCamp.rows.length; i += 1) {
-        const created = new Date(cliJoinedCamp.rows[i].dataValues.createdAt)
-          .toLocaleString().slice(0, 10);
-        cliJoinedCamp.rows[i].dataValues.createdAt = created;
+        cliJoinedCamp.rows[i].dataValues.createdAt = normalizeDatetime(cliJoinedCamp.rows[i].dataValues.createdAt);
       }
 
       const Fups = await FollowUps.findAndCountAll({
