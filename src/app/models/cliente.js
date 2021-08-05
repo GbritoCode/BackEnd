@@ -57,6 +57,21 @@ export default class Cliente extends Model {
       }
     });
 
+    this.addHook('afterUpdate', async (cliente) => {
+      const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cliente.CNPJ}`);
+      if (response.data.status === 'OK') {
+        cliente.sequelize.models.CliComp.update({
+          cep: response.data.cep,
+          rua: response.data.logradouro,
+          numero: response.data.numero,
+          complemento: response.data.complemento,
+          bairro: response.data.bairro,
+          cidade: response.data.municipio,
+          uf: response.data.uf,
+        }, { where: { ClienteId: cliente.id } });
+      }
+    });
+
     Cliente.belongsToMany(Campanhas, { through: 'Campanhas_Clientes', foreignKey: 'ClienteId' });
     Campanhas.belongsToMany(Cliente, { through: 'Campanhas_Clientes', foreignKey: 'CampanhaId' });
 
