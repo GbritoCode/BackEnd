@@ -139,3 +139,12 @@ export function normalizeHrToMin(minsTotal) {
   const apontMin = `0${Math.trunc(minsTotal % 60)}`.slice(-2);
   return `${apontHr}:${apontMin}`;
 }
+
+export function normalizeDate(date) {
+  const separatedDate = date.split('-');
+  return `${separatedDate[2]}/${separatedDate[1]}/${separatedDate[0]}`;
+}
+export function normalizeDatetime(datetime) {
+  const localeString = new Date(datetime).toLocaleDateString('pt-br');
+  return localeString;
+}

@@ -1,10 +1,12 @@
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { differenceInHours, parseISO } from 'date-fns';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Cliente from '../../models/cliente';
 import FollowUps from '../../models/FollowUps';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
+import CliComp from '../../models/clienteComp';
+import CamposDinamicos from '../../models/camposDinamicosProspects';
 
 class ComercialController {
   async get(req, res) {
@@ -17,7 +19,7 @@ class ComercialController {
           CampanhaId: camp,
           createdAt: { [Op.between]: [dataInic, dataFim] },
         },
-        include: [{ model: Cliente }, { model: Campanhas }],
+        include: [{ model: Cliente, include: [{ model: CliComp }, { model: CliCont }] }, { model: Campanhas }],
       });
       for (let i = 0; i < cliJoinedCamp.rows.length; i += 1) {
         const created = new Date(cliJoinedCamp.rows[i].dataValues.createdAt)
@@ -33,7 +35,7 @@ class ComercialController {
         include: [{ model: Cliente }, { model: CliCont }, { model: Campanhas }],
         order: [['id', 'DESC']],
       });
-
+      // return res.json(Fups);
       for (let i = 0; i < Fups.rows.length; i++) {
         Fups.rows[i].dataValues.distanceFromToday = Math.ceil(
           differenceInHours(
@@ -52,7 +54,7 @@ class ComercialController {
           dataContato: { [Op.between]: [dataInic, dataFim] },
           proxPasso: 10,
         },
-        include: [{ model: Cliente }, { model: Campanhas }],
+        include: [{ model: Cliente, include: [CliComp] }, { model: CliCont }, { model: Campanhas }, { model: CamposDinamicos }],
       });
       for (let i = 0; i < finalizedFups.rows.length; i += 1) {
         const created = new Date(finalizedFups.rows[i].dataValues.createdAt)

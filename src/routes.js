@@ -57,6 +57,7 @@ import campanhaController from './app/controllers/ClienteControllers/campanhaCon
 import campoDinamicosProspectController from './app/controllers/ClienteControllers/campoDinamicosProspectController';
 import prospectController from './app/controllers/ClienteControllers/prospectController';
 import comercialController from './app/controllers/dashboardsControllers/comercialController';
+import clienteRelatoriosController from './app/controllers/ClienteControllers/clienteRelatoriosController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -131,7 +132,7 @@ routes.get('/despesas/:id?', despesasController.get);
 routes.put('/despesas/:id?', despesasController.update);
 routes.delete('/despesas/:id?', despesasController.delete);
 
-routes.get('/cliente/export', clienteController.exportResume);
+routes.get('/cliente/export', clienteRelatoriosController.exportResume);
 
 routes.post('/followUp', followUpController.store);
 routes.post('/followUp/meeting', followUpController.meeting);
