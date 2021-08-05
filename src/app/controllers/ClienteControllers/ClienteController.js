@@ -126,6 +126,7 @@ class ClienteController {
     const cliente = await Cliente.findOne({
       where: { id: req.params.id },
       include: [
+        { model: CliComp },
         {
           model: Campanhas,
           include:
