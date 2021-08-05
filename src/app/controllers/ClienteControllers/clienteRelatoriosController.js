@@ -280,12 +280,12 @@ class ClienteRelatorioController {
           // Write Data in Excel file
           camp = false;
           let countRowFollowAux = 0;
-          Object.values(el).forEach((recordCli) => {
-            let columnIndex = 1;
-            Object.keys(recordCli).forEach((columnNameCli) => {
-              let countRowFollow = 0;
-              Object.values(el.Campanhas).forEach((recordCamp) => {
-                Object.values(recordCamp.follow).forEach((recordFollow) => {
+          if (el.Campanhas['0'].follow.length === 0) {
+            Object.values(el).forEach((recordCli) => {
+              let columnIndex = 1;
+              Object.keys(recordCli).forEach((columnNameCli) => {
+                let countRowFollow = 0;
+                Object.values(el.Campanhas).forEach((recordCamp) => {
                   if (headingColumnNames.find((arr) => arr === columnNameCli)) {
                     sheet.cell(rowIndex, columnIndex)
                       .string(recordCli[columnNameCli] === null ? ''
@@ -296,6 +296,7 @@ class ClienteRelatorioController {
                     }
                   }
                   let count = 0;
+
                   Object.keys(recordCamp).forEach((columnNameCamp) => {
                     if (camp) {
                       if (columnIndex >= 14) {
@@ -312,13 +313,55 @@ class ClienteRelatorioController {
                       }
                     }
                   });
-                  Object.keys(recordFollow).forEach((columnNamesFollow) => {
+                  columnIndex -= count;
+                  rowIndex++;
+                  countRowFollow++;
+                });
+                countRowFollowAux = countRowFollow;
+                rowIndex -= (countRowFollow);
+                columnIndex++;
+              });
+            });
+          } else {
+            Object.values(el).forEach((recordCli) => {
+              let columnIndex = 1;
+              Object.keys(recordCli).forEach((columnNameCli) => {
+                let countRowFollow = 0;
+                Object.values(el.Campanhas).forEach((recordCamp) => {
+                  if (headingColumnNames.find((arr) => arr === columnNameCli)) {
+                    sheet.cell(rowIndex, columnIndex)
+                      .string(recordCli[columnNameCli] === null ? ''
+                        : typeof recordCli[columnNameCli] === 'number' ? `${recordCli[columnNameCli]}`
+                          : recordCli[columnNameCli]);
+                    if (columnNameCli === 'UF') {
+                      camp = true;
+                    }
+                  }
+                  let count = 0;
+
+                  Object.keys(recordCamp).forEach((columnNameCamp) => {
+                    if (camp) {
+                      if (columnIndex >= 14) {
+                        if (columnNameCamp !== 'follow') {
+                          sheet.cell(rowIndex, columnIndex + 1)
+                            .string(
+                              recordCamp[columnNameCamp] === null ? ''
+                                : typeof recordCamp[columnNameCamp] === 'number' ? `${recordCamp[columnNameCamp]}`
+                                  : recordCamp[columnNameCamp],
+                            );
+                          columnIndex++;
+                          count++;
+                        }
+                      }
+                    }
+                  });
+                  Object.keys(recordCamp.follow[`${recordCamp.follow.length - 1}`]).forEach((columnNamesFollow) => {
                     if (columnIndex >= 18) {
                       sheet.cell(rowIndex, columnIndex + 1)
                         .string(
-                          recordFollow[columnNamesFollow] === null ? ''
-                            : typeof recordFollow[columnNamesFollow] === 'number' ? `${recordFollow[columnNamesFollow]}`
-                              : recordFollow[columnNamesFollow],
+                          recordCamp.follow[`${recordCamp.follow.length - 1}`][columnNamesFollow] === null ? ''
+                            : typeof recordCamp.follow[`${recordCamp.follow.length - 1}`][columnNamesFollow] === 'number' ? `${recordCamp.follow[`${recordCamp.follow.length - 1}`][columnNamesFollow]}`
+                              : recordCamp.follow[`${recordCamp.follow.length - 1}`][columnNamesFollow],
                         );
                       columnIndex++;
                       count++;
@@ -329,13 +372,12 @@ class ClienteRelatorioController {
                   rowIndex++;
                   countRowFollow++;
                 });
+                countRowFollowAux = countRowFollow;
+                rowIndex -= (countRowFollow);
+                columnIndex++;
               });
-              countRowFollowAux = countRowFollow;
-              rowIndex -= (countRowFollow);
-              columnIndex++;
             });
-          });
-
+          }
           rowIndex += countRowFollowAux;
         });
 
