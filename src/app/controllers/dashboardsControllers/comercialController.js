@@ -1,4 +1,4 @@
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 import { differenceInHours, parseISO } from 'date-fns';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Cliente from '../../models/cliente';
