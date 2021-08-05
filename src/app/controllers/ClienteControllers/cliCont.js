@@ -3,41 +3,16 @@ import CliCont from '../../models/cliCont';
 
 class CliContController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      ClienteId: yup.string().required(),
-      nome: yup.string().required(),
-      cel: yup.string().required(),
-      fone: yup.string().required(),
-      skype: yup.string().required(),
-      email: yup
-        .string()
-        .email()
-        .required(),
-      aniver: yup.date(),
-      tipoConta: yup.string().required(),
-      linkedin: yup.string().required(),
-    });
+    try {
+      const cont = await CliCont.create(req.body);
 
-    const {
-      ClienteId,
-      nome,
-      cel,
-      fone,
-      skype,
-      email,
-      aniver,
-      tipoConta,
-    } = await CliCont.create(req.body);
-    return res.json({
-      ClienteId,
-      nome,
-      cel,
-      fone,
-      skype,
-      email,
-      aniver,
-      tipoConta,
-    });
+      return res.json({
+        message: `contato ${cont.nome} foi criado com sucesso`,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async get(req, res) {
@@ -57,29 +32,16 @@ class CliContController {
   }
 
   async update(req, res) {
-    const cliCont = await CliCont.findByPk(req.params.id);
-
-    const {
-      ClienteId,
-      nome,
-      cel,
-      fone,
-      skype,
-      email,
-      aniver,
-      tipoConta,
-    } = await cliCont.update(req.body);
-
-    return res.json({
-      ClienteId,
-      nome,
-      cel,
-      fone,
-      skype,
-      email,
-      aniver,
-      tipoConta,
-    });
+    try {
+      const cliCont = await CliCont.findByPk(req.params.id);
+      const cont = await cliCont.update(req.body);
+      return res.json({
+        message: `Registro ${cont.nome} atualizado com sucesso`,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async delete(req, res) {

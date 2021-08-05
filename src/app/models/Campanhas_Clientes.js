@@ -17,6 +17,8 @@ export default class Campanhas_Clientes extends Model {
     );
     Cliente.belongsToMany(Campanhas, { through: 'Campanhas_Clientes', foreignKey: 'ClienteId' });
     Campanhas.belongsToMany(Cliente, { through: 'Campanhas_Clientes', foreignKey: 'CampanhaId' });
+    Campanhas_Clientes.belongsTo(Cliente);
+    Campanhas_Clientes.belongsTo(Campanhas);
     return this;
   }
 }

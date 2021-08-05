@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import FollowUps from './FollowUps';
 
 export default class CamposDinamicosProspect extends Model {
   static init(sequelize) {
@@ -12,7 +13,8 @@ export default class CamposDinamicosProspect extends Model {
         sequelize,
       },
     );
-
+    CamposDinamicosProspect.hasMany(FollowUps);
+    FollowUps.belongsTo(CamposDinamicosProspect);
     return this;
   }
 }

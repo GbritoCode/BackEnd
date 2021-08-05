@@ -62,12 +62,18 @@ class CampanhaController {
     const campanha = await Campanha.findAll({
       include: [
         {
+          model: FollowUps,
+          order: [['id', 'DESC']],
+          separate: true,
+        },
+        {
           model: Cliente,
           include: [
             { model: Representante }, { model: TipoComisse },
             {
               model: FollowUps,
-              order: [['createdAt', 'DESC']],
+              order: [['id', 'DESC']],
+              separate: true,
             },
           ],
         },
@@ -75,12 +81,22 @@ class CampanhaController {
           model: Colab,
         },
       ],
+      // order: [[FollowUps, 'createdAt', 'DESC']],
     });
     for (let i = 0; i < campanha.length; i++) {
       const dataInic = campanha[i].dataValues.dataInic.split('-');
       campanha[i].dataValues.dataInic = `${dataInic[2]}/${dataInic[1]}/${dataInic[0]}`;
       const dataFim = campanha[i].dataValues.dataFim.split('-');
       campanha[i].dataValues.dataFim = `${dataFim[2]}/${dataFim[1]}/${dataFim[0]}`;
+
+      for (let g = 0; g < campanha[i].FollowUps.length; g += 1) {
+        campanha[i].FollowUps[g].dataValues.distanceFromToday = Math.ceil(
+          differenceInHours(
+            parseISO(campanha[i].FollowUps[g].dataValues.dataProxContato), new Date(),
+          ) / 24,
+        ) || 0;
+      }
+
       for (let j = 0; j < campanha[i].Clientes.length; j++) {
         for (let k = 0; k < campanha[i].Clientes[j].FollowUps.length; k++) {
           const data = campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato.split('-');
@@ -89,10 +105,16 @@ class CampanhaController {
               parseISO(campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato), new Date(),
             ) / 24,
           ) || 0;
+          campanha[i].Clientes[j].FollowUps[k].dataValues.daysFromStart = Math.ceil(
+            differenceInHours(
+              parseISO(campanha[i].Clientes[j].FollowUps[k].dataValues.dataContato), new Date(),
+            ) / 24,
+          ) || 0;
           campanha[i].Clientes[j].FollowUps[k].dataValues.dataProxContato = `${data[2]}/${data[1]}/${data[0]}`;
         }
       }
     }
+
     return res.json(campanha);
   }
 

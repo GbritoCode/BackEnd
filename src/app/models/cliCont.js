@@ -12,8 +12,9 @@ export default class CliCont extends Model {
         skype: DataTypes.STRING,
         email: DataTypes.STRING,
         aniver: DataTypes.DATE,
-        tipoConta: DataTypes.STRING,
         linkedin: DataTypes.STRING,
+        cargo: DataTypes.STRING,
+        ramal: DataTypes.STRING,
       },
       {
         sequelize,

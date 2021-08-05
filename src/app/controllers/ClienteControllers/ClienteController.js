@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import * as yup from 'yup';
+import excel4node from 'excel4node';
 import Cliente from '../../models/cliente';
 import representantes from '../../models/representante';
 import tipoComiss from '../../models/tipoComiss';
@@ -7,6 +9,10 @@ import Oportunidade from '../../models/oportunidade';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
+import Colab from '../../models/colab';
+import FollowUps from '../../models/FollowUps';
+import CliComp from '../../models/clienteComp';
+import { normalizeCnpj, normalizeFone } from '../../../normalize';
 
 class ClienteController {
   async store(req, res) {
@@ -19,6 +25,14 @@ class ClienteController {
         fantasia: yup.string().optional(),
         RepresentanteId: yup.string().required(),
         TipoComisseId: yup.number(),
+        fone: yup.string(),
+        site: yup.string(),
+        erp: yup.string(),
+        database: yup.string(),
+        ramo: yup.string(),
+        setor: yup.string(),
+        qtdFuncionarios: yup.string(),
+        atvPrincipal: yup.string().required(),
         EmpresaId: yup.number().required(),
       });
 
@@ -41,7 +55,7 @@ class ClienteController {
         }
       }
 
-      return res.json(cliente);
+      return res.json({ message: `Cliente ${cliente.nomeAbv} criado com sucesso` });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno do Servidor' });
@@ -109,7 +123,32 @@ class ClienteController {
       }
       return res.json(cliente);
     }
-    const cliente = await Cliente.findOne({ where: { id: req.params.id } });
+    const cliente = await Cliente.findOne({
+      where: { id: req.params.id },
+      include: [
+        { model: CliComp },
+        {
+          model: Campanhas,
+          include:
+          [
+            { model: Colab },
+            {
+              model: FollowUps,
+              separate: true,
+              order: [['createdAt', 'DESC']],
+            },
+          ],
+        },
+      ],
+    });
+
+    for (let j = 0; j < cliente.Campanhas.length; j++) {
+      for (let k = 0; k < cliente.Campanhas[j].FollowUps.length; k++) {
+        const dataContato = cliente.Campanhas[j].FollowUps[k].dataValues.dataContato.split('-');
+        cliente.Campanhas[j].FollowUps[k].dataValues.dataContato = `${dataContato[2]}/${dataContato[1]}/${dataContato[0]}`;
+      }
+    }
+
     return res.json(cliente);
   }
 
@@ -136,15 +175,26 @@ class ClienteController {
   }
 
   async delete(req, res) {
-    const cliente = await Cliente.findOne({
-      where: { id: req.params.id },
-      include: [Oportunidade],
-    });
-    if (cliente.Oportunidade === null) {
-      cliente.destroy();
-      return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
+    try {
+      const cliente = await Cliente.findOne({
+        where: { id: req.params.id },
+        include: [Oportunidade, Campanhas],
+      });
+      if (cliente.Oportunidades.length === 0 && cliente.Campanhas.length === 0) {
+        try {
+          await cliente.destroy();
+          return res.status(200).json(`Registro ${cliente.nomeAbv} foi deletado com Sucesso!`);
+        } catch (err) {
+          console.log(err);
+          return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
+        }
+      } else {
+        return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno de Servidor' });
     }
-    return res.status(400).json({ error: 'Registro possui dependências. Exclusão não permitida' });
   }
 }
 export default new ClienteController();

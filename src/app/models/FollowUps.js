@@ -16,6 +16,7 @@ export default class FollowUps extends Model {
         proxPasso: DataTypes.INTEGER,
         prefContato: DataTypes.INTEGER,
         ativo: DataTypes.BOOLEAN,
+        CamposDinamicosProspectId: DataTypes.INTEGER,
       },
       {
         sequelize,
