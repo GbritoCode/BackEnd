@@ -24,6 +24,7 @@ class CampanhaController {
       const followUpEmail = await FollowUps.findByPk(followUps.getDataValue('id'), {
         include: [{ model: Cliente }, { model: Campanhas }, { model: Colab }, { model: CliCont }],
       });
+      console.log(req.body);
 
       if (req.body.proxPasso === '10') {
         // Create a builder
