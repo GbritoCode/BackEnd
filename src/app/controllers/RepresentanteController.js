@@ -46,6 +46,7 @@ class RepresentanteController {
       nome,
       TipoComisseId,
       vlrFixMens,
+      ColabId,
     } = await representante.update(req.body);
 
     return res.json({
@@ -53,6 +54,7 @@ class RepresentanteController {
       nome,
       TipoComisseId,
       vlrFixMens,
+      ColabId,
     });
   }
 
