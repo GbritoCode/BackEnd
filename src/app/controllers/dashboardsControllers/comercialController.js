@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { differenceInHours, parseISO } from 'date-fns';
+import { normalizeDatetime } from '../../../normalize';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Cliente from '../../models/cliente';
 import FollowUps from '../../models/FollowUps';
@@ -7,7 +8,8 @@ import Campanhas from '../../models/campanhas';
 import CliCont from '../../models/cliCont';
 import CliComp from '../../models/clienteComp';
 import CamposDinamicos from '../../models/camposDinamicosProspects';
-import { normalizeDatetime } from '../../../normalize';
+import Colab from '../../models/colab';
+import Representante from '../../models/representante';
 
 class ComercialController {
   async get(req, res) {
@@ -20,7 +22,16 @@ class ComercialController {
           CampanhaId: camp,
           createdAt: { [Op.between]: [dataInic, dataFim] },
         },
-        include: [{ model: Cliente, include: [{ model: CliComp }, { model: CliCont }] }, { model: Campanhas }],
+        include: [
+          {
+            model: Cliente,
+            include: [
+              { model: CliComp },
+              { model: Representante },
+              { model: CliCont },
+            ],
+          },
+          { model: Campanhas }],
       });
       for (let i = 0; i < cliJoinedCamp.rows.length; i += 1) {
         cliJoinedCamp.rows[i].dataValues.createdAt = normalizeDatetime(cliJoinedCamp.rows[i].dataValues.createdAt);
@@ -31,7 +42,7 @@ class ComercialController {
           CampanhaId: camp,
           dataContato: { [Op.between]: [dataInic, dataFim] },
         },
-        include: [{ model: Cliente }, { model: CliCont }, { model: Campanhas }],
+        include: [{ model: Cliente }, { model: CliCont }, { model: Campanhas }, { model: Colab }],
         order: [['id', 'DESC']],
       });
       // return res.json(Fups);
@@ -53,8 +64,17 @@ class ComercialController {
           dataContato: { [Op.between]: [dataInic, dataFim] },
           proxPasso: 10,
         },
-        include: [{ model: Cliente, include: [CliComp] }, { model: CliCont }, { model: Campanhas }, { model: CamposDinamicos }],
+        include: [
+          {
+            model: Cliente,
+            include: [{ model: CliComp }, { model: Representante }],
+          },
+          { model: CliCont },
+          { model: Campanhas },
+          { model: CamposDinamicos },
+        ],
       });
+
       for (let i = 0; i < finalizedFups.rows.length; i += 1) {
         const created = new Date(finalizedFups.rows[i].dataValues.createdAt)
           .toLocaleString().slice(0, 10);
