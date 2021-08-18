@@ -1,5 +1,4 @@
 import { differenceInHours, parseISO } from 'date-fns';
-import differenceInDays from 'date-fns/differenceInDays';
 import Campanha from '../../models/campanhas';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import Cliente from '../../models/cliente';
