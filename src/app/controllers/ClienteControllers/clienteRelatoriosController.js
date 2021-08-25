@@ -95,7 +95,6 @@ class ClienteRelatorioController {
             },
           ],
         });
-        console.log('entrei');
       } else if (filter === 'true' && finalized === 'false') {
         cliente = await Cliente.findAll({
           include: [
@@ -212,7 +211,8 @@ class ClienteRelatorioController {
             'Próximo Passo': checkProxPasso(fup.proxPasso),
             'Data Próximo Contato': normalizeDate(fup.dataProxContato),
             Detalhes: fup.detalhes,
-            Motivo: fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.nome : '',
+            'Motivo Código': fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.nome : '',
+            Motivo: fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.valor : '',
           })),
         })),
         Contatos: cli.CliConts.map((cont) => ({
@@ -255,6 +255,7 @@ class ClienteRelatorioController {
         'Próximo Passo',
         'Data Próximo Contato',
         'Detalhes',
+        'Motivo Código',
         'Motivo',
       ];
 
