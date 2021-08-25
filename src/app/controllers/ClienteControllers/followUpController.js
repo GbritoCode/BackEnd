@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import MailComposer from 'nodemailer/lib/mail-composer';
 import AWS from 'aws-sdk';
 import icalToolkit from 'ical-toolkit';
@@ -24,70 +25,95 @@ class CampanhaController {
       const followUpEmail = await FollowUps.findByPk(followUps.getDataValue('id'), {
         include: [{ model: Cliente }, { model: Campanhas }, { model: Colab }, { model: CliCont }],
       });
-      if (req.body.proxPasso === '10') {
+      switch (req.body.proxPasso) {
+        case '1':
+          await Campanhas_Clientes.update({ status: 'Em Prospecção' }, {
+            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+          });
+          break;
+        case '2':
+          await Campanhas_Clientes.update({ status: 'Em Prospecção', reuniaoAgend: new Date().toDateString() }, {
+            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+          });
+          break;
+        case '3':
+          await Campanhas_Clientes.update({ status: 'Em Prospecção', orcamentoSolict: new Date().toDateString() }, {
+            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+          });
+          break;
+        case '4':
+          await Campanhas_Clientes.update({ status: 'Em Prospecção' }, {
+            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+          });
+          break;
+        case '10':
         // Create a builder
-        await Campanhas_Clientes.update({ ativo: false }, {
-          where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-        });
-        const generateRawMailData = (message) => {
-          const mailOptions = {
-            from: message.fromEmail,
-            to: message.to,
-            cc: message.cc,
-            bcc: message.bcc,
-            subject: message.subject,
-            text: message.bodyTxt,
-            html: message.bodyHtml,
+          await Campanhas_Clientes.update({
+            ativo: false, status: 'Finalizado', dataFim: new Date().toDateString(),
+          }, {
+            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+          });
+          const generateRawMailData = (message) => {
+            const mailOptions = {
+              from: message.fromEmail,
+              to: message.to,
+              cc: message.cc,
+              bcc: message.bcc,
+              subject: message.subject,
+              text: message.bodyTxt,
+              html: message.bodyHtml,
+            };
+            return new MailComposer(mailOptions).compile().build();
           };
-          return new MailComposer(mailOptions).compile().build();
-        };
 
-        const parametros = await ParametrosEmail.findOne({
-          order: [['createdAt', 'DESC']],
-        });
+          const parametros = await ParametrosEmail.findOne({
+            order: [['createdAt', 'DESC']],
+          });
 
-        const from = parametros.fromEmailCRM;
-        let Bcc = parametros.bccEmailCRM.split(',');
-        Bcc = Bcc.filter((v) => v !== '');
-        const exampleSendEmail = async () => {
-          const message = {
-            fromEmail: from,
-            to: [from],
-            cc: [],
-            bcc: Bcc,
-            subject: 'Prospecção em Campanha Finalizada',
-            bodyTxt: '',
-            bodyHtml: `<h4> Encerramento de Prospecção na campanha </h4>
+          const from = parametros.fromEmailCRM;
+          let Bcc = parametros.bccEmailCRM.split(',');
+          Bcc = Bcc.filter((v) => v !== '');
+          const exampleSendEmail = async () => {
+            const message = {
+              fromEmail: from,
+              to: [from],
+              cc: [],
+              bcc: Bcc,
+              subject: 'Prospecção em Campanha Finalizada',
+              bodyTxt: '',
+              bodyHtml: `<h4> Encerramento de Prospecção na campanha </h4>
             <p> Cliente: ${followUpEmail.Cliente.nomeAbv}   </p>
             <p> Campanha: ${followUpEmail.Campanha.cod}   </p>
             <p> Responsável: ${followUpEmail.Colab.nome}   </p>
             <p> Motivo: ${followUpEmail.detalhes}   </p>
             <p> Data: ${followUpEmail.dataContato}   </p>
             `,
+            };
+            const ses = new AWS.SESV2(sesConfig);
+            const params = {
+              Content: { Raw: { Data: await generateRawMailData(message) } },
+              Destination: {
+                ToAddresses: message.to,
+                BccAddresses: message.bcc,
+                CcAddresses: message.cc,
+              },
+              FromEmailAddress: message.fromEmail,
+              ReplyToAddresses: message.replyTo,
+            };
+            return ses.sendEmail(params).promise();
           };
-          const ses = new AWS.SESV2(sesConfig);
-          const params = {
-            Content: { Raw: { Data: await generateRawMailData(message) } },
-            Destination: {
-              ToAddresses: message.to,
-              BccAddresses: message.bcc,
-              CcAddresses: message.cc,
-            },
-            FromEmailAddress: message.fromEmail,
-            ReplyToAddresses: message.replyTo,
-          };
-          return ses.sendEmail(params).promise();
-        };
-        try {
-          const response = await exampleSendEmail();
-          console.log(response);
-          return res.status(200).json();
-        } catch (err) {
-          console.log(err.message);
-          err.sequelizeObject.destroy();
-          return res.status(500).json({ error: 'Erro Interno do Servidor' });
-        }
+          try {
+            const response = await exampleSendEmail();
+            console.log(response);
+            return res.status(200).json();
+          } catch (err) {
+            console.log(err.message);
+            err.sequelizeObject.destroy();
+            return res.status(500).json({ error: 'Erro Interno do Servidor' });
+          }
+        default:
       }
+
       return res.status(200).json();
     } catch (err) {
       console.log(err);

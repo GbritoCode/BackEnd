@@ -81,7 +81,20 @@ class ComercialController {
         finalizedFups.rows[i].dataValues.createdAt = created;
       }
 
-      return res.json({ cliJoinedCamp, Fups, finalizedFups });
+      const cliStatusPassing = await Campanhas_Clientes.findAndCountAll({
+        where: {
+          CampanhaId: camp,
+          [Op.or]: [
+            { reuniaoAgend: { [Op.between]: [dataInic, dataFim] } },
+            { orcamentoSolict: { [Op.between]: [dataInic, dataFim] } },
+            { efetivacao: { [Op.between]: [dataInic, dataFim] } },
+          ],
+        },
+      });
+
+      return res.json({
+        cliJoinedCamp, Fups, finalizedFups, cliStatusPassing,
+      });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: 'Erro Interno do Servidor' });
