@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
-import Campanhas_Clientes from './Campanhas_Clientes';
-import Cliente from './cliente';
+
 import FollowUps from './FollowUps';
+import Oportunidade from './oportunidade';
 
 export default class Campanhas extends Model {
   static init(sequelize) {
@@ -14,6 +14,7 @@ export default class Campanhas extends Model {
         dataInic: DataTypes.DATEONLY,
         dataFim: DataTypes.DATEONLY,
         ColabId: DataTypes.INTEGER,
+        dashFields: DataTypes.STRING,
       },
       {
         sequelize,
@@ -21,6 +22,8 @@ export default class Campanhas extends Model {
     );
     Campanhas.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
     FollowUps.belongsTo(Campanhas);
+    Campanhas.hasMany(Oportunidade, { onDelete: 'cascade', hooks: true });
+    Oportunidade.belongsTo(Campanhas);
     return this;
   }
 }

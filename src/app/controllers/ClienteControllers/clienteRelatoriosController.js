@@ -10,6 +10,7 @@ import Cliente from '../../models/cliente';
 import CliComp from '../../models/clienteComp';
 import FollowUps from '../../models/FollowUps';
 import Colab from '../../models/colab';
+import CamposDinamicosProspect from '../../models/camposDinamicosProspects';
 
 class ClienteRelatorioController {
   async exportResume(req, res) {
@@ -67,7 +68,7 @@ class ClienteRelatorioController {
       const {
         filter, campId, inicDate, endDate, finalized, totalFUP, repeat,
       } = req.query;
-      if (filter === 'true' && finalized === 'false') {
+      if (filter === 'true' && finalized === 'false' && totalFUP === 'true') {
         cliente = await Cliente.findAll({
           include: [
             {
@@ -87,7 +88,35 @@ class ClienteRelatorioController {
                   where: {
                     dataContato: { [Op.between]: [inicDate, endDate] },
                   },
-                  include: [{ model: Colab }],
+                  required: true,
+                  include: [{ model: Colab }, { model: CamposDinamicosProspect }],
+                },
+              ],
+            },
+          ],
+        });
+        console.log('entrei');
+      } else if (filter === 'true' && finalized === 'false') {
+        cliente = await Cliente.findAll({
+          include: [
+            {
+              model: CliComp,
+            },
+            {
+              model: CliCont,
+            },
+            {
+              model: Campanhas,
+              where: {
+                id: campId,
+              },
+              include: [
+                {
+                  model: FollowUps,
+                  where: {
+                    dataContato: { [Op.between]: [inicDate, endDate] },
+                  },
+                  include: [{ model: Colab }, { model: CamposDinamicosProspect }],
                 },
               ],
             },
@@ -115,45 +144,27 @@ class ClienteRelatorioController {
                     proxPasso: 10,
                   },
                   required: true,
-                  include: [{ model: Colab }],
+                  include: [{ model: Colab }, { model: CamposDinamicosProspect }],
                 },
               ],
             },
           ],
         });
-      } else if (filter === 'true' && finalized === 'false' && totalFUP === 'true') {
-        cliente = await Cliente.findAll({
-          include: [
-            {
-              model: CliComp,
-            },
-            {
-              model: CliCont,
-            },
-            {
-              model: Campanhas,
-              where: {
-                id: campId,
-              },
-              include: [
-                {
-                  model: FollowUps,
-                  where: {
-                    dataContato: { [Op.between]: [inicDate, endDate] },
-                  },
-                  required: true,
-                  include: [{ model: Colab }],
-                },
-              ],
-            },
-          ],
-        });
-      } if (filter === 'false') {
+      } else if (filter === 'false') {
         cliente = await Cliente.findAll({
           include: [
             { model: CliComp },
             { model: CliCont },
-            { model: Campanhas, include: [{ model: FollowUps, include: [{ model: Colab }] }] },
+            {
+              model: Campanhas,
+              include: [
+                {
+                  model: FollowUps,
+                  include: [
+                    { model: Colab }, { model: CamposDinamicosProspect }],
+                },
+              ],
+            },
           ],
         });
       }
@@ -161,7 +172,9 @@ class ClienteRelatorioController {
       for (let i = 0; i < cliente.length; i += 1) {
         for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
           const cliId = cliente[i].dataValues.id;
-          cliente[i].Campanhas[j].dataValues.FollowUps = cliente[i].Campanhas[j].FollowUps.filter((arr) => arr.ClienteId === cliId);
+          cliente[i].Campanhas[j].dataValues.FollowUps = cliente[i]
+            .Campanhas[j].FollowUps
+            .filter((arr) => arr.ClienteId === cliId);
         }
       }
 
@@ -191,14 +204,15 @@ class ClienteRelatorioController {
           follow: camp.FollowUps.filter((arr) => arr.ClienteId === cli.id).map((fup) => ({
             Colaborador: fup.Colab.nome,
             'Data Contato': normalizeDate(fup.dataContato),
-            Contato: cli.CliConts.find((a) => a.id === fup.CliContId).nome,
-            'Cargo Contato': cli.CliConts.find((a) => a.id === fup.CliContId).cargo,
-            'Email Contato': cli.CliConts.find((a) => a.id === fup.CliContId).email,
+            Contato: cli.CliConts.find((a) => a.id === fup.CliContId) ? cli.CliConts.find((a) => a.id === fup.CliContId).nome : '',
+            'Cargo Contato': cli.CliConts.find((a) => a.id === fup.CliContId) ? cli.CliConts.find((a) => a.id === fup.CliContId).cargo : '',
+            'Email Contato': cli.CliConts.find((a) => a.id === fup.CliContId) ? cli.CliConts.find((a) => a.id === fup.CliContId).email : '',
             'Preferência de Contato': checkPrefCont(fup.prefContato),
             Reação: fup.reacao,
             'Próximo Passo': checkProxPasso(fup.proxPasso),
             'Data Próximo Contato': normalizeDate(fup.dataProxContato),
             Detalhes: fup.detalhes,
+            Motivo: fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.nome : '',
           })),
         })),
         Contatos: cli.CliConts.map((cont) => ({
@@ -241,6 +255,7 @@ class ClienteRelatorioController {
         'Próximo Passo',
         'Data Próximo Contato',
         'Detalhes',
+        'Motivo',
       ];
 
       // Write Column Title in Excel file
@@ -345,7 +360,6 @@ class ClienteRelatorioController {
         let today = JSON.stringify(new Date().toLocaleString('pt-br'));
         today = today.split('/').join('-');
         today = today.split(':').join('.');
-        console.log(today);
         return workBook.write(`Relatório ${today}.xlsx`, res);
       }
 
