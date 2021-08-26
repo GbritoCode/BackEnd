@@ -9,6 +9,7 @@ import Segmento from '../../models/segmento';
 import Recurso from '../../models/recurso';
 import Area from '../../models/area';
 import RecDesp from '../../models/recDesp';
+import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 
 const { Op } = require('sequelize');
 
@@ -31,7 +32,6 @@ class OportController {
       narrativa: yup.string(),
       totalHoras: yup.number(),
     });
-    console.log(req.body);
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
@@ -152,40 +152,21 @@ class OportController {
 
   async update(req, res) {
     const oport = await Oportunidade.findByPk(req.params.id);
-    const {
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-      motivo,
-    } = await oport.update(req.body);
+    const oportUpdated = await oport.update(req.body);
+
+    if (oportUpdated.fase === 4 && oportUpdated.CampanhaId) {
+      await Campanhas_Clientes.update({
+        status: 'Em Prospecção',
+        efetivacao: new Date().toDateString(),
+      },
+      {
+        where: { ClienteId: oportUpdated.ClienteId, CampanhaId: oportUpdated.CampanhaId },
+      });
+    }
 
     return res.json({
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-      motivo,
+      data: oportUpdated,
+      message: `Oportunidade ${oportUpdated.cod} foi atualizada com sucesso`,
     });
   }
 }
