@@ -28,46 +28,19 @@ class OportController {
       fase: yup.number().required(),
       cod: yup.string().required(),
       desc: yup.string().required(),
-      CampanhaId: yup.number(),
+      CampanhaId: yup.number().nullable(),
       narrativa: yup.string(),
       totalHoras: yup.number(),
     });
+    console.log(req.body);
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
-    const {
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-    } = await Oportunidade.create(req.body);
+    const oport = await Oportunidade.create(req.body);
 
     return res.json({
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-
+      data: oport,
+      message: `Oportunidade ${oport.cod} criada com sucesso`,
     });
   }
 

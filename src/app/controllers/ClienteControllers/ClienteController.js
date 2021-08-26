@@ -115,6 +115,7 @@ class ClienteController {
           { model: representantes },
           { model: tipoComiss },
           { model: Empresa },
+          { model: Campanhas },
         ],
       });
       for (let i = 0; i < cliente.length; i++) {
