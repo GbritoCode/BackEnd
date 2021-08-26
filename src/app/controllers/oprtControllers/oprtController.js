@@ -27,9 +27,11 @@ class OportController {
       fase: yup.number().required(),
       cod: yup.string().required(),
       desc: yup.string().required(),
+      CampanhaId: yup.number(),
       narrativa: yup.string(),
       totalHoras: yup.number(),
     });
+    console.log(req.body);
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }

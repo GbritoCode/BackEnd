@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import CliCont from '../../models/cliCont';
+import FollowUps from '../../models/FollowUps';
 
 class CliContController {
   async store(req, res) {
@@ -45,11 +46,20 @@ class CliContController {
   }
 
   async delete(req, res) {
-    const cliCont = await CliCont.findOne({
-      where: { id: req.params.id },
-    });
-    cliCont.destroy();
-    return res.status(200).json(`Registro ${cliCont.nome} foi deletado com Sucesso!`);
+    try {
+      const cliCont = await CliCont.findOne({
+        where: { id: req.params.id },
+        include: [{ model: FollowUps }],
+      });
+      if (cliCont.FollowUps.length !== 0) {
+        return res.status(400).json({ error: 'Registro Possui Dependências' });
+      }
+      cliCont.destroy();
+      return res.status(200).json(`Registro ${cliCont.nome} foi deletado com Sucesso!`);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 }
 export default new CliContController();
