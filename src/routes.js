@@ -171,6 +171,7 @@ routes.get('/empresa/:id?', empresaController.get);
 routes.post('/users', userController.store);
 routes.get('/users/:id?', userController.get);
 routes.put('/users/:id', userController.update);
+routes.put('/users_pass', userController.forgotPass);
 routes.delete('/users/:id', userController.delete);
 routes.post('/sessions', sessionController.store);
 

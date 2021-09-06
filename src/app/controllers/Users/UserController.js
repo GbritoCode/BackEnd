@@ -1,7 +1,18 @@
 import * as yup from 'yup';
+import crypto from 'crypto';
+import MailComposer from 'nodemailer/lib/mail-composer';
+import AWS from 'aws-sdk';
 import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import users from '../../models/users';
+import ParametrosEmail from '../../models/emailParametros';
+
+const sesConfig = {
+  apiVersion: '2019-09-27',
+  accessKeyId: process.env.AWS_SES_KEY_ID,
+  secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
+  region: process.env.AWS_SES_REGION,
+};
 
 class UserController {
   async store(req, res) {
@@ -74,9 +85,9 @@ class UserController {
       }
     }
 
-    // if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
-    //  return res.status(401).json({ error: 'Password does not match' });
-    // }
+    if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
+      return res.status(401).json({ error: 'Password does not match' });
+    }
 
     await colab.update({ aniver: req.body.aniver });
 
@@ -88,6 +99,120 @@ class UserController {
       email,
       profile,
     });
+  }
+
+  async forgotPass(req, res) {
+    const schema = yup.object().shape({
+      email: yup.string().required(),
+    });
+    try {
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation fails' });
+      }
+
+      const {
+        email,
+      } = req.body;
+
+      const user = await users.findOne({ where: { email } });
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      const Password = {
+
+        pattern: /[a-zA-Z0-9_\-\+\.]/,
+
+        getRandomByte() {
+          // http://caniuse.com/#feat=getrandomvalues
+          const result = crypto.randomFillSync(new Uint32Array(1));
+          return result[0];
+        },
+
+        generate(length) {
+          return Array.apply(null, { length })
+            .map(() => {
+              let result;
+              while (true) {
+                result = String.fromCharCode(this.getRandomByte());
+                if (this.pattern.test(result)) {
+                  return result;
+                }
+              }
+            }, this)
+            .join('');
+        },
+
+      };
+      const pass = Password.generate(16);
+
+      const userUpdated = await user.update({
+        forgotPass: true,
+        isFirstLogin: true,
+        senha: pass,
+      });
+
+      const generateRawMailData = (message) => {
+        const mailOptions = {
+          from: message.fromEmail,
+          to: message.to,
+          cc: message.cc,
+          bcc: message.bcc,
+          subject: message.subject,
+          text: message.bodyTxt,
+          html: message.bodyHtml,
+        };
+        return new MailComposer(mailOptions).compile().build();
+      };
+
+      const parametros = await ParametrosEmail.findOne({
+        order: [['createdAt', 'DESC']],
+      });
+
+      const from = parametros.fromEmailFat;
+      const exampleSendEmail = async () => {
+        const message = {
+          fromEmail: 'suporte@tovoit.com.br',
+          to: ['gabrielcabeca26@gmail.com'],
+          cc: [],
+          bcc: [],
+          subject: 'Alteração de senha',
+          bodyTxt: '',
+          bodyHtml: `Olá <strong>${user.nome}</strong> <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo,<br>
+          caso essa alteração não tenha sido solicitada por você, altere sua senha e entre em contato com o admnistrador<br>
+          segue sua nova senha, é aconselhável alterá-la ao fazer login no sistema.<br>
+          <strong style="margin-left: 25%" > ${pass}<strong>
+          `,
+        };
+        const ses = new AWS.SESV2(sesConfig);
+        const params = {
+          Content: { Raw: { Data: await generateRawMailData(message) } },
+          Destination: {
+            ToAddresses: message.to,
+            BccAddresses: message.bcc,
+            CcAddresses: message.cc,
+          },
+          FromEmailAddress: message.fromEmail,
+          ReplyToAddresses: message.replyTo,
+        };
+        return ses.sendEmail(params).promise();
+      };
+      try {
+        const response = await exampleSendEmail();
+        console.log(response);
+        return res.json({
+          data: userUpdated,
+          message: `Senha do usuário ${userUpdated.nome} foi alterada!`,
+        });
+      } catch (err) {
+        console.log(err.message);
+        return res.status(500).json({ error: 'Erro Interno do Servidor' });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async get(req, res) {
