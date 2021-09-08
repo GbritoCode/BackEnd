@@ -174,7 +174,7 @@ class UserController {
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: 'suporte@tovoit.com.br',
-          to: ['gabrielcabeca26@gmail.com'],
+          to: [email],
           cc: [],
           bcc: [],
           subject: 'Alteração de senha',
