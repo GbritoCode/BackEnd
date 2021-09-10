@@ -182,7 +182,7 @@ class UserController {
           bodyHtml: `Olá <strong>${user.nome}</strong> <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo.<br>
           Caso essa solicitação não tenha sido feita por você, entre em contato com o administrador do sistema.<br>
           Segue abaixo sua nova senha. Informe-a como senha atual e no primeiro login efetue a alteração.<br>
-          <strong style="margin-left: 25%" > ${pass}<strong><br>
+         <p><strong style="margin-left: 25%" > ${pass}<strong></p>
           Equipe Suporte Tovo.
 
           `,
