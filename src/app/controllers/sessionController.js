@@ -33,7 +33,7 @@ class SessionController {
       }
 
       if (!(await user.checkPassword(senha))) {
-        return res.status(401).json({ error: 'Password does not match' });
+        return res.status(401).json({ error: 'O usuário ou senha estão incorretos. Verifique os dados' });
       }
 
       const {

@@ -86,7 +86,7 @@ class UserController {
     }
 
     if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res.status(401).json({ error: 'A senha atual está incorreta' });
     }
 
     await colab.update({ aniver: req.body.aniver });
@@ -179,10 +179,12 @@ class UserController {
           bcc: [],
           subject: 'Alteração de senha',
           bodyTxt: '',
-          bodyHtml: `Olá <strong>${user.nome}</strong> <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo,<br>
-          caso essa alteração não tenha sido solicitada por você, altere sua senha e entre em contato com o admnistrador<br>
-          segue sua nova senha, é aconselhável alterá-la ao fazer login no sistema.<br>
-          <strong style="margin-left: 25%" > ${pass}<strong>
+          bodyHtml: `Olá <strong>${user.nome}</strong> <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo.<br>
+          Caso essa solicitação não tenha sido feita por você, entre em contato com o administrador do sistema.<br>
+          Segue abaixo sua nova senha. Informe-a como senha atual e no primeiro login efetue a alteração.<br>
+          <strong style="margin-left: 25%" > ${pass}<strong><br>
+          Equipe Suporte Tovo.
+
           `,
         };
         const ses = new AWS.SESV2(sesConfig);
