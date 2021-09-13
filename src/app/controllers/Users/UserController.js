@@ -218,7 +218,7 @@ class UserController {
                                                 <strong><span style="font-size: 35px; color: #333333;">Recuperação</span> <br/>de Senha </strong></span>
                                             </td>
                                             <td>
-                                            <img src="https://app.tovoit.com.br/favicon.ico" alt="Tovo" width="100" height="100" style="display: block; padding: 5px 30px 10px 10px; float: right;" />&nbsp; &nbsp;
+                                            <img src="https://app.tovoit.com.br/favicon.ico" alt="Tovo" width="100" height="100" style="display: block; padding: 10px 10px 10px 10px; float: right;" />&nbsp; &nbsp;
                                             </td>
                                         </tr>
                                     </tbody>
