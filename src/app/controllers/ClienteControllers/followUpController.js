@@ -10,6 +10,7 @@ import ParametrosEmail from '../../models/emailParametros';
 import FollowUps from '../../models/FollowUps';
 import SequelizeDelete from '../_ErrorControllers/sequelizeNeedsDelete';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
+import generateEndCampagainEmail from '../email/endCampagain.Email';
 
 const sesConfig = {
   apiVersion: '2019-09-27',
@@ -81,13 +82,14 @@ class CampanhaController {
               bcc: Bcc,
               subject: 'Prospecção em Campanha Finalizada',
               bodyTxt: '',
-              bodyHtml: `<h4> Encerramento de Prospecção na campanha </h4>
-            <p> Cliente: ${followUpEmail.Cliente.nomeAbv}   </p>
-            <p> Campanha: ${followUpEmail.Campanha.cod}   </p>
-            <p> Responsável: ${followUpEmail.Colab.nome}   </p>
-            <p> Motivo: ${followUpEmail.detalhes}   </p>
-            <p> Data: ${followUpEmail.dataContato}   </p>
-            `,
+              bodyHtml: generateEndCampagainEmail({
+                cliNomeAbv: followUpEmail.Cliente.nomeAbv,
+                campCod: followUpEmail.Campanha.cod,
+                campDesc: followUpEmail.Campanha.desc,
+                colabNome: followUpEmail.Colab.nome,
+                dataContato: followUpEmail.detalhes,
+                detalhes: followUpEmail.dataContato,
+              }),
             };
             const ses = new AWS.SESV2(sesConfig);
             const params = {

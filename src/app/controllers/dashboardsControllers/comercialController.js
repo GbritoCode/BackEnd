@@ -99,6 +99,7 @@ class ComercialController {
             { reuniaoAgend: { [Op.between]: [dataInic, dataFim] } },
             { orcamentoSolict: { [Op.between]: [dataInic, dataFim] } },
             { efetivacao: { [Op.between]: [dataInic, dataFim] } },
+            { createdAt: { [Op.between]: [dataInic, dataFim] } },
           ],
         },
         include: [

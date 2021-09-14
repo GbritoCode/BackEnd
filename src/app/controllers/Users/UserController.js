@@ -6,6 +6,7 @@ import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import users from '../../models/users';
 import ParametrosEmail from '../../models/emailParametros';
+import generateForgotPassEmail from '../email/forgotPassEmail';
 
 const sesConfig = {
   apiVersion: '2019-09-27',
@@ -179,127 +180,10 @@ class UserController {
           bcc: [],
           subject: 'Alteração de senha',
           bodyTxt: '',
-          bodyHtml:
-         `
-          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Recuperção De Senha</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
-    <body style="margin: 0; padding: 0;" class="vsc-initialized">
-        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tbody>
-                <tr>
-                    <td style="padding: 10px 0 20px 0;">
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="860" style="border: 1px solid #cccccc; border-collapse: collapse;">
-                        <tbody>
-                            <tr>
-                                <td align="center" style="color: #0071bc; font-size: 40px; font-weight: bold; font-family: Arial, sans-serif; background-color: #0071bc; height: 60px;">
-                                Equipe Tovo
-                                <table border="0" cellpadding="0" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center" style="color: #888888; font-family: Arial, sans-serif; font-size: 14px; background-color: #ffffff; width: 800px; height: 30px;">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 1px 30px; background-color: #ffffff;">
-                                <table border="0" cellpadding="0" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <td align="left" valign="top" style="color: #0071bc; font-family: Arial, sans-serif; background-color: #ffffff; width: 900px; height: 40px; padding: 5px 0px 5px 20px;">
-                                            <span style="font-size: 24px;">
-                                                <strong><span style="font-size: 35px; color: #333333;">Recuperação</span> <br/>de Senha </strong></span>
-                                            </td>
-                                            <td>
-                                            <img src="https://app.tovoit.com.br/favicon.ico" alt="Tovo" width="100" height="100" style="display: block; padding: 10px 10px 10px 10px; float: right;" />&nbsp; &nbsp;
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table border="0" cellpadding="0" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 30px; text-align: center;"> Olá <strong>${user.nome}</strong> <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo.<br />
-          Caso essa solicitação não tenha sido feita por você, entre em contato com o administrador do sistema.<br />
-          Segue abaixo sua nova senha. Informe-a como senha atual e no primeiro login efetue a alteração.<br />
-                                            <span style="font-size: 10px;">Equipe Suporte Tovo.</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                <tbody>
-                                                    <tr>
-                                                        <td valign="top" style="width: 260px;">
-                                                        <table width="100%" style="solid #cccccc; cellpadding=;" cellspacing="0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td align="center" style="color: #ffffff; padding: 2px 0px; font-family: Segoe UI Light; font-size: 16px; line-height: 20px; background-color: #0071bc;">
-                                                                    <p><strong>${pass}</strong></p>
-                                                          </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        </td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding: 20px; background-color: #fff;">
-                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="color: #000; font-family: Arial, sans-serif; font-size: 10px; width: 75%;">
-                                                        &copy; Copyright Tovoit 2021. Todos os direitos reservados<br />
-                                                        </td>
-                                                        <td align="right" style="width: 25%;">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 5px;">
-                                    <tbody>
-                                        <tr>
-                                            <td style="color: #888888; font-family: Segoe UI Light; text-align: center;"><span style="background-color: #ffffff; font-family: Segoe UI Light; font-size: 13px; color: #153643;">N&atilde;o se deixem vencer pelo mal, mas ven&ccedil;am o mal com o bem.</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center" style="color: #888888; font-family: Segoe UI Light; font-size: 10px;"><span style="color: #262626;">
-                                            Romanos 12:21</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
-</html>`,
+          bodyHtml: generateForgotPassEmail({
+            userName: user.nome,
+            userPass: pass,
+          }),
 
         };
         const ses = new AWS.SESV2(sesConfig);
