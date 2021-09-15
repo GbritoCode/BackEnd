@@ -8,9 +8,9 @@ import Cliente from '../../models/cliente';
 import Colab from '../../models/colab';
 import ParametrosEmail from '../../models/emailParametros';
 import FollowUps from '../../models/FollowUps';
-import SequelizeDelete from '../_ErrorControllers/sequelizeNeedsDelete';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import generateEndCampagainEmail from '../email/endCampagain.Email';
+import { normalizeDate } from '../../../normalize';
 
 const sesConfig = {
   apiVersion: '2019-09-27',
@@ -88,7 +88,7 @@ class CampanhaController {
                 campDesc: followUpEmail.Campanha.desc,
                 colabNome: followUpEmail.Colab.nome,
                 dataContato: followUpEmail.detalhes,
-                detalhes: followUpEmail.dataContato,
+                detalhes: normalizeDate(followUpEmail.dataContato),
               }),
             };
             const ses = new AWS.SESV2(sesConfig);
