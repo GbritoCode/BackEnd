@@ -13,6 +13,7 @@ export default class Campanhas_Clientes extends Model {
         orcamentoSolict: DataTypes.DATEONLY,
         dataFim: DataTypes.DATEONLY,
         efetivacao: DataTypes.DATEONLY,
+        atraida: DataTypes.DATEONLY,
         status: DataTypes.STRING,
       },
       {

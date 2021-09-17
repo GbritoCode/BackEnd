@@ -37,6 +37,14 @@ class OportController {
     }
     const oport = await Oportunidade.create(req.body);
 
+    console.log(oport.CampanhaId);
+
+    if (oport.CampanhaId) {
+      await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
+        where: { ClienteId: oport.ClienteId, CampanhaId: oport.CampanhaId },
+      });
+    }
+
     return res.json({
       data: oport,
       message: `Oportunidade ${oport.cod} criada com sucesso`,
@@ -128,7 +136,7 @@ class OportController {
 
     if (oportUpdated.fase === 4 && oportUpdated.CampanhaId) {
       await Campanhas_Clientes.update({
-        status: 'Em Prospecção',
+        status: 'Alcançada',
         efetivacao: new Date().toDateString(),
       },
       {

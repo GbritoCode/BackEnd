@@ -22,98 +22,120 @@ const sesConfig = {
 class CampanhaController {
   async store(req, res) {
     try {
+      const { body } = req;
       const followUps = await FollowUps.create(req.body);
       const followUpEmail = await FollowUps.findByPk(followUps.getDataValue('id'), {
         include: [{ model: Cliente }, { model: Campanhas }, { model: Colab }, { model: CliCont }],
       });
-      switch (req.body.proxPasso) {
-        case '1':
-          await Campanhas_Clientes.update({ status: 'Em Prospecção' }, {
-            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-          });
-          break;
-        case '2':
-          await Campanhas_Clientes.update({ status: 'Em Prospecção', reuniaoAgend: new Date().toDateString() }, {
-            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-          });
-          break;
-        case '3':
-          await Campanhas_Clientes.update({ status: 'Em Prospecção', orcamentoSolict: new Date().toDateString() }, {
-            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-          });
-          break;
-        case '4':
-          await Campanhas_Clientes.update({ status: 'Em Prospecção' }, {
-            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-          });
-          break;
-        case '10':
-        // Create a builder
-          await Campanhas_Clientes.update({
-            ativo: false, status: 'Finalizado', dataFim: new Date().toDateString(),
-          }, {
-            where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
-          });
-          const generateRawMailData = (message) => {
-            const mailOptions = {
-              from: message.fromEmail,
-              to: message.to,
-              cc: message.cc,
-              bcc: message.bcc,
-              subject: message.subject,
-              text: message.bodyTxt,
-              html: message.bodyHtml,
-            };
-            return new MailComposer(mailOptions).compile().build();
+      const CampCli = await Campanhas_Clientes.findOne({
+        where: {
+          ClienteId: body.ClienteId,
+          CampanhaId: body.CampanhaId,
+        },
+      });
+      if (body.proxPasso === '10') {
+        await Campanhas_Clientes.update({
+          ativo: false, status: 'Finalizado', dataFim: new Date().toDateString(),
+        }, {
+          where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+        });
+        const generateRawMailData = (message) => {
+          const mailOptions = {
+            from: message.fromEmail,
+            to: message.to,
+            cc: message.cc,
+            bcc: message.bcc,
+            subject: message.subject,
+            text: message.bodyTxt,
+            html: message.bodyHtml,
           };
+          return new MailComposer(mailOptions).compile().build();
+        };
 
-          const parametros = await ParametrosEmail.findOne({
-            order: [['createdAt', 'DESC']],
-          });
+        const parametros = await ParametrosEmail.findOne({
+          order: [['createdAt', 'DESC']],
+        });
 
-          const from = parametros.fromEmailCRM;
-          let Bcc = parametros.bccEmailCRM.split(',');
-          Bcc = Bcc.filter((v) => v !== '');
-          const exampleSendEmail = async () => {
-            const message = {
-              fromEmail: from,
-              to: [from],
-              cc: [],
-              bcc: Bcc,
-              subject: 'Prospecção em Campanha Finalizada',
-              bodyTxt: '',
-              bodyHtml: generateEndCampagainEmail({
-                cliNomeAbv: followUpEmail.Cliente.nomeAbv,
-                campCod: followUpEmail.Campanha.cod,
-                campDesc: followUpEmail.Campanha.desc,
-                colabNome: followUpEmail.Colab.nome,
-                dataContato: followUpEmail.detalhes,
-                detalhes: normalizeDate(followUpEmail.dataContato),
-              }),
-            };
-            const ses = new AWS.SESV2(sesConfig);
-            const params = {
-              Content: { Raw: { Data: await generateRawMailData(message) } },
-              Destination: {
-                ToAddresses: message.to,
-                BccAddresses: message.bcc,
-                CcAddresses: message.cc,
-              },
-              FromEmailAddress: message.fromEmail,
-              ReplyToAddresses: message.replyTo,
-            };
-            return ses.sendEmail(params).promise();
+        const from = parametros.fromEmailCRM;
+        let Bcc = parametros.bccEmailCRM.split(',');
+        Bcc = Bcc.filter((v) => v !== '');
+        const exampleSendEmail = async () => {
+          const message = {
+            fromEmail: from,
+            to: [from],
+            cc: [],
+            bcc: Bcc,
+            subject: 'Prospecção em Campanha Finalizada',
+            bodyTxt: '',
+            bodyHtml: generateEndCampagainEmail({
+              cliNomeAbv: followUpEmail.Cliente.nomeAbv,
+              campCod: followUpEmail.Campanha.cod,
+              campDesc: followUpEmail.Campanha.desc,
+              colabNome: followUpEmail.Colab.nome,
+              dataContato: followUpEmail.detalhes,
+              detalhes: normalizeDate(followUpEmail.dataContato),
+            }),
           };
-          try {
-            const response = await exampleSendEmail();
-            console.log(response);
-            return res.status(200).json();
-          } catch (err) {
-            console.log(err.message);
-            err.sequelizeObject.destroy();
-            return res.status(500).json({ error: 'Erro Interno do Servidor' });
+          const ses = new AWS.SESV2(sesConfig);
+          const params = {
+            Content: { Raw: { Data: await generateRawMailData(message) } },
+            Destination: {
+              ToAddresses: message.to,
+              BccAddresses: message.bcc,
+              CcAddresses: message.cc,
+            },
+            FromEmailAddress: message.fromEmail,
+            ReplyToAddresses: message.replyTo,
+          };
+          return ses.sendEmail(params).promise();
+        };
+        try {
+          const response = await exampleSendEmail();
+          console.log(response);
+          return res.status(200).json();
+        } catch (err) {
+          console.log(err.message);
+          err.sequelizeObject.destroy();
+          return res.status(500).json({ error: 'Erro Interno do Servidor' });
+        }
+      }
+
+      switch (CampCli.status) {
+        case 'Mapeada':
+          if (body.reacao === 'boa' || body.reacao === 'otima') {
+            await Campanhas_Clientes.update({ status: 'Atraida', atraida: new Date().toDateString() }, {
+              where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+            });
           }
+          break;
         default:
+          if (
+            body.proxPasso === '5'
+            && (
+              body.reacao === 'neutra'
+           || body.reacao === 'boa'
+           || body.reacao === 'otima'
+            )
+          ) {
+            await Campanhas_Clientes.update({ status: 'Convertida', reuniaoAgend: new Date().toDateString() }, {
+              where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+            });
+          }
+          break;
+        // default:
+        //   break;
+        // case '3':
+        //   await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
+        //     where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+        //   });
+        //   break;
+        // case '4':
+        //   await Campanhas_Clientes.update({ status: 'Alcançada' }, {
+        //     where: { ClienteId: followUps.ClienteId, CampanhaId: followUps.CampanhaId },
+        //   });
+        //   break;
+        // case '10':
+        // Create a builder
       }
 
       return res.status(200).json();
