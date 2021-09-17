@@ -62,7 +62,7 @@ export default function generateEndCampagainEmail(data) {
 
                                           </tr>
                                           <tr>
-                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Responsável: <strong> ${data.colabNome}</strong>.<br><br>
+                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Responsável: <strong>${data.colabNome}</strong>.<br><br>
 
                                           </tr>
                                           <tr>
@@ -70,7 +70,7 @@ export default function generateEndCampagainEmail(data) {
 
                                           </tr>
                                           <tr>
-                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Motivo: <strong> ${data.detalhes} </strong>.<br>
+                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Motivo: <strong>${data.detalhes}</strong>.<br>
 
                                           </tr>
                                       </tbody>
@@ -79,28 +79,22 @@ export default function generateEndCampagainEmail(data) {
                                       <tbody>
                                           <tr>
                                               <td style="padding: 0px; background-color: #fff;">
-                                                  <p style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; text-align: left;"><strong>Equipe Comercial Aidera.</strong></p>
+                                                  <br><br><p style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; text-align: left;"><strong>Equipe Comercial Aidera.</strong></p>
                                               </p>
+                                          </tr>
+                                          <tr>
+                                              <td align="left" style="color: #000; font-family: Arial, sans-serif; font-size: 10px; width: 100%;">
+                                              &copy; Copyright Aidera Tecnologia 2021. Todos os direitos reservados<br />
+                                              </td>
+
                                           </tr>
                                       </tbody>
                                   </table>
 
-
-                                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                  <tbody>
-                                                      <tr>
-                                                          <td align="left" style="color: #000; font-family: Arial, sans-serif; font-size: 10px; width: 100%;">
-                                                          &copy; Copyright Aidera Tecnologia 2021. Todos os direitos reservados<br />
-                                                          </td>
-                                                          <td align="center" style="padding: 20px;">
-                                                          </td>
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
                                   <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 30px 0px 1px;">
                                       <tbody>
                                           <tr>
-                                              <td style="color: #888888; font-family: Segoe UI Light; text-align: center;"><span style="background-color: #ffffff; font-family: Segoe UI Light; font-size: 13px; color: #153643;">N&atilde;o se deixem vencer pelo mal, mas ven&ccedil;am o mal com o bem.</span></td>
+                                              <td style="color: #888888; font-family: Segoe UI Light; text-align: center;"><span style="font-family: Segoe UI Light; font-size: 13px; color: #153643;">N&atilde;o se deixem vencer pelo mal, mas ven&ccedil;am o mal com o bem.</span></td>
                                           </tr>
                                           <tr>
                                               <td align="center" style="color: #888888; font-family: Segoe UI Light; font-size: 10px;"><span style="color: #262626; ">

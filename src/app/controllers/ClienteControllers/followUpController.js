@@ -72,8 +72,8 @@ class CampanhaController {
               campCod: followUpEmail.Campanha.cod,
               campDesc: followUpEmail.Campanha.desc,
               colabNome: followUpEmail.Colab.nome,
-              dataContato: followUpEmail.detalhes,
-              detalhes: normalizeDate(followUpEmail.dataContato),
+              dataContato: normalizeDate(followUpEmail.dataContato),
+              detalhes: followUpEmail.detalhes,
             }),
           };
           const ses = new AWS.SESV2(sesConfig);
