@@ -32,7 +32,7 @@ class UserController {
     const userExists = await users.findOne({ where: { email: req.body.email } });
     const colabExists = await Colab.findOne({ where: { CPF: req.body.CPF } });
     if (userExists || colabExists) {
-      return res.status(400).json({ error: 'users already exists' });
+      return res.status(400).json({ error: 'O usuário com esse email ou CPF já existe' });
     }
 
     const {

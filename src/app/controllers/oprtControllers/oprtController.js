@@ -15,40 +15,25 @@ const { Op } = require('sequelize');
 
 class OportController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      EmpresaId: yup.number().required(),
-      ColabId: yup.number().required(),
-      ClienteId: yup.number().required(),
-      UndNegId: yup.number().required(),
-      SegmentoId: yup.number().required(),
-      RepresentanteId: yup.number().required(),
-      RecDespId: yup.number().required(),
-      contato: yup.number().required(),
-      data: yup.date().required(),
-      fase: yup.number().required(),
-      cod: yup.string().required(),
-      desc: yup.string().required(),
-      CampanhaId: yup.number(),
-      narrativa: yup.string(),
-      totalHoras: yup.number(),
-    });
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
-    const oport = await Oportunidade.create(req.body);
+    try {
+      const oport = await Oportunidade.create(req.body);
 
-    console.log(oport.CampanhaId);
+      console.log(oport.CampanhaId);
 
-    if (oport.CampanhaId) {
-      await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
-        where: { ClienteId: oport.ClienteId, CampanhaId: oport.CampanhaId },
+      if (oport.CampanhaId) {
+        await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
+          where: { ClienteId: oport.ClienteId, CampanhaId: oport.CampanhaId },
+        });
+      }
+
+      return res.json({
+        data: oport,
+        message: `Oportunidade ${oport.cod} criada com sucesso`,
       });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    return res.json({
-      data: oport,
-      message: `Oportunidade ${oport.cod} criada com sucesso`,
-    });
   }
 
   async get(req, res) {
