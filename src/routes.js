@@ -58,6 +58,7 @@ import campoDinamicosProspectController from './app/controllers/ClienteControlle
 import prospectController from './app/controllers/ClienteControllers/prospectController';
 import comercialController from './app/controllers/dashboardsControllers/comercialController';
 import clienteRelatoriosController from './app/controllers/ClienteControllers/clienteRelatoriosController';
+import oportToExcel from './app/controllers/oprtControllers/oportToExcel';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -68,6 +69,7 @@ const uploadCotacao = multer(oportunidadeFile);
 routes.get('/', (req, res) => res.send('okok'));
 
 routes.get('/comercialDash', comercialController.get);
+routes.post('/oportExcel', oportToExcel.store);
 
 routes.post('/email', emailController.store);
 routes.post('/emailResend/oport/cotacao', emailController.resendMail);
