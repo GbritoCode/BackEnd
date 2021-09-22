@@ -149,6 +149,7 @@ class UserController {
       const pass = Password.generate(16);
 
       const userUpdated = await user.update({
+        forgotPass: true,
         isFirstLogin: true,
         senha: pass,
       });
