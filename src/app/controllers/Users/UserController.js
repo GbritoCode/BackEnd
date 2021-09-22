@@ -172,7 +172,7 @@ class UserController {
           to: [email],
           cc: [],
           bcc: [],
-          subject: 'Alteração de senha',
+          subject: 'Recuperação de Acesso',
           bodyTxt: '',
           bodyHtml: generateForgotPassEmail({
             userName: user.nome,
