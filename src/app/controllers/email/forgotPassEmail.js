@@ -39,7 +39,7 @@ export default function generateForgotPassEmail(data) {
                                           <tr>
                                               <td align="left" valign="top" style="color: #008afd; font-family: Arial, sans-serif; background-color: #ffffff; width: 900px; height: 20px; ">
                                               <span style="font-size: 18px;">
-                                                  <strong><span style="font-size: 20px; color: #333333;">PROSPECÇÃO</span> <br/>FINALIZADA </strong></span>
+                                                  <strong><span style="font-size: 20px; color: #333333;">RECUPERAÇÃO</span> <br/>DE ACESSO</strong></span>
                                               </td>
                                               <td>
                                               <img src="https://app.tovoit.com.br/favicon.ico" alt="Tovo" width="80" height="80" style="display: block; padding: 1px 0px 0px 1px; float: right;" />&nbsp; &nbsp;
@@ -50,9 +50,9 @@ export default function generateForgotPassEmail(data) {
                                   <table border="0" cellpadding="0" cellspacing="0">
                                       <tbody>
                                           <tr>
-                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Olá <strong>${data.userName}</strong>. <br> Foi solicitado uma alteração de senha para o seu usuário no aplicativo Tovo.<br />
-            Caso não reconheça essa solicitação, entre em contato com o administrador do sistema.<br />
-            Segue abaixo sua nova senha. Informe-a como senha atual e no primeiro login efetue a alteração.<br /><br />
+                                              <td style="color: #595959; font-family: Segoe UI Light; background-color: #ffffff; width: 960px; height: 20px; text-align: left;"> Olá <strong>${data.userName}</strong>. <br> Foi solicitada a recuperação de acesso para o seu usuário no aplicativo Tovo.<br />
+                                                  Caso não reconheça essa solicitação, entre em contato com o administrador do sistema.<br />
+                                                  Segue abaixo sua senha atual. Informe no primeiro login efetue a alteração.<br /><br />
 
                                           </tr>
                                       </tbody>
@@ -65,10 +65,10 @@ export default function generateForgotPassEmail(data) {
                                                   <tbody>
                                                       <tr>
                                                           <td valign="top" style="width: 260px;">
-                                                          <table width="40%" style="solid #cccccc; cellspacing="0"; align="center">
+                                                          <table width="35%" style="solid #cccccc; cellspacing="0"; align="center">
                                                               <tbody>
                                                                   <tr>
-                                                                      <td align="center" style="color: #ffffff; padding: 2px 0px; font-family: Segoe UI Light; font-size: 16px; line-height: 1px; background-color: #008afd;">
+                                                                      <td align="center" style="color: #ffffff; padding: 1px 0px; font-family: Segoe UI Light; font-size: 16px; background-color: #008afd;">
                                                                       <p><strong>${data.userPass}</strong></p>
                                                                       </td>
                                                                   </tr>
@@ -98,7 +98,7 @@ export default function generateForgotPassEmail(data) {
                                       </tbody>
                                   </table>
 
-                                  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 30px 0px 1px;">
+                                  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 5px 0px 1px;">
                                       <tbody>
                                           <tr>
                                               <br><br><td style="color: #888888; font-family: Segoe UI Light; text-align: center;"><span style="background-color: #ffffff; font-family: Segoe UI Light; font-size: 13px; color: #153643;">N&atilde;o se deixem vencer pelo mal, mas ven&ccedil;am o mal com o bem.</span></td>

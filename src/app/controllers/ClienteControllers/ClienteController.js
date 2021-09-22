@@ -115,6 +115,7 @@ class ClienteController {
           { model: tipoComiss },
           { model: Empresa },
           { model: Campanhas },
+          { model: CliCont },
         ],
       });
       for (let i = 0; i < cliente.length; i++) {

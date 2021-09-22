@@ -149,7 +149,6 @@ class UserController {
       const pass = Password.generate(16);
 
       const userUpdated = await user.update({
-        forgotPass: true,
         isFirstLogin: true,
         senha: pass,
       });
@@ -167,11 +166,6 @@ class UserController {
         return new MailComposer(mailOptions).compile().build();
       };
 
-      const parametros = await ParametrosEmail.findOne({
-        order: [['createdAt', 'DESC']],
-      });
-
-      const from = parametros.fromEmailFat;
       const exampleSendEmail = async () => {
         const message = {
           fromEmail: 'suporte@tovoit.com.br',

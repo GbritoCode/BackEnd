@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import Oportunidade from '../../models/oportunidade';
 import Empresas from '../../models/empresa';
 import Cliente from '../../models/cliente';
