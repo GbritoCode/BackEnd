@@ -205,7 +205,6 @@ class ClienteRelatorioController {
         },
 
       }));
-      let dataToSend;
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
       today = today.split(':').join('.');
@@ -216,12 +215,13 @@ class ClienteRelatorioController {
       // collect data from script
       python.stdout.on('data', (data) => {
         console.log('Pipe data from python script ...');
-        dataToSend = data.toString();
+        console.log(data);
       });
       // in close event we are sure that stream from child process is closed
       // if (python.stderr.toString('utf-8')) {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
+      console.log(python);
       python.stdout.on('close', async (code) => {
         console.log(`child process close all stdio with code ${code}`);
         // send data to browser
