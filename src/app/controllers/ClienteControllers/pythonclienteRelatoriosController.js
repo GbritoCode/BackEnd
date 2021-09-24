@@ -228,6 +228,7 @@ class ClienteRelatorioController {
           file;
         try {
           dir = readdirSync(path.resolve(__dirname, './excelFiles'));
+          console.log(path.resolve(__dirname, './excelFiles'));
           console.log(dir);
           file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
           console.log(file);
