@@ -205,6 +205,8 @@ class ClienteRelatorioController {
         },
 
       }));
+      const delay = (ms) => new Promise((resp) => setTimeout(resp, ms));
+      // eslint-disable-next-line no-await-in-loop
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
       today = today.split(':').join('.');
@@ -227,7 +229,9 @@ class ClienteRelatorioController {
         // send data to browser
         let dir; let
           file;
+        await delay(500);
         try {
+          await delay(500);
           dir = readdirSync(path.resolve(__dirname, './excelFiles/'));
           console.log(dir);
           file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
