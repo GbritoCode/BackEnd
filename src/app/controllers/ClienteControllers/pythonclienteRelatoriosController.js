@@ -212,45 +212,43 @@ class ClienteRelatorioController {
       today = today.split('\"').join('');
       // console.log(JSON.stringify(cliMapped));
       // spawn new child process to call the python script
-      const python = spawnSync('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
+      const python = spawn('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
       // collect data from script
-      // python.stdout.on('data', (data) => {
-      //   console.log('Pipe data from python script ...');
-      //   dataToSend = data.toString();
-      // });
+      python.stdout.on('data', (data) => {
+        console.log('Pipe data from python script ...');
+        dataToSend = data.toString();
+      });
       // in close event we are sure that stream from child process is closed
-      console.log(python.output.toString('utf-8'));
       // if (python.stderr.toString('utf-8')) {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
-      // python.stdout.on('close', (code) => {
-      //   console.log(`child process close all stdio with code ${code}`);
-      //   // send data to browser
-      //   res.send(dataToSend);
-      // });
-      let dir; let
-        file;
-      try {
-        dir = readdirSync(path.resolve(__dirname, './excelFiles/'));
-        console.log(dir);
-        file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
-        console.log(file);
-        console.log(`excel${today}.xlsx`);
-      } catch (err) {
-        throw new Error(err);
-      }
-
-      await res.download(path.resolve(__dirname, `./excelFiles/${dir[file]}`), `excel${today}.xlsx`, (err) => {
-        if (err) {
-          res.status(500).send({
-            message: `Could not download the file. ${err}`,
-          });
-        }
+      python.stdout.on('close', async (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        let dir; let
+          file;
         try {
-          rmSync(path.resolve(__dirname, `./excelFiles/${dir[file]}`));
-        } catch (error) {
-          throw new Error(error);
+          dir = readdirSync(path.resolve(__dirname, './excelFiles/'));
+          console.log(dir);
+          file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
+          console.log(file);
+          console.log(`excel${today}.xlsx`);
+        } catch (err) {
+          throw new Error(err);
         }
+
+        await res.download(path.resolve(__dirname, `./excelFiles/${dir[file]}`), `excel${today}.xlsx`, (err) => {
+          if (err) {
+            res.status(500).send({
+              message: `Could not download the file. ${err}`,
+            });
+          }
+          try {
+            rmSync(path.resolve(__dirname, `./excelFiles/${dir[file]}`));
+          } catch (error) {
+            throw new Error(error);
+          }
+        });
       });
     } catch (err) {
       console.log(err);
