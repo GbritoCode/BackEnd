@@ -205,31 +205,33 @@ class ClienteRelatorioController {
         },
 
       }));
-      const delay = (ms) => new Promise((resp) => setTimeout(resp, ms));
-      // eslint-disable-next-line no-await-in-loop
+
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
       today = today.split(':').join('.');
       today = today.split('\"').join('');
-      // console.log(JSON.stringify(cliMapped));
-      // spawn new child process to call the python script
-      const python = spawn('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
-      // collect data from script
-      python.stdout.on('data', (data) => {
-        console.log('Pipe data from python script ...');
-        console.log(data);
-      });
-      // in close event we are sure that stream from child process is closed
-      // if (python.stderr.toString('utf-8')) {
-      //   throw new Error(python.stderr.toString('utf-8'));
-      // }
-      python.stdout.on('end', async (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        // send data to browser
+      const spawnPython = () => {
+        // spawn new child process to call the python script
+        const python = spawnSync('python', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
+
+        // python.stdout.on('close', async (code) => {
+        //   console.log(`child process close all stdio with code ${code}`);
+        // });
+      };
+      const sendFile = async () => {
         let dir; let
           file;
+        try {
+          dir = readdirSync(path.resolve(__dirname, './excelFiles'));
+          console.log(dir);
+          file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
+          console.log(file);
+          console.log(`excel${today}.xlsx`);
+        } catch (err) {
+          throw new Error(err);
+        }
 
-        await res.download(path.resolve(__dirname, `./excelFiles/excel${today}.xlsx`), `excel${today}.xlsx`, (err) => {
+        await res.download(path.resolve(__dirname, `./excelFiles/${dir[file]}`), `excel${today}.xlsx`, (err) => {
           if (err) {
             res.status(500).send({
               message: `Could not download the file. ${err}`,
@@ -241,7 +243,37 @@ class ClienteRelatorioController {
             throw new Error(error);
           }
         });
-      });
+      };
+
+      try {
+        const promisePython = new Promise((resolve) => {
+          try {
+            resolve(spawnPython());
+          } catch (err) {
+            throw new Error(err);
+          }
+        });
+        await promisePython.then(
+          () => console.log('promisePython realizada'),
+        )
+          .catch((err) => {
+            throw new Error(err);
+          });
+        const promiseSendFile = new Promise((resolve) => {
+          try {
+            resolve(sendFile());
+          } catch (err) {
+            throw new Error(err);
+          }
+        });
+
+        await promiseSendFile.then(
+          () => console.log('promiseSendFile realizada'),
+        )
+          .catch((err) => { throw new Error(err); });
+      } catch (err) {
+        throw new Error(err);
+      }
     } catch (err) {
       console.log(err);
     }
