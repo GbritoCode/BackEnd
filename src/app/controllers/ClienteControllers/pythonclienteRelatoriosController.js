@@ -212,13 +212,14 @@ class ClienteRelatorioController {
       today = today.split('\"').join('');
       // console.log(JSON.stringify(cliMapped));
       // spawn new child process to call the python script
-      const python = spawnSync('python', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), `${today}`]);
+      const python = spawnSync('python', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
       // collect data from script
       // python.stdout.on('data', (data) => {
       //   console.log('Pipe data from python script ...');
       //   dataToSend = data.toString();
       // });
       // in close event we are sure that stream from child process is closed
+      console.log(python.output.toString('utf-8'));
       // if (python.stderr.toString('utf-8')) {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
