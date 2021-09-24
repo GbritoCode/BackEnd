@@ -212,7 +212,7 @@ class ClienteRelatorioController {
       today = today.split('\"').join('');
       // console.log(JSON.stringify(cliMapped));
       // spawn new child process to call the python script
-      const python = spawnSync('python', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
+      const python = spawnSync('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
       // collect data from script
       // python.stdout.on('data', (data) => {
       //   console.log('Pipe data from python script ...');
