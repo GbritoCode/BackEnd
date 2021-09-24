@@ -212,8 +212,13 @@ class ClienteRelatorioController {
       today = today.split('\"').join('');
       const spawnPython = () => {
         // spawn new child process to call the python script
-        const python = spawnSync('python', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
-
+        const python = spawnSync('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
+        if (parseInt(python.status, 10) !== 0) {
+          throw new Error(python.stderr.toString('utf-8'));
+        }
+        if (python.stderr.toString('utf-8')) {
+          throw new Error(python.stderr.toString('utf-8'));
+        }
         // python.stdout.on('close', async (code) => {
         //   console.log(`child process close all stdio with code ${code}`);
         // });
