@@ -210,7 +210,7 @@ class ClienteRelatorioController {
       today = today.split('/').join('-');
       today = today.split(':').join('.');
       today = today.split('\"').join('');
-      const spawnPython = () => {
+      const spawnPython = async () => {
         // spawn new child process to call the python script
         const python = spawnSync('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
         if (parseInt(python.status, 10) !== 0) {
