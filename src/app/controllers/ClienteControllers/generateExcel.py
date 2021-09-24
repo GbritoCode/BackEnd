@@ -7,7 +7,7 @@ import random
 
 data = json.loads(sys.argv[1])
 
-path_to_save = 'src/app/controllers/ClienteControllers/excelFiles/excel' + sys.argv[2].replace("\"", "") +'.xlsx'
+path_to_save = 'dist/app/controllers/ClienteControllers/excelFiles/excel' + sys.argv[2].replace("\"", "") +'.xlsx'
 def cross_join(left, right):
     new_rows = [] if right else left
     for left_row in left:
