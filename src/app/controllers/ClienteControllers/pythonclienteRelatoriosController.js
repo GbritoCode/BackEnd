@@ -223,25 +223,13 @@ class ClienteRelatorioController {
       // if (python.stderr.toString('utf-8')) {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
-      console.log(python);
       python.stdout.on('end', async (code) => {
         console.log(`child process close all stdio with code ${code}`);
         // send data to browser
         let dir; let
           file;
-        await delay(500);
-        try {
-          await delay(500);
-          dir = readdirSync(path.resolve(__dirname, './excelFiles/'));
-          console.log(dir);
-          file = dir.findIndex((arr) => arr === `excel${today}.xlsx`);
-          console.log(file);
-          console.log(`excel${today}.xlsx`);
-        } catch (err) {
-          throw new Error(err);
-        }
 
-        await res.download(path.resolve(__dirname, `./excelFiles/${dir[file]}`), `excel${today}.xlsx`, (err) => {
+        await res.download(path.resolve(__dirname, `./excelFiles/excel${today}.xlsx`), `excel${today}.xlsx`, (err) => {
           if (err) {
             res.status(500).send({
               message: `Could not download the file. ${err}`,
