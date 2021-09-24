@@ -219,7 +219,7 @@ class ClienteRelatorioController {
       //   dataToSend = data.toString();
       // });
       // in close event we are sure that stream from child process is closed
-      console.log(python);
+      console.log(python.output.toString('utf-8'));
       // if (python.stderr.toString('utf-8')) {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
