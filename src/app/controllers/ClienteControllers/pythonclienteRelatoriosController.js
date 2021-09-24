@@ -224,7 +224,7 @@ class ClienteRelatorioController {
       //   throw new Error(python.stderr.toString('utf-8'));
       // }
       console.log(python);
-      python.stdout.on('close', async (code) => {
+      python.stdout.on('end', async (code) => {
         console.log(`child process close all stdio with code ${code}`);
         // send data to browser
         let dir; let
