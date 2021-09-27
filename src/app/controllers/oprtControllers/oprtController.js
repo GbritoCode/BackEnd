@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import Oportunidade from '../../models/oportunidade';
 import Empresas from '../../models/empresa';
 import Cliente from '../../models/cliente';
@@ -9,64 +8,31 @@ import Segmento from '../../models/segmento';
 import Recurso from '../../models/recurso';
 import Area from '../../models/area';
 import RecDesp from '../../models/recDesp';
+import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 
 const { Op } = require('sequelize');
 
 class OportController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      EmpresaId: yup.number().required(),
-      ColabId: yup.number().required(),
-      ClienteId: yup.number().required(),
-      UndNegId: yup.number().required(),
-      SegmentoId: yup.number().required(),
-      RepresentanteId: yup.number().required(),
-      RecDespId: yup.number().required(),
-      contato: yup.number().required(),
-      data: yup.date().required(),
-      fase: yup.number().required(),
-      cod: yup.string().required(),
-      desc: yup.string().required(),
-      narrativa: yup.string(),
-      totalHoras: yup.number(),
-    });
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+    try {
+      const oport = await Oportunidade.create(req.body);
+
+      console.log(oport.CampanhaId);
+
+      if (oport.CampanhaId) {
+        await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
+          where: { ClienteId: oport.ClienteId, CampanhaId: oport.CampanhaId },
+        });
+      }
+
+      return res.json({
+        data: oport,
+        message: `Oportunidade ${oport.cod} criada com sucesso`,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-    const {
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-    } = await Oportunidade.create(req.body);
-
-    return res.json({
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-
-    });
   }
 
   async get(req, res) {
@@ -150,40 +116,21 @@ class OportController {
 
   async update(req, res) {
     const oport = await Oportunidade.findByPk(req.params.id);
-    const {
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-      motivo,
-    } = await oport.update(req.body);
+    const oportUpdated = await oport.update(req.body);
+
+    if (oportUpdated.fase === 4 && oportUpdated.CampanhaId) {
+      await Campanhas_Clientes.update({
+        status: 'Alcançada',
+        efetivacao: new Date().toDateString(),
+      },
+      {
+        where: { ClienteId: oportUpdated.ClienteId, CampanhaId: oportUpdated.CampanhaId },
+      });
+    }
 
     return res.json({
-      EmpresaId,
-      ColabId,
-      data,
-      fase,
-      ClienteId,
-      contato,
-      cod,
-      UndNegId,
-      SegmentoId,
-      RepresentanteId,
-      RecDespId,
-      desc,
-      narrativa,
-      totalHoras,
-      motivo,
+      data: oportUpdated,
+      message: `Oportunidade ${oportUpdated.cod} foi atualizada com sucesso`,
     });
   }
 }

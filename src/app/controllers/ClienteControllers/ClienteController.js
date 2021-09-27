@@ -12,7 +12,6 @@ import CliCont from '../../models/cliCont';
 import Colab from '../../models/colab';
 import FollowUps from '../../models/FollowUps';
 import CliComp from '../../models/clienteComp';
-import { normalizeCnpj, normalizeFone } from '../../../normalize';
 
 class ClienteController {
   async store(req, res) {
@@ -115,6 +114,8 @@ class ClienteController {
           { model: representantes },
           { model: tipoComiss },
           { model: Empresa },
+          { model: Campanhas },
+          { model: CliCont },
         ],
       });
       for (let i = 0; i < cliente.length; i++) {

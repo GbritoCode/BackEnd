@@ -6,11 +6,14 @@ import CliComp from '../../models/clienteComp';
 class ProspectController {
   async store(req, res) {
     try {
-      const { 'Complemento Prospect': endereco, 'Informações básicas': basicInfo, 'Contato Prospect': contato } = req.body;
+      const {
+        'Complemento Prospect': endereco, 'Informações básicas': basicInfo, 'Contato Prospect': contato, 'Informações Opcionais': optionalInfo,
+      } = req.body;
 
       basicInfo.CNPJ = basicInfo.CNPJ.replace(/[^\d]+/g, '');
 
       const cliente = await Cliente.create(basicInfo);
+      await cliente.update(optionalInfo);
       if (basicInfo.CampanhaIds) {
         for (let i = 0; i < basicInfo.CampanhaIds.length; i++) {
           await Campanhas_Clientes.create({

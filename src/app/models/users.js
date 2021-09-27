@@ -12,6 +12,7 @@ export default class User extends Model {
         nome: DataTypes.STRING,
         email: DataTypes.STRING,
         senha: DataTypes.VIRTUAL,
+        forgotPass: DataTypes.VIRTUAL,
         passwordHash: DataTypes.STRING,
         profile: DataTypes.INTEGER,
         aniver: DataTypes.DATEONLY,
@@ -27,9 +28,12 @@ export default class User extends Model {
         user.passwordHash = await bcrypt.hash(user.senha, 8);
       }
     });
+
     this.addHook('beforeUpdate', async (user) => {
-      if (user.isFirstLogin === true) {
-        user.isFirstLogin = false;
+      if (!user.forgotPass) {
+        if (user.isFirstLogin === true) {
+          user.isFirstLogin = false;
+        }
       }
     });
     User.hasOne(Empresa, { onDelete: 'CASCADE', hooks: true });

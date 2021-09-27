@@ -14,11 +14,11 @@ class CampanhaController {
 
       const campanha = await Campanha.create(body);
 
-      if (body.ClienteIds) {
-        for (let i = 0; i < body.ClienteIds.length; i++) {
+      if (body.ClientesIds) {
+        for (let i = 0; i < body.ClientesIds.length; i++) {
           await Campanhas_Clientes.create({
             CampanhaId: campanha.id,
-            ClienteId: body.ClienteIds[i],
+            ClienteId: body.ClientesIds[i],
           });
         }
       }

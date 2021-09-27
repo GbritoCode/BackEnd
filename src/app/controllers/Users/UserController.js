@@ -1,7 +1,19 @@
 import * as yup from 'yup';
+import crypto from 'crypto';
+import MailComposer from 'nodemailer/lib/mail-composer';
+import AWS from 'aws-sdk';
 import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import users from '../../models/users';
+import ParametrosEmail from '../../models/emailParametros';
+import generateForgotPassEmail from '../email/forgotPassEmail';
+
+const sesConfig = {
+  apiVersion: '2019-09-27',
+  accessKeyId: process.env.AWS_SES_KEY_ID,
+  secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY,
+  region: process.env.AWS_SES_REGION,
+};
 
 class UserController {
   async store(req, res) {
@@ -20,7 +32,7 @@ class UserController {
     const userExists = await users.findOne({ where: { email: req.body.email } });
     const colabExists = await Colab.findOne({ where: { CPF: req.body.CPF } });
     if (userExists || colabExists) {
-      return res.status(400).json({ error: 'users already exists' });
+      return res.status(400).json({ error: 'O usuário com esse email ou CPF já existe' });
     }
 
     const {
@@ -74,9 +86,9 @@ class UserController {
       }
     }
 
-    // if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
-    //  return res.status(401).json({ error: 'Password does not match' });
-    // }
+    if (senhaAntiga && !(await user.checkPassword(senhaAntiga))) {
+      return res.status(401).json({ error: 'A senha atual está incorreta' });
+    }
 
     await colab.update({ aniver: req.body.aniver });
 
@@ -88,6 +100,115 @@ class UserController {
       email,
       profile,
     });
+  }
+
+  async forgotPass(req, res) {
+    const schema = yup.object().shape({
+      email: yup.string().required(),
+    });
+    try {
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation fails' });
+      }
+
+      const {
+        email,
+      } = req.body;
+
+      const user = await users.findOne({ where: { email } });
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      const Password = {
+
+        pattern: /[a-zA-Z0-9_\-\+\.]/,
+
+        getRandomByte() {
+          // http://caniuse.com/#feat=getrandomvalues
+          const result = crypto.randomFillSync(new Uint32Array(1));
+          return result[0];
+        },
+
+        generate(length) {
+          return Array.apply(null, { length })
+            .map(() => {
+              let result;
+              while (true) {
+                result = String.fromCharCode(this.getRandomByte());
+                if (this.pattern.test(result)) {
+                  return result;
+                }
+              }
+            }, this)
+            .join('');
+        },
+
+      };
+      const pass = Password.generate(16);
+
+      const userUpdated = await user.update({
+        forgotPass: true,
+        isFirstLogin: true,
+        senha: pass,
+      });
+
+      const generateRawMailData = (message) => {
+        const mailOptions = {
+          from: message.fromEmail,
+          to: message.to,
+          cc: message.cc,
+          bcc: message.bcc,
+          subject: message.subject,
+          text: message.bodyTxt,
+          html: message.bodyHtml,
+        };
+        return new MailComposer(mailOptions).compile().build();
+      };
+
+      const exampleSendEmail = async () => {
+        const message = {
+          fromEmail: 'suporte@tovoit.com.br',
+          to: [email],
+          cc: [],
+          bcc: [],
+          subject: 'Recuperação de Acesso',
+          bodyTxt: '',
+          bodyHtml: generateForgotPassEmail({
+            userName: user.nome,
+            userPass: pass,
+          }),
+
+        };
+        const ses = new AWS.SESV2(sesConfig);
+        const params = {
+          Content: { Raw: { Data: await generateRawMailData(message) } },
+          Destination: {
+            ToAddresses: message.to,
+            BccAddresses: message.bcc,
+            CcAddresses: message.cc,
+          },
+          FromEmailAddress: message.fromEmail,
+          ReplyToAddresses: message.replyTo,
+        };
+        return ses.sendEmail(params).promise();
+      };
+      try {
+        const response = await exampleSendEmail();
+        console.log(response);
+        return res.json({
+          data: userUpdated,
+          message: `Senha do usuário ${userUpdated.nome} foi alterada!`,
+        });
+      } catch (err) {
+        console.log(err.message);
+        return res.status(500).json({ error: 'Erro Interno do Servidor' });
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async get(req, res) {

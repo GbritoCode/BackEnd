@@ -29,15 +29,15 @@ class SessionController {
       });
 
       if (!user) {
-        return res.status(401).json({ error: 'User not found' });
+        return res.status(401).json({ error: 'Usuário não encontrado' });
       }
 
       if (!(await user.checkPassword(senha))) {
-        return res.status(401).json({ error: 'Password does not match' });
+        return res.status(401).json({ error: 'O usuário ou senha estão incorretos. Verifique os dados' });
       }
 
       const {
-        id, nome, profile, isFirstLogin, Colab,
+        id, nome, profile, isFirstLogin, Colab, Empresa,
       } = user;
       const empresa = Colab === null ? '' : await Empresas.findByPk(Colab.EmpresaId);
 

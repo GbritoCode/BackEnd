@@ -145,7 +145,6 @@ class AwsSesController {
         const slice = file.data.search('cotacao');
         filesAux = `${filesAux + file.data.slice(slice)},`;
       }
-      console.log(Cc === [] ? Cc : '');
       await EmailHists.create({
         copias: Cc === [] ? Cc : '', file: filesAux, tipo: req.query.tipo, idAux: parseInt(id, 10),
       });

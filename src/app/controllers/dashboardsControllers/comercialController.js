@@ -17,6 +17,17 @@ class ComercialController {
     const { camp, dataInic, dataFim } = query;
 
     try {
+      const createdCli = await Cliente.findAndCountAll({
+        where: {
+          createdAt: { [Op.between]: [dataInic, dataFim] },
+        },
+        include: [
+          { model: CliComp },
+          { model: Representante },
+          { model: CliCont },
+          { model: Campanhas },
+        ],
+      });
       const cliJoinedCamp = await Campanhas_Clientes.findAndCountAll({
         where: {
           CampanhaId: camp,
@@ -88,12 +99,23 @@ class ComercialController {
             { reuniaoAgend: { [Op.between]: [dataInic, dataFim] } },
             { orcamentoSolict: { [Op.between]: [dataInic, dataFim] } },
             { efetivacao: { [Op.between]: [dataInic, dataFim] } },
+            { createdAt: { [Op.between]: [dataInic, dataFim] } },
           ],
         },
+        include: [
+          {
+            model: Cliente,
+            include: [
+              { model: CliComp },
+              { model: Representante },
+              { model: CliCont },
+            ],
+          },
+          { model: Campanhas }],
       });
 
       return res.json({
-        cliJoinedCamp, Fups, finalizedFups, cliStatusPassing,
+        cliJoinedCamp, Fups, finalizedFups, cliStatusPassing, createdCli,
       });
     } catch (err) {
       console.log(err);
