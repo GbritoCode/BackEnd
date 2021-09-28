@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import excel4node from 'excel4node';
 import { Op } from 'sequelize';
-import { readdirSync, rmSync } from 'fs';
+import { readdirSync, rmSync, writeFileSync } from 'fs';
 import path from 'path';
+import { writeFile } from 'fs/promises';
 import {
   normalizeCnpj, normalizeDate, normalizeDatetime, normalizeFone,
 } from '../../../normalize';
@@ -209,16 +210,40 @@ class ClienteRelatorioController {
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
       today = today.split(':').join('.');
-      today = today.split('\"').join('');
+      today = today.split('"').join('');
+
+      const writeJson = async () => {
+        try {
+          await writeFile(path.resolve(__dirname, `./excelFiles/cliMappedData${today}.json`), JSON.stringify(cliMapped), (err) => {
+            console.log(err);
+            if (err) {
+              throw new Error(err);
+            }
+          });
+        } catch (err) {
+          throw new Error(err);
+        }
+      };
       const spawnPython = async () => {
         // spawn new child process to call the python script
-        const python = spawnSync('python3', ['src/app/controllers/ClienteControllers/generateExcel.py', JSON.stringify(cliMapped), today]);
-        if (parseInt(python.status, 10) !== 0) {
-          throw new Error(python.stderr.toString('utf-8'));
-        }
-        if (python.stderr.toString('utf-8')) {
-          throw new Error(python.stderr.toString('utf-8'));
-        }
+        const python = spawnSync(process.env.PYTHON_EXEC_COMMAND, ['src/app/controllers/ClienteControllers/generateExcel.py', today]);
+
+        console.log(python);
+        // if (python.stderr) {
+        //   throw new Error(python.stderr.toString('utf-8'));
+        // }
+        // python.stdout.on('data', (data) => {
+        //   console.log(`stdout: ${data}`);
+        // });
+
+        // python.stderr.on('data', (data) => {
+        //   console.log(`stderr: ${data}`);
+        // });
+
+        // python.on('close', (code) => {
+        //   console.log(`child process exited with code ${code}`);
+        // });
+
         // python.stdout.on('close', async (code) => {
         //   console.log(`child process close all stdio with code ${code}`);
         // });
@@ -245,6 +270,7 @@ class ClienteRelatorioController {
           }
           try {
             rmSync(path.resolve(__dirname, `./excelFiles/${dir[file]}`));
+            rmSync(path.resolve(__dirname, `./excelFiles/cliMappedData${today}.json`));
           } catch (error) {
             throw new Error(error);
           }
@@ -252,10 +278,26 @@ class ClienteRelatorioController {
       };
 
       try {
+        const promiseWriteJson = new Promise((resolve) => {
+          try {
+            resolve(writeJson());
+          } catch (err) {
+            throw new Error(err);
+          }
+        });
+        await promiseWriteJson.then(
+          () => console.log('promiseWriteJson realizada'),
+        )
+          .catch((err) => {
+            console.log('err');
+            throw new Error(err);
+          });
+
         const promisePython = new Promise((resolve) => {
           try {
             resolve(spawnPython());
           } catch (err) {
+            console.log(err);
             throw new Error(err);
           }
         });
@@ -263,6 +305,7 @@ class ClienteRelatorioController {
           () => console.log('promisePython realizada'),
         )
           .catch((err) => {
+            console.log(err);
             throw new Error(err);
           });
         const promiseSendFile = new Promise((resolve) => {
