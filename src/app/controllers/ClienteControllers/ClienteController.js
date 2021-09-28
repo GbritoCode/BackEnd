@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import * as yup from 'yup';
-import excel4node from 'excel4node';
 import Cliente from '../../models/cliente';
 import representantes from '../../models/representante';
 import tipoComiss from '../../models/tipoComiss';
