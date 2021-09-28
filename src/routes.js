@@ -70,6 +70,7 @@ const uploadCotacao = multer(oportunidadeFile);
 routes.get('/', (req, res) => res.send('okok'));
 
 routes.get('/comercialDash', comercialController.get);
+routes.post('/oportExcel', oportToExcel.store);
 
 routes.post('/oportExcel', oportToExcel.store);
 routes.post('/email', emailController.store);
