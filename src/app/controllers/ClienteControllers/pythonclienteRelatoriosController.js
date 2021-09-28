@@ -226,9 +226,15 @@ class ClienteRelatorioController {
       };
       const spawnPython = async () => {
         // spawn new child process to call the python script
-        const python = spawnSync(process.env.PYTHON_EXEC_COMMAND, ['src/app/controllers/ClienteControllers/generateExcel.py', today]);
+        const python = spawnSync(
+          process.env.PYTHON_EXEC_COMMAND, [path.resolve(__dirname, './generateExcel.py'),
+            today,
+          ], {
+            cwd: path.resolve(__dirname),
+          },
+        );
 
-        console.log(python);
+        console.log(python.output.toString('utf-8'));
         // if (python.stderr) {
         //   throw new Error(python.stderr.toString('utf-8'));
         // }
