@@ -55,7 +55,7 @@ class ClienteRelatorioController {
     try {
       let cliente;
       const {
-        filter, campId, inicDate, endDate, finalized, totalFUP, repeat,
+        filter, campId, inicDate, endDate, finalized, totalFUP, empIncluida,
       } = req.query;
       if (filter === 'true' && finalized === 'false' && totalFUP === 'true') {
         cliente = await Cliente.findAll({
@@ -84,7 +84,7 @@ class ClienteRelatorioController {
             },
           ],
         });
-      } else if (filter === 'true' && finalized === 'false') {
+      } else if (filter === 'true' && finalized === 'false' && empIncluida === 'true') {
         cliente = await Cliente.findAll({
           include: [
             {
@@ -156,7 +156,6 @@ class ClienteRelatorioController {
           ],
         });
       }
-
       for (let i = 0; i < cliente.length; i += 1) {
         for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
           const cliId = cliente[i].dataValues.id;
@@ -166,8 +165,18 @@ class ClienteRelatorioController {
         }
       }
 
-      // return res.json(cliente);
+      if (empIncluida === 'true') {
+        console.log('asdasdadasdasdasdasd');
+        for (let i = 0; i < cliente.length; i += 1) {
+          for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
+            // console.log(cliente[i].Campanhas[j].dataValues.FollowUps);
+            cliente[i].Campanhas[j].FollowUps = cliente[i].Campanhas[j].dataValues.FollowUps.slice(1);
+          }
+        }
+      }
+
       const cliMapped = cliente.map((cli) => ({
+
         Cliente: {
           CNPJ: normalizeCnpj(cli.CNPJ),
           'Nome Abreviado': cli.nomeAbv,
@@ -204,8 +213,8 @@ class ClienteRelatorioController {
             })),
           })),
         },
-
       }));
+      // return res.json(cliMapped);
 
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
@@ -215,7 +224,6 @@ class ClienteRelatorioController {
       const writeJson = async () => {
         try {
           await writeFile(path.resolve(__dirname, `./excelFiles/cliMappedData${today}.json`), JSON.stringify(cliMapped), (err) => {
-            console.log(err);
             if (err) {
               throw new Error(err);
             }
