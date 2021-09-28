@@ -227,7 +227,7 @@ class ClienteRelatorioController {
       const spawnPython = async () => {
         // spawn new child process to call the python script
         const python = spawnSync(
-          process.env.PYTHON_EXEC_COMMAND, [path.resolve(__dirname, './generateExcel.py'),
+          process.env.PYTHON_EXEC_COMMAND, ['/notBuilt/generateExcel.py',
             today,
           ], {
             cwd: path.resolve(__dirname),
