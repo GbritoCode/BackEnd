@@ -1,8 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import excel4node from 'excel4node';
 import { Op } from 'sequelize';
-import { readdirSync, rmSync, writeFileSync } from 'fs';
-import path, { dirname } from 'path';
+import { readdirSync, rmSync } from 'fs';
+import path from 'path';
 import { writeFile } from 'fs/promises';
 import {
   normalizeCnpj, normalizeDate, normalizeDatetime, normalizeFone,
