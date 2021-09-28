@@ -2,7 +2,7 @@
 import excel4node from 'excel4node';
 import { Op } from 'sequelize';
 import { readdirSync, rmSync, writeFileSync } from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
 import { writeFile } from 'fs/promises';
 import {
   normalizeCnpj, normalizeDate, normalizeDatetime, normalizeFone,
@@ -227,7 +227,7 @@ class ClienteRelatorioController {
       const spawnPython = async () => {
         // spawn new child process to call the python script
         const python = spawnSync(
-          process.env.PYTHON_EXEC_COMMAND, ['/notBuilt/generateExcel.py',
+          process.env.PYTHON_EXEC_COMMAND, [path.resolve(__dirname, '../../../../notBuilt/generateExcel.py'),
             today,
           ], {
             cwd: path.resolve(__dirname),
