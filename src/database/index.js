@@ -97,7 +97,6 @@ class Database {
       process.env.MONGO_URL,
       {
         useNewUrlParser: true,
-        useFindAndModify: false,
         useUnifiedTopology: true,
       },
     );

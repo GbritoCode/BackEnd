@@ -2,12 +2,15 @@ from copy import deepcopy
 import pandas
 import sys
 import json
-import math
-import random
+from pathlib import Path
+import os
 
-data = json.loads(sys.argv[1])
+today = sys.argv[1]
+path_to_json = Path('./excelFiles/cliMappedData'+ today +'.json').resolve()
+path_to_xlsx = Path('./excelFiles/excel' + today +'.xlsx').resolve()
+with open (path_to_json, encoding='utf-8') as json_file:
+  data = json.load(json_file)
 
-path_to_save = 'dist/app/controllers/ClienteControllers/excelFiles/excel' + sys.argv[2].replace("\"", "") +'.xlsx'
 def cross_join(left, right):
     new_rows = [] if right else left
     for left_row in left:
@@ -44,7 +47,7 @@ def json_to_dataframe(data_in):
     return pandas.DataFrame(flatten_json(data_in))
 
 df = json_to_dataframe(data)
-df.to_excel(path_to_save,header=[
+df.to_excel(path_to_xlsx,header=[
     'CNPJ',
     'Nome Abreviado',
     'Razão Social',

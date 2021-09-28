@@ -17,8 +17,6 @@ class OportController {
     try {
       const oport = await Oportunidade.create(req.body);
 
-      console.log(oport.CampanhaId);
-
       if (oport.CampanhaId) {
         await Campanhas_Clientes.update({ status: 'Ativada', orcamentoSolict: new Date().toDateString() }, {
           where: { ClienteId: oport.ClienteId, CampanhaId: oport.CampanhaId },
