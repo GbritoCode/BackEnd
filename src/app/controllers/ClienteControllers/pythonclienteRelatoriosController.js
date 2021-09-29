@@ -241,6 +241,11 @@ class ClienteRelatorioController {
           },
         );
 
+        console.log('---------------');
+        if (!python.stderr.toString('utf-8') === '') {
+          throw new Error(python.stderr.toString('utf-8'));
+        }
+        console.log('---------------');
         console.log(python.output.toString('utf-8'));
         // if (python.stderr) {
         //   throw new Error(python.stderr.toString('utf-8'));
