@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { Op } from 'sequelize';
 import {
-  createWriteStream, readdirSync, rmSync, write,
+  readdirSync, rmSync,
 } from 'fs';
 import path from 'path';
 import { writeFile } from 'fs/promises';
@@ -54,25 +54,23 @@ class ClienteRelatorioController {
     }
 
     try {
-      let cliente;
+      let campanha;
       const {
         filter, campId, inicDate, endDate, finalized, totalFUP, empIncluida,
       } = req.query;
       if (filter === 'true' && finalized === 'false' && totalFUP === 'true') {
-        cliente = await Cliente.findAll({
+        campanha = await Campanhas.findOne({
+          where: { id: campId },
           include: [
             {
-              model: CliComp,
-            },
-            {
-              model: CliCont,
-            },
-            {
-              model: Campanhas,
-              where: {
-                id: campId,
-              },
+              model: Cliente,
               include: [
+                {
+                  model: CliComp,
+                },
+                {
+                  model: CliCont,
+                },
                 {
                   model: FollowUps,
                   where: {
@@ -86,47 +84,43 @@ class ClienteRelatorioController {
           ],
         });
       } else if (filter === 'true' && finalized === 'false' && empIncluida === 'true') {
-        cliente = await Cliente.findAll({
+        campanha = await Campanhas.findOne({
+          where: { id: campId },
           include: [
             {
-              model: CliComp,
-            },
-            {
-              model: CliCont,
-            },
-            {
-              model: Campanhas,
-              where: {
-                id: campId,
-              },
+              model: Cliente,
               include: [
+                {
+                  model: CliComp,
+                },
+                {
+                  model: CliCont,
+                },
                 {
                   model: FollowUps,
                   where: {
                     dataContato: { [Op.between]: [inicDate, endDate] },
                   },
-                  separate: true,
                   include: [{ model: Colab }, { model: CamposDinamicosProspect }],
+                  separate: true,
                 },
               ],
             },
           ],
         });
       } else if (filter === 'true' && finalized === 'true') {
-        cliente = await Cliente.findAll({
+        campanha = await Campanhas.findOne({
+          where: { id: campId },
           include: [
             {
-              model: CliComp,
-            },
-            {
-              model: CliCont,
-            },
-            {
-              model: Campanhas,
-              where: {
-                id: campId,
-              },
+              model: Cliente,
               include: [
+                {
+                  model: CliComp,
+                },
+                {
+                  model: CliCont,
+                },
                 {
                   model: FollowUps,
                   where: {
@@ -141,17 +135,21 @@ class ClienteRelatorioController {
           ],
         });
       } else if (filter === 'false') {
-        cliente = await Cliente.findAll({
+        campanha = await Campanhas.findOne({
+          where: { id: campId },
           include: [
-            { model: CliComp },
-            { model: CliCont },
             {
-              model: Campanhas,
+              model: Cliente,
               include: [
                 {
+                  model: CliComp,
+                },
+                {
+                  model: CliCont,
+                },
+                {
                   model: FollowUps,
-                  include: [
-                    { model: Colab }, { model: CamposDinamicosProspect }],
+                  include: [{ model: Colab }, { model: CamposDinamicosProspect }],
                 },
               ],
             },
@@ -159,33 +157,21 @@ class ClienteRelatorioController {
         });
       }
       console.log('busquei banco ');
-      console.log('entrando 1 for ');
-      for (let i = 0; i < cliente.length; i += 1) {
-        for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
-          const cliId = cliente[i].dataValues.id;
-          cliente[i].Campanhas[j].dataValues.FollowUps = cliente[i]
-            .Campanhas[j].FollowUps
-            .filter((arr) => arr.ClienteId === cliId);
-        }
-      }
-      console.log('saindo 1 for ');
       console.log('entrando 2 for ');
 
       if (empIncluida === 'true') {
         console.log('asdasdadasdasdasdasd');
-        for (let i = 0; i < cliente.length; i += 1) {
-          for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
-            // console.log(cliente[i].Campanhas[j].dataValues.FollowUps);
-            if (cliente[i].Campanhas[j].FollowUps.length > 0) {
-              cliente[i].Campanhas[j].FollowUps = cliente[i].Campanhas[j].dataValues.FollowUps.slice(-1);
-            }
+        for (let i = 0; i < campanha.Clientes.length; i += 1) {
+          // console.log(cliente[i].Campanhas[j].dataValues.FollowUps);
+          if (campanha.Clientes[i].FollowUps.length > 0) {
+            campanha.Clientes[i].FollowUps = campanha.Clientes[i].dataValues.FollowUps.slice(-1);
           }
         }
       }
       console.log('saindo 2 for ');
       console.log('mapping cli ');
-
-      const cliMapped = cliente.map((cli) => ({
+      // return res.json(campanha);
+      const cliMapped = campanha.Clientes.map((cli) => ({
 
         Cliente: {
           CNPJ: normalizeCnpj(cli.CNPJ),
@@ -202,12 +188,12 @@ class ClienteRelatorioController {
           Bairro: cli.CliComp.bairro,
           Cidade: cli.CliComp.cidade,
           UF: cli.CliComp.uf,
-          Campanhas: cli.Campanhas.map((camp) => ({
-            Codigo: camp.cod,
-            Descrição: camp.desc,
-            'Entrada Campanha': normalizeDatetime(camp.Campanhas_Clientes.createdAt),
-            Situacao: camp.Campanhas_Clientes.ativo ? 'Em Prospecção' : 'Finalizada',
-            follow: camp.FollowUps.filter((arr) => arr.ClienteId === cli.id).map((fup) => ({
+          Campanhas: {
+            Codigo: campanha.cod,
+            Descrição: campanha.desc,
+            'Entrada Campanha': normalizeDatetime(cli.Campanhas_Clientes.createdAt),
+            Situacao: cli.Campanhas_Clientes.ativo ? 'Em Prospecção' : 'Finalizada',
+            follow: cli.FollowUps.filter((arr) => arr.CampanhaId === campanha.id).map((fup) => ({
               Colaborador: fup.Colab.nome,
               'Data Contato': normalizeDate(fup.dataContato),
               Contato: cli.CliConts.find((a) => a.id === fup.CliContId) ? cli.CliConts.find((a) => a.id === fup.CliContId).nome : '',
@@ -221,7 +207,8 @@ class ClienteRelatorioController {
               'Motivo Codigo': fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.nome : '',
               Motivo: fup.CamposDinamicosProspect ? fup.CamposDinamicosProspect.valor : '',
             })),
-          })),
+          },
+
         },
       }));
       // return res.json(cliMapped);
