@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { Op } from 'sequelize';
-import { readdirSync, rmSync } from 'fs';
+import {
+  createWriteStream, readdirSync, rmSync, write,
+} from 'fs';
 import path from 'path';
 import { writeFile } from 'fs/promises';
 import {
@@ -155,6 +157,8 @@ class ClienteRelatorioController {
           ],
         });
       }
+      console.log('busquei banco ');
+      console.log('entrando 1 for ');
       for (let i = 0; i < cliente.length; i += 1) {
         for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
           const cliId = cliente[i].dataValues.id;
@@ -163,6 +167,8 @@ class ClienteRelatorioController {
             .filter((arr) => arr.ClienteId === cliId);
         }
       }
+      console.log('saindo 1 for ');
+      console.log('entrando 2 for ');
 
       if (empIncluida === 'true') {
         console.log('asdasdadasdasdasdasd');
@@ -173,6 +179,8 @@ class ClienteRelatorioController {
           }
         }
       }
+      console.log('saindo 2 for ');
+      console.log('mapping cli ');
 
       const cliMapped = cliente.map((cli) => ({
 
@@ -214,6 +222,7 @@ class ClienteRelatorioController {
         },
       }));
       // return res.json(cliMapped);
+      console.log('cli mapped');
 
       let today = JSON.stringify(new Date().toLocaleString('pt-br'));
       today = today.split('/').join('-');
@@ -222,6 +231,8 @@ class ClienteRelatorioController {
 
       const writeJson = async () => {
         try {
+          console.log('writingJson ');
+
           await writeFile(path.resolve(__dirname, `./excelFiles/cliMappedData${today}.json`), JSON.stringify(cliMapped), (err) => {
             if (err) {
               throw new Error(err);
