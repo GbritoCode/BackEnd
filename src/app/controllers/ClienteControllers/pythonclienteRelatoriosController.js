@@ -105,6 +105,8 @@ class ClienteRelatorioController {
                   where: {
                     dataContato: { [Op.between]: [inicDate, endDate] },
                   },
+                  limit: 1,
+                  separate: true,
                   include: [{ model: Colab }, { model: CamposDinamicosProspect }],
                 },
               ],
