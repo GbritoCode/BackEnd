@@ -177,7 +177,9 @@ class ClienteRelatorioController {
         for (let i = 0; i < cliente.length; i += 1) {
           for (let j = 0; j < cliente[i].Campanhas.length; j += 1) {
             // console.log(cliente[i].Campanhas[j].dataValues.FollowUps);
-            cliente[i].Campanhas[j].FollowUps = cliente[i].Campanhas[j].dataValues.FollowUps.slice(-1);
+            if (cliente[i].Campanhas[j].FollowUps.length > 0) {
+              cliente[i].Campanhas[j].FollowUps = cliente[i].Campanhas[j].dataValues.FollowUps.slice(-1);
+            }
           }
         }
       }
