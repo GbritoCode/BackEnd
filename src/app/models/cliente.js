@@ -8,6 +8,7 @@ import Oportunidade from './oportunidade';
 import FollowUps from './FollowUps';
 import Campanhas from './campanhas';
 import Campanhas_Clientes from './Campanhas_Clientes';
+import MovimentoCaixa from './movimentoCaixa';
 
 export default class Cliente extends Model {
   static init(sequelize) {
@@ -74,6 +75,9 @@ export default class Cliente extends Model {
 
     Cliente.hasMany(FollowUps, { onDelete: 'cascade', hooks: true });
     FollowUps.belongsTo(Cliente);
+
+    Cliente.hasMany(MovimentoCaixa, { onDelete: 'cascade', hooks: true });
+    MovimentoCaixa.belongsTo(Cliente);
 
     return this;
   }

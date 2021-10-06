@@ -59,6 +59,7 @@ import prospectController from './app/controllers/ClienteControllers/prospectCon
 import comercialController from './app/controllers/dashboardsControllers/comercialController';
 import clienteRelatoriosController from './app/controllers/ClienteControllers/pythonclienteRelatoriosController';
 import oportToExcel from './app/controllers/oprtControllers/oportToExcel';
+import movimentoCaixaController from './app/controllers/comercialControllers/movimentoCaixaController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -137,6 +138,10 @@ routes.delete('/despesas/:id?', despesasController.delete);
 
 routes.get('/cliente/export', clienteRelatoriosController.exportResume);
 
+routes.post('/movCaixa', movimentoCaixaController.store);
+routes.put('/movCaixa/:id', movimentoCaixaController.store);
+routes.get('/movCaixa/', movimentoCaixaController.get);
+routes.delete('/movCaixa/:id', movimentoCaixaController.delete);
 routes.post('/followUp', followUpController.store);
 routes.post('/followUp/meeting', followUpController.meeting);
 routes.get('/followUp/:id/:update', followUpController.get);

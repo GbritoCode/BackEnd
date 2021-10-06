@@ -39,6 +39,7 @@ import FollowUps from '../app/models/FollowUps';
 import CamposDinamicosProspect from '../app/models/camposDinamicosProspects';
 import Campanhas from '../app/models/campanhas';
 import Campanhas_Clientes from '../app/models/Campanhas_Clientes';
+import MovimentoCaixa from '../app/models/movimentoCaixa';
 
 const models = [
   FollowUps,
@@ -57,6 +58,7 @@ const models = [
   Despesas,
   oportunidade,
   Campanhas,
+  MovimentoCaixa,
   Cliente,
   Campanhas_Clientes,
   Representante,

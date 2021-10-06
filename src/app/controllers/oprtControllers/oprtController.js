@@ -117,6 +117,13 @@ class OportController {
     const oportUpdated = await oport.update(req.body);
 
     if (oportUpdated.fase === 4 && oportUpdated.CampanhaId) {
+      await Cliente.update({
+        prospect: false,
+      }, {
+        where: {
+          id: oportUpdated.ClienteId,
+        },
+      });
       await Campanhas_Clientes.update({
         status: 'Alcançada',
         efetivacao: new Date().toDateString(),
