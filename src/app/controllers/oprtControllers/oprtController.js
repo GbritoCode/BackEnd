@@ -38,7 +38,7 @@ class OportController {
       const { colab, idOport } = req.query;
       const oport = await Oportunidade.findOne({
         include: [
-          { model: Recurso, where: { ColabId: colab, OportunidadeId: idOport }, required: true },
+          { model: Recurso, where: { ColabId: colab, OportunidadeId: idOport, tipoAtend: { [Op.ne]: 4 } }, required: true },
         ],
       });
       return res.json(oport);
@@ -48,7 +48,7 @@ class OportController {
       const oport = await Oportunidade.findAll({
         where: { fase: { [Op.lt]: 5 } },
         include: [
-          { model: Recurso, where: { ColabId: colab }, required: true }, { model: Cliente },
+          { model: Recurso, where: { ColabId: colab, tipoAtend: { [Op.ne]: 4 } }, required: true }, { model: Cliente },
           {
             model: Segmento, include: [{ model: Area }],
           }, { model: UndNeg }, { model: RecDesp },

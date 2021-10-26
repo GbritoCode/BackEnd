@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import multer from 'multer';
+import sequelize from 'sequelize';
 import { avatar, oportunidadeFile } from './config/multer';
 
 import clienteController from './app/controllers/ClienteControllers/ClienteController';
@@ -60,6 +61,9 @@ import comercialController from './app/controllers/dashboardsControllers/comerci
 import clienteRelatoriosController from './app/controllers/ClienteControllers/pythonclienteRelatoriosController';
 import oportToExcel from './app/controllers/oprtControllers/oportToExcel';
 import movimentoCaixaController from './app/controllers/comercialControllers/movimentoCaixaController';
+import Colab from './app/models/colab';
+import ResultPeriodo from './app/models/resultPeriodo';
+import Recurso from './app/models/recurso';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -67,7 +71,16 @@ const routes = new Router();
 
 const uploadCotacao = multer(oportunidadeFile);
 
-routes.get('/', (req, res) => res.send('okok'));
+routes.get('/', async (req, res) => res.json(await ResultPeriodo.findAll({
+  where: { ano: '2021', periodo: 'Outubro' },
+  attributes: [
+    'periodo',
+    [sequelize.fn('sum', sequelize.col('totalHrs')), 'totalHrs'],
+    [sequelize.fn('sum', sequelize.col('totalDesp')), 'totalDesp'],
+    [sequelize.fn('sum', sequelize.col('totalReceb')), 'totalReceb'],
+  ],
+  group: ['periodo'],
+})));
 
 routes.get('/comercialDash', comercialController.get);
 routes.post('/oportExcel', oportToExcel.store);
@@ -125,6 +138,8 @@ routes.delete('/recurso/:id?', recursoController.delete);
 routes.post('/parcela', parcelaController.store);
 routes.get('/parcela/:id?/:update?', parcelaController.get);
 routes.put('/parcela/:id?', parcelaController.update);
+routes.put('/parcela_fatura/:id?', parcelaController.fatura);
+routes.put('/parcela_pgmto/:id?', parcelaController.pagamento);
 routes.delete('/parcela/:id?', parcelaController.delete);
 
 routes.post('/horas', horasController.store);

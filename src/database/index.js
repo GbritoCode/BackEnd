@@ -1,5 +1,4 @@
 import Sequelize from 'sequelize';
-import mongoose from 'mongoose';
 import Area from '../app/models/area';
 import cliCont from '../app/models/cliCont';
 import cliRecDesp from '../app/models/cliRecDesp';
@@ -40,6 +39,7 @@ import CamposDinamicosProspect from '../app/models/camposDinamicosProspects';
 import Campanhas from '../app/models/campanhas';
 import Campanhas_Clientes from '../app/models/Campanhas_Clientes';
 import MovimentoCaixa from '../app/models/movimentoCaixa';
+import Notifications from '../app/models/notifications';
 
 const models = [
   FollowUps,
@@ -69,6 +69,7 @@ const models = [
   ResultPeriodo,
   ResultPeriodoGerencial,
   colabComp,
+  Notifications,
   Colab,
   Fornec,
   recDesp,
@@ -86,22 +87,11 @@ const models = [
 class Database {
   constructor() {
     this.init();
-    this.mongo();
   }
 
   init() {
     this.connection = new Sequelize(databaseConfig);
     models.forEach((model) => model.init(this.connection));
-  }
-
-  mongo() {
-    this.mongoConnection = mongoose.connect(
-      process.env.MONGO_URL,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-    );
   }
 }
 

@@ -1,5 +1,4 @@
 import Cliente from '../../models/cliente';
-import Colab from '../../models/colab';
 import Fornec from '../../models/fornec';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 import RecDesp from '../../models/recDesp';

@@ -1,12 +1,13 @@
 import * as yup from 'yup';
 import moment from 'moment';
 import { Op } from 'sequelize';
-import { dirname, resolve } from 'path';
+import { resolve } from 'path';
 import { unlink } from 'fs';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
 import Cliente from '../../models/cliente';
 import ParcelaFiles from '../../models/parcelaFile';
+import MovimentoCaixa from '../../models/movimentoCaixa';
 
 class ParcelaController {
   async store(req, res) {
@@ -100,7 +101,6 @@ class ParcelaController {
       const year = moment().year();
       const month = moment().month();
       const date = moment().date();
-      const today = new Date(year, month, date);
 
       for (let i = 0; i < cli.length; i++) {
         parcPendenteCountCli = 0;
@@ -312,6 +312,62 @@ class ParcelaController {
       vlrPago,
       saldo,
     });
+  }
+
+  async fatura(req, res) {
+    try {
+      const { body, params } = req;
+      const parc = await Parcelas.findByPk(params.id);
+
+      if (body.dtEmissao > body.dtVencimento) {
+        return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
+      }
+
+      await MovimentoCaixa.create({
+        EmpresaId: body.idEmpresa,
+        RecDespId: body.idRecDesp,
+        ColabCreate: body.idColab,
+        ClienteId: body.idCliente,
+        ParcelaId: params.id,
+        status: 1,
+        valor: body.vlrParcela / 100,
+        dtVenc: body.dtVencimento,
+      });
+
+      const parcUp = await parc.update(body);
+
+      return res.json({ parc: parcUp, message: 'Parcela atualizada com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
+  }
+
+  async pagamento(req, res) {
+    try {
+      const { body, params } = req;
+      const parc = await Parcelas.findByPk(params.id);
+
+      if (body.dtEmissao > body.dtVencimento) {
+        return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
+      }
+
+      await MovimentoCaixa.update({
+        vlrPago: body.vlrPago / 100,
+        saldo: body.saldo / 100,
+        status: body.situacao - 1,
+        dtLiqui: body.dtLiquidacao,
+      }, {
+        where: { ParcelaId: params.id },
+      });
+
+      const parcUp = await parc.update(body);
+
+      return res.json({ parc: parcUp, message: 'Parcela atualizada com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async delete(req, res) {

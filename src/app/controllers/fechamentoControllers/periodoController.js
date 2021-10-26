@@ -1,7 +1,15 @@
 import { getDaysInMonth } from 'date-fns';
+import sequelize, { Op } from 'sequelize';
 import * as yup from 'yup';
+import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
+import Horas from '../../models/horas';
+import MovimentoCaixa from '../../models/movimentoCaixa';
+import Parametros from '../../models/parametros';
+import Recurso from '../../models/recurso';
+import ResultPeriodo from '../../models/resultPeriodo';
+import ResultPeriodoGerencial from '../../models/resultPeriodoGerencial';
 
 class FechamentoPeriodoController {
   async store(req, res) {
@@ -99,18 +107,359 @@ class FechamentoPeriodoController {
   }
 
   async update(req, res) {
-    const periodo = await FechamentoPeriodo.findByPk(req.params.id);
-    const {
-      EmpresaId, nome, dataInic, dataFim, aberto,
-    } = await periodo.update(req.body);
+    const fechamento = await FechamentoPeriodo.findByPk(req.params.id);
 
-    return res.json({
-      EmpresaId,
-      nome,
-      dataInic,
-      dataFim,
-      aberto,
+    const data = [];
+
+    await MovimentoCaixa.destroy({
+      where: {
+        ColabPgmto: { [Op.not]: null },
+        periodo: fechamento.nome,
+        ano: fechamento.ano,
+      },
     });
+
+    await Horas.destroy(
+      {
+        where: {
+          compFlag: 1,
+          dataAtivd: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+        },
+      },
+    );
+    await ResultPeriodo.update({
+      totalHrs: 0,
+      totalDesp: 0,
+      totalReceb: 0,
+    },
+    {
+      where: {
+        periodo: fechamento.nome, ano: fechamento.ano,
+      },
+    });
+    await ResultPeriodoGerencial.update({
+      totalHrs: 0,
+      totalDesp: 0,
+      totalReceb: 0,
+    },
+    {
+      where: {
+        periodo: fechamento.nome, ano: fechamento.ano,
+      },
+    });
+    const colabs = await Colab.findAll();
+
+    await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
+    // ----------------------horas
+    const horas = await fechamento.sequelize.models.Horas.findAll({
+      where: {
+        dataAtivd: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+        // compFlag: { [Op.ne]: 1 },
+      },
+      attributes: [
+        'ColabId',
+        [sequelize.fn('sum', sequelize.col('totalApont')), 'total'],
+      ],
+      group: ['ColabId'],
+    });
+    if (horas.length > 0) {
+      for (let i = 0; i < horas.length; i++) {
+        data[i] = {
+          ColabId: horas[i].dataValues.ColabId,
+          totalHrs: horas[i].dataValues.total,
+          totalDesp: 0,
+          totalReceb: 0,
+        };
+      }
+    } else {
+      data[0] = {
+        ColabId: 0,
+        totalHrs: 0,
+        totalDesp: 0,
+        totalReceb: 0,
+      };
+    }
+
+    // --------------------despesas
+    const despesas = await fechamento.sequelize.models.Despesas.findAll({
+      where: {
+        dataDespesa: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+      },
+      attributes: [
+        'ColabId',
+        [sequelize.fn('sum', sequelize.col('valorDespesa')), 'total'],
+      ],
+      group: ['ColabId'],
+    });
+    if (despesas.length > 0) {
+      for (let i = 0; i < despesas.length; i++) {
+        Object.entries(data).forEach((entry) => {
+          if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
+            entry[1].totalDesp = despesas[i].dataValues.total;
+          }
+          if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
+            data.push({
+              ColabId: despesas[i].dataValues.ColabId,
+              totalHrs: 0,
+              totalDesp: despesas[i].dataValues.total,
+              totalReceb: despesas[i].dataValues.total,
+            });
+          }
+        });
+      }
+    } else {
+      Object.entries(data).forEach((entry) => {
+        entry[1].totalDesp = 0;
+      });
+    }
+    // --------------------Receber
+
+    const receber = await fechamento.sequelize.models.Colab.findAll({
+      include: [{
+        model: Recurso,
+        required: true,
+        include: [{
+          model: Horas,
+          where: {
+            dataAtivd: {
+              [Op.between]: [fechamento.dataInic, fechamento.dataFim],
+            },
+          },
+          required: true,
+        }],
+      }],
+    });
+    const sum = [];
+    let sumColab = 0;
+    for (let i = 0; i < receber.length; i++) {
+      sumColab = 0;
+      for (let j = 0; j < receber[i].Recursos.length; j++) {
+        for (let k = 0; k < receber[i].Recursos[j].Horas.length; k++) {
+          sumColab += (receber[i].Recursos[j].Horas[k].dataValues.totalApont / 60)
+          * receber[i].Recursos[j].dataValues.colabVlrHr;
+        }
+      }
+      sum[i] = Math.trunc(sumColab);
+      Object.entries(data).forEach((entry) => {
+        if (entry[1].ColabId === receber[i].dataValues.id) {
+          entry[1].totalReceb = parseInt(sum[i], 10) + parseInt(entry[1].totalDesp, 10);
+        }
+        if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
+          data.push({
+            ColabId: receber[i].dataValues.id,
+            totalHrs: 0,
+            totalDesp: 0,
+            totalReceb: sum[i],
+          });
+        }
+      });
+    }
+
+    Object.entries(data).forEach((entry) => {
+      entry[1].periodo = fechamento.nome;
+      entry[1].EmpresaId = fechamento.EmpresaId;
+    });
+
+    const alreadyHasPeriodo = await fechamento.sequelize.models.ResultPeriodo.findOne({
+      where: { [Op.and]: [{ periodo: fechamento.nome }, { ano: fechamento.ano }] },
+    });
+    if (alreadyHasPeriodo) {
+      Object.entries(data).forEach(async (entry) => {
+        await ResultPeriodo.update(
+          {
+            totalHrs: entry[1].totalHrs,
+            totalDesp: entry[1].totalDesp,
+            totalReceb: entry[1].totalReceb,
+          },
+          {
+            where: {
+              [Op.and]: [{ ColabId: entry[1].ColabId },
+                { periodo: fechamento.nome }, { ano: fechamento.ano }],
+            },
+          },
+        );
+
+        const mov = await MovimentoCaixa.findOne({ where: { desc: `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}` } });
+        if (mov) {
+          await mov.update(
+            {
+              EmpresaId: fechamento.EmpresaId,
+              RecDespId: 1,
+              ColabCreate: 1,
+              ColabPgmto: entry[1].ColabId,
+              valor: entry[1].totalReceb,
+              dtVenc: new Date().setDate(15),
+              status: 1,
+              ano: fechamento.ano,
+              periodo: fechamento.nome,
+              desc:
+               `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+            },
+            { returning: true },
+          );
+        } else if (entry[1].totalReceb > 0) {
+          await MovimentoCaixa.create(
+            {
+              EmpresaId: fechamento.EmpresaId,
+              RecDespId: 1,
+              ColabCreate: 1,
+              ColabPgmto: entry[1].ColabId,
+              valor: entry[1].totalReceb,
+              dtVenc: new Date().setDate(15),
+              status: 1,
+              ano: fechamento.ano,
+              periodo: fechamento.nome,
+              desc:
+                 `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+            },
+            { returning: true },
+          );
+        }
+        // .then((result) => console.log(result));
+      });
+    } else {
+      await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
+    }
+
+    const param = await Parametros.findOne();
+    const totalHrsMes = param.compHrs * 60;
+
+    try {
+      const compRec = await Recurso.findAll(
+        {
+          where: { tipoAtend: 4 },
+          include:
+             [
+               {
+                 model: Colab,
+                 include:
+                  [
+                    {
+                      model: ResultPeriodo,
+                      where: { ano: fechamento.ano, periodo: fechamento.nome },
+                      required: false,
+                    },
+                  ],
+               },
+             ],
+        },
+      );
+      for (let i = 0; i < compRec.length; i++) {
+        const colab = compRec[i].Colab;
+        let hrsLancadas = 0;
+        colab.ResultPeriodos.forEach(async (periodo) => {
+          hrsLancadas += periodo.dataValues.totalHrs;
+        });
+
+        const saldoHrs = totalHrsMes - hrsLancadas;
+
+        if (saldoHrs > 0) {
+          await Horas.create({
+            OportunidadeId: compRec[i].OportunidadeId,
+            ColabId: colab.id,
+            RecursoId: compRec[i].id,
+            dataAtivd: '2021-10-15',
+            horaInic: '00:00',
+            horaIntrv: '00:00',
+            horaFim: '00:00',
+            dataLancamento: '2021-10-15',
+            totalApont: saldoHrs,
+            solicitante: 'Juliano',
+            AreaId: 1,
+            compFlag: 1,
+            desc: `Lançamento de Horas complementares ${saldoHrs / 60}`,
+          });
+          const mov = await MovimentoCaixa.findOne({ where: { desc: `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}` } });
+          await ResultPeriodo.increment(
+            {
+              totalHrs: saldoHrs,
+              totalReceb: (saldoHrs / 60) * compRec[i].colabVlrHr,
+            },
+            {
+              where: {
+                [Op.and]: [{ ColabId: colab.id },
+                  { periodo: fechamento.nome }, { ano: fechamento.ano }],
+              },
+            },
+            { returning: true },
+          );
+          if (mov) {
+            await mov.update(
+              {
+                EmpresaId: fechamento.EmpresaId,
+                RecDespId: 1,
+                ColabCreate: 1,
+                ColabPgmto: colab.id,
+                valor: (saldoHrs / 60) * compRec[i].colabVlrHr,
+                dtVenc: new Date().setDate(15),
+                status: 1,
+                ano: fechamento.ano,
+                periodo: fechamento.nome,
+                desc:
+               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+              },
+              { returning: true },
+            );
+          } else {
+            await MovimentoCaixa.create(
+              {
+                EmpresaId: fechamento.EmpresaId,
+                RecDespId: 1,
+                ColabCreate: 1,
+                ColabPgmto: colab.id,
+                valor: (saldoHrs / 60) * compRec[i].colabVlrHr,
+                dtVenc: new Date().setDate(15),
+                status: 1,
+                ano: fechamento.ano,
+                periodo: fechamento.nome,
+                desc:
+               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+              },
+              { returning: true },
+            );
+          }
+        }
+      }
+
+      const result = await ResultPeriodo.findAll({
+        where: { ano: fechamento.ano, periodo: fechamento.nome },
+        attributes: [
+          'periodo',
+          [sequelize.fn('sum', sequelize.col('totalHrs')), 'totalHrs'],
+          [sequelize.fn('sum', sequelize.col('totalDesp')), 'totalDesp'],
+          [sequelize.fn('sum', sequelize.col('totalReceb')), 'totalReceb'],
+        ],
+        group: ['periodo'],
+      });
+
+      await ResultPeriodoGerencial.update(
+        {
+          totalHrs: result[0].dataValues.totalHrs,
+          totalDesp: result[0].dataValues.totalDesp,
+          totalReceb: result[0].dataValues.totalReceb,
+        },
+        {
+          where: {
+            [Op.and]: [{ periodo: fechamento.nome }, { ano: fechamento.ano }],
+          },
+        },
+        { returning: true },
+      );
+      const {
+        EmpresaId, nome, dataInic, dataFim,
+      } = await fechamento.update(req.body);
+
+      return res.json({
+        EmpresaId,
+        nome,
+        dataInic,
+        dataFim,
+        asdaw: 'update finalizadop',
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500);
+    }
   }
 
   async delete(req, res) {

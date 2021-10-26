@@ -10,6 +10,7 @@ import FollowUps from './FollowUps';
 import Campanhas from './campanhas';
 import Representante from './representante';
 import MovimentoCaixa from './movimentoCaixa';
+import Notifications from './notifications';
 
 export default class Colab extends Model {
   static init(sequelize) {
@@ -69,6 +70,14 @@ export default class Colab extends Model {
       onDelete: 'cascade', hooks: true, foreignKey: 'ColabLiqui', sourceKey: 'id', as: 'ColabLiquid',
     });
     MovimentoCaixa.belongsTo(Colab, { foreignKey: 'ColabLiqui', as: 'ColabLiquid' });
+
+    Colab.hasMany(MovimentoCaixa, {
+      onDelete: 'cascade', hooks: true, foreignKey: 'ColabPgmto', sourceKey: 'id', as: 'ColabPgmt',
+    });
+    MovimentoCaixa.belongsTo(Colab, { foreignKey: 'ColabPgmto', as: 'ColabPgmt' });
+
+    Colab.hasMany(Notifications, { onDelete: 'cascade', hooks: true });
+    Notifications.belongsTo(Colab);
     return this;
   }
 }
