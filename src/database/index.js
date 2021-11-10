@@ -40,6 +40,8 @@ import Campanhas from '../app/models/campanhas';
 import Campanhas_Clientes from '../app/models/Campanhas_Clientes';
 import MovimentoCaixa from '../app/models/movimentoCaixa';
 import Notifications from '../app/models/notifications';
+import FechamentoCaixaMensal from '../app/models/fechamentoCaixaMensal';
+import LiquidMovCaixa from '../app/models/liquidMovCaixa';
 
 const models = [
   FollowUps,
@@ -58,6 +60,8 @@ const models = [
   Despesas,
   oportunidade,
   Campanhas,
+  LiquidMovCaixa,
+  FechamentoCaixaMensal,
   MovimentoCaixa,
   Cliente,
   Campanhas_Clientes,

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import multer from 'multer';
-import sequelize from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 import { avatar, oportunidadeFile } from './config/multer';
 
 import clienteController from './app/controllers/ClienteControllers/ClienteController';
@@ -60,10 +60,11 @@ import prospectController from './app/controllers/ClienteControllers/prospectCon
 import comercialController from './app/controllers/dashboardsControllers/comercialController';
 import clienteRelatoriosController from './app/controllers/ClienteControllers/pythonclienteRelatoriosController';
 import oportToExcel from './app/controllers/oprtControllers/oportToExcel';
-import movimentoCaixaController from './app/controllers/comercialControllers/movimentoCaixaController';
-import Colab from './app/models/colab';
+import movimentoCaixaController from './app/controllers/FinanceiraControllers/movimentoCaixaController';
 import ResultPeriodo from './app/models/resultPeriodo';
+import fechamentoCaixaMensControler from './app/controllers/FinanceiraControllers/fechamentoCaixaMensControler';
 import Recurso from './app/models/recurso';
+import financeiraController from './app/controllers/dashboardsControllers/financeiraController';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -71,19 +72,18 @@ const routes = new Router();
 
 const uploadCotacao = multer(oportunidadeFile);
 
-routes.get('/', async (req, res) => res.json(await ResultPeriodo.findAll({
-  where: { ano: '2021', periodo: 'Outubro' },
-  attributes: [
-    'periodo',
-    [sequelize.fn('sum', sequelize.col('totalHrs')), 'totalHrs'],
-    [sequelize.fn('sum', sequelize.col('totalDesp')), 'totalDesp'],
-    [sequelize.fn('sum', sequelize.col('totalReceb')), 'totalReceb'],
-  ],
-  group: ['periodo'],
-})));
+routes.get('/', async (req, res) => res.json('ok'));
 
 routes.get('/comercialDash', comercialController.get);
+routes.get('/financeiraDash', financeiraController.get);
 routes.post('/oportExcel', oportToExcel.store);
+
+routes.post('/movCaixa', movimentoCaixaController.store);
+routes.put('/movCaixa_liquid/', movimentoCaixaController.liquida);
+routes.get('/movCaixa/', movimentoCaixaController.get);
+routes.delete('/movCaixa/:id', movimentoCaixaController.delete);
+
+routes.post('/fechCaixa', fechamentoCaixaMensControler.store);
 
 routes.post('/oportExcel', oportToExcel.store);
 routes.post('/email', emailController.store);
@@ -153,10 +153,6 @@ routes.delete('/despesas/:id?', despesasController.delete);
 
 routes.get('/cliente/export', clienteRelatoriosController.exportResume);
 
-routes.post('/movCaixa', movimentoCaixaController.store);
-routes.put('/movCaixa/:id', movimentoCaixaController.store);
-routes.get('/movCaixa/', movimentoCaixaController.get);
-routes.delete('/movCaixa/:id', movimentoCaixaController.delete);
 routes.post('/followUp', followUpController.store);
 routes.post('/followUp/meeting', followUpController.meeting);
 routes.get('/followUp/:id/:update', followUpController.get);

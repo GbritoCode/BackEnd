@@ -45,8 +45,6 @@ class HoraController {
         }
         throw 'error';
       } catch (err) {
-        const dataAtivdSplit = req.body.dataAtivd.split('-');
-        const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
         return res.status(401).json({
           error: `O período ${checkPeriodo.nome} já está fechado, contate o administrador`,
         });

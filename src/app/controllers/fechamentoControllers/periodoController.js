@@ -1,10 +1,13 @@
+/* eslint-disable no-restricted-syntax */
 import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 import * as yup from 'yup';
 import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
+import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 import Horas from '../../models/horas';
+import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 import Parametros from '../../models/parametros';
 import Recurso from '../../models/recurso';
@@ -111,13 +114,13 @@ class FechamentoPeriodoController {
 
     const data = [];
 
-    await MovimentoCaixa.destroy({
-      where: {
-        ColabPgmto: { [Op.not]: null },
-        periodo: fechamento.nome,
-        ano: fechamento.ano,
-      },
-    });
+    // await MovimentoCaixa.destroy({
+    //   where: {
+    //     ColabPgmto: { [Op.not]: null },
+    //     periodo: fechamento.nome,
+    //     ano: fechamento.ano,
+    //   },
+    // });
 
     await Horas.destroy(
       {
@@ -150,6 +153,7 @@ class FechamentoPeriodoController {
     const colabs = await Colab.findAll();
 
     await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
+
     // ----------------------horas
     const horas = await fechamento.sequelize.models.Horas.findAll({
       where: {
@@ -287,11 +291,14 @@ class FechamentoPeriodoController {
               RecDespId: 1,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
-              valor: entry[1].totalReceb,
-              dtVenc: new Date().setDate(15),
+              valor: entry[1].totalReceb * -1,
+              saldo: entry[1].totalReceb * -1,
+              dtVenc: new Date(2021, 10, 15),
               status: 1,
               ano: fechamento.ano,
               periodo: fechamento.nome,
+              recDesp: 'Desp',
+              autoCreated: true,
               desc:
                `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
             },
@@ -304,11 +311,14 @@ class FechamentoPeriodoController {
               RecDespId: 1,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
-              valor: entry[1].totalReceb,
-              dtVenc: new Date().setDate(15),
+              valor: entry[1].totalReceb * -1,
+              saldo: entry[1].totalReceb * -1,
+              dtVenc: new Date(2021, 10, 15),
               status: 1,
               ano: fechamento.ano,
               periodo: fechamento.nome,
+              recDesp: 'Desp',
+              autoCreated: true,
               desc:
                  `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
             },
@@ -323,6 +333,7 @@ class FechamentoPeriodoController {
 
     const param = await Parametros.findOne();
     const totalHrsMes = param.compHrs * 60;
+    const pgmtoVenc = param.pgmmtoVenc;
 
     try {
       const compRec = await Recurso.findAll(
@@ -358,11 +369,11 @@ class FechamentoPeriodoController {
             OportunidadeId: compRec[i].OportunidadeId,
             ColabId: colab.id,
             RecursoId: compRec[i].id,
-            dataAtivd: '2021-10-15',
+            dataAtivd: '2021-11-15',
             horaInic: '00:00',
             horaIntrv: '00:00',
             horaFim: '00:00',
-            dataLancamento: '2021-10-15',
+            dataLancamento: '2021-11-15',
             totalApont: saldoHrs,
             solicitante: 'Juliano',
             AreaId: 1,
@@ -390,11 +401,14 @@ class FechamentoPeriodoController {
                 RecDespId: 1,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
-                valor: (saldoHrs / 60) * compRec[i].colabVlrHr,
-                dtVenc: new Date().setDate(15),
+                valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
+                saldo: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
+                dtVenc: new Date(2021, 10, 15),
                 status: 1,
                 ano: fechamento.ano,
                 periodo: fechamento.nome,
+                recDesp: 'Desp',
+                autoCreated: true,
                 desc:
                `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
               },
@@ -407,11 +421,14 @@ class FechamentoPeriodoController {
                 RecDespId: 1,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
-                valor: (saldoHrs / 60) * compRec[i].colabVlrHr,
-                dtVenc: new Date().setDate(15),
+                valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
+                saldo: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
+                dtVenc: new Date(2021, 10, 15),
                 status: 1,
                 ano: fechamento.ano,
                 periodo: fechamento.nome,
+                recDesp: 'Desp',
+                autoCreated: true,
                 desc:
                `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
               },
@@ -445,6 +462,81 @@ class FechamentoPeriodoController {
         },
         { returning: true },
       );
+
+      //-------------------------------------
+      //-------------------------------------
+      //-------------------------------------
+      //-------------------------------------
+      //-------------------------------------
+
+      const caixaPrev = await MovimentoCaixa.findAll(
+        {
+          attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+          where: { dtVenc: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] } },
+          group: 'recDesp',
+        },
+      );
+
+      let saldoPrev = 0;
+      let entradaPrev = 0;
+      let saidaPrev = 0;
+      for (const prev of caixaPrev) {
+        saldoPrev += prev.dataValues.total;
+        if (prev.dataValues.recDesp === 'Desp') {
+          saidaPrev += prev.dataValues.total;
+        } else if (prev.dataValues.recDesp === 'Rec') {
+          entradaPrev += prev.dataValues.total;
+        }
+      }
+
+      const caixaReal = await LiquidMovCaixa.findAll(
+        {
+          attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+          where: { dtLiqui: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] } },
+          group: 'recDesp',
+        },
+      );
+
+      let saldoReal = 0;
+      let entradaReal = 0;
+      let saidaReal = 0;
+      for (const real of caixaReal) {
+        saldoReal += real.dataValues.total;
+        if (real.dataValues.recDesp === 'Desp') {
+          saidaReal += real.dataValues.total;
+        } else if (real.dataValues.recDesp === 'Rec') {
+          entradaReal += real.dataValues.total;
+        }
+      }
+
+      const fechMes = await FechamentoCaixaMensal.create({
+        EmpresaId: fechamento.EmpresaId,
+        ano: fechamento.ano,
+        periodo: fechamento.nome,
+        entrada: entradaReal,
+        saida: saidaReal,
+        saldoMes: saldoReal,
+        entradaPrev,
+        saidaPrev,
+        saldoMesPrev: saldoPrev,
+      });
+      console.log(caixaReal);
+      console.log(saldoReal);
+      console.log(entradaReal);
+      console.log(saidaReal);
+      console.log('caixaPrev');
+      console.log('caixaPrev');
+      console.log('caixaPrev');
+      console.log(caixaPrev);
+      console.log(saldoPrev);
+      console.log(entradaPrev);
+      console.log(saidaPrev);
+
+      //-------------------------------------
+      //-------------------------------------
+      //-------------------------------------
+      //-------------------------------------
+
       const {
         EmpresaId, nome, dataInic, dataFim,
       } = await fechamento.update(req.body);

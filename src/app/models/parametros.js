@@ -19,6 +19,7 @@ export default class Parametros extends Model {
         adiantaPgmto: DataTypes.STRING,
         percAdiantaPgmto: DataTypes.DECIMAL,
         compHrs: DataTypes.INTEGER,
+        pgmtoVenc: DataTypes.INTEGER,
       },
       {
         sequelize,
