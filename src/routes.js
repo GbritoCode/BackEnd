@@ -63,8 +63,8 @@ import oportToExcel from './app/controllers/oprtControllers/oportToExcel';
 import movimentoCaixaController from './app/controllers/FinanceiraControllers/movimentoCaixaController';
 import ResultPeriodo from './app/models/resultPeriodo';
 import fechamentoCaixaMensControler from './app/controllers/FinanceiraControllers/fechamentoCaixaMensControler';
-import Recurso from './app/models/recurso';
 import financeiraController from './app/controllers/dashboardsControllers/financeiraController';
+import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
 
 // import authMiddleware from './app/middleware/auth';
 
@@ -72,7 +72,12 @@ const routes = new Router();
 
 const uploadCotacao = multer(oportunidadeFile);
 
-routes.get('/', async (req, res) => res.json('ok'));
+// routes.get('/', async (req, res) => {
+//   console.log('ok');
+//   return res.json('ok');
+// });
+
+routes.get('/', importFromJSON.store);
 
 routes.get('/comercialDash', comercialController.get);
 routes.get('/financeiraDash', financeiraController.get);

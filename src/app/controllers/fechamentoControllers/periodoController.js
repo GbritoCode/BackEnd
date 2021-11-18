@@ -114,13 +114,13 @@ class FechamentoPeriodoController {
 
     const data = [];
 
-    // await MovimentoCaixa.destroy({
-    //   where: {
-    //     ColabPgmto: { [Op.not]: null },
-    //     periodo: fechamento.nome,
-    //     ano: fechamento.ano,
-    //   },
-    // });
+    await MovimentoCaixa.destroy({
+      where: {
+        ColabPgmto: { [Op.not]: null },
+        periodo: fechamento.nome,
+        ano: fechamento.ano,
+      },
+    });
 
     await Horas.destroy(
       {
@@ -288,7 +288,7 @@ class FechamentoPeriodoController {
           await mov.update(
             {
               EmpresaId: fechamento.EmpresaId,
-              RecDespId: 1,
+              RecDespId: 2,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
               valor: entry[1].totalReceb * -1,
@@ -308,7 +308,7 @@ class FechamentoPeriodoController {
           await MovimentoCaixa.create(
             {
               EmpresaId: fechamento.EmpresaId,
-              RecDespId: 1,
+              RecDespId: 2,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
               valor: entry[1].totalReceb * -1,
@@ -398,7 +398,7 @@ class FechamentoPeriodoController {
             await mov.update(
               {
                 EmpresaId: fechamento.EmpresaId,
-                RecDespId: 1,
+                RecDespId: 2,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
@@ -418,7 +418,7 @@ class FechamentoPeriodoController {
             await MovimentoCaixa.create(
               {
                 EmpresaId: fechamento.EmpresaId,
-                RecDespId: 1,
+                RecDespId: 2,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,

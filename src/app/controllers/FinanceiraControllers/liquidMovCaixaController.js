@@ -7,9 +7,10 @@ import RecDesp from '../../models/recDesp';
 class LiquidMovCaixaController {
   async liquidaMov(modData) {
     try {
+      console.log(modData);
       const movLiquid = await LiquidMovCaixa.create({
         MovimentoCaixaId: modData.movId,
-        valor: modData.valor,
+        valor: modData.movSaldo,
         dtLiqui: modData.dtLiqui,
         recDesp: modData.recDesp,
       });
