@@ -12,6 +12,7 @@ export default class RecDesp extends Model {
         desc: DataTypes.STRING,
         recDesp: DataTypes.STRING,
         tipoItem: DataTypes.STRING,
+        lancFlag: DataTypes.BOOLEAN,
         ContaContabilId: DataTypes.STRING,
         CentroCustoId: DataTypes.STRING,
       },

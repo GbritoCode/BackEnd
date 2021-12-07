@@ -2,10 +2,12 @@
 import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 import * as yup from 'yup';
+import { monthFullToNumber } from '../../../generalVar';
 import Colab from '../../models/colab';
 import Empresa from '../../models/empresa';
 import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
+import Fornec from '../../models/fornec';
 import Horas from '../../models/horas';
 import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
@@ -110,14 +112,24 @@ class FechamentoPeriodoController {
   }
 
   async update(req, res) {
+    // return res.status(500).json({ error: 'Erro Interno do Servidor' });
     const fechamento = await FechamentoPeriodo.findByPk(req.params.id);
 
+    const periodoAnt = await FechamentoPeriodo.findByPk(req.params.id - 1);
+
+    if (periodoAnt) {
+      if (periodoAnt.situacao === 'Aberto') {
+        return res.status(500).json({ error: 'O período anterior não está fechado, por favor feche antes de continuar' });
+      }
+    }
+
+    let nextMonth;
     const data = [];
 
     await MovimentoCaixa.destroy({
       where: {
         ColabPgmto: { [Op.not]: null },
-        periodo: fechamento.nome,
+        periodo: monthFullToNumber[fechamento.nome],
         ano: fechamento.ano,
       },
     });
@@ -150,7 +162,17 @@ class FechamentoPeriodoController {
         periodo: fechamento.nome, ano: fechamento.ano,
       },
     });
-    const colabs = await Colab.findAll();
+    const colabs = await Colab.findAll({ include: [{ model: Fornec }] });
+
+    const param = await Parametros.findOne();
+    const { pgmtoVenc, compHrs, compFlag } = param;
+
+    const today = new Date();
+    if (today.getMonth() === 11) {
+      nextMonth = new Date(today.getFullYear() + 1, 0, pgmtoVenc);
+    } else {
+      nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, pgmtoVenc);
+    }
 
     await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
 
@@ -288,15 +310,15 @@ class FechamentoPeriodoController {
           await mov.update(
             {
               EmpresaId: fechamento.EmpresaId,
-              RecDespId: 2,
+              RecDespId: colabs.find((arr) => arr.id === entry[1].ColabId).Fornec.RecDespId,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
               valor: entry[1].totalReceb * -1,
               saldo: entry[1].totalReceb * -1,
-              dtVenc: new Date(2021, 10, 15),
+              dtVenc: nextMonth,
               status: 1,
               ano: fechamento.ano,
-              periodo: fechamento.nome,
+              periodo: monthFullToNumber[fechamento.nome],
               recDesp: 'Desp',
               autoCreated: true,
               desc:
@@ -308,15 +330,15 @@ class FechamentoPeriodoController {
           await MovimentoCaixa.create(
             {
               EmpresaId: fechamento.EmpresaId,
-              RecDespId: 2,
+              RecDespId: colabs.find((arr) => arr.id === entry[1].ColabId).Fornec.RecDespId,
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
               valor: entry[1].totalReceb * -1,
               saldo: entry[1].totalReceb * -1,
-              dtVenc: new Date(2021, 10, 15),
+              dtVenc: nextMonth,
               status: 1,
               ano: fechamento.ano,
-              periodo: fechamento.nome,
+              periodo: monthFullToNumber[fechamento.nome],
               recDesp: 'Desp',
               autoCreated: true,
               desc:
@@ -331,11 +353,8 @@ class FechamentoPeriodoController {
       await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
     }
 
-    const param = await Parametros.findOne();
-    const totalHrsMes = param.compHrs * 60;
-    const pgmtoVenc = param.pgmmtoVenc;
-
-    try {
+    if (compFlag) {
+      const totalHrsMes = compHrs * 60;
       const compRec = await Recurso.findAll(
         {
           where: { tipoAtend: 4 },
@@ -403,10 +422,10 @@ class FechamentoPeriodoController {
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
                 saldo: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
-                dtVenc: new Date(2021, 10, 15),
+                dtVenc: nextMonth,
                 status: 1,
                 ano: fechamento.ano,
-                periodo: fechamento.nome,
+                periodo: monthFullToNumber[fechamento.nome],
                 recDesp: 'Desp',
                 autoCreated: true,
                 desc:
@@ -423,10 +442,10 @@ class FechamentoPeriodoController {
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
                 saldo: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
-                dtVenc: new Date(2021, 10, 15),
+                dtVenc: nextMonth,
                 status: 1,
                 ano: fechamento.ano,
-                periodo: fechamento.nome,
+                periodo: monthFullToNumber[fechamento.nome],
                 recDesp: 'Desp',
                 autoCreated: true,
                 desc:
@@ -437,7 +456,9 @@ class FechamentoPeriodoController {
           }
         }
       }
+    }
 
+    try {
       const result = await ResultPeriodo.findAll({
         where: { ano: fechamento.ano, periodo: fechamento.nome },
         attributes: [
@@ -512,7 +533,7 @@ class FechamentoPeriodoController {
       const fechMes = await FechamentoCaixaMensal.create({
         EmpresaId: fechamento.EmpresaId,
         ano: fechamento.ano,
-        periodo: fechamento.nome,
+        periodo: monthFullToNumber[fechamento.nome],
         entrada: entradaReal,
         saida: saidaReal,
         saldoMes: saldoReal,
@@ -520,17 +541,6 @@ class FechamentoPeriodoController {
         saidaPrev,
         saldoMesPrev: saldoPrev,
       });
-      console.log(caixaReal);
-      console.log(saldoReal);
-      console.log(entradaReal);
-      console.log(saidaReal);
-      console.log('caixaPrev');
-      console.log('caixaPrev');
-      console.log('caixaPrev');
-      console.log(caixaPrev);
-      console.log(saldoPrev);
-      console.log(entradaPrev);
-      console.log(saidaPrev);
 
       //-------------------------------------
       //-------------------------------------
@@ -546,7 +556,6 @@ class FechamentoPeriodoController {
         nome,
         dataInic,
         dataFim,
-        asdaw: 'update finalizadop',
       });
     } catch (err) {
       console.log(err);

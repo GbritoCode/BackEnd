@@ -118,7 +118,8 @@ class ParcelaController {
             if (
               moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento)
             ) {
-              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+                || cli[i].Oportunidades[j].Parcelas[k].situacao === 5) {
                 labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
                 parcAtrasadaCountCli += 1;
                 parcAtrasadaCount += 1;
@@ -133,7 +134,8 @@ class ParcelaController {
             if (
               !(moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
             ) {
-              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+                || cli[i].Oportunidades[j].Parcelas[k].situacao === 5) {
                 labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
                 parcAbertaCountCli += 1;
                 parcAbertaCount += 1;
@@ -203,7 +205,7 @@ class ParcelaController {
         const parc = await Parcelas.findAll({
           where: {
             [Op.and]: [{
-              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }, { situacao: 5 }],
               dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` },
             }],
           },
@@ -229,7 +231,7 @@ class ParcelaController {
         const parc = await Parcelas.findAll({
           where: {
             [Op.and]: [{
-              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }, { situacao: 5 }],
               dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` },
             }],
           },

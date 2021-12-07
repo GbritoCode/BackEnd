@@ -10,6 +10,7 @@ export default class Fornec extends Model {
         CNPJ: DataTypes.STRING,
         EmpresaId: DataTypes.INTEGER,
         CondPgmtoId: DataTypes.INTEGER,
+        RecDespId: DataTypes.INTEGER,
         nome: DataTypes.STRING,
         nomeConta: DataTypes.STRING,
         fone: DataTypes.INTEGER,

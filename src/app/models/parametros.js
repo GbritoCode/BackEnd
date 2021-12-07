@@ -20,6 +20,8 @@ export default class Parametros extends Model {
         percAdiantaPgmto: DataTypes.DECIMAL,
         compHrs: DataTypes.INTEGER,
         pgmtoVenc: DataTypes.INTEGER,
+        compFlag: DataTypes.BOOLEAN,
+        RecDespCompHrs: DataTypes.INTEGER,
       },
       {
         sequelize,

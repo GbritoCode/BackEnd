@@ -12,35 +12,24 @@ import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 
 class DespesasController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      OportunidadeId: yup.number().required(),
-      ColabId: yup.number().required(),
-      dataDespesa: yup.date().required(),
-      tipoDespesa: yup.number().required(),
-      valorDespesa: yup.number().required(),
-      desc: yup.string().optional(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
-    }
+    const { body } = req;
     const checkPeriodo = await FechamentoPeriodo.findOne({
       where: {
         [Op.and]: [{
           dataFim: {
-            [Op.gte]: req.body.dataDespesa,
+            [Op.gte]: body.dataDespesa,
           },
         },
         {
           dataInic: {
-            [Op.lte]: req.body.dataDespesa,
+            [Op.lte]: body.dataDespesa,
           },
         }],
       },
     });
     const aberto = checkPeriodo.getDataValue('situacao');
     if (aberto !== 'Aberto') {
-      const colab = await Colab.findByPk(req.body.ColabId);
+      const colab = await Colab.findByPk(body.ColabId);
       if (!colab) {
         return res.status(500).json({ error: 'Erro interno de servidor' });
       }
@@ -48,11 +37,11 @@ class DespesasController {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
         if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
-          return res.json(await Despesa.create(req.body));
+          return res.json(await Despesa.create(body));
         }
         throw 'error';
       } catch (err) {
-        const dataDespesaSplit = req.body.dataDespesa.split('-');
+        const dataDespesaSplit = body.dataDespesa.split('-');
         const formatData = `${dataDespesaSplit[2]}-${dataDespesaSplit[1]}-${dataDespesaSplit[0]}`;
         return res.status(401).json({
           error: `O período que contém ${formatData} já está fechado, contate o administrador`,
@@ -60,7 +49,7 @@ class DespesasController {
       }
     }
 
-    return res.json(await Despesa.create(req.body));
+    return res.json(await Despesa.create(body));
   }
 
   async get(req, res) {

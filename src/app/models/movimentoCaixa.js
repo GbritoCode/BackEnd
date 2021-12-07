@@ -14,7 +14,7 @@ export default class MovimentoCaixa extends Model {
         ParcelaId: DataTypes.INTEGER,
         recDesp: DataTypes.STRING,
         ano: DataTypes.INTEGER,
-        periodo: DataTypes.STRING,
+        periodo: DataTypes.INTEGER,
         valor: DataTypes.FLOAT,
         saldo: DataTypes.FLOAT,
         dtVenc: DataTypes.DATEONLY,

@@ -9,6 +9,7 @@ import Fornec from '../../models/fornec';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 import RecDesp from '../../models/recDesp';
 import liquidMovCaixaController from './liquidMovCaixaController';
+import { monthFullToNumber } from '../../../generalVar';
 
 class MovimentoCaixaController {
   async store(req, res) {
@@ -34,10 +35,14 @@ class MovimentoCaixaController {
           error: 'Não existe período criado para a data do apontamento',
         });
       }
-      const aberto = checkPeriodo.getDataValue('situacao');
-      if (aberto !== 'Aberto') {
+
+      const { situacao, nome } = checkPeriodo.dataValues;
+      body.periodo = monthFullToNumber[nome];
+      console.log(body);
+      if (situacao !== 'Aberto') {
         const colab = await Colab.findByPk(body.ColabId);
         if (!colab) {
+          console.log('err Colab');
           return res.status(500).json({ error: 'Erro interno de servidor' });
         }
         try {
@@ -55,9 +60,19 @@ class MovimentoCaixaController {
           }
           throw 'error';
         } catch (err) {
+          console.log(err);
           return res.status(401).json({
             error: `O período ${checkPeriodo.nome} já está fechado, contate o administrador`,
           });
+        }
+      } else {
+        try {
+          const mov = await MovimentoCaixa.create(body);
+
+          return res.json({ message: 'Documento Criado com Sucesso', mov });
+        } catch (err) {
+          console.log(err);
+          return res.status(500).json({ error: 'Erro Interno do Servidor' });
         }
       }
     } catch (err) {

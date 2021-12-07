@@ -8,54 +8,57 @@ import ContaContabils from '../../models/ContaContabil';
 
 class RecDespController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      EmpresaId: yup.string().required(),
-      desc: yup.string().required(),
-      recDesp: yup.string().required(),
-      tipoItem: yup.string().required(),
-      ContaContabilId: yup.string().required(),
-      CentroCustoId: yup.string().required(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation Fails' });
+    const { body } = req;
+    try {
+      const { recDesp } = await RecDesp.create(body);
+      return res.json({
+        recDesp, message: 'Rec/Desp Criada com Sucesso!',
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    const {
-      EmpresaId,
-      desc,
-      recDesp,
-      tipoItem,
-      CentroCustoId,
-      ContaContabilId,
-    } = await RecDesp.create(req.body);
-    return res.json({
-      EmpresaId,
-      desc,
-      recDesp,
-      tipoItem,
-      CentroCustoId,
-      ContaContabilId,
-    });
   }
 
   async get(req, res) {
-    if (req.query.rec) {
-      const recDesp = await RecDesp.findAll({
-        where: { recDesp: 'Rec' },
-        include: [{ model: Empresa }],
-      });
-      return res.json(recDesp);
-    }
+    const { params, query } = req;
+    try {
+      if (query.rec) {
+        const recDesp = await RecDesp.findAll({
+          where: { recDesp: 'Rec' },
+          include: [{ model: Empresa }],
+        });
+        return res.json(recDesp);
+      }
 
-    if (!req.params.id) {
-      const recDesp = await RecDesp.findAll({
-        include: [{ model: Empresa }, { model: ContaContabils }, { model: CentroCustos }],
-      });
+      if (query.desp === 'true') {
+        const recDesp = await RecDesp.findAll({
+          where: { recDesp: 'Desp' },
+          include: [{ model: Empresa }],
+        });
+        return res.json(recDesp);
+      }
+
+      if (query.apont === 'true') {
+        const recDesp = await RecDesp.findAll({
+          where: { lancFlag: true },
+          include: [{ model: Empresa }],
+        });
+        return res.json(recDesp);
+      }
+
+      if (!params.id) {
+        const recDesp = await RecDesp.findAll({
+          include: [{ model: Empresa }, { model: ContaContabils }, { model: CentroCustos }],
+        });
+        return res.json(recDesp);
+      }
+      const recDesp = await RecDesp.findOne({ where: { id: req.params.id } });
       return res.json(recDesp);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-    const recDesp = await RecDesp.findOne({ where: { id: req.params.id } });
-    return res.json(recDesp);
   }
 
   async update(req, res) {
