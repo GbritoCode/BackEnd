@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import LiquidMovCaixa from './liquidMovCaixa';
 
 export default class MovimentoCaixa extends Model {
   static init(sequelize) {
@@ -27,7 +28,8 @@ export default class MovimentoCaixa extends Model {
         sequelize,
       },
     );
-
+    MovimentoCaixa.hasMany(LiquidMovCaixa, { onDelete: 'cascade', hooks: true });
+    LiquidMovCaixa.belongsTo(MovimentoCaixa);
     return this;
   }
 }

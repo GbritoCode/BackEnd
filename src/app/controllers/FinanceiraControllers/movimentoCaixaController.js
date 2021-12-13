@@ -102,6 +102,7 @@ class MovimentoCaixaController {
 
   async update(req, res) {
     const { params, body } = req;
+    const { vlrSingle } = body;
     const checkPeriodo = await FechamentoPeriodo.findOne({
       where: {
         [Op.and]: [{
@@ -138,7 +139,7 @@ class MovimentoCaixaController {
               },
             });
 
-            await mov.update(body);
+            await mov.update(body.mov);
 
             return res.json(mov);
           } catch (err) {
@@ -177,9 +178,8 @@ class MovimentoCaixaController {
         error: 'Não existe período criado para a data de liquidação',
       });
     }
-    const dataInic = checkPeriodo.getDataValue('dataInic');
-    const dataFim = checkPeriodo.getDataValue('dataFim');
-    const aberto = checkPeriodo.getDataValue('situacao');
+    const { dataInic, dataFim } = checkPeriodo.dataValues;
+    const aberto = checkPeriodo.dataValues('situacao');
     let abertoAux = aberto;
 
     if (aberto === 'Aberto') {

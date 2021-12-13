@@ -36,7 +36,7 @@ class DespesasController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.desp) {
           return res.json(await Despesa.create(body));
         }
         throw 'error';
@@ -148,7 +148,7 @@ class DespesasController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.desp) {
           return res.json(await despesa.update(req.body));
         }
         throw 'error';

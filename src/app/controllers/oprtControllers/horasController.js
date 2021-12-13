@@ -40,7 +40,7 @@ class HoraController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.hrs) {
           return res.json(await Hora.create(req.body));
         }
         throw 'error';
@@ -185,7 +185,7 @@ class HoraController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.hrs) {
           return res.json(await hora.update(req.body));
         }
         throw 'error';

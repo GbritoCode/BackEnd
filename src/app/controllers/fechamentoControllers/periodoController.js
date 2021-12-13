@@ -118,7 +118,7 @@ class FechamentoPeriodoController {
     const periodoAnt = await FechamentoPeriodo.findByPk(req.params.id - 1);
 
     if (periodoAnt) {
-      if (periodoAnt.situacao === 'Aberto') {
+      if (periodoAnt.situacao !== 'Fechado') {
         return res.status(500).json({ error: 'O período anterior não está fechado, por favor feche antes de continuar' });
       }
     }
