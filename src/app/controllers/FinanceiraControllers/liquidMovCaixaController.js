@@ -5,18 +5,18 @@ import MovimentoCaixa from '../../models/movimentoCaixa';
 import RecDesp from '../../models/recDesp';
 
 class LiquidMovCaixaController {
-  async liquidaMov(modData) {
+  async liquidaMov(mvData) {
     try {
-      console.log(modData);
+      console.log(mvData);
       const movLiquid = await LiquidMovCaixa.create({
-        MovimentoCaixaId: modData.movId,
-        valor: modData.movSaldo,
-        dtLiqui: modData.dtLiqui,
-        recDesp: modData.recDesp,
+        MovimentoCaixaId: mvData.movId,
+        valor: mvData.valor,
+        dtLiqui: mvData.dtLiqui,
+        recDesp: mvData.recDesp,
       });
       return { status: true, movLiquid };
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return { status: false, err };
     }
   }

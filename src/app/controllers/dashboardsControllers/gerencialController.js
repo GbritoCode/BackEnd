@@ -1,0 +1,49 @@
+import { Op } from 'sequelize';
+import Cotacao from '../../models/cotacao';
+import Oportunidade from '../../models/oportunidade';
+
+class GerencialDashController {
+  async get(req, res) {
+    try {
+      const oportsArray = new Array(4).fill(0);
+      let oportsTotal = 0;
+      const oports = await Oportunidade.findAll({
+        where: {
+          fase: { [Op.lt]: 4 },
+        },
+        attributes: ['id', 'fase'],
+        include: [{ model: Cotacao, attributes: ['probVend'] }],
+      });
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const oport of oports) {
+        console.log(oport.Cotacaos[oport.Cotacaos.length - 1]);
+        if (oport.fase === 1) {
+          oportsArray[0] += 1;
+        } else if (oport.fase > 1 && oport.Cotacaos.length > 0) {
+          if (oport.Cotacaos[oport.Cotacaos.length - 1].probVend === 3) {
+            oportsArray[1] += 1;
+          } else if (oport.Cotacaos[oport.Cotacaos.length - 1].probVend === 2) {
+            oportsArray[2] += 1;
+          } else if (oport.Cotacaos[oport.Cotacaos.length - 1].probVend === 1) {
+            oportsArray[3] += 1;
+          }
+        }
+        oportsTotal += 1;
+      }
+
+      return res.status(200).json(
+        {
+          oportsGraph: {
+            oportsArray,
+            oportsTotal,
+          },
+        },
+      );
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ err: 'Erro Interno do Servidor' });
+    }
+  }
+}
+export default new GerencialDashController();

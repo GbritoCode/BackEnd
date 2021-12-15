@@ -102,7 +102,7 @@ class MovimentoCaixaController {
 
   async update(req, res) {
     const { params, body } = req;
-    const { vlrSingle } = body;
+
     const checkPeriodo = await FechamentoPeriodo.findOne({
       where: {
         [Op.and]: [{
@@ -158,60 +158,80 @@ class MovimentoCaixaController {
 
   async liquida(req, res) {
     const { body } = req;
-    console.log(body);
-    const checkPeriodo = await FechamentoPeriodo.findOne({
-      where: {
-        [Op.and]: [{
-          dataFim: {
-            [Op.gte]: body.dtLiqui,
+    const {
+      vlrSingle, dtLiqui, ColabId, mov, multiple,
+    } = body;
+    try {
+      const checkPeriodo = await FechamentoPeriodo.findOne({
+        where: {
+          [Op.and]: [{
+            dataFim: {
+              [Op.gte]: body.dtLiqui,
+            },
           },
+          {
+            dataInic: {
+              [Op.lte]: body.dtLiqui,
+            },
+          }],
         },
-        {
-          dataInic: {
-            [Op.lte]: body.dtLiqui,
-          },
-        }],
-      },
-    });
-    if (!checkPeriodo) {
-      return res.status(400).json({
-        error: 'Não existe período criado para a data de liquidação',
       });
-    }
-    const { dataInic, dataFim } = checkPeriodo.dataValues;
-    const aberto = checkPeriodo.dataValues('situacao');
-    let abertoAux = aberto;
+      if (!checkPeriodo) {
+        return res.status(400).json({
+          error: 'Não existe período criado para a data de liquidação',
+        });
+      }
+      const { dataInic, dataFim } = checkPeriodo.dataValues;
+      const aberto = checkPeriodo.getDataValue('situacao');
+      let abertoAux = aberto;
 
-    if (aberto === 'Aberto') {
-      for (const mov of body.movs) {
-        if (dataInic > mov.dtLiqui || dataFim < mov.dtLiqui) {
+      if (aberto === 'Aberto') {
+        if (dataInic > dtLiqui || dataFim < dtLiqui) {
           abertoAux = 'Fechado';
         }
       }
-    }
 
-    if (aberto !== 'Aberto' || abertoAux !== 'Aberto') {
-      const colab = await Colab.findByPk(body.ColabId);
-      if (!colab) {
-        return res.status(500).json({ error: 'Erro interno de servidor' });
-      }
-      try {
+      if (aberto !== 'Aberto' || abertoAux !== 'Aberto') {
+        const colab = await Colab.findByPk(body.ColabId);
+        if (!colab) {
+          return res.status(500).json({ error: 'Erro interno de servidor' });
+        }
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
         if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
           try {
-            for (const mov of body.movs) {
+            if (multiple === true) {
+              for (const movCx of body.movs) {
+                await liquidMovCaixaController.liquidaMov({
+                  movId: movCx.id,
+                  valor: movCx.saldo,
+                  dtLiqui,
+                  recDesp: movCx.recDesp,
+                });
+
+                await MovimentoCaixa.update({
+                  vlrPago: movCx.total,
+                  saldo: 0,
+                  dtLiqui,
+                  status: 3,
+                }, {
+                  where: { id: movCx.id },
+                });
+              }
+            } else if (multiple === false) {
               await liquidMovCaixaController.liquidaMov({
                 movId: mov.id,
-                valor: mov.saldo,
-                dtLiqui: body.dtLiqui,
+                valor: vlrSingle,
+                dtLiqui,
                 recDesp: mov.recDesp,
               });
 
               await MovimentoCaixa.update({
-                vlrPago: mov.total,
-                saldo: 0,
-                dtLiqui: body.dtLiqui,
+                vlrPago: vlrSingle,
+                saldo: mov.saldo > 0
+                  ? mov.saldo - vlrSingle
+                  : mov.saldo + vlrSingle,
+                dtLiqui,
                 status: 3,
               }, {
                 where: { id: mov.id },
@@ -225,36 +245,57 @@ class MovimentoCaixaController {
           }
         }
         throw 'error';
-      } catch (err) {
-        return res.status(401).json({
-          error: `O período ${checkPeriodo.nome} já está fechado, contate o administrador`,
-        });
-      }
-    } else {
-      try {
-        for (const mov of body.movs) {
-          await liquidMovCaixaController.liquidaMov({
+      } else {
+        if (multiple === true) {
+          console.log(multiple);
+          for (const movCx of body.movs) {
+            await liquidMovCaixaController.liquidaMov({
+              movId: movCx.id,
+              movSaldo: movCx.saldo,
+              dtLiqui: body.dtLiqui,
+              recDesp: movCx.recDesp,
+            });
+
+            await MovimentoCaixa.update({
+              vlrPago: movCx.total,
+              saldo: 0,
+              dtLiqui: body.dtLiqui,
+              status: 3,
+            }, {
+              where: { id: movCx.id },
+            });
+          }
+        } else if (multiple === false) {
+          console.log(mov.recDesp);
+          console.log(vlrSingle * -1);
+          console.log(typeof vlrSingle);
+          const liquid = await liquidMovCaixaController.liquidaMov({
             movId: mov.id,
-            movSaldo: mov.saldo,
-            dtLiqui: body.dtLiqui,
+            valor: mov.recDesp === 'Desp' ? (vlrSingle * -1) : vlrSingle,
+            dtLiqui,
             recDesp: mov.recDesp,
           });
 
-          await MovimentoCaixa.update({
-            vlrPago: mov.total,
-            saldo: 0,
-            dtLiqui: body.dtLiqui,
-            status: 3,
-          }, {
-            where: { id: mov.id },
-          });
+          if (!liquid.status) {
+            throw new Error(liquid.err);
+          }
+          // await MovimentoCaixa.update({
+          //   vlrPago: vlrSingle,
+          //   saldo: mov.saldo > 0
+          //     ? mov.saldo - vlrSingle
+          //     : mov.saldo + vlrSingle,
+          //   dtLiqui,
+          //   status: 3,
+          // }, {
+          //   where: { id: mov.id },
+          // });
         }
 
         return res.json({ error: 'Erro Interno do Servidor' });
-      } catch (err) {
-        console.log(err);
-        return res.status(500).json({ error: 'Erro Interno do Servidor' });
       }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
   }
 

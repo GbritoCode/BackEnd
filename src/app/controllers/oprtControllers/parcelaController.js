@@ -8,6 +8,8 @@ import Oportunidade from '../../models/oportunidade';
 import Cliente from '../../models/cliente';
 import ParcelaFiles from '../../models/parcelaFile';
 import MovimentoCaixa from '../../models/movimentoCaixa';
+import liquidMovCaixaController from '../FinanceiraControllers/liquidMovCaixaController';
+import RecDesp from '../../models/recDesp';
 
 class ParcelaController {
   async store(req, res) {
@@ -37,32 +39,8 @@ class ParcelaController {
     if (valueExists) {
       return res.status(400).json({ error: 'Essa parcela já existe' });
     }
-    const {
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    } = await Parcelas.create(req.body);
-    return res.json({
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    });
+    const parc = await Parcelas.create(req.body);
+    return res.json({ parc, message: 'Parcela Criada com Sucesso!' });
   }
 
   /*  async get(req, res) {
@@ -287,32 +265,11 @@ class ParcelaController {
       return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
     }
 
-    const {
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    } = await parc.update(req.body);
+    const parcUpdated = await parc.update(req.body);
 
     return res.json({
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
+      parcUpdated,
+      message: 'Parcela Atualizada com Sucesso!',
     });
   }
 
@@ -324,7 +281,10 @@ class ParcelaController {
       if (body.dtEmissao > body.dtVencimento) {
         return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
       }
-
+      console.log({
+        periodo: body.dtEmissao.split('-')[1],
+        ano: body.dtEmissao.split('-')[0],
+      });
       await MovimentoCaixa.create({
         EmpresaId: body.idEmpresa,
         RecDespId: body.idRecDesp,
@@ -333,7 +293,10 @@ class ParcelaController {
         ParcelaId: params.id,
         status: 1,
         valor: body.vlrParcela / 100,
+        saldo: body.vlrParcela / 100,
         dtVenc: body.dtVencimento,
+        periodo: body.dtEmissao.split('-')[1],
+        ano: body.dtEmissao.split('-')[0],
       });
 
       const parcUp = await parc.update(body);
@@ -354,6 +317,12 @@ class ParcelaController {
         return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
       }
 
+      const mv = await MovimentoCaixa.findOne({
+        where: {
+          ParcelaId: params.id,
+        },
+        include: [{ model: RecDesp }],
+      });
       await MovimentoCaixa.update({
         vlrPago: body.vlrPago / 100,
         saldo: body.saldo / 100,
@@ -361,6 +330,13 @@ class ParcelaController {
         dtLiqui: body.dtLiquidacao,
       }, {
         where: { ParcelaId: params.id },
+      });
+
+      await liquidMovCaixaController.liquidaMov({
+        movId: mv.id,
+        valor: body.vlrPago / 100,
+        dtLiqui: body.dtLiquidacao,
+        recDesp: mv.RecDesp.recDesp,
       });
 
       const parcUp = await parc.update(body);
