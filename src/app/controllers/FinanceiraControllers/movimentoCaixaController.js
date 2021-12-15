@@ -279,16 +279,16 @@ class MovimentoCaixaController {
           if (!liquid.status) {
             throw new Error(liquid.err);
           }
-          // await MovimentoCaixa.update({
-          //   vlrPago: vlrSingle,
-          //   saldo: mov.saldo > 0
-          //     ? mov.saldo - vlrSingle
-          //     : mov.saldo + vlrSingle,
-          //   dtLiqui,
-          //   status: 3,
-          // }, {
-          //   where: { id: mov.id },
-          // });
+          await MovimentoCaixa.update({
+            vlrPago: vlrSingle,
+            saldo: mov.saldo > 0
+              ? mov.saldo - vlrSingle
+              : mov.saldo + vlrSingle,
+            dtLiqui,
+            status: 3,
+          }, {
+            where: { id: mov.id },
+          });
         }
 
         return res.json({ error: 'Erro Interno do Servidor' });
