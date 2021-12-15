@@ -165,7 +165,9 @@ class FechamentoPeriodoController {
     const colabs = await Colab.findAll({ include: [{ model: Fornec }] });
 
     const param = await Parametros.findOne();
-    const { pgmtoVenc, compHrs, compFlag } = param;
+    const {
+      pgmtoVenc, compHrs, compFlag, RecDespCompHrs,
+    } = param;
 
     const today = new Date();
     if (today.getMonth() === 11) {
@@ -417,7 +419,7 @@ class FechamentoPeriodoController {
             await mov.update(
               {
                 EmpresaId: fechamento.EmpresaId,
-                RecDespId: 2,
+                RecDespId: RecDespCompHrs,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
@@ -437,7 +439,7 @@ class FechamentoPeriodoController {
             await MovimentoCaixa.create(
               {
                 EmpresaId: fechamento.EmpresaId,
-                RecDespId: 2,
+                RecDespId: RecDespCompHrs,
                 ColabCreate: 1,
                 ColabPgmto: colab.id,
                 valor: (saldoHrs / 60) * compRec[i].colabVlrHr * -1,
