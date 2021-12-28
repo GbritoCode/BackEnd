@@ -231,6 +231,31 @@ class ParcelaController {
         }
         return res.json(parc);
       }
+      if (req.query.tipo === 'liquidadas') {
+        const parc = await Parcelas.findAll({
+          where: {
+            [Op.and]: [{
+              [Op.or]: [{ situacao: 4 }],
+            }],
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          order: [[Oportunidade, Cliente, 'nomeAbv', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
+        });
+        for (let i = 0; i < parc.length; i++) {
+          if (parc[i].dataValues.dtVencimento) {
+            const parcs = parc[i].dataValues.dtVencimento.split('-');
+            parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+
+            const dataEmissao = parc[i].dataValues.dtEmissao.split('-');
+            parc[i].dataValues.dtEmissao = `${dataEmissao[2]}/${dataEmissao[1]}/${dataEmissao[0]}`;
+
+            let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
+            createdFormat = createdFormat.split('-');
+            parc[i].dataValues.createdAt = `${createdFormat[2]}/${createdFormat[1]}/${createdFormat[0]}`;
+          }
+        }
+        return res.json(parc);
+      }
     }
     if (req.params.id && req.params.update) {
       const parc = await Parcelas.findOne({
@@ -266,9 +291,16 @@ class ParcelaController {
     }
 
     const parcUpdated = await parc.update(req.body);
+    const mvCaixaUpdated = await MovimentoCaixa.update({
+      dtVenc: req.body.dtVencimento,
+    },
+    {
+      where: { ParcelaId: req.params.id },
+    });
 
     return res.json({
       parcUpdated,
+      mvCaixaUpdated,
       message: 'Parcela Atualizada com Sucesso!',
     });
   }

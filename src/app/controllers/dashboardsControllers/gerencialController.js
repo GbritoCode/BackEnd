@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import Cliente from '../../models/cliente';
 import Cotacao from '../../models/cotacao';
 import Oportunidade from '../../models/oportunidade';
 
@@ -32,12 +33,20 @@ class GerencialDashController {
         oportsTotal += 1;
       }
 
+      const oportsForTable = await Oportunidade.findAll({
+        where: {
+          fase: 4,
+        },
+        include: [{ model: Cliente }],
+      });
+
       return res.status(200).json(
         {
           oportsGraph: {
             oportsArray,
             oportsTotal,
           },
+          oportsForTable,
         },
       );
     } catch (err) {
