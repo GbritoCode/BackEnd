@@ -4,6 +4,7 @@ import sequelize, { Op } from 'sequelize';
 import * as yup from 'yup';
 import { monthFullToNumber } from '../../../generalVar';
 import Colab from '../../models/colab';
+import Despesas from '../../models/despesas';
 import Empresa from '../../models/empresa';
 import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
@@ -11,7 +12,9 @@ import Fornec from '../../models/fornec';
 import Horas from '../../models/horas';
 import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
+import Oportunidade from '../../models/oportunidade';
 import Parametros from '../../models/parametros';
+import RecDesp from '../../models/recDesp';
 import Recurso from '../../models/recurso';
 import ResultPeriodo from '../../models/resultPeriodo';
 import ResultPeriodoGerencial from '../../models/resultPeriodoGerencial';
@@ -123,13 +126,43 @@ class FechamentoPeriodoController {
       }
     }
 
+    const emp = await Empresa.findOne({
+      where: {
+        id: fechamento.getDataValue('EmpresaId'),
+      },
+    });
+    console.log(emp);
+
     let nextMonth;
     const data = [];
+
+    const periodMonth = monthFullToNumber[fechamento.nome];
+
+    const colabs = await Colab.findAll({ include: [{ model: Fornec }] });
+
+    const param = await Parametros.findOne();
+    const {
+      pgmtoVenc, compHrs, compFlag, RecDespCompHrs,
+    } = param;
+
+    console.log(periodMonth);
+    if (periodMonth === 12) {
+      nextMonth = new Date(parseInt(fechamento.ano, 10) + 1, 0, pgmtoVenc);
+    } else {
+      nextMonth = new Date(fechamento.ano, periodMonth + 1, pgmtoVenc);
+    }
+    // return res.json;
+    await FechamentoCaixaMensal.destroy({
+      where: {
+        periodo: periodMonth,
+        ano: fechamento.ano,
+      },
+    });
 
     await MovimentoCaixa.destroy({
       where: {
         ColabPgmto: { [Op.not]: null },
-        periodo: monthFullToNumber[fechamento.nome],
+        periodo: periodMonth,
         ano: fechamento.ano,
       },
     });
@@ -162,19 +195,6 @@ class FechamentoPeriodoController {
         periodo: fechamento.nome, ano: fechamento.ano,
       },
     });
-    const colabs = await Colab.findAll({ include: [{ model: Fornec }] });
-
-    const param = await Parametros.findOne();
-    const {
-      pgmtoVenc, compHrs, compFlag, RecDespCompHrs,
-    } = param;
-
-    const today = new Date();
-    if (today.getMonth() === 11) {
-      nextMonth = new Date(today.getFullYear() + 1, 0, pgmtoVenc);
-    } else {
-      nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, pgmtoVenc);
-    }
 
     await Colab.update({ PeriodToken: '' }, { where: { id: { [Op.not]: null } } });
 
@@ -209,7 +229,7 @@ class FechamentoPeriodoController {
     }
 
     // --------------------despesas
-    const despesas = await fechamento.sequelize.models.Despesas.findAll({
+    const despesas = await Despesas.findAll({
       where: {
         dataDespesa: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
       },
@@ -306,45 +326,26 @@ class FechamentoPeriodoController {
             },
           },
         );
-
-        const mov = await MovimentoCaixa.findOne({ where: { desc: `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}` } });
-        if (mov) {
-          await mov.update(
-            {
-              EmpresaId: fechamento.EmpresaId,
-              RecDespId: colabs.find((arr) => arr.id === entry[1].ColabId).Fornec.RecDespId,
-              ColabCreate: 1,
-              ColabPgmto: entry[1].ColabId,
-              valor: (entry[1].totalReceb * -1) / 100,
-              saldo: (entry[1].totalReceb * -1) / 100,
-              dtVenc: nextMonth,
-              status: 1,
-              ano: fechamento.ano,
-              periodo: monthFullToNumber[fechamento.nome],
-              recDesp: 'Desp',
-              autoCreated: true,
-              desc:
-               `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-            },
-            { returning: true },
-          );
-        } else if (entry[1].totalReceb > 0) {
+        const colabAtual = colabs.find((arr) => arr.id === entry[1].ColabId);
+        if (entry[1].totalReceb - entry[1].totalDesp > 0) {
+          console.log(colabAtual.Fornec.getDataValue('id'));
           await MovimentoCaixa.create(
             {
               EmpresaId: fechamento.EmpresaId,
-              RecDespId: colabs.find((arr) => arr.id === entry[1].ColabId).Fornec.RecDespId,
+              RecDespId: colabAtual.Fornec.getDataValue('RecDespId'),
+              FornecId: colabAtual.Fornec.getDataValue('id'),
               ColabCreate: 1,
               ColabPgmto: entry[1].ColabId,
-              valor: (entry[1].totalReceb * -1) / 100,
-              saldo: (entry[1].totalReceb * -1) / 100,
+              valor: ((entry[1].totalReceb - entry[1].totalDesp) * -1),
+              saldo: ((entry[1].totalReceb - entry[1].totalDesp) * -1),
               dtVenc: nextMonth,
               status: 1,
               ano: fechamento.ano,
-              periodo: monthFullToNumber[fechamento.nome],
+              periodo: periodMonth,
               recDesp: 'Desp',
               autoCreated: true,
               desc:
-                 `Valor referente a horas e despesas lançadas pelo colaborador ${colabs.find((arr) => arr.id === entry[1].ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+                 `Valor referente a horas lançadas pelo colaborador ${colabAtual.nome} no período ${fechamento.nome} - ${fechamento.ano}`,
             },
             { returning: true },
           );
@@ -353,6 +354,48 @@ class FechamentoPeriodoController {
       });
     } else {
       await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
+    }
+
+    const despesasSeparate = await Despesas.findAll(
+      {
+        where: {
+          dataDespesa: { [Op.between]: [fechamento.dataInic, fechamento.dataFim] },
+        },
+        attributes: [
+          'ColabId',
+          // 'RecDesp.id',
+          [sequelize.fn('sum', sequelize.col('valorDespesa')), 'total'],
+        ],
+        include: [{ model: RecDesp }],
+        group: ['ColabId', 'RecDesp.id'],
+      },
+    );
+    console.log('teste');
+    // return res.json(despesasSeparate);
+
+    // eslint-disable-next-line guard-for-in
+    for (let i = 0; i < despesasSeparate.length; i++) {
+      const desp = despesasSeparate[i].dataValues;
+      await MovimentoCaixa.create(
+        {
+          EmpresaId: fechamento.EmpresaId,
+          RecDespId: desp.RecDesp.id,
+          FornecId: colabs.find((arr) => arr.id === desp.ColabId).Fornec.id,
+          ColabCreate: 1,
+          ColabPgmto: desp.ColabId,
+          valor: desp.total / -100,
+          saldo: desp.total / -100,
+          dtVenc: nextMonth,
+          status: 1,
+          ano: fechamento.ano,
+          periodo: periodMonth,
+          recDesp: 'Desp',
+          autoCreated: true,
+          desc:
+           `Valor referente a despesas ${desp.RecDesp.desc} do colaborador ${colabs.find((arr) => arr.id === desp.ColabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+        },
+        { returning: true },
+      );
     }
 
     if (compFlag) {
@@ -364,44 +407,41 @@ class FechamentoPeriodoController {
              [
                {
                  model: Colab,
-                 include:
-                  [
-                    {
-                      model: ResultPeriodo,
-                      where: { ano: fechamento.ano, periodo: fechamento.nome },
-                      required: false,
-                    },
-                  ],
+               },
+               {
+                 model: Oportunidade,
+                 where: { fase: 4 },
                },
              ],
         },
       );
       for (let i = 0; i < compRec.length; i++) {
-        const colab = compRec[i].Colab;
         let hrsLancadas = 0;
-        colab.ResultPeriodos.forEach(async (periodo) => {
-          hrsLancadas += periodo.dataValues.totalHrs;
-        });
+        const colabId = compRec[i].Colab.id;
+        for (let j = 0; j < data.length; j++) {
+          if (data[j].ColabId === colabId) {
+            hrsLancadas = data[j].totalHrs;
+          }
+        }
 
         const saldoHrs = totalHrsMes - hrsLancadas;
 
         if (saldoHrs > 0) {
           await Horas.create({
             OportunidadeId: compRec[i].OportunidadeId,
-            ColabId: colab.id,
+            ColabId: colabId,
             RecursoId: compRec[i].id,
-            dataAtivd: '2021-11-15',
+            dataAtivd: `${fechamento.ano}-${periodMonth}-01`,
             horaInic: '00:00',
             horaIntrv: '00:00',
             horaFim: '00:00',
-            dataLancamento: '2021-11-15',
+            dataLancamento: `${fechamento.ano}-${periodMonth}-01`,
             totalApont: saldoHrs,
-            solicitante: 'Juliano',
+            solicitante: emp.getDataValue('nome'),
             AreaId: 1,
             compFlag: 1,
             desc: `Lançamento de Horas complementares ${saldoHrs / 60}`,
           });
-          const mov = await MovimentoCaixa.findOne({ where: { desc: `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}` } });
           await ResultPeriodo.increment(
             {
               totalHrs: saldoHrs,
@@ -409,53 +449,33 @@ class FechamentoPeriodoController {
             },
             {
               where: {
-                [Op.and]: [{ ColabId: colab.id },
+                [Op.and]: [{ ColabId: colabId },
                   { periodo: fechamento.nome }, { ano: fechamento.ano }],
               },
             },
             { returning: true },
           );
-          if (mov) {
-            await mov.update(
-              {
-                EmpresaId: fechamento.EmpresaId,
-                RecDespId: RecDespCompHrs,
-                ColabCreate: 1,
-                ColabPgmto: colab.id,
-                valor: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1) / 100,
-                saldo: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1) / 100,
-                dtVenc: nextMonth,
-                status: 1,
-                ano: fechamento.ano,
-                periodo: monthFullToNumber[fechamento.nome],
-                recDesp: 'Desp',
-                autoCreated: true,
-                desc:
-               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-              },
-              { returning: true },
-            );
-          } else {
-            await MovimentoCaixa.create(
-              {
-                EmpresaId: fechamento.EmpresaId,
-                RecDespId: RecDespCompHrs,
-                ColabCreate: 1,
-                ColabPgmto: colab.id,
-                valor: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1) / 100,
-                saldo: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1) / 100,
-                dtVenc: nextMonth,
-                status: 1,
-                ano: fechamento.ano,
-                periodo: monthFullToNumber[fechamento.nome],
-                recDesp: 'Desp',
-                autoCreated: true,
-                desc:
-               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colab.id).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-              },
-              { returning: true },
-            );
-          }
+
+          await MovimentoCaixa.create(
+            {
+              EmpresaId: fechamento.EmpresaId,
+              RecDespId: RecDespCompHrs,
+              FornecId: colabs.find((arr) => arr.id === colabId).Fornec.getDataValue('id'),
+              ColabCreate: 1,
+              ColabPgmto: colabId,
+              valor: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1),
+              saldo: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1),
+              dtVenc: nextMonth,
+              status: 1,
+              ano: fechamento.ano,
+              periodo: periodMonth,
+              recDesp: 'Desp',
+              autoCreated: true,
+              desc:
+               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+            },
+            { returning: true },
+          );
         }
       }
     }
@@ -535,7 +555,7 @@ class FechamentoPeriodoController {
       const fechMes = await FechamentoCaixaMensal.create({
         EmpresaId: fechamento.EmpresaId,
         ano: fechamento.ano,
-        periodo: monthFullToNumber[fechamento.nome],
+        periodo: periodMonth,
         entrada: entradaReal,
         saida: saidaReal,
         saldoMes: saldoReal,
