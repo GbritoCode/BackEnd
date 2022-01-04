@@ -88,6 +88,7 @@ class MovimentoCaixaController {
           { model: RecDesp },
           'ColabCreated',
           'ColabLiquid',
+          'ColabPgmt',
           { model: Fornec },
           { model: Cliente },
         ],
