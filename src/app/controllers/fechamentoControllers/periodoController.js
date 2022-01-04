@@ -149,7 +149,7 @@ class FechamentoPeriodoController {
     if (periodMonth === 12) {
       nextMonth = new Date(parseInt(fechamento.ano, 10) + 1, 0, pgmtoVenc);
     } else {
-      nextMonth = new Date(fechamento.ano, periodMonth + 1, pgmtoVenc);
+      nextMonth = new Date(fechamento.ano, periodMonth, pgmtoVenc);
     }
     // return res.json;
     await FechamentoCaixaMensal.destroy({
