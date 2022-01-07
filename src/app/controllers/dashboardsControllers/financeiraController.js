@@ -172,7 +172,7 @@ class FinanceiraController {
         {
           where: {
             ano: mes === '01' ? parseInt(year, 10) - 1 : parseInt(year, 10),
-            periodo: parseInt(mes - 1, 10),
+            periodo: mes === '01' ? 12 : parseInt(mes - 1, 10),
           },
         },
       );
