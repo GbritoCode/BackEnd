@@ -118,12 +118,12 @@ class FinanceiraController {
           array[i].desp = 0;
         }
 
-        arraySaldo[i] = array[i].saldoReal;
-        arraySaldoPrev[i] = array[i].saldoPrev;
-        arrayDesp[i] = array[i].desp;
-        arrayRec[i] = array[i].rec;
-        somaRec += array[i].rec;
-        somaDesp += array[i].desp;
+        arraySaldo[i] = array[i].saldoReal.tofixed(2);
+        arraySaldoPrev[i] = array[i].saldoPrev.tofixed(2);
+        arrayDesp[i] = array[i].desp.tofixed(2);
+        arrayRec[i] = array[i].rec.tofixed(2);
+        somaRec += array[i].rec.tofixed(2);
+        somaDesp += array[i].desp.tofixed(2);
       }
       somaSaldo = somaRec + somaDesp;
 
@@ -257,13 +257,13 @@ class FinanceiraController {
         }
         array[i].dia = i;
 
-        arraySaldo[i] = array[i].saldoReal;
-        arraySaldoPrev[i] = array[i].saldoPrev;
-        arrayDesp[i] = array[i].desp;
-        arrayRec[i] = array[i].rec;
+        arraySaldo[i] = array[i].saldoReal.tofixed(2);
+        arraySaldoPrev[i] = array[i].saldoPrev.tofixed(2);
+        arrayDesp[i] = array[i].desp.tofixed(2);
+        arrayRec[i] = array[i].rec.tofixed(2);
         if (i > 0) {
-          somaRec += array[i].rec;
-          somaDesp += array[i].desp;
+          somaRec += array[i].rec.tofixed(2);
+          somaDesp += array[i].desp.tofixed(2);
         }
       }
       somaSaldo = somaRec + somaDesp;
