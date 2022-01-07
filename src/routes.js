@@ -64,6 +64,7 @@ import movimentoCaixaController from './app/controllers/FinanceiraControllers/mo
 import fechamentoCaixaMensControler from './app/controllers/FinanceiraControllers/fechamentoCaixaMensControler';
 import financeiraController from './app/controllers/dashboardsControllers/financeiraController';
 import gerencialDashController from './app/controllers/dashboardsControllers/gerencialController';
+import Recurso from './app/models/recurso';
 // import ResultPeriodo from './app/models/resultPeriodo';
 // import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
 
@@ -75,6 +76,60 @@ const uploadCotacao = multer(oportunidadeFile);
 
 routes.get('/', async (req, res) => {
   console.log('ok');
+
+  try {
+    const rec = await Recurso.findAll({
+      attributes: ['id', 'colabVlrHr', 'custoPrev'],
+    });
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const recurso of rec) {
+      const { id, colabVlrHr, custoPrev } = recurso.dataValues;
+      console.log(id);
+      console.log(colabVlrHr);
+      await Recurso.update({
+        colabVlrHrAux: colabVlrHr / 100,
+        custoPrevAux: custoPrev / 100,
+      }, {
+        where: { id },
+      });
+    }
+
+    return res.json(rec);
+  } catch (err) {
+    console.log(err);
+    return res.json('erro');
+  }
+
+  return res.json('ok');
+});
+
+routes.get('/2', async (req, res) => {
+  console.log('ok');
+
+  try {
+    const rec = await Recurso.findAll({
+      attributes: ['id', 'colabVlrHrAux', 'custoPrevAux'],
+    });
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const recurso of rec) {
+      const { id, colabVlrHrAux, custoPrevAux } = recurso.dataValues;
+
+      await Recurso.update({
+        colabVlrHr: colabVlrHrAux,
+        custoPrev: custoPrevAux,
+      }, {
+        where: { id },
+      });
+    }
+
+    return res.json(rec);
+  } catch (err) {
+    console.log(err);
+    return res.json('erro');
+  }
+
   return res.json('ok');
 });
 

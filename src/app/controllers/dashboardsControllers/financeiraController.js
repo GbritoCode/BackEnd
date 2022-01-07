@@ -171,7 +171,7 @@ class FinanceiraController {
       const fechMes = await FechamentoCaixaMensal.findOne(
         {
           where: {
-            ano: parseInt(year, 10),
+            ano: mes === 1 ? parseInt(year, 10) - 1 : parseInt(year, 10),
             periodo: parseInt(mes - 1, 10),
           },
         },
