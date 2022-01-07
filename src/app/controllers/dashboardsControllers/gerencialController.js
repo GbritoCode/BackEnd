@@ -37,8 +37,23 @@ class GerencialDashController {
         where: {
           fase: 4,
         },
-        include: [{ model: Cliente }],
+        include: [
+          {
+            model: Cliente,
+          },
+          {
+            model: Cotacao,
+            order: [['id', 'DESC']],
+            separate: true,
+          },
+        ],
       });
+
+      for (let i = 0; i < oportsForTable.length; i++) {
+        if (oportsForTable[i].Cotacaos[i] !== undefined) {
+          oportsForTable[i].dataValues.percentHrs = (oportsForTable[i].totalHoras / 60) * 100 / oportsForTable[i].Cotacaos[0].hrsPrevst;
+        }
+      }
 
       return res.status(200).json(
         {

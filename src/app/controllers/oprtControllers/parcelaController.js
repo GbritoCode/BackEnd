@@ -309,6 +309,7 @@ class ParcelaController {
     try {
       const { body, params } = req;
       const parc = await Parcelas.findByPk(params.id);
+      console.log(req.body);
 
       if (body.dtEmissao > body.dtVencimento) {
         return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
@@ -334,6 +335,28 @@ class ParcelaController {
       const parcUp = await parc.update(body);
 
       return res.json({ parc: parcUp, message: 'Parcela atualizada com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
+  }
+
+  async buscaPedCli(req, res) {
+    try {
+      const { oportId } = req.params;
+      const parc = await Parcelas.findOne({
+        where: {
+          pedidoCliente: { [Op.ne]: null },
+          OportunidadeId: oportId,
+        },
+      });
+
+      if (parc) {
+        return res.status(200).json({ parc });
+      } if (!parc) {
+        return res.status(404);
+      }
+      return false;
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno do Servidor' });

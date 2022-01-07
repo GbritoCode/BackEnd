@@ -199,6 +199,7 @@ routes.get('/recurso/:id?/:update?', recursoController.get);
 routes.put('/recurso/:id?', recursoController.update);
 routes.delete('/recurso/:id?', recursoController.delete);
 routes.post('/parcela', parcelaController.store);
+routes.get('/parcela_ped/:oportId/', parcelaController.buscaPedCli);
 routes.get('/parcela/:id?/:update?', parcelaController.get);
 routes.put('/parcela/:id?', parcelaController.update);
 routes.put('/parcela_fatura/:id?', parcelaController.fatura);
