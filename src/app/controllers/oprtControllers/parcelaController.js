@@ -356,7 +356,7 @@ class ParcelaController {
       } if (!parc) {
         return res.status(404);
       }
-      return false;
+      throw new Error();
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno do Servidor' });
