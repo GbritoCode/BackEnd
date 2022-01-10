@@ -350,11 +350,14 @@ class ParcelaController {
           OportunidadeId: oportId,
         },
       });
-      console.log(oportId);
-      console.log(parc);
+
       if (parc) {
+        console.log('parc');
+        console.log(!parc);
         return res.status(200).json({ parc });
       } if (!parc) {
+        console.log('!parc');
+        console.log(!parc);
         return res.status(404);
       }
       throw new Error();
