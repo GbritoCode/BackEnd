@@ -352,12 +352,8 @@ class ParcelaController {
       });
 
       if (parc) {
-        console.log('parc');
-        console.log(!parc);
         return res.status(200).json({ parc });
       } if (!parc) {
-        console.log('!parc');
-        console.log(!parc);
         return res.status(404).json({ error: 'Parcela não Encontrada' });
       }
       throw new Error();

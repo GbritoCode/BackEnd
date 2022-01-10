@@ -18,7 +18,6 @@ class GerencialDashController {
 
       // eslint-disable-next-line no-restricted-syntax
       for (const oport of oports) {
-        console.log(oport.Cotacaos[oport.Cotacaos.length - 1]);
         if (oport.fase === 1) {
           oportsArray[0] += 1;
         } else if (oport.fase > 1 && oport.Cotacaos.length > 0) {
@@ -50,7 +49,7 @@ class GerencialDashController {
       });
 
       for (let i = 0; i < oportsForTable.length; i++) {
-        if (oportsForTable[i].Cotacaos[i] !== undefined) {
+        if (oportsForTable[i].Cotacaos[0] !== undefined) {
           oportsForTable[i].dataValues.percentHrs = (oportsForTable[i].totalHoras / 60) * 100 / oportsForTable[i].Cotacaos[0].hrsPrevst;
         }
       }
