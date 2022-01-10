@@ -50,7 +50,9 @@ class GerencialDashController {
 
       for (let i = 0; i < oportsForTable.length; i++) {
         if (oportsForTable[i].Cotacaos[0] !== undefined) {
-          oportsForTable[i].dataValues.percentHrs = (oportsForTable[i].totalHoras / 60) * 100 / oportsForTable[i].Cotacaos[0].hrsPrevst;
+          oportsForTable[i].dataValues.percentHrs = (
+            ((oportsForTable[i].totalHoras / 60) * 100) / oportsForTable[i].Cotacaos[0].hrsPrevst
+          ).toFixed(2);
         }
       }
 
