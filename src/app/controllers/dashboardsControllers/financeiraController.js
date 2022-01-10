@@ -122,8 +122,8 @@ class FinanceiraController {
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
         arrayDesp[i] = (array[i].desp).toFixed(2);
         arrayRec[i] = (array[i].rec).toFixed(2);
-        somaRec += (array[i].rec).toFixed(2);
-        somaDesp += (array[i].desp).toFixed(2);
+        somaRec += (array[i].rec);
+        somaDesp += (array[i].desp);
       }
       somaSaldo = somaRec + somaDesp;
 
@@ -143,6 +143,10 @@ class FinanceiraController {
         arrayRec.splice(0, 6);
         arrayDesp.splice(0, 6);
       }
+
+      somaSaldo = somaSaldo.toFixed(2);
+      somaRec = somaRec.toFixed(2);
+      somaDesp = somaDesp.toFixed(2);
 
       return res.json({
         arraySaldo, arraySaldoPrev, arrayRec, arrayDesp, somaSaldo, somaRec, somaDesp,
@@ -259,11 +263,11 @@ class FinanceiraController {
         console.log(array[i].saldoReal);
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
-        arrayDesp[i] = (array[i].desp).toFixed(2);
-        arrayRec[i] = (array[i].rec).toFixed(2);
+        arrayDesp[i] = (array[i].desp);
+        arrayRec[i] = (array[i].rec);
         if (i > 0) {
-          somaRec += (array[i].rec).toFixed(2);
-          somaDesp += (array[i].desp).toFixed(2);
+          somaRec += (array[i].rec);
+          somaDesp += (array[i].desp);
         }
       }
       somaSaldo = somaRec + somaDesp;
@@ -278,6 +282,10 @@ class FinanceiraController {
         arrayRec.splice(0, 15);
         arrayDesp.splice(0, 15);
       }
+
+      somaSaldo = somaSaldo.toFixed(2);
+      somaRec = somaRec.toFixed(2);
+      somaDesp = somaDesp.toFixed(2);
 
       return res.json({
         arraySaldo, arraySaldoPrev, arrayRec, arrayDesp, somaSaldo, somaRec, somaDesp,
