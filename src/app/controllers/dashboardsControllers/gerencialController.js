@@ -49,11 +49,13 @@ class GerencialDashController {
       });
 
       for (let i = 0; i < oportsForTable.length; i++) {
-        if (oportsForTable[i].Cotacaos[0] !== undefined) {
-          oportsForTable[i].dataValues.percentHrs = Math.floor(
-            ((oportsForTable[i].totalHoras / 60) * 100) / oportsForTable[i].Cotacaos[0].hrsPrevst,
-          );
+        if (oportsForTable[i].Cotacaos[0] === undefined) {
+          oportsForTable.splice(i, 1);
         }
+
+        oportsForTable[i].dataValues.percentHrs = Math.floor(
+          ((oportsForTable[i].totalHoras / 60) * 100) / oportsForTable[i].Cotacaos[0].hrsPrevst,
+        );
       }
 
       return res.status(200).json(
