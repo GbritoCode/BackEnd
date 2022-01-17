@@ -203,12 +203,16 @@ class MovimentoCaixaController {
           try {
             if (multiple === true) {
               for (const movCx of body.movs) {
-                await liquidMovCaixaController.liquidaMov({
+                const liquid = await liquidMovCaixaController.liquidaMov({
                   movId: movCx.id,
                   valor: movCx.saldo,
                   dtLiqui,
                   recDesp: movCx.recDesp,
                 });
+
+                if (!liquid.status) {
+                  throw new Error(liquid.err);
+                }
 
                 await MovimentoCaixa.update({
                   vlrPago: movCx.total,
@@ -250,12 +254,16 @@ class MovimentoCaixaController {
         if (multiple === true) {
           console.log(multiple);
           for (const movCx of body.movs) {
-            await liquidMovCaixaController.liquidaMov({
+            const liquid = await liquidMovCaixaController.liquidaMov({
               movId: movCx.id,
-              movSaldo: movCx.saldo,
+              valor: movCx.saldo,
               dtLiqui: body.dtLiqui,
               recDesp: movCx.recDesp,
             });
+
+            if (!liquid.status) {
+              throw new Error(liquid.err);
+            }
 
             await MovimentoCaixa.update({
               vlrPago: movCx.total,
@@ -267,9 +275,6 @@ class MovimentoCaixaController {
             });
           }
         } else if (multiple === false) {
-          console.log(mov.recDesp);
-          console.log(vlrSingle * -1);
-          console.log(typeof vlrSingle);
           const liquid = await liquidMovCaixaController.liquidaMov({
             movId: mov.id,
             valor: mov.recDesp === 'Desp' ? (vlrSingle * -1) : vlrSingle,

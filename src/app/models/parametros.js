@@ -22,6 +22,7 @@ export default class Parametros extends Model {
         pgmtoVenc: DataTypes.INTEGER,
         compFlag: DataTypes.BOOLEAN,
         RecDespCompHrs: DataTypes.INTEGER,
+        color: DataTypes.STRING,
       },
       {
         sequelize,

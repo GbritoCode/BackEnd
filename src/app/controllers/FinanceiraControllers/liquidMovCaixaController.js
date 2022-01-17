@@ -8,12 +8,16 @@ class LiquidMovCaixaController {
   async liquidaMov(mvData) {
     try {
       console.log(mvData);
+      console.log('---');
       const movLiquid = await LiquidMovCaixa.create({
         MovimentoCaixaId: mvData.movId,
         valor: mvData.valor,
         dtLiqui: mvData.dtLiqui,
         recDesp: mvData.recDesp,
       });
+      console.log('---');
+      console.log(movLiquid);
+      console.log('---');
       return { status: true, movLiquid };
     } catch (err) {
       // console.log(err);

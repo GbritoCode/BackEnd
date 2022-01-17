@@ -64,6 +64,7 @@ import movimentoCaixaController from './app/controllers/FinanceiraControllers/mo
 import fechamentoCaixaMensControler from './app/controllers/FinanceiraControllers/fechamentoCaixaMensControler';
 import financeiraController from './app/controllers/dashboardsControllers/financeiraController';
 import gerencialDashController from './app/controllers/dashboardsControllers/gerencialController';
+import clienteDashController from './app/controllers/dashboardsControllers/clienteController';
 import Recurso from './app/models/recurso';
 // import ResultPeriodo from './app/models/resultPeriodo';
 // import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
@@ -137,6 +138,7 @@ routes.get('/2', async (req, res) => {
 
 routes.get('/comercialDash', comercialController.get);
 routes.get('/gerencialDash', gerencialDashController.get);
+routes.get('/clienteDash', clienteDashController.get);
 routes.get('/financeiraDash_anual', financeiraController.getAnual);
 routes.get('/financeiraDash_mensal', financeiraController.getMensal);
 routes.post('/oportExcel', oportToExcel.store);
