@@ -30,6 +30,7 @@ export default class Cliente extends Model {
         ramo: DataTypes.STRING,
         setor: DataTypes.STRING,
         qtdFuncionarios: DataTypes.STRING,
+        sigla: DataTypes.STRING,
       },
       {
         sequelize,
