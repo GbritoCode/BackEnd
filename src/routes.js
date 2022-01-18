@@ -235,6 +235,18 @@ routes.get('/cliSigla', async (req, res) => {
         }, {
           where: { id },
         });
+      } else if (nomeAbv === 'PARAISO001') {
+        await Cliente.update({
+          sigla: 'PRS',
+        }, {
+          where: { id },
+        });
+      } else if (nomeAbv === 'PARLA01') {
+        await Cliente.update({
+          sigla: 'PRL',
+        }, {
+          where: { id },
+        });
       } else {
         const sig = nomeAbv.slice(0, 3);
         await Cliente.update({
