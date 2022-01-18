@@ -265,12 +265,51 @@ routes.get('/cliSigla', async (req, res) => {
   return res.json('ok');
 });
 
-routes.get('/parcToMvCx', async (req, res) => {
+routes.get('/parcToMvCx_aberta', async (req, res) => {
   try {
     const parcelas = await Parcela.findAll(
       {
         where: {
           situacao: 2,
+        },
+        include: [Oportunidade],
+      },
+    );
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const parc of parcelas) {
+      await MovimentoCaixa.create({
+        EmpresaId: parc.Oportunidade.EmpresaId,
+        RecDespId: parc.Oportunidade.RecDespId,
+        ColabCreate: 1,
+        ClienteId: parc.Oportunidade.ClienteId,
+        ParcelaId: parc.id,
+        status: parc.situacao - 1,
+        valor: parc.vlrParcela / 100,
+        saldo: parc.vlrParcela / 100,
+        recDesp: 'Rec',
+        dtVenc: parc.dtVencimento,
+        dtLiqui: parc.dtLiquidacao,
+        periodo: parc.dtEmissao.split('-')[1],
+        ano: parc.dtEmissao.split('-')[0],
+      });
+    }
+    console.log(parcelas.length, 'parcelas');
+
+    return res.json(parcelas);
+  } catch (err) {
+    console.log(err);
+    return res.json('erro');
+  }
+  return res.json('ok');
+});
+
+routes.get('/parcToMvCx_liquidada', async (req, res) => {
+  try {
+    const parcelas = await Parcela.findAll(
+      {
+        where: {
+          dtLiquidacao: { [Op.gte]: '01-01-2022' },
         },
         include: [Oportunidade],
       },
