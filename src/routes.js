@@ -270,8 +270,7 @@ routes.get('/parcToMvCx', async (req, res) => {
     const parcelas = await Parcela.findAll(
       {
         where: {
-
-          situacao: { [Op.gt]: 1 },
+          situacao: 2,
         },
         include: [Oportunidade],
       },
