@@ -397,26 +397,32 @@ routes.get('/updateDesp', async (req, res) => {
 
 routes.get('/compareValues', async (req, res) => {
   try {
-    const parcelas = await Parcela.findAll(
+    const parcelas_1 = await Parcela.findAll(
       {
         where: {
-          [Op.or]: [
-            { dtLiquidacao: { [Op.gte]: '01-01-2022' } },
-            { dtVencimento: { [Op.gte]: '01-01-2022' } },
-          ],
-          situacao: { [Op.gt]: 1 },
+          situacao: 2,
         },
         include: [Oportunidade],
       },
     );
     let somaParcLiqui = 0; let somaParc = 0; let somaMv = 0; let somaMvLiqui = 0;
 
+    const parcelas = await Parcela.findAll(
+      {
+        where: {
+          dtLiquidacao: { [Op.gte]: '01-01-2022' },
+        },
+        include: [Oportunidade],
+      },
+    );
+
     // eslint-disable-next-line no-restricted-syntax
-    for (const parc of parcelas) {
-      if (parc.situacao === 4) {
-        somaParcLiqui += parc.vlrParcela;
-      }
+    for (const parc of parcelas_1) {
       somaParc += parc.vlrParcela;
+    }
+
+    for (const parc of parcelas) {
+      somaParcLiqui += parc.vlrParcela;
     }
 
     const movimentos = await MovimentoCaixa.findAll();
