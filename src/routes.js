@@ -417,8 +417,8 @@ routes.get('/compareValues', async (req, res) => {
     );
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const parc of parcelas_1) {
-      somaParc += parc.vlrParcela;
+    for (const parc1 of parcelas_1) {
+      somaParc += parc1.vlrParcela;
     }
 
     for (const parc of parcelas) {
