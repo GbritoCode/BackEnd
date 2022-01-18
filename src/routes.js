@@ -270,10 +270,7 @@ routes.get('/parcToMvCx', async (req, res) => {
     const parcelas = await Parcela.findAll(
       {
         where: {
-          [Op.or]: [
-            { dtLiquidacao: { [Op.gte]: '01-01-2022' } },
-            { dtVencimento: { [Op.gte]: '01-01-2022' } },
-          ],
+
           situacao: { [Op.gt]: 1 },
         },
         include: [Oportunidade],
