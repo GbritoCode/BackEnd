@@ -249,13 +249,13 @@ routes.get('/cliSigla', async (req, res) => {
         });
       } else if (nomeAbv === 'ELGIN001') {
         await Cliente.update({
-          sigla: 'ELG',
+          sigla: 'ELN',
         }, {
           where: { id },
         });
       } else if (nomeAbv === 'ELGIN002') {
         await Cliente.update({
-          sigla: 'ELN',
+          sigla: 'ELG',
         }, {
           where: { id },
         });
