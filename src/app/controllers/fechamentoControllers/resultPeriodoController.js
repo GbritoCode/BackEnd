@@ -6,8 +6,21 @@ class ResultPeriodoController {
   }
 
   async get(req, res) {
-    const result = await ResultPeriodo.findAll({ where: { ColabId: req.params.id }, order: ['id'] });
-    return res.json(result);
+    const thisYear = new Date().getFullYear();
+    const result = await ResultPeriodo.findAll(
+      {
+        where: {
+          ColabId: req.params.id,
+          ano: `${thisYear}`,
+        },
+        order: ['id'],
+      },
+    );
+    if (result.length === 0) {
+      return res.json(new Array(12).fill({ totalHrs: 0, totalDesp: 0, totalReceb: 0 }));
+    } if (result.length > 0) {
+      return res.json(result);
+    }
   }
 
   async update(req, res) {

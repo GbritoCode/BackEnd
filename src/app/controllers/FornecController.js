@@ -6,65 +6,15 @@ import Colab from '../models/colab';
 
 class FornecController {
   async store(req, res) {
-    const schema = yup.object().shape({
-      CNPJ: yup.string().required(),
-      EmpresaId: yup.string().required(),
-      nome: yup.string().required(),
-      CondPgmtoId: yup.number().required(),
-      nomeConta: yup.string().required(),
-      fone: yup.string().required(),
-      cep: yup.string().required(),
-      rua: yup.string().required(),
-      numero: yup.string().required(),
-      complemento: yup.string(),
-      bairro: yup.string().required(),
-      cidade: yup.string().required(),
-      uf: yup.string().required(),
-      banco: yup.string().required(),
-      agencia: yup.string().required(),
-      conta: yup.string().required(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'tipo de dado' });
+    try {
+      const fornec = await Fornec.create(req.body);
+      return res.json({
+        fornec, message: 'Fornecedor Criado com Sucesso!',
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
     }
-
-    const {
-      CNPJ,
-      EmpresaId,
-      nome,
-      CondPgmtoId,
-      nomeConta,
-      fone,
-      cep,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      uf,
-      banco,
-      agencia,
-      conta,
-    } = await Fornec.create(req.body);
-    return res.json({
-      CNPJ,
-      EmpresaId,
-      nome,
-      CondPgmtoId,
-      nomeConta,
-      fone,
-      cep,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      uf,
-      banco,
-      agencia,
-      conta,
-    });
   }
 
   async get(req, res) {

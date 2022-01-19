@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 
 import CliRecDesp from './cliRecDesp';
+import Despesas from './despesas';
+import MovimentoCaixa from './movimentoCaixa';
 import Oportunidade from './oportunidade';
 
 export default class RecDesp extends Model {
@@ -11,6 +13,7 @@ export default class RecDesp extends Model {
         desc: DataTypes.STRING,
         recDesp: DataTypes.STRING,
         tipoItem: DataTypes.STRING,
+        lancFlag: DataTypes.BOOLEAN,
         ContaContabilId: DataTypes.STRING,
         CentroCustoId: DataTypes.STRING,
       },
@@ -22,7 +25,10 @@ export default class RecDesp extends Model {
     CliRecDesp.belongsTo(RecDesp);
     RecDesp.hasOne(Oportunidade, { onDelete: 'cascade', hooks: true });
     Oportunidade.belongsTo(RecDesp);
-
+    RecDesp.hasMany(MovimentoCaixa, { onDelete: 'cascade', hooks: true });
+    MovimentoCaixa.belongsTo(RecDesp);
+    RecDesp.hasMany(Despesas, { onDelete: 'cascade', hooks: true });
+    Despesas.belongsTo(RecDesp);
     return this;
   }
 }

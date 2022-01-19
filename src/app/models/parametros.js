@@ -18,6 +18,11 @@ export default class Parametros extends Model {
         vlrBsDesp: DataTypes.DECIMAL,
         adiantaPgmto: DataTypes.STRING,
         percAdiantaPgmto: DataTypes.DECIMAL,
+        compHrs: DataTypes.INTEGER,
+        pgmtoVenc: DataTypes.INTEGER,
+        compFlag: DataTypes.BOOLEAN,
+        RecDespCompHrs: DataTypes.INTEGER,
+        color: DataTypes.STRING,
       },
       {
         sequelize,

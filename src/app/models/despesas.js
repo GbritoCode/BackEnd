@@ -6,6 +6,7 @@ export default class Despesas extends Model {
       {
         OportunidadeId: DataTypes.INTEGER,
         ColabId: DataTypes.INTEGER,
+        RecDespId: DataTypes.INTEGER,
         dataDespesa: DataTypes.DATEONLY,
         tipoDespesa: DataTypes.INTEGER,
         valorDespesa: DataTypes.INTEGER,

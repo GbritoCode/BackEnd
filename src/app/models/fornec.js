@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 
 import Colab from './colab';
+import MovimentoCaixa from './movimentoCaixa';
 
 export default class Fornec extends Model {
   static init(sequelize) {
@@ -9,6 +10,7 @@ export default class Fornec extends Model {
         CNPJ: DataTypes.STRING,
         EmpresaId: DataTypes.INTEGER,
         CondPgmtoId: DataTypes.INTEGER,
+        RecDespId: DataTypes.INTEGER,
         nome: DataTypes.STRING,
         nomeConta: DataTypes.STRING,
         fone: DataTypes.INTEGER,
@@ -29,6 +31,9 @@ export default class Fornec extends Model {
     );
     Fornec.hasOne(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Fornec);
+
+    Fornec.hasMany(MovimentoCaixa, { onDelete: 'cascade', hooks: true });
+    MovimentoCaixa.belongsTo(Fornec);
     return this;
   }
 }

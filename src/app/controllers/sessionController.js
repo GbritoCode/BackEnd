@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import authConfig from '../../config/auth';
 import Colabs from '../models/colab';
 import Empresas from '../models/empresa';
+import Parametros from '../models/parametros';
 import Perfil from '../models/perfil';
 import User from '../models/users';
 
@@ -42,6 +43,11 @@ class SessionController {
       const empresa = Colab === null ? '' : await Empresas.findByPk(Colab.EmpresaId);
 
       const permittedPages = Colab === null ? '' : Colab.Perfil === null ? '' : Colab.Perfil.permittedPages.split(',');
+
+      const param = await Parametros.findOne();
+
+      const color = param.getDataValue('color');
+
       return res.json({
         user: {
           id,
@@ -54,6 +60,7 @@ class SessionController {
         token: jwt.sign({ id }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),
+        color,
         acessible: permittedPages,
       });
     } catch (err) {

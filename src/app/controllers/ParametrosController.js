@@ -19,43 +19,17 @@ class ParametrosController {
       vlrBsDesp: yup.number().required(),
       adiantaPgmto: yup.string().required(),
       percAdiantaPgmto: yup.number().required(),
+      compHrs: yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const {
-      EmpresaId,
-      IRPJ,
-      CSLL,
-      COFINS,
-      PIS,
-      INSS,
-      ISS,
-      PSProLabor,
-      IRRFProLabor,
-      vlrMinHr,
-      vlrBsHr,
-      vlrBsDesp,
-      adiantaPgmto,
-      percAdiantaPgmto,
-    } = await Parametros.create(req.body);
+    const param = await Parametros.create(req.body);
     return res.json({
-      EmpresaId,
-      IRPJ,
-      CSLL,
-      COFINS,
-      PIS,
-      INSS,
-      ISS,
-      PSProLabor,
-      IRRFProLabor,
-      vlrMinHr,
-      vlrBsHr,
-      vlrBsDesp,
-      adiantaPgmto,
-      percAdiantaPgmto,
+      param,
+      message: 'Parâmetro criado com sucesso',
     });
   }
 
@@ -79,38 +53,11 @@ class ParametrosController {
   async update(req, res) {
     const parametros = await Parametros.findByPk(req.params.id);
     console.log(req.body);
-    const {
-      EmpresaId,
-      IRPJ,
-      CSLL,
-      COFINS,
-      PIS,
-      INSS,
-      ISS,
-      PSProLabor,
-      IRRFProLabor,
-      vlrMinHr,
-      vlrBsHr,
-      vlrBsDesp,
-      adiantaPgmto,
-      percAdiantaPgmto,
-    } = await parametros.update(req.body);
+    const paramUp = await parametros.update(req.body);
 
     return res.json({
-      EmpresaId,
-      IRPJ,
-      CSLL,
-      COFINS,
-      PIS,
-      INSS,
-      ISS,
-      PSProLabor,
-      IRRFProLabor,
-      vlrMinHr,
-      vlrBsHr,
-      vlrBsDesp,
-      adiantaPgmto,
-      percAdiantaPgmto,
+      paramUp,
+      message: 'Parâmetro atualizado com sucesso',
     });
   }
 }

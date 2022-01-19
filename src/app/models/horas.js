@@ -21,6 +21,7 @@ export default class Horas extends Model {
         solicitante: DataTypes.STRING,
         AreaId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
+        compFlag: DataTypes.INTEGER,
         apontDiff: DataTypes.VIRTUAL,
       },
       {

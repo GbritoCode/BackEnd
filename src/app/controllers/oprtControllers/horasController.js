@@ -40,13 +40,11 @@ class HoraController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.hrs) {
           return res.json(await Hora.create(req.body));
         }
         throw 'error';
       } catch (err) {
-        const dataAtivdSplit = req.body.dataAtivd.split('-');
-        const formatData = `${dataAtivdSplit[2]}-${dataAtivdSplit[1]}-${dataAtivdSplit[0]}`;
         return res.status(401).json({
           error: `O período ${checkPeriodo.nome} já está fechado, contate o administrador`,
         });
@@ -187,7 +185,7 @@ class HoraController {
       try {
         const token = colab.getDataValue('PeriodToken');
         const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
-        if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
+        if (decoded.periodo === checkPeriodo.getDataValue('nome') && decoded.perms.hrs) {
           return res.json(await hora.update(req.body));
         }
         throw 'error';

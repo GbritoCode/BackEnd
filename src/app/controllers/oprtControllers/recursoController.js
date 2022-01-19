@@ -1,10 +1,9 @@
 import * as yup from 'yup';
 import Cliente from '../../models/cliente';
 import Colab from '../../models/colab';
+import Notifications from '../../models/notifications';
 import Oportunidade from '../../models/oportunidade';
 import Recurso from '../../models/recurso';
-
-import Notifications from '../../schemas/notifications';
 
 class RecursoController {
   async store(req, res) {
@@ -29,9 +28,10 @@ class RecursoController {
       include: [{ model: Cliente }],
     });
 
-    Notifications.create({
+    await Notifications.create({
+      EmpresaId: oport.EmpresaId,
       content: `Você foi cadastrado em uma nova oportunidade,${oport.Cliente.nomeAbv} - ${oport.cod}, ${oport.desc}`,
-      colab: req.body.ColabId,
+      ColabId: req.body.ColabId,
     });
 
     return res.json(response);

@@ -31,7 +31,7 @@ export default class Oportunidade extends Model {
         sequelize,
       },
     );
-    Oportunidade.hasOne(Cotacao, { onDelete: 'cascade', hooks: true });
+    Oportunidade.hasMany(Cotacao, { onDelete: 'cascade', hooks: true });
     Cotacao.belongsTo(Oportunidade);
 
     Oportunidade.hasOne(Recurso, { onDelete: 'cascade', hooks: true });

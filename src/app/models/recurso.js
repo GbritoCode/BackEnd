@@ -10,9 +10,11 @@ export default class Recurso extends Model {
         tipoValor: DataTypes.INTEGER,
         tipoAtend: DataTypes.INTEGER,
         custoPrev: DataTypes.INTEGER,
+        custoPrevAux: DataTypes.FLOAT,
         dataInclusao: DataTypes.DATEONLY,
         hrsPrevst: DataTypes.INTEGER,
         colabVlrHr: DataTypes.INTEGER,
+        colabVlrHrAux: DataTypes.FLOAT,
       },
       {
         sequelize,

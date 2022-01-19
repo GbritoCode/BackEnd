@@ -1,12 +1,15 @@
 import * as yup from 'yup';
 import moment from 'moment';
 import { Op } from 'sequelize';
-import { dirname, resolve } from 'path';
+import { resolve } from 'path';
 import { unlink } from 'fs';
 import Parcelas from '../../models/parcela';
 import Oportunidade from '../../models/oportunidade';
 import Cliente from '../../models/cliente';
 import ParcelaFiles from '../../models/parcelaFile';
+import MovimentoCaixa from '../../models/movimentoCaixa';
+import liquidMovCaixaController from '../FinanceiraControllers/liquidMovCaixaController';
+import RecDesp from '../../models/recDesp';
 
 class ParcelaController {
   async store(req, res) {
@@ -36,32 +39,8 @@ class ParcelaController {
     if (valueExists) {
       return res.status(400).json({ error: 'Essa parcela já existe' });
     }
-    const {
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    } = await Parcelas.create(req.body);
-    return res.json({
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    });
+    const parc = await Parcelas.create(req.body);
+    return res.json({ parc, message: 'Parcela Criada com Sucesso!' });
   }
 
   /*  async get(req, res) {
@@ -100,7 +79,6 @@ class ParcelaController {
       const year = moment().year();
       const month = moment().month();
       const date = moment().date();
-      const today = new Date(year, month, date);
 
       for (let i = 0; i < cli.length; i++) {
         parcPendenteCountCli = 0;
@@ -118,7 +96,8 @@ class ParcelaController {
             if (
               moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento)
             ) {
-              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+                || cli[i].Oportunidades[j].Parcelas[k].situacao === 5) {
                 labelsAtrasada[parcAtrasadaCount] = cli[i].nomeAbv.slice(0, 3);
                 parcAtrasadaCountCli += 1;
                 parcAtrasadaCount += 1;
@@ -133,7 +112,8 @@ class ParcelaController {
             if (
               !(moment(`${year}-${month + 1}-${date}`).isAfter(cli[i].Oportunidades[j].Parcelas[k].dtVencimento))
             ) {
-              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2) {
+              if (cli[i].Oportunidades[j].Parcelas[k].situacao === 2
+                || cli[i].Oportunidades[j].Parcelas[k].situacao === 5) {
                 labelsAberta[parcAbertaCount] = cli[i].nomeAbv.slice(0, 3);
                 parcAbertaCountCli += 1;
                 parcAbertaCount += 1;
@@ -203,7 +183,7 @@ class ParcelaController {
         const parc = await Parcelas.findAll({
           where: {
             [Op.and]: [{
-              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }, { situacao: 5 }],
               dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` },
             }],
           },
@@ -229,8 +209,33 @@ class ParcelaController {
         const parc = await Parcelas.findAll({
           where: {
             [Op.and]: [{
-              [Op.or]: [{ situacao: 2 }, { situacao: 3 }],
+              [Op.or]: [{ situacao: 2 }, { situacao: 3 }, { situacao: 5 }],
               dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` },
+            }],
+          },
+          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          order: [[Oportunidade, Cliente, 'nomeAbv', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
+        });
+        for (let i = 0; i < parc.length; i++) {
+          if (parc[i].dataValues.dtVencimento) {
+            const parcs = parc[i].dataValues.dtVencimento.split('-');
+            parc[i].dataValues.dtVencimento = `${parcs[2]}/${parcs[1]}/${parcs[0]}`;
+
+            const dataEmissao = parc[i].dataValues.dtEmissao.split('-');
+            parc[i].dataValues.dtEmissao = `${dataEmissao[2]}/${dataEmissao[1]}/${dataEmissao[0]}`;
+
+            let createdFormat = JSON.stringify(parc[i].dataValues.createdAt).slice(1, 11);
+            createdFormat = createdFormat.split('-');
+            parc[i].dataValues.createdAt = `${createdFormat[2]}/${createdFormat[1]}/${createdFormat[0]}`;
+          }
+        }
+        return res.json(parc);
+      }
+      if (req.query.tipo === 'liquidadas') {
+        const parc = await Parcelas.findAll({
+          where: {
+            [Op.and]: [{
+              [Op.or]: [{ situacao: 4 }],
             }],
           },
           include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
@@ -285,33 +290,117 @@ class ParcelaController {
       return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
     }
 
-    const {
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
-    } = await parc.update(req.body);
+    const parcUpdated = await parc.update(req.body);
+    const mvCaixaUpdated = await MovimentoCaixa.update({
+      dtVenc: req.body.dtVencimento,
+    },
+    {
+      where: { ParcelaId: req.params.id },
+    });
 
     return res.json({
-      OportunidadeId,
-      parcela,
-      vlrParcela,
-      dtEmissao,
-      dtVencimento,
-      notaFiscal,
-      pedidoCliente,
-      situacao,
-      dtLiquidacao,
-      vlrPago,
-      saldo,
+      parcUpdated,
+      mvCaixaUpdated,
+      message: 'Parcela Atualizada com Sucesso!',
     });
+  }
+
+  async fatura(req, res) {
+    try {
+      const { body, params } = req;
+      const parc = await Parcelas.findByPk(params.id);
+      console.log(req.body);
+
+      if (body.dtEmissao > body.dtVencimento) {
+        return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
+      }
+      console.log({
+        periodo: body.dtEmissao.split('-')[1],
+        ano: body.dtEmissao.split('-')[0],
+      });
+      await MovimentoCaixa.create({
+        EmpresaId: body.idEmpresa,
+        RecDespId: body.idRecDesp,
+        ColabCreate: body.idColab,
+        ClienteId: body.idCliente,
+        ParcelaId: params.id,
+        status: 1,
+        valor: body.vlrParcela / 100,
+        saldo: body.vlrParcela / 100,
+        dtVenc: body.dtVencimento,
+        periodo: body.dtEmissao.split('-')[1],
+        ano: body.dtEmissao.split('-')[0],
+      });
+
+      const parcUp = await parc.update(body);
+
+      return res.json({ parc: parcUp, message: 'Parcela atualizada com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
+  }
+
+  async buscaPedCli(req, res) {
+    try {
+      const { oportId } = req.params;
+      const parc = await Parcelas.findOne({
+        where: {
+          pedidoCliente: { [Op.ne]: null },
+          OportunidadeId: oportId,
+        },
+      });
+
+      if (parc) {
+        return res.status(200).json({ parc });
+      } if (!parc) {
+        return res.status(404).json({ error: 'Parcela não Encontrada' });
+      }
+      throw new Error();
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
+  }
+
+  async pagamento(req, res) {
+    try {
+      const { body, params } = req;
+      const parc = await Parcelas.findByPk(params.id);
+
+      if (body.dtEmissao > body.dtVencimento) {
+        return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
+      }
+
+      const mv = await MovimentoCaixa.findOne({
+        where: {
+          ParcelaId: params.id,
+        },
+        include: [{ model: RecDesp }],
+      });
+      await MovimentoCaixa.update({
+        vlrPago: body.vlrPago / 100,
+        saldo: body.saldo / 100,
+        status: body.situacao - 1,
+        dtLiqui: body.dtLiquidacao,
+      }, {
+        where: { ParcelaId: params.id },
+      });
+
+      await liquidMovCaixaController.liquidaMov({
+        movId: mv.id,
+        valor: body.vlrPago / 100,
+        dtLiqui: body.dtLiquidacao,
+        recDesp: mv.RecDesp.recDesp,
+      });
+
+      const parcUp = await parc.update(body);
+
+      return res.json({ parc: parcUp, message: 'Parcela atualizada com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno do Servidor' });
+    }
   }
 
   async delete(req, res) {
