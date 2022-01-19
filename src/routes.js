@@ -247,6 +247,18 @@ routes.get('/cliSigla', async (req, res) => {
         }, {
           where: { id },
         });
+      } else if (nomeAbv === 'ELGIN001') {
+        await Cliente.update({
+          sigla: 'ELG',
+        }, {
+          where: { id },
+        });
+      } else if (nomeAbv === 'ELGIN002') {
+        await Cliente.update({
+          sigla: 'ELN',
+        }, {
+          where: { id },
+        });
       } else {
         const sig = nomeAbv.slice(0, 3);
         await Cliente.update({
@@ -325,7 +337,7 @@ routes.get('/parcToMvCx_liquidada', async (req, res) => {
         ParcelaId: parc.id,
         status: parc.situacao - 1,
         valor: parc.vlrParcela / 100,
-        saldo: parc.vlrParcela / 100,
+        saldo: 0,
         recDesp: 'Rec',
         dtVenc: parc.dtVencimento,
         dtLiqui: parc.dtLiquidacao,
