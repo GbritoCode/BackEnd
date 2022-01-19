@@ -445,6 +445,44 @@ routes.get('/compareValues', async (req, res) => {
   return res.json('ok');
 });
 
+routes.get('/parcToMvCx_p40', async (req, res) => {
+  try {
+    const parcelas = await Parcela.findAll(
+      {
+        where: {
+          id: 40,
+        },
+        include: [Oportunidade],
+      },
+    );
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const parc of parcelas) {
+      await MovimentoCaixa.create({
+        EmpresaId: parc.Oportunidade.EmpresaId,
+        RecDespId: parc.Oportunidade.RecDespId,
+        ColabCreate: 1,
+        ClienteId: parc.Oportunidade.ClienteId,
+        ParcelaId: parc.id,
+        status: 1,
+        valor: parc.saldo / 100,
+        saldo: parc.saldo / 100,
+        recDesp: 'Rec',
+        dtVenc: parc.dtVencimento,
+        periodo: parc.dtEmissao.split('-')[1],
+        ano: parc.dtEmissao.split('-')[0],
+      });
+    }
+    console.log(parcelas.length, 'parcelas');
+
+    return res.json(parcelas);
+  } catch (err) {
+    console.log(err);
+    return res.json('erro');
+  }
+  return res.json('ok');
+});
+
 // routes.get('/', importFromJSON.store);
 
 routes.get('/comercialDash', comercialController.get);
