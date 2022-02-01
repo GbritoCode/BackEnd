@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import json from '../../../../app/controllers/importDataControllers/teste.json';
+import json from '../../../../src/app/controllers/importDataControllers/teste.json';
 import Campanhas_Clientes from '../../models/Campanhas_Clientes';
 import CliCont from '../../models/cliCont';
 import Cliente from '../../models/cliente';
