@@ -10,6 +10,8 @@ import MovimentoCaixa from '../../models/movimentoCaixa';
 import RecDesp from '../../models/recDesp';
 import liquidMovCaixaController from './liquidMovCaixaController';
 import { monthFullToNumber } from '../../../generalVar';
+import Parcela from '../../models/parcela';
+import Oportunidade from '../../models/oportunidade';
 
 class MovimentoCaixaController {
   async store(req, res) {
@@ -89,6 +91,7 @@ class MovimentoCaixaController {
           'ColabCreated',
           'ColabLiquid',
           'ColabPgmt',
+          { model: Parcela, include: [{ model: Oportunidade }] },
           { model: Fornec },
           { model: Cliente },
         ],

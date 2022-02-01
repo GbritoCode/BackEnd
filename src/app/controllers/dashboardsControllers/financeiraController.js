@@ -76,9 +76,6 @@ class FinanceiraController {
           group: ['dtVenc', 'periodo'],
         },
       );
-      console.log(ano);
-      console.log(month);
-      console.log(SaldoPrev);
 
       const recDespReal = await LiquidMovCaixa.findAll(
         {
@@ -260,7 +257,6 @@ class FinanceiraController {
           array[i].desp = 0;
         }
         array[i].dia = i;
-        console.log(array[i].saldoReal);
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
         arrayDesp[i] = (array[i].desp);

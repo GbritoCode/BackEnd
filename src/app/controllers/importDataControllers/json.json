@@ -1,0 +1,3551 @@
+ [
+    {
+      "CNPJ": "17221771000292",
+      "nomeAbv": "LIASA01",
+      "rzSoc": "LIGAS DE ALUMINIO SA LIASA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(31) 3249 - 2000",
+      "site": "https://www.liasa.com.br/",
+      "atvPrincipal": "Serviços combinados de escritório e apoio administrativo",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "METAL E AÇO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "LIA",
+      "createdAt": "2021-11-12T12:38:30.094Z",
+      "updatedAt": "2022-01-18T20:24:51.811Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Jonh Cabral",
+          "cel": "31988543040",
+          "fone": "3132492000",
+          "skype": "SKYPE",
+          "email": "jonh.cabral@liasa.com.br",
+          "aniver": "9999-10-30",
+          "linkedin": "linkedin.com/in/jonhcabral",
+          "cargo": "Gerente de Tecnologia da Informação",
+          "ramal": "",
+          "createdAt": "2021-11-12T12:38:30.469Z",
+          "updatedAt": "2021-11-12T12:38:30.469Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "11700207000195",
+      "nomeAbv": "PARLA01",
+      "rzSoc": "PARLA CONTACT CENTER LTDA.",
+      "fantasia": "PARLA CONTACT CENTER",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4688 - 4001",
+      "site": "https://www.parla.com.br/",
+      "atvPrincipal": "Atividades de teleatendimento",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "CALL CENTER",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "PAR",
+      "createdAt": "2021-11-03T19:47:53.196Z",
+      "updatedAt": "2022-01-18T20:24:51.197Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Izis Gennari",
+          "cel": "99999999999",
+          "fone": "1146884001",
+          "skype": "SKYPE",
+          "email": "izisgennari@parla.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/izisgennari",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-11-03T19:47:53.625Z",
+          "updatedAt": "2021-11-03T19:48:32.733Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03384037000159",
+      "nomeAbv": "MASTROTTO01",
+      "rzSoc": "MASTROTTO BRASIL S/A",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "7534258888",
+      "site": "https://mastrottobrasil.com/pt-br/#contacts",
+      "atvPrincipal": null,
+      "erp": "SAP",
+      "database": null,
+      "ramo": "COURO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "MAS",
+      "createdAt": "2021-07-21T15:32:26.008Z",
+      "updatedAt": "2022-01-18T20:24:51.680Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Elenilton Mota",
+          "cel": "99999999999",
+          "fone": "7534258888",
+          "skype": "SKYPE",
+          "email": "elenilton@mastrottobrasil.com.br",
+          "aniver": "9999-04-30",
+          "linkedin": "linkedin.com/in/elenilton-mota-37670241",
+          "cargo": "Analista de Infraestrutura SAP BASIS/ Data Protection Officer",
+          "ramal": "",
+          "createdAt": "2021-08-26T18:16:50.382Z",
+          "updatedAt": "2021-08-26T18:17:05.574Z"
+        },
+        {
+          "nome": "Erivan de Oliveira",
+          "cel": "75985573150",
+          "fone": "7534258888",
+          "skype": "SKYPE",
+          "email": "erivan@mastrottobrasil.com.br",
+          "aniver": "9999-04-30",
+          "linkedin": "linkedin.com/in/erivan-de-oliveira-3657a925",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T15:32:26.441Z",
+          "updatedAt": "2021-08-26T18:13:39.465Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00331788000119",
+      "nomeAbv": "AIRLIQUIDE01",
+      "rzSoc": "AIR LIQUIDE BRASIL LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1155098300",
+      "site": "https://www.airliquide.com/pt-br/brasil",
+      "atvPrincipal": "Fabricação de gases industriais",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "QUÍMICA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "AIR",
+      "createdAt": "2021-09-29T18:34:13.855Z",
+      "updatedAt": "2022-01-18T20:24:51.771Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Thiago Giovanne",
+          "cel": "99999999999",
+          "fone": "1155098300",
+          "skype": "SKYPE",
+          "email": "thiago.giovanne-sc@airliquide.com",
+          "aniver": null,
+          "linkedin": "LINKEDIN",
+          "cargo": "TI",
+          "ramal": "",
+          "createdAt": "2021-10-08T17:56:20.740Z",
+          "updatedAt": "2021-10-08T17:56:20.740Z"
+        },
+        {
+          "nome": "Pedro Caires",
+          "cel": "11999061446",
+          "fone": "1155098491",
+          "skype": "SKYPE",
+          "email": "pedro.caires@airliquide.com",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/pedro-caires-7b91807b",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-29T18:34:14.192Z",
+          "updatedAt": "2021-10-01T13:02:23.404Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "05100148000111",
+      "nomeAbv": "PLASTIC MANGUEIRAS01",
+      "rzSoc": "PLASTEX DO BRASIL INDUSTRIA E COMERCIO LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1239782488",
+      "site": "https://plastic.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ARTEFATOS DE PLÁSTICO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "PLA",
+      "createdAt": "2021-07-21T18:58:41.175Z",
+      "updatedAt": "2022-01-18T20:24:51.719Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Étori Trone",
+          "cel": "12991826643",
+          "fone": "1239782480",
+          "skype": "etoritrone",
+          "email": "etori@plastic.com.br",
+          "aniver": "9999-08-18",
+          "linkedin": "linkedin.com/in/etori-trone-6ba52731",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T18:58:41.525Z",
+          "updatedAt": "2021-08-26T13:03:25.284Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "47565155000139",
+      "nomeAbv": "UNIME-PINDA01",
+      "rzSoc": "UNIMED DE PINDAMONHANGABA COOPERATIVA DE TRABALHO MEDICO",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1236444400",
+      "site": "https://unimedpinda.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "SAÚDE",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": null,
+      "sigla": "UMP",
+      "createdAt": "2021-07-21T19:04:37.987Z",
+      "updatedAt": "2022-01-18T20:24:51.643Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Edmilson Braz",
+          "cel": "99999999999",
+          "fone": "1236444420",
+          "skype": "SKYPE",
+          "email": "ti.braz@unimedpinda.com.br",
+          "aniver": "9999-06-09",
+          "linkedin": "linkedin.com/in/edmilson-braz-filho-2a682835",
+          "cargo": "Coordenador de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T19:04:38.351Z",
+          "updatedAt": "2021-08-26T17:34:45.895Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "10947170000131",
+      "nomeAbv": "BFX01",
+      "rzSoc": "B.F.X. BORRACHAS AUTOMOTIVAS EIRELI",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1935736363",
+      "site": "https://www.bfx.ind.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ARTEFATOS DE BORRACHA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "BFX",
+      "createdAt": "2021-07-21T19:40:45.912Z",
+      "updatedAt": "2022-01-18T20:24:51.659Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "João Paulo Gava Monzani ",
+          "cel": "99999999999",
+          "fone": "1935736363",
+          "skype": "SKYPE",
+          "email": "joao.monzani@bfx.ind.br",
+          "aniver": "9999-04-13",
+          "linkedin": "linkedin.com/in/joão-paulo-gava-monzani-306b5a23",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T19:40:46.281Z",
+          "updatedAt": "2021-08-25T18:09:06.608Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "01301284000119",
+      "nomeAbv": "CLEANIC01",
+      "rzSoc": "CLEANIC AMBIENTAL COMERCIO E SERVICOS DE HIGIENIZACAO LTDA",
+      "fantasia": "CLEANIC",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3847 - 5700",
+      "site": "https://www.cleanic.com.br/",
+      "atvPrincipal": "Limpeza em prédios e em domicílios",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "LIMPEZA PREDIAL",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "CLE",
+      "createdAt": "2021-10-15T18:02:36.899Z",
+      "updatedAt": "2022-01-18T20:24:51.789Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Leonardo A. Rossi",
+          "cel": "19981236414",
+          "fone": "1938475700",
+          "skype": "SKYPE",
+          "email": "leonardo@cleanic.com.br",
+          "aniver": "9999-04-08",
+          "linkedin": "linkedin.com/in/leonardo-a-rossi-39ab9870",
+          "cargo": "Coordenador de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T18:02:37.236Z",
+          "updatedAt": "2021-10-21T12:58:54.928Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "43643139000166",
+      "nomeAbv": "UNIMED-FESP01",
+      "rzSoc": "UNIMED DO ESTADO DE SAO PAULO - FEDERACAO ESTADUAL DAS COOPERATIVAS MEDICAS",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1121462500",
+      "site": "https://www.unimedfesp.coop.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "SAÚDE",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": null,
+      "sigla": "UMF",
+      "createdAt": "2021-07-29T14:42:03.583Z",
+      "updatedAt": "2022-01-18T20:24:51.714Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Leandro Aoki",
+          "cel": "99999999999",
+          "fone": "1121462508",
+          "skype": "SKYPE",
+          "email": "leandro.aoki@unimedfesp.coop.br",
+          "aniver": "9999-09-29",
+          "linkedin": "linkedin.com/in/leandro-aoki-0665262a",
+          "cargo": "Coordenador de Infraestrutura de TI",
+          "ramal": "",
+          "createdAt": "2021-07-29T14:42:03.935Z",
+          "updatedAt": "2021-08-24T18:48:03.052Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "42135913000165",
+      "nomeAbv": "IPANEMA01",
+      "rzSoc": "IPANEMA AGRICOLA S.A.",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3532992700",
+      "site": "https://www.ipanemacoffees.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": "CULTIVO DE CAFÉ",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "IPA",
+      "createdAt": "2021-07-14T18:07:46.868Z",
+      "updatedAt": "2022-01-18T20:24:51.645Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "André Martins",
+          "cel": "99999999999",
+          "fone": "3532992700",
+          "skype": "SKYPE",
+          "email": "andre.martins@martinsemiranda.com.br",
+          "aniver": "2021-01-01",
+          "linkedin": "2021-01-01",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-14T18:07:47.202Z",
+          "updatedAt": "2021-08-26T18:01:00.176Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "17578354000110",
+      "nomeAbv": "ITESAPAR01",
+      "rzSoc": "ITESAPAR FUNDICAO LTDA",
+      "fantasia": "ITESAPAR FUNDICAO",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "4232528500",
+      "site": "https://itesapar.com.br/",
+      "atvPrincipal": "Fundição de metais não-ferrosos e suas ligas",
+      "erp": null,
+      "database": null,
+      "ramo": "METAL",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "ITE",
+      "createdAt": "2021-09-14T18:01:54.139Z",
+      "updatedAt": "2022-01-18T20:24:51.732Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Ricardo Turesso",
+          "cel": "42991560214",
+          "fone": "4232528500",
+          "skype": "SKYPE",
+          "email": "novo@itesapar.com.br",
+          "aniver": "9999-04-18",
+          "linkedin": "linkedin.com/in/ricardo-turesso-a9772337",
+          "cargo": "Consultor de Negócios",
+          "ramal": "",
+          "createdAt": "2021-09-14T18:01:54.469Z",
+          "updatedAt": "2021-09-14T18:01:54.469Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03368638000178",
+      "nomeAbv": "AAM01",
+      "rzSoc": "AAM DO BRASIL LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "4121411000",
+      "site": "https://www.aam.com/pt-br/",
+      "atvPrincipal": "Fabricação de outras peças e acessórios para veículos automotores não especificadas anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "SEGURANÇA PRIVADA",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "AAM",
+      "createdAt": "2021-10-15T14:42:14.729Z",
+      "updatedAt": "2022-01-18T20:24:51.782Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Germano Carlos Meerholz Filho",
+          "cel": "99999999999",
+          "fone": "4121411000",
+          "skype": "SKYPE",
+          "email": "novo@aam.com",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/germano-gerente-ti",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T14:42:15.076Z",
+          "updatedAt": "2021-10-15T14:42:15.076Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "60945169000146",
+      "nomeAbv": "NISSIN01",
+      "rzSoc": "NISSIN FOODS DO BRASIL LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1130945900",
+      "site": "https://www.nissin.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ALIMENTÍCIA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "NIS",
+      "createdAt": "2021-07-27T14:20:51.270Z",
+      "updatedAt": "2022-01-18T20:24:51.604Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Marcos Roberto Biston",
+          "cel": "99999999999",
+          "fone": "1130945900",
+          "skype": "SKYPE",
+          "email": "marcos.biston@nissin.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/marcos-roberto-biston",
+          "cargo": "Coordenador de  de Sistemas",
+          "ramal": null,
+          "createdAt": "2021-07-27T14:20:51.613Z",
+          "updatedAt": "2021-08-24T18:08:41.744Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "02907841000102",
+      "nomeAbv": "CAIO01",
+      "rzSoc": "CAIO - INDUSCAR INDUSTRIA E COMERCIO DE CARROCERIAS LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1438113900",
+      "site": "http://caio.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "AUTO PEÇAS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "CAI",
+      "createdAt": "2021-07-27T13:49:21.033Z",
+      "updatedAt": "2022-01-18T20:24:51.650Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Andreia Cristina Pedroso",
+          "cel": "99999999999",
+          "fone": "1438113900",
+          "skype": "SKYPE",
+          "email": "andreia.pedroso@caio.com.br",
+          "aniver": "9999-08-31",
+          "linkedin": "linkedin.com/in/andreiareginapedroso",
+          "cargo": "Gerente Corporativa de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T18:29:08.093Z",
+          "updatedAt": "2021-08-26T18:29:08.093Z"
+        },
+        {
+          "nome": "Murilo Stanzione - ramal 3607",
+          "cel": "99999999999",
+          "fone": "1438113900",
+          "skype": "SKYPE",
+          "email": "murilo.stanzione@caio.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/murilostanzione",
+          "cargo": "Supervisor de Sistemas de Informação",
+          "ramal": "3607",
+          "createdAt": "2021-07-27T13:49:21.377Z",
+          "updatedAt": "2021-08-26T18:25:32.128Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "19570720000110",
+      "nomeAbv": "HIPOLABOR01",
+      "rzSoc": "HIPOLABOR FARMACEUTICA LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3134081802",
+      "site": "https://www.hipolabor.net/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "HIP",
+      "createdAt": "2021-07-29T13:46:51.342Z",
+      "updatedAt": "2022-01-18T20:24:51.522Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Sidnei Ferreira",
+          "cel": "99999999999",
+          "fone": "3134081800",
+          "skype": "SKYPE",
+          "email": "informatica03@hipolabor.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "linkedin.com/in/sidnei-ferreira-63382921",
+          "cargo": "Coordenador de TI",
+          "ramal": null,
+          "createdAt": "2021-07-29T13:46:51.745Z",
+          "updatedAt": "2021-08-24T18:28:01.871Z"
+        },
+        {
+          "nome": "Bruno William Fonseca de Sousa",
+          "cel": "99999999999",
+          "fone": "3134081802",
+          "skype": "SKYPE",
+          "email": "informatica05@hipolabor.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "LINKEDIN",
+          "cargo": null,
+          "ramal": null,
+          "createdAt": "2021-07-29T13:49:12.155Z",
+          "updatedAt": "2021-08-06T18:09:52.560Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00350593000116",
+      "nomeAbv": "AUTOMOTION01",
+      "rzSoc": "AUTOMOTION IND COM IMPORTACAO E EXPORTACAO LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1533639900",
+      "site": "https://www.automotion.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "AUT",
+      "createdAt": "2021-07-14T18:39:56.016Z",
+      "updatedAt": "2022-01-18T20:24:51.590Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Alex Cozer Abrantes",
+          "cel": "99999999999",
+          "fone": "1533639877",
+          "skype": "SKYPE",
+          "email": "alex.cozer@automotion.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/alex-cozer-abrantes-0270aa85",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-14T18:39:56.339Z",
+          "updatedAt": "2021-09-01T12:54:56.709Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "95424321000120",
+      "nomeAbv": "MALUCELLI01",
+      "rzSoc": "J MALUCELLI EQUIPAMENTOS S/A",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(41) 3351 - 5522",
+      "site": "https://www.jmalucelli.com.br/",
+      "atvPrincipal": "Comércio atacadista de máquinas, equipamentos para terraplenagem, mineração e construção; partes e peças",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "COMÉRCIO ATACADISTA",
+      "qtdFuncionarios": "",
+      "sigla": "MAL",
+      "createdAt": "2021-10-21T15:02:39.249Z",
+      "updatedAt": "2022-01-18T20:24:51.617Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Daniel Bozza",
+          "cel": "41996227876",
+          "fone": "4143515586",
+          "skype": "daniel.bozza ",
+          "email": "sistemas@jmalucelli.com.br",
+          "aniver": "9999-08-22",
+          "linkedin": "linkedin.com/in/danielbozza",
+          "cargo": "CIO",
+          "ramal": "",
+          "createdAt": "2021-10-21T15:02:39.628Z",
+          "updatedAt": "2021-10-21T15:02:39.628Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03523188000140",
+      "nomeAbv": "DENSO01",
+      "rzSoc": "DENSO SISTEMAS TERMICOS DO BRASIL LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3135277700",
+      "site": "https://www.denso.com/",
+      "atvPrincipal": "Fabricação de outras peças e acessórios para veículos automotores não especificadas anteriormente",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "Auto Peças e Acessórios",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "DEN",
+      "createdAt": "2021-09-14T17:35:06.264Z",
+      "updatedAt": "2022-01-18T20:24:51.725Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Jeferson Coelho",
+          "cel": "99999999999",
+          "fone": "3135277700",
+          "skype": "SKYPE",
+          "email": "jeferson.coelho@denso-ts.it",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/jeferson-coelho-68259339",
+          "cargo": "Analista de Sistemas Senior",
+          "ramal": "",
+          "createdAt": "2021-09-14T17:37:34.707Z",
+          "updatedAt": "2021-09-14T17:37:34.707Z"
+        },
+        {
+          "nome": "Edson Oliveira",
+          "cel": "99999999999",
+          "fone": "3135277741",
+          "skype": "SKYPE",
+          "email": "edson.oliveira@denso-ts.it",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-14T17:35:06.618Z",
+          "updatedAt": "2021-09-14T17:35:06.618Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "06070301000178",
+      "nomeAbv": "TRUCKBUS01",
+      "rzSoc": "TRUCK-BUS COMERCIO DE AUTO PECAS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4070 - 5120",
+      "site": "http://www.tbus.com.br/",
+      "atvPrincipal": "Serviços de manutenção e reparação mecânica de veículos automotores",
+      "erp": "",
+      "database": "",
+      "ramo": "AUTO PEÇAS",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "TRU",
+      "createdAt": "2021-11-10T14:49:44.564Z",
+      "updatedAt": "2022-01-18T20:24:51.806Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Leandro Ferro",
+          "cel": "99999999999",
+          "fone": "1140705120",
+          "skype": "SKYPE",
+          "email": "leandro.ferro@tbus.com.br",
+          "aniver": null,
+          "linkedin": "LINKEDIN",
+          "cargo": "Analista de Infraestrutura de TI",
+          "ramal": "",
+          "createdAt": "2021-11-10T14:54:33.876Z",
+          "updatedAt": "2021-11-10T14:54:33.876Z"
+        },
+        {
+          "nome": "Carlos Ed. Silva",
+          "cel": "99999999999",
+          "fone": "1140705120",
+          "skype": "SKYPE",
+          "email": "carlos.silva@tbus.com.br",
+          "aniver": "9999-11-14",
+          "linkedin": "linkedin.com/in/carlosedsilva-head-tecno-ti",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-11-10T14:49:44.923Z",
+          "updatedAt": "2021-11-10T14:52:49.247Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "08298621000105",
+      "nomeAbv": "AWR01",
+      "rzSoc": "AWR EXPRESS TRANSPORTES LTDA",
+      "fantasia": "AWR EXPRESS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 2901 - 1265",
+      "site": "https://www.awrlogistica.com.br/",
+      "atvPrincipal": "Serviços de entrega rápida",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "TRANSPORTES ",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "AWR",
+      "createdAt": "2021-11-03T20:00:54.623Z",
+      "updatedAt": "2022-01-18T20:24:51.801Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Augusto Silva",
+          "cel": "99999999999",
+          "fone": "1129011265",
+          "skype": "SKYPE",
+          "email": "novo@awrlogistica.com.br",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/augusto-silva-51a25382",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-11-03T20:00:54.990Z",
+          "updatedAt": "2021-11-03T20:00:54.990Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03749465000138",
+      "nomeAbv": "JA01",
+      "rzSoc": "J.A. SAUDE ANIMAL INDUSTRIA E COMERCIO DE PRODUTOS VETERINARIOS S/A",
+      "fantasia": "J.A.SAUDE ANIMAL",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1631459920",
+      "site": "https://www.jasaudeanimal.com.br/",
+      "atvPrincipal": "Fabricação de medicamentos para uso veterinário",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MEDICAMENTOS SAÚDE ANIMAL",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "JA0",
+      "createdAt": "2021-09-14T20:32:47.257Z",
+      "updatedAt": "2022-01-18T20:24:51.742Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Rodrigo Nascimento",
+          "cel": "99999999999",
+          "fone": "1631459920",
+          "skype": "SKYPE",
+          "email": "ti@jasaudeanimal.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/rodrigo-teofilo-1536b61a4",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-14T20:32:47.659Z",
+          "updatedAt": "2021-09-14T20:32:47.659Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "59408005000109",
+      "nomeAbv": "MITUTOYO01",
+      "rzSoc": "MITUTOYO SUL AMERICANA LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1156430000",
+      "site": "https://www.mitutoyo.com.br/",
+      "atvPrincipal": "Comércio atacadista de outras máquinas e equipamentos não especificados anteriormente; partes e peças",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "MIT",
+      "createdAt": "2021-09-24T15:50:17.014Z",
+      "updatedAt": "2022-01-18T20:24:51.745Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Ivan Silva Netto",
+          "cel": "11971404374",
+          "fone": "1156430058",
+          "skype": "SKYPE",
+          "email": "ivan.netto@mitutoyo.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-24T15:50:17.348Z",
+          "updatedAt": "2021-09-24T16:20:09.956Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "51427102000129",
+      "nomeAbv": "TECBAN001",
+      "rzSoc": "TECNOLOGIA BANCARIA S.A.",
+      "fantasia": "TECBAN",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4196 - 8500",
+      "site": "https://www.tecban.com.br/",
+      "atvPrincipal": "Tratamento de dados, provedores de serviços de aplicação e serviços de hospedagem na internet",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "TCB",
+      "createdAt": "2021-08-25T18:05:25.829Z",
+      "updatedAt": "2022-01-18T20:24:51.662Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Diego Santiago de Lima",
+          "cel": "11999999999",
+          "fone": "1141968500",
+          "skype": "",
+          "email": "diego.santiago-lima@tecban.com.br",
+          "aniver": null,
+          "linkedin": "",
+          "cargo": "Gerente TI",
+          "ramal": "",
+          "createdAt": "2021-08-25T18:05:26.175Z",
+          "updatedAt": "2021-08-25T18:05:26.175Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "42365296001085",
+      "nomeAbv": "KION001",
+      "rzSoc": "KION SOUTH AMERICA FABRICACAO DE EQUIPAMENTOS PARA ARMAZENAGEM LTDA",
+      "fantasia": "KION SOUTH AMERICA FAB DE EQUIP PARA ARM LTDA",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3115 - 0600",
+      "site": "https://www.kion-southamerica.com/en/kion_south_america/homepage_sa.jsp",
+      "atvPrincipal": "Fabricação de máquinas, equipamentos e aparelhos para transporte e elevação de cargas, peças e acessórios",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": null,
+      "createdAt": "2021-08-20T12:05:35.886Z",
+      "updatedAt": "2022-01-18T19:03:41.854Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Rubens Michalany",
+          "cel": "19992685863",
+          "fone": "1931150600",
+          "skype": "",
+          "email": "rubens.michalany@kiongroup.com",
+          "aniver": null,
+          "linkedin": "https://br.linkedin.com/in/rubensmichalany/pt",
+          "cargo": "CIO",
+          "ramal": "",
+          "createdAt": "2021-08-20T12:05:36.196Z",
+          "updatedAt": "2021-08-20T12:05:36.196Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "02600415000121",
+      "nomeAbv": "JUNIORFLEX01",
+      "rzSoc": "JUNIOR FLEX INDUSTRIA E PARTICIPACOES LTDA",
+      "fantasia": "JUNIOR FLEX",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1141364500",
+      "site": "http://www.juniorflex.com.br/juniorflex/index.html",
+      "atvPrincipal": "Fabricação de máquinas e equipamentos para uso industrial específico não especificados anteriormente, peças e acessórios",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "JUN",
+      "createdAt": "2021-09-29T18:51:48.425Z",
+      "updatedAt": "2022-01-18T20:24:51.764Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Rafael da Costa Ferreira",
+          "cel": "99999999999",
+          "fone": "1141364500",
+          "skype": "SKYPE",
+          "email": "rafael.costa@juniorflex.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/rafael-gobo-6b4b38134",
+          "cargo": "TI",
+          "ramal": "",
+          "createdAt": "2021-09-29T18:51:48.756Z",
+          "updatedAt": "2021-10-14T17:54:11.498Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "55395313000188",
+      "nomeAbv": "SULMINAS01",
+      "rzSoc": "LATICINIOS PRIME QUEIJOS EIRELI",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1128425300",
+      "site": "https://www.sulminaslaticinios.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "LEITE E LATÍCINIOS",
+      "setor": "COMÉRCIO ATACADISTA",
+      "qtdFuncionarios": null,
+      "sigla": "SUL",
+      "createdAt": "2021-07-14T13:04:46.012Z",
+      "updatedAt": "2022-01-18T20:24:51.696Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Jonathan Mattos",
+          "cel": "11942298615",
+          "fone": "1128425300",
+          "skype": "JBMATTOS",
+          "email": "jbmattos@queijosroseli.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-14T13:04:46.388Z",
+          "updatedAt": "2021-09-01T12:36:11.071Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "53688479000167",
+      "nomeAbv": "RUDNIK01",
+      "rzSoc": "RUDNIK COMERCIO DE PRODUTOS QUIMICOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1146178400",
+      "site": "https://www.rudnik.com.br/",
+      "atvPrincipal": "Comércio atacadista de outros produtos químicos e petroquímicos não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "PRODUTOS QUÍMICOS E PRETROQUÍMICO",
+      "setor": "COMÉRCIO ATACADISTA",
+      "qtdFuncionarios": null,
+      "sigla": "RUD",
+      "createdAt": "2021-09-24T17:00:37.049Z",
+      "updatedAt": "2022-01-18T20:24:51.754Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Geraldo Barreto JUNIOR",
+          "cel": "99999999999",
+          "fone": "1146178400",
+          "skype": "SKYPE",
+          "email": "junior@rudnik.com.br",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/geraldobarrettojr",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-24T17:00:37.392Z",
+          "updatedAt": "2021-09-24T17:00:37.392Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "54114327000113",
+      "nomeAbv": "BRASSUCO01",
+      "rzSoc": "BRASSUCO INDUSTRIA DE PRODUTOS ALIMENTICIOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1140237500",
+      "site": "https://brassuco.com.br/contato/",
+      "atvPrincipal": "Fabricação de sucos de frutas, hortaliças e legumes, exceto concentrados",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "ALIMENTÍCIA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "BSC",
+      "createdAt": "2021-09-01T18:07:09.034Z",
+      "updatedAt": "2022-01-18T20:24:51.699Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Alex Felix ",
+          "cel": "99999999999",
+          "fone": "1140237525",
+          "skype": "SKYPE",
+          "email": "alex.felix@sercombr.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/alex-félix-50016021",
+          "cargo": "Coordenador Tecnologia da Informação",
+          "ramal": "",
+          "createdAt": "2021-09-01T18:07:09.551Z",
+          "updatedAt": "2021-09-01T18:13:05.946Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "71337356000163",
+      "nomeAbv": "CICLOPE01",
+      "rzSoc": "CICLOPE COMPONENTES AUTOMOTIVOS LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3536943003",
+      "site": "https://www.grupociclope.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "AUTO PEÇAS E ACESSÓRIOS",
+      "setor": "AUTOMOBILISTICA",
+      "qtdFuncionarios": null,
+      "sigla": "CIC",
+      "createdAt": "2021-07-29T14:52:54.175Z",
+      "updatedAt": "2022-01-18T20:24:51.667Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Juliano Duarte Nahid",
+          "cel": "35999889225",
+          "fone": "3536943003",
+          "skype": "SKYPE",
+          "email": "tecnologia@grupociclope.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-07-29T14:52:54.499Z",
+          "updatedAt": "2021-11-24T13:32:00.326Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "50930072000106",
+      "nomeAbv": "CRSBRANDS01",
+      "rzSoc": "CRS BRANDS INDUSTRIA E COMERCIO LTDA",
+      "fantasia": "CRS BRANDS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4585 - 4971",
+      "site": "http://www.crsbrands.com.br/2020/#",
+      "atvPrincipal": "Fabricação de vinho",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "VINHO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "CRS",
+      "createdAt": "2021-10-15T17:28:43.834Z",
+      "updatedAt": "2022-01-18T20:24:51.784Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Danilo Cazarim",
+          "cel": "99999999999",
+          "fone": "1145844951",
+          "skype": "SKYPE",
+          "email": "novo@crsbrands.com.br",
+          "aniver": "9999-08-18",
+          "linkedin": "linkedin.com/in/danilo-cazarim-4182b54a",
+          "cargo": "Coordenador de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T17:28:44.176Z",
+          "updatedAt": "2021-10-21T17:22:16.857Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "15090456000167",
+      "nomeAbv": "CRENLO01",
+      "rzSoc": "CRENLO DO BRASIL ENGENHARIA DE CABINES LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": null,
+      "site": null,
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "CRL",
+      "createdAt": "2021-07-21T17:37:27.560Z",
+      "updatedAt": "2022-01-18T20:24:51.186Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Edson Rene",
+          "cel": "35991094671",
+          "fone": "3535558000",
+          "skype": "SKYPE",
+          "email": "edson.rene@crenlo.com.br",
+          "aniver": "9999-10-31",
+          "linkedin": "linkedin.com/in/edsonrene",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T17:37:27.928Z",
+          "updatedAt": "2021-08-24T19:09:50.926Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "52005378000181",
+      "nomeAbv": "REGINA01",
+      "rzSoc": "REGINA INDUSTRIA E COMERCIO S/A",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(18) 3329 - 5000",
+      "site": "https://reginafestas.com.br/",
+      "atvPrincipal": "Fabricação de produtos de pastas celulósicas, papel, cartolina, papel-cartão e papelão ondulado não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "PRODUTOS PARA FESTAS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "REG",
+      "createdAt": "2021-10-19T19:47:44.431Z",
+      "updatedAt": "2022-01-18T20:24:51.796Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Edison Carlos da Silva",
+          "cel": "99999999999",
+          "fone": "1832295016",
+          "skype": "SKYPE",
+          "email": "edisoncarlos@reginafestas.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-10-19T19:47:44.823Z",
+          "updatedAt": "2021-10-19T19:47:44.823Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "01941678000131",
+      "nomeAbv": "ITALSPEED01",
+      "rzSoc": "ITALSPEED AUTOMOTIVE LTDA - EM RECUPERACAO JUDICIAL EM RECUPERACAO JUDICIAL",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 5631 - 0200",
+      "site": "https://www.italspeed.com.br/",
+      "atvPrincipal": "Fabricação de outras peças e acessórios para veículos automotores não especificadas anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "AUTO PEÇAS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "ITA",
+      "createdAt": "2021-11-12T14:13:37.970Z",
+      "updatedAt": "2022-01-18T20:24:51.814Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Rafael Sitta Viana",
+          "cel": "99999999999",
+          "fone": "1156310200",
+          "skype": "SKYPE",
+          "email": "ti@italspeed.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/rafael-sitta-viana-162b291a0",
+          "cargo": "Gestor de TI",
+          "ramal": "",
+          "createdAt": "2021-11-12T14:13:38.332Z",
+          "updatedAt": "2021-11-12T14:13:38.332Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "18279158000108",
+      "nomeAbv": "RIMA01",
+      "rzSoc": "RIMA INDUSTRIAL S/A",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3133294000",
+      "site": "https://www.rima.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "METAL E FERRO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "RIM",
+      "createdAt": "2021-07-21T14:13:37.139Z",
+      "updatedAt": "2022-01-18T20:24:51.577Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Ana Paula - secretária Adilson",
+          "cel": "31996117591",
+          "fone": "3133294142",
+          "skype": "SKYPE",
+          "email": "apf@rima.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Secretária da Diretoria de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T14:15:13.245Z",
+          "updatedAt": "2021-08-24T18:00:13.626Z"
+        },
+        {
+          "nome": "Adilson Alcino",
+          "cel": "99999999999",
+          "fone": "3133294142",
+          "skype": "SKYPE",
+          "email": "aas@rima.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T14:13:37.488Z",
+          "updatedAt": "2021-08-24T17:54:36.888Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00455984000103",
+      "nomeAbv": "TECNOVAL01",
+      "rzSoc": "TECNOVAL LAMINADOS PLASTICOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1231592400",
+      "site": "https://valgroup.com.br/o-valgroup/",
+      "atvPrincipal": "Fabricação de laminados planos e tubulares de material plástico",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "Componentes Plásticos",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "TCN",
+      "createdAt": "2021-09-14T17:45:07.730Z",
+      "updatedAt": "2022-01-18T20:24:51.727Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Tarcisio Carvalho",
+          "cel": "99999999999",
+          "fone": "1231592400",
+          "skype": "SKYPE",
+          "email": "tarcisio.carvalho@tecnoval.com.br",
+          "aniver": "9999-06-20",
+          "linkedin": "linkedin.com/in/tarcisio-sacramento-de-carvalho",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-14T17:45:08.099Z",
+          "updatedAt": "2021-09-14T17:45:08.099Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "04747794000102",
+      "nomeAbv": "MANTIQ01",
+      "rzSoc": "MANTIQUEIRA ALIMENTOS LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3533614401",
+      "site": "https://grupomantiqueira.gupy.io/",
+      "atvPrincipal": "Produção de ovos",
+      "erp": "",
+      "database": null,
+      "ramo": "OVOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "MTQ",
+      "createdAt": "2021-08-26T19:08:43.287Z",
+      "updatedAt": "2022-01-18T20:24:51.685Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Richard Gomes",
+          "cel": "99999999999",
+          "fone": "3533614456",
+          "skype": "SKYPE",
+          "email": "richardgomes@grupomantiqueira.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/richard-gomes-6a997b13",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T19:08:43.618Z",
+          "updatedAt": "2021-08-26T19:08:43.618Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "08870769000172",
+      "nomeAbv": "TSEA01",
+      "rzSoc": "TRANSFORMADORES E SERVICOS DE ENERGIA DAS AMERICAS S.A.",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3133296340",
+      "site": "https://www.tseaenergia.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "TSE",
+      "createdAt": "2021-07-29T14:17:48.944Z",
+      "updatedAt": "2022-01-18T20:24:51.479Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Ricardo Baldo",
+          "cel": "99999999999",
+          "fone": "3133296354",
+          "skype": "SKYPE",
+          "email": "ricardo.baldo@tseaenergia.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-29T14:17:49.266Z",
+          "updatedAt": "2021-10-14T18:12:23.164Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "50155134000150",
+      "nomeAbv": "HYDRO01",
+      "rzSoc": "HYDRO EXTRUSION BRASIL S/A",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1140256700",
+      "site": "https://www.hydro.com/pt-BR/sobre-a-hydro/a-hydro-no-mundo/north-america/brasil/itu/hydro-extrusions-itu/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "HYD",
+      "createdAt": "2021-07-27T13:58:49.462Z",
+      "updatedAt": "2022-01-18T20:24:51.656Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Marco Siqueira",
+          "cel": "99999999999",
+          "fone": "1140256711",
+          "skype": "SKYPE",
+          "email": "marco.siqueira@hydro.com",
+          "aniver": "9999-01-01",
+          "linkedin": "9999-01-01",
+          "cargo": null,
+          "ramal": null,
+          "createdAt": "2021-07-27T13:58:49.802Z",
+          "updatedAt": "2021-10-14T17:43:11.342Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "49967961000169",
+      "nomeAbv": "AMERICANFLEX01",
+      "rzSoc": "AMERICANFLEX INDUSTRIAS REUNIDAS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1721368900",
+      "site": "http://site.americanflex.com.br/",
+      "atvPrincipal": "Fabricação de colchões",
+      "erp": "SANKHYA",
+      "database": "",
+      "ramo": "",
+      "setor": "",
+      "qtdFuncionarios": "",
+      "sigla": "AME",
+      "createdAt": "2021-09-29T13:35:42.045Z",
+      "updatedAt": "2022-01-18T20:24:51.757Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Paulo Berti",
+          "cel": "99999999999",
+          "fone": "1721368900",
+          "skype": "SKYPE",
+          "email": "tecnologia@americanflex.com.br",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/paulo-berti-8aa73739",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-29T13:35:42.790Z",
+          "updatedAt": "2021-09-29T13:35:42.790Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61158283000199",
+      "nomeAbv": "KOPENHAGEN01",
+      "rzSoc": "CRM INDUSTRIA E COMERCIO DE ALIMENTOS LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1146898180",
+      "site": "https://www.kopenhagen.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "ALIMENTÍCIA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "KOP",
+      "createdAt": "2021-07-21T18:49:38.885Z",
+      "updatedAt": "2022-01-18T20:24:51.466Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Fabio Vilas Boas Machado",
+          "cel": "99999999999",
+          "fone": "1146898180",
+          "skype": "SKYPE",
+          "email": "fabio.machado@grupocrm.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/fabio-vilas-boas-machado-98096922",
+          "cargo": "Gerente de Tecnologia",
+          "ramal": null,
+          "createdAt": "2021-07-21T18:49:39.220Z",
+          "updatedAt": "2021-08-26T17:57:07.854Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61070694000128",
+      "nomeAbv": "SAKURA01",
+      "rzSoc": "SAKURA NAKAYA ALIMENTOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 2941 - 1177",
+      "site": "https://sakura.com.br/",
+      "atvPrincipal": "Fabricação de especiarias, molhos, temperos e condimentos",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "SAK",
+      "createdAt": "2021-08-26T19:34:49.817Z",
+      "updatedAt": "2022-01-18T20:24:51.693Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Carlos Affonso",
+          "cel": "99999999999",
+          "fone": "1129411177",
+          "skype": "SKYPE",
+          "email": "carlos.affonso@sakura.com.br",
+          "aniver": "99999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T19:36:02.023Z",
+          "updatedAt": "2021-08-26T19:36:02.023Z"
+        },
+        {
+          "nome": "Virgilio Jesus",
+          "cel": "99999999999",
+          "fone": "1129411177",
+          "skype": "SKYPE",
+          "email": "virgilio.jesus@sakura.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de Sistemas",
+          "ramal": "256",
+          "createdAt": "2021-08-26T19:34:50.230Z",
+          "updatedAt": "2021-08-26T19:34:50.230Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "12041854000103",
+      "nomeAbv": "FAREVA01",
+      "rzSoc": "FAREVA DESENVOLVIMENTO, FABRICACAO E ACONDICIONAMENTO DE PRODUTOS COSMETICOS DE HIGIENE E LIMPEZA POR ENCOMENDA LTDA.",
+      "fantasia": "FAREVA ITUPEVA",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1145938200",
+      "site": "https://www.fareva.com/",
+      "atvPrincipal": "Fabricação de cosméticos, produtos de perfumaria e de higiene pessoal",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "PRODUTOS PERFUMARIA, COSMÉTICOS E HIGIENE",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "FAR",
+      "createdAt": "2021-09-14T18:29:34.511Z",
+      "updatedAt": "2022-01-18T20:24:51.737Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Paolo Callea",
+          "cel": "99999999999",
+          "fone": "1145938200",
+          "skype": "SKYPE",
+          "email": "pcallea.itupeva@fareva.com",
+          "aniver": "9999-09-18",
+          "linkedin": "linkedin.com/in/paolocallea",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-14T18:29:34.848Z",
+          "updatedAt": "2021-09-14T18:29:34.848Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61554028000165",
+      "nomeAbv": "CECIL01",
+      "rzSoc": "CECIL S/A - LAMINACAO DE METAIS",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1141437272",
+      "site": "http://www.cecil.com.br/pt/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "METALÚRGICA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "CEC",
+      "createdAt": "2021-07-29T14:29:40.654Z",
+      "updatedAt": "2022-01-18T20:24:51.438Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Anderson Tapetti",
+          "cel": "99999999999",
+          "fone": "1141437292",
+          "skype": "SKYPE",
+          "email": "anderson@cecil.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "LINKEDIN",
+          "cargo": "Coordenador de TI",
+          "ramal": null,
+          "createdAt": "2021-07-29T14:29:40.979Z",
+          "updatedAt": "2021-08-24T18:51:05.903Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "07522191000109",
+      "nomeAbv": "RIP01",
+      "rzSoc": "RIP SERVICOS INDUSTRIAIS LTDA",
+      "fantasia": "RIP SERVICOS INDUSTRIAIS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3885 - 7600",
+      "site": "http://www.ripbr.com.br/",
+      "atvPrincipal": "Outras obras de engenharia civil não especificadas anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ENGENHARIA E CONSTRUÇÃO",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "RIP",
+      "createdAt": "2021-09-29T15:06:58.348Z",
+      "updatedAt": "2022-01-18T20:24:51.759Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Leandro Nascimento",
+          "cel": "99999999999",
+          "fone": "1938857983",
+          "skype": "SKYPE",
+          "email": "leandro.nascimento@kaefer.com.br",
+          "aniver": "9999-01-30",
+          "linkedin": "linkedin.com/in/leandronsc",
+          "cargo": "Coordenador de Sistemas ",
+          "ramal": "",
+          "createdAt": "2021-09-29T15:16:12.094Z",
+          "updatedAt": "2021-10-26T14:01:48.156Z"
+        },
+        {
+          "nome": "João Junior",
+          "cel": "99999999999",
+          "fone": "1938857600",
+          "skype": "SKYPE",
+          "email": "novo@ripbr.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/joão-junior-b1a17926",
+          "cargo": "Coordenador de TI",
+          "ramal": "",
+          "createdAt": "2021-09-29T15:06:58.700Z",
+          "updatedAt": "2021-09-29T15:06:58.700Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "91319392000101",
+      "nomeAbv": "PERINI01",
+      "rzSoc": "VINICOLA PERINI LTDA",
+      "fantasia": "CASA PERINI",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(54) 2109 - 7300",
+      "site": "https://www.casaperini.com.br/",
+      "atvPrincipal": "Fabricação de vinho",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "VINHO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": null,
+      "createdAt": "2021-10-21T15:08:44.882Z",
+      "updatedAt": "2022-01-18T19:03:09.629Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Alessandro Kaunz",
+          "cel": "54991662688",
+          "fone": "5421097300",
+          "skype": "SKYPE",
+          "email": "alessandro@casaperini.com.br",
+          "aniver": "9999-11-06",
+          "linkedin": "linkedin.com/in/alessandrokunz",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-10-21T15:08:45.231Z",
+          "updatedAt": "2021-10-21T15:08:45.231Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "66301334000103",
+      "nomeAbv": "LATICPOA01",
+      "rzSoc": "LATICINIOS PORTO ALEGRE INDUSTRIA E COMERCIO S/A",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3138193200",
+      "site": "https://laticiniosportoalegre.com.br/",
+      "atvPrincipal": "Fabricação de laticínios",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "ALIMENTÍCIO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "LAT",
+      "createdAt": "2021-08-26T14:22:25.655Z",
+      "updatedAt": "2022-01-18T20:24:51.669Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Eduardo Ribeiro dos Santos Vale",
+          "cel": "99999999999",
+          "fone": "3138193200",
+          "skype": "SKYPE",
+          "email": "eduardo.vale@laticiniosportoalegre.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T14:22:26.008Z",
+          "updatedAt": "2021-10-21T18:10:51.083Z"
+        },
+        {
+          "nome": "Luiz Flávio Martins",
+          "cel": "99999999999",
+          "fone": "3138193200",
+          "skype": "SKYPE",
+          "email": "luizflavio@laticiniosportoalegre.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Analista de Infraestrutura",
+          "ramal": "",
+          "createdAt": "2021-08-26T14:24:17.235Z",
+          "updatedAt": "2021-08-26T14:24:17.235Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "48541510000100",
+      "nomeAbv": "SERRAMAR01",
+      "rzSoc": "COOPERATIVA DE LATICINIOS SERRAMAR",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1231285540",
+      "site": "http://www.serramar.coop.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "LATÍCINIOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "SER",
+      "createdAt": "2021-07-21T19:58:08.984Z",
+      "updatedAt": "2022-01-18T20:24:51.370Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Claudinei Rezende Gomes",
+          "cel": "99999999999",
+          "fone": "1231285540",
+          "skype": "SKYPE",
+          "email": "cgomes@serramar.coop.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/claudinei-rezende-gomes-45130a37",
+          "cargo": "Gerente de TI",
+          "ramal": "5554",
+          "createdAt": "2021-07-21T19:58:09.318Z",
+          "updatedAt": "2021-08-26T17:52:49.104Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "49169642000108",
+      "nomeAbv": "UNIBRAS01",
+      "rzSoc": "UNIBRAS AGRO QUIMICA LTDA",
+      "fantasia": "UNIBRAS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(16) 3628 - 1010",
+      "site": "http://www.unibras.com.br/",
+      "atvPrincipal": "Fabricação de defensivos agrícolas",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "DEFENSIVOS AGRÍCOLAS",
+      "setor": "INDÚSTRIA E COMÉRCIO",
+      "qtdFuncionarios": "",
+      "sigla": "UBR",
+      "createdAt": "2021-10-15T19:00:29.646Z",
+      "updatedAt": "2022-01-18T20:24:51.791Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Pαulo Ricardo Cavalheiro Costa",
+          "cel": "99999999999",
+          "fone": "1636281010",
+          "skype": "SKYPE",
+          "email": "paulo@unibras.com.br",
+          "aniver": "9999-01-13",
+          "linkedin": "linkedin.com/in/paulorcc",
+          "cargo": "Gestor de Tecnologia da Informação",
+          "ramal": "",
+          "createdAt": "2021-10-15T19:00:29.997Z",
+          "updatedAt": "2021-10-15T19:00:29.997Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "64286503000158",
+      "nomeAbv": "MANSER01",
+      "rzSoc": "MANSER MANUTENCAO, SERVICOS E ENGENHARIA S.A.",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3133042466",
+      "site": "https://manser.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "MSR",
+      "createdAt": "2021-07-27T13:31:12.455Z",
+      "updatedAt": "2022-01-18T20:24:51.648Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Luis Alberto Silva",
+          "cel": "99999999999",
+          "fone": "3133042466",
+          "skype": "SKYPE",
+          "email": "luis.silva@manser.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "9999-01-01",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-27T13:31:12.852Z",
+          "updatedAt": "2021-10-14T18:48:04.008Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "02351144000118",
+      "nomeAbv": "TEGMA01",
+      "rzSoc": "TEGMA GESTAO LOGISTICA S.A.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1143462500",
+      "site": "https://www.tegma.com.br/",
+      "atvPrincipal": "Transporte rodoviário de carga, exceto produtos perigosos e mudanças, intermunicipal, interestadual e internacional",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "TRANSPORTES RODOVIÁRIOS",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "TEG",
+      "createdAt": "2021-10-15T19:13:34.529Z",
+      "updatedAt": "2022-01-18T20:24:51.794Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Gilmara Gomes",
+          "cel": "99999999999",
+          "fone": "1143462500",
+          "skype": "SKYPE",
+          "email": "novo@tegma.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/gilmara-gomes-22763351",
+          "cargo": "não informado ainda",
+          "ramal": "",
+          "createdAt": "2021-10-21T19:18:46.870Z",
+          "updatedAt": "2021-11-16T13:29:56.691Z"
+        },
+        {
+          "nome": "Francisco Delmondes",
+          "cel": "99999999999",
+          "fone": "1143462500",
+          "skype": "SKYPE",
+          "email": "francisco.delmondes@tegma.com.br",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/francisco-delmondes-05815426",
+          "cargo": "Coordenador de Infraestrutura de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T19:13:35.170Z",
+          "updatedAt": "2021-10-15T19:13:35.170Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "88209176000107",
+      "nomeAbv": "TIBRE01",
+      "rzSoc": "TIBRE INDUSTRIA METALURGICA LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "5433883100",
+      "site": "https://www.tibre.com.br/",
+      "atvPrincipal": "Fabricação de obras de caldeiraria pesada",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "METAL E AÇO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "TIB",
+      "createdAt": "2021-09-08T13:52:47.906Z",
+      "updatedAt": "2022-01-18T20:24:51.722Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Anderson Luis Basso",
+          "cel": "54991173548",
+          "fone": "5433883100",
+          "skype": "SKYPE",
+          "email": "anderson.basso@tibre.com.br",
+          "aniver": "9999-08-11",
+          "linkedin": "linkedin.com/in/anderson-luis-basso",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-08T13:52:48.278Z",
+          "updatedAt": "2021-10-08T13:18:54.609Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "10376555000196",
+      "nomeAbv": "COMBIO01",
+      "rzSoc": "COMBIO ENERGIA S.A.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 3030 - 0040",
+      "site": "https://combioenergia.com.br/",
+      "atvPrincipal": "Produção e distribuição de vapor, água quente e ar condicionado",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ENERGIA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "COM",
+      "createdAt": "2021-10-20T15:15:25.396Z",
+      "updatedAt": "2022-01-18T20:24:51.799Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Thiago Meira",
+          "cel": "99999999999",
+          "fone": "1130300040",
+          "skype": "SKYPE",
+          "email": "thiago.meira@combioenergia.com.br",
+          "aniver": "9999-08-03",
+          "linkedin": "linkedin.com/in/diego-gomes-jardim-21297741",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-10-20T15:15:25.759Z",
+          "updatedAt": "2021-10-20T15:15:25.759Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61940292000137",
+      "nomeAbv": "SANTACRUZ01",
+      "rzSoc": "DISTRIBUIDORA DE MEDICAMENTOS SANTA CRUZ LTDA",
+      "fantasia": "SANTA CRUZ",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1130407500",
+      "site": "http://www.stcruz.com.br/Paginas/Index.aspx",
+      "atvPrincipal": "Comércio atacadista de medicamentos e drogas de uso humano",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "MEDICAMENTOS",
+      "setor": "COMÉRCIO ATACADISTA",
+      "qtdFuncionarios": null,
+      "sigla": "SAN",
+      "createdAt": "2021-09-14T18:17:28.631Z",
+      "updatedAt": "2022-01-18T20:24:51.735Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Mario Pinto",
+          "cel": "99999999999",
+          "fone": "1130407500",
+          "skype": "SKYPE",
+          "email": "mario.pinto@gruposc.com.br",
+          "aniver": "9999-12-25",
+          "linkedin": "linkedin.com/in/mario-pinto-bb739bb",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-14T18:17:28.971Z",
+          "updatedAt": "2021-09-14T18:19:26.302Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "49329873000131",
+      "nomeAbv": "BARAO01",
+      "rzSoc": "CENTRO ATACADISTA BARAO LTDA",
+      "fantasia": "CENTRO ATACADISTA",
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1133051010",
+      "site": "https://baraodistribuidor.com.br/",
+      "atvPrincipal": "Comércio atacadista de mercadorias em geral, sem predominância de alimentos ou de insumos agropecuários",
+      "erp": null,
+      "database": null,
+      "ramo": "BRINQUEDOS",
+      "setor": "COMÉRCIO ATACADISTA",
+      "qtdFuncionarios": null,
+      "sigla": "BAR",
+      "createdAt": "2021-08-26T14:56:08.863Z",
+      "updatedAt": "2022-01-18T20:24:51.675Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "André Maurício Monte Mór",
+          "cel": "99999999999",
+          "fone": "1133051010",
+          "skype": "SKYPE",
+          "email": "andre.mor@baraodistribuidor.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/andré-maurício-monte-mór-b7b759143",
+          "cargo": "Gerente de TI",
+          "ramal": "202",
+          "createdAt": "2021-08-26T14:56:09.199Z",
+          "updatedAt": "2021-08-26T14:56:09.199Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "01163538000180",
+      "nomeAbv": "ONDULINE01",
+      "rzSoc": "ONDULINE DO BRASIL LTDA.",
+      "fantasia": "TELHAS ONDULINE DO BRASIL",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3236919400",
+      "site": "https://br.onduline.com/pt-br",
+      "atvPrincipal": "Fabricação de outros produtos de minerais não-metálicos não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "TELHAS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "OND",
+      "createdAt": "2021-08-26T18:52:02.700Z",
+      "updatedAt": "2022-01-18T20:24:51.682Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Laureano da Costa Mouren Brame Dias",
+          "cel": "32999918887",
+          "fone": "3236919427",
+          "skype": "SKYPE",
+          "email": "coordenador.ti@onduline.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/laureano-da-costa-mouren-brame-dias-b4367429",
+          "cargo": "Coordenador de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T18:52:03.066Z",
+          "updatedAt": "2021-08-26T18:52:54.264Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "54183819000160",
+      "nomeAbv": "BRASIMPAR01",
+      "rzSoc": "BRASIMPAR INDUSTRIA METALURGICA EIRELI",
+      "fantasia": "BRASIMPAR",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1124237000",
+      "site": "https://www.brasimpar.com.br/",
+      "atvPrincipal": "Produção de artefatos estampados de metal",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "METAL",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "BSP",
+      "createdAt": "2021-09-24T16:42:20.021Z",
+      "updatedAt": "2022-01-18T20:24:51.752Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "José Sidnei",
+          "cel": "99999999999",
+          "fone": "1124237000",
+          "skype": "SKYPE",
+          "email": "jose.sidnei@brasimpar.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-24T16:42:20.360Z",
+          "updatedAt": "2021-09-24T16:42:20.360Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "33958695000178",
+      "nomeAbv": "UNIPAR01",
+      "rzSoc": "UNIPAR CARBOCLORO S.A.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 3704 - 4200",
+      "site": "https://www.unipar.com/",
+      "atvPrincipal": "Fabricação de cloro e álcalis",
+      "erp": "",
+      "database": "",
+      "ramo": "QUÍMICA E PETROQÍMICA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "UPR",
+      "createdAt": "2021-09-29T18:11:11.379Z",
+      "updatedAt": "2022-01-18T20:24:51.762Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Roberta Pinto",
+          "cel": "99999999999",
+          "fone": "1333688068",
+          "skype": "SKYPE",
+          "email": "roberta.pinto@unipar.com",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/robertampinto",
+          "cargo": "Gerente de Operações e Infraestrutura",
+          "ramal": "",
+          "createdAt": "2021-09-29T18:11:11.813Z",
+          "updatedAt": "2021-10-21T19:06:00.073Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "39577248000155",
+      "nomeAbv": "ABGCORP01",
+      "rzSoc": "ABG CORPORATE LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1938467739",
+      "site": "https://www.abgcorp.com/",
+      "atvPrincipal": "Serviços combinados de escritório e apoio administrativo",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "",
+      "setor": "",
+      "qtdFuncionarios": "",
+      "sigla": "ABG",
+      "createdAt": "2021-09-29T14:15:05.487Z",
+      "updatedAt": "2022-01-18T20:24:51.769Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Marcos Emiliano de Morais",
+          "cel": "99999999999",
+          "fone": "1938467739",
+          "skype": "SKYPE",
+          "email": "marcos.morais@abgcorp.com.br",
+          "aniver": "9999-10-02",
+          "linkedin": "linkedin.com/in/marcos-emiliano-de-morais-3963612a",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-29T14:15:05.844Z",
+          "updatedAt": "2021-11-16T18:35:45.996Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00797490000107",
+      "nomeAbv": "CABLET02",
+      "rzSoc": "CABLETECH CABOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1232211300",
+      "site": "https://www.cabletech.com.br/",
+      "atvPrincipal": "Fabricação de fios, cabos e condutores elétricos isolados",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "CAB",
+      "createdAt": "2021-08-17T13:23:00.560Z",
+      "updatedAt": "2022-01-18T20:24:51.452Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Anderson Santos",
+          "cel": "12981597557",
+          "fone": "1232211323",
+          "skype": "SKYPE",
+          "email": "anderson.santos@cabletech.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-17T13:23:00.945Z",
+          "updatedAt": "2021-08-17T13:23:00.945Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "07332190000193",
+      "nomeAbv": "VICUNHA01",
+      "rzSoc": "VICUNHA TEXTIL S/A.",
+      "fantasia": "VICUNHA",
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "8540081444",
+      "site": "https://www.vicunha.com/",
+      "atvPrincipal": "Preparação e fiação de fibras de algodão",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "TÊXTIL",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": null,
+      "createdAt": "2021-10-15T15:09:01.730Z",
+      "updatedAt": "2022-01-18T19:03:09.632Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Cleber Oliveira",
+          "cel": "99999999999",
+          "fone": "8540081759",
+          "skype": "SKYPE",
+          "email": "cleber.oliveira@vicunha.com.br",
+          "aniver": "9999-06-28",
+          "linkedin": "linkedin.com/in/cleber-oliveira-abb93326",
+          "cargo": "Coordenador de Sistemas ",
+          "ramal": "",
+          "createdAt": "2021-10-15T15:11:47.662Z",
+          "updatedAt": "2021-10-15T15:11:47.662Z"
+        },
+        {
+          "nome": "Ronaldo Sobral",
+          "cel": "85992130413",
+          "fone": "8540081690",
+          "skype": "SKYPE",
+          "email": "ronaldo@vicunha.com.br",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/ronaldo-sobral-0051719",
+          "cargo": "ronaldo@vicunha.com.br",
+          "ramal": "",
+          "createdAt": "2021-10-15T15:09:02.107Z",
+          "updatedAt": "2021-10-15T15:09:02.107Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61088894000108",
+      "nomeAbv": "CAMBUCI01",
+      "rzSoc": "CAMBUCI S/A",
+      "fantasia": "PENALTY",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1147139500",
+      "site": "http://www.cambuci.com.br/",
+      "atvPrincipal": "Fabricação de artefatos de couro não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "ARTEFATOS DE COURO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "CAM",
+      "createdAt": "2021-09-01T19:11:59.946Z",
+      "updatedAt": "2022-01-18T20:24:51.704Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Arnaldo Recacho",
+          "cel": "99999999999",
+          "fone": "1147139539",
+          "skype": "SKYPE",
+          "email": "arnaldo.recacho@cambuci.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-01T19:12:00.279Z",
+          "updatedAt": "2021-11-16T13:35:06.347Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03221889000125",
+      "nomeAbv": "PRINTLASER01",
+      "rzSoc": "PRINT LASER CARTOES E SISTEMAS DIGITAIS LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4688 - 7500",
+      "site": "https://www.grupoprintlaser.com.br/",
+      "atvPrincipal": "Impressão de material de segurança",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "IMPRESSÃO",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": "",
+      "sigla": "PRI",
+      "createdAt": "2021-09-29T19:03:18.447Z",
+      "updatedAt": "2022-01-18T20:24:51.766Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Paulo Sergio Azevedo",
+          "cel": "99999999999",
+          "fone": "1146887500",
+          "skype": "SKYPE",
+          "email": "paulo.azecedo@grupoprintlaser.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/pauloazv",
+          "cargo": "Gerente Corporativo de Projetos de TI ",
+          "ramal": "",
+          "createdAt": "2021-09-29T19:03:18.872Z",
+          "updatedAt": "2021-09-29T19:03:18.872Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "56995681000120",
+      "nomeAbv": "ASVOTEC01",
+      "rzSoc": "ASVOTEC TERMOINDUSTRIAL LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1938798777",
+      "site": "http://www.asvotec.com.br/",
+      "atvPrincipal": "Fabricação de máquinas e equipamentos para uso industrial específico não especificados anteriormente, peças e acessórios",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "ASV",
+      "createdAt": "2021-09-24T15:58:32.782Z",
+      "updatedAt": "2022-01-18T20:24:51.747Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "André Genesi",
+          "cel": "99999999999",
+          "fone": "1938798814",
+          "skype": "SKYPE",
+          "email": "andre.genesi@asvotec.com.br",
+          "aniver": "9999-05-07",
+          "linkedin": "linkedin.com/in/andreluizgenesi",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-24T15:58:33.108Z",
+          "updatedAt": "2021-09-24T15:58:33.108Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "92780634000122",
+      "nomeAbv": "TERMOLAR01",
+      "rzSoc": "TERMOLAR SA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "5121218005",
+      "site": "https://www.termolar.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "PLÁSTICA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "TER",
+      "createdAt": "2021-07-14T17:34:39.075Z",
+      "updatedAt": "2022-01-18T20:24:51.717Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Walder Kneip Filho",
+          "cel": "51993546881",
+          "fone": "5121218005",
+          "skype": "SKYPE",
+          "email": "walder@termolar.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/walder-kneip-filho-7841538",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-14T17:34:39.411Z",
+          "updatedAt": "2021-08-24T19:20:31.414Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61499281000163",
+      "nomeAbv": "DORMA01",
+      "rzSoc": "DORMAKABA BRASIL SOLUCOES DE ACESSO LTDA.",
+      "fantasia": "DORMAKABA",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1146899200",
+      "site": "https://www.dormakaba.com/br-pt",
+      "atvPrincipal": "Fabricação de outros produtos de metal não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "METAL",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "DOR",
+      "createdAt": "2021-08-26T19:26:54.073Z",
+      "updatedAt": "2022-01-18T20:24:51.691Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Fabio Evangelista ",
+          "cel": "11996501752",
+          "fone": "1146899233",
+          "skype": "SKYPE",
+          "email": "fabio.evangelista@dorma.com",
+          "aniver": "9999-10-19",
+          "linkedin": "linkedin.com/in/fabezerra",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T19:26:54.435Z",
+          "updatedAt": "2021-08-26T19:26:54.435Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00942246000182",
+      "nomeAbv": "SIMARELLI01",
+      "rzSoc": "SIMARELLI DISTRIBUIDORA DE DERIVADOS DE PETROLEO LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3573 - 4422",
+      "site": "http://www.simarelli.com.br/",
+      "atvPrincipal": "Comércio atacadista de álcool carburante, biodiesel, gasolina e demais derivados de petróleo, exceto lubrificantes, não realizado por transportador retalhista (TRR)",
+      "erp": "",
+      "database": "",
+      "ramo": "PETROQUÍMICA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "SIM",
+      "createdAt": "2021-11-10T13:30:55.017Z",
+      "updatedAt": "2022-01-18T20:24:51.803Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Alan Arruda",
+          "cel": "99999999999",
+          "fone": "1935734422",
+          "skype": "SKYPE",
+          "email": "aarruda@simarelli.com.br",
+          "aniver": "9999-08-05",
+          "linkedin": "linkedin.com/in/alan-arruda-137778174",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-11-10T13:30:55.414Z",
+          "updatedAt": "2021-11-10T13:39:08.282Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61296646000152",
+      "nomeAbv": "AURORA-BEBIDAS01",
+      "rzSoc": "AURORA BEBIDAS E ALIMENTOS FINOS LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1133632288",
+      "site": "https://aurora.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "AUR",
+      "createdAt": "2021-07-29T14:06:05.700Z",
+      "updatedAt": "2022-01-18T20:24:51.493Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Érika Zoppello",
+          "cel": "99999999999",
+          "fone": "1136232288",
+          "skype": "SKYPE",
+          "email": "erika.zoppello@aurora.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "linkedin.com/in/érika-zoppello-2605b340",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-29T14:06:06.053Z",
+          "updatedAt": "2021-08-06T18:01:04.982Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "48871545000108",
+      "nomeAbv": "CHRHANSEN01",
+      "rzSoc": "CHR HANSEN INDUSTRIA E COMERCIO LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3881 - 8300",
+      "site": "https://www.chr-hansen.com/pt/contact/br-valinhos",
+      "atvPrincipal": "Fabricação de fermentos e leveduras",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "CHR",
+      "createdAt": "2021-08-26T19:17:41.247Z",
+      "updatedAt": "2022-01-18T20:24:51.688Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "João Pedro Sivieri Tauil",
+          "cel": "9999999999",
+          "fone": "1938818300",
+          "skype": "SKYPE",
+          "email": "novo@chr-hansen.com.br",
+          "aniver": "99999-09-09",
+          "linkedin": "linkedin.com/in/joao-pedro-tauil-98272512",
+          "cargo": "Senior Information Technology Specialist",
+          "ramal": "",
+          "createdAt": "2021-08-26T19:17:41.583Z",
+          "updatedAt": "2021-10-21T14:42:27.049Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "76109594000135",
+      "nomeAbv": "CALPAR01",
+      "rzSoc": "CALPAR COMERCIO DE CALCARIO LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "4232338200",
+      "site": "http://www.calpar.com.br/",
+      "atvPrincipal": "Fabricação de outros produtos de minerais não-metálicos não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MINERAIS",
+      "setor": "EXTRAÇÃO",
+      "qtdFuncionarios": "",
+      "sigla": "CAL",
+      "createdAt": "2021-10-15T17:34:56.435Z",
+      "updatedAt": "2022-01-18T20:24:51.786Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Marcos Barbosa ",
+          "cel": "99999999999",
+          "fone": "4232338200",
+          "skype": "SKYPE",
+          "email": "novo@calpar.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/marcos-barbosa-b8481932",
+          "cargo": "Gerente de Projetos e TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T17:34:56.779Z",
+          "updatedAt": "2021-11-11T13:45:35.929Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "74521188000150",
+      "nomeAbv": "UNIMEDS.ROQUE01",
+      "rzSoc": "UNIMED DE SAO ROQUE COOPERATIVA DE TRABALHO MEDICO",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1147135200",
+      "site": "https://www.unimed.coop.br/site/web/saoroque",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "SAÚDE",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": null,
+      "sigla": "UMR",
+      "createdAt": "2021-07-21T18:39:15.524Z",
+      "updatedAt": "2022-01-18T20:24:51.677Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "André Luis Correa do Santos",
+          "cel": "99999999999",
+          "fone": "1147135200",
+          "skype": "SKYPE",
+          "email": "andre.luis@unimedsaoroque.coop.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Supervisor de TI",
+          "ramal": "",
+          "createdAt": "2021-09-01T13:39:29.586Z",
+          "updatedAt": "2021-09-01T13:39:29.586Z"
+        },
+        {
+          "nome": "Juliano Nicola",
+          "cel": "99999999999",
+          "fone": "1147135225",
+          "skype": "SKYPE",
+          "email": "tecnologia@unimedsaoroque.coop.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T18:39:15.907Z",
+          "updatedAt": "2021-09-01T13:38:20.242Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00684808000216",
+      "nomeAbv": "ERSA001",
+      "rzSoc": "ESTANHO DE RONDONIA S/A",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(24) 3344 - 6000",
+      "site": "https://www.csn.com.br/quem-somos/grupo-csn/ersa/",
+      "atvPrincipal": "Extração de minério de estanho",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "ERS",
+      "createdAt": "2021-08-20T11:53:46.398Z",
+      "updatedAt": "2022-01-18T20:24:51.549Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Edivan Rison",
+          "cel": "69999205622",
+          "fone": "6935352160",
+          "skype": "",
+          "email": "edivan.rison@csn.com.br",
+          "aniver": null,
+          "linkedin": "https://br.linkedin.com/in/edivan-rison-83b6905a",
+          "cargo": "Analista de TI",
+          "ramal": "",
+          "createdAt": "2021-08-20T11:53:46.711Z",
+          "updatedAt": "2021-08-20T11:53:46.711Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "03594431000111",
+      "nomeAbv": "FORMITEX01",
+      "rzSoc": "FORMITEX EMPREENDIMENTOS E PARTICIPACOES LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1130488700",
+      "site": "http://formitex.com.br/",
+      "atvPrincipal": "Holdings de instituições não-financeiras",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "HOLDINGS",
+      "setor": "SERVIÇOS",
+      "qtdFuncionarios": null,
+      "sigla": "FOR",
+      "createdAt": "2021-09-01T18:47:09.591Z",
+      "updatedAt": "2022-01-18T20:24:51.664Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Marcelo David",
+          "cel": "99999999999",
+          "fone": "1130488780",
+          "skype": "SKYPE",
+          "email": "marcelo.david@formitex.com.br",
+          "aniver": "9999-02-19",
+          "linkedin": "linkedin.com/in/marcelodavid",
+          "cargo": "Gerente Corporativo de Tecnologia da Informação",
+          "ramal": "",
+          "createdAt": "2021-09-01T18:47:10.063Z",
+          "updatedAt": "2021-09-01T18:47:10.063Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "07105510000172",
+      "nomeAbv": "CLARK01",
+      "rzSoc": "CLARK MATERIAL HANDLING BRASIL S.A.",
+      "fantasia": "CLARK EMPILHADEIRAS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1938569090",
+      "site": "https://clarkempilhadeiras.com.br/",
+      "atvPrincipal": "Fabricação de máquinas, equipamentos e aparelhos para transporte e elevação de cargas, peças e acessórios",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "CLA",
+      "createdAt": "2021-08-26T14:42:33.009Z",
+      "updatedAt": "2022-01-18T20:24:51.672Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Guilherme Roberto",
+          "cel": "99999999999",
+          "fone": "1938569080",
+          "skype": "SKYPE",
+          "email": "ticlark@clarkmhc.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-08-26T14:42:33.370Z",
+          "updatedAt": "2021-09-01T13:14:29.839Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "17156696000142",
+      "nomeAbv": "GRUPOSANTACLARA01",
+      "rzSoc": "INDUSTRIA SANTA CLARA SA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3133067401",
+      "site": "https://www.santaclarasa.com.br/",
+      "atvPrincipal": null,
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "MÁQUINAS E EQUIPAMENTOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "GRU",
+      "createdAt": "2021-07-21T18:01:51.179Z",
+      "updatedAt": "2022-01-18T20:24:51.563Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Thiago Chagas",
+          "cel": "31993050509",
+          "fone": "3133067400",
+          "skype": "SKYPE",
+          "email": "thiago.chagas@santaclarasa.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "linkedin.com/in/tlchagas",
+          "cargo": "Gerente de TI",
+          "ramal": null,
+          "createdAt": "2021-07-21T18:01:51.527Z",
+          "updatedAt": "2021-08-24T14:25:42.275Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "17155276000141",
+      "nomeAbv": "NANSEN01",
+      "rzSoc": "NANSEN INSTRUMENTOS DE PRECISAO LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "3135143100",
+      "site": "http://nansen.com.br/",
+      "atvPrincipal": "Fabricação de aparelhos e equipamentos de medida, teste e controle",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "EQUIPAMENTOS DE MEDIÇÃO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "NAN",
+      "createdAt": "2021-09-14T20:11:24.652Z",
+      "updatedAt": "2022-01-18T20:24:51.774Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Jeosatan Simao",
+          "cel": "99999999999",
+          "fone": "3135143153",
+          "skype": "SKYPE",
+          "email": "jeoasatan.simao@nansen.com.br",
+          "aniver": "9999-08-31",
+          "linkedin": "linkedin.com/in/jeosatan",
+          "cargo": "Coordenador Sistemas de Informação",
+          "ramal": "",
+          "createdAt": "2021-09-14T20:11:25.002Z",
+          "updatedAt": "2021-10-14T14:57:24.050Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "67854034000114",
+      "nomeAbv": "WYDA001",
+      "rzSoc": "WYDA INDUSTRIA DE EMBALAGENS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": 1,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1521017500",
+      "site": "https://wyda.com.br/",
+      "atvPrincipal": "Fabricação de embalagens metálicas",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "WYD",
+      "createdAt": "2021-08-20T11:58:05.637Z",
+      "updatedAt": "2022-01-18T20:24:51.653Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Gustavo Andries",
+          "cel": "99999999999",
+          "fone": "1521017500",
+          "skype": "",
+          "email": "gustavo.andries@wyda.com.br",
+          "aniver": null,
+          "linkedin": "https://br.linkedin.com/in/gustavo-andries-35526571",
+          "cargo": "Administrador de Redes",
+          "ramal": "",
+          "createdAt": "2021-08-20T11:58:05.954Z",
+          "updatedAt": "2021-08-20T11:58:05.954Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "01182354000167",
+      "nomeAbv": "PELZER01",
+      "rzSoc": "PELZER DO BRASIL LTDA",
+      "fantasia": "PELZER",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1221252200",
+      "site": "https://www.adlerpelzer.com/about-us",
+      "atvPrincipal": "Fabricação de outras peças e acessórios para veículos automotores não especificadas anteriormente",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "AUTO PEÇAS E ACESSÓRIOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "PEL",
+      "createdAt": "2021-09-01T19:32:38.446Z",
+      "updatedAt": "2022-01-18T20:24:51.706Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "André Tolosa",
+          "cel": "12981457100",
+          "fone": "1221252205",
+          "skype": "SKYPE",
+          "email": "ti|@hpelzer.com.br",
+          "aniver": "99999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Analista de Infraestrutura de TI",
+          "ramal": "",
+          "createdAt": "2021-09-01T19:34:22.995Z",
+          "updatedAt": "2021-09-30T19:10:44.127Z"
+        },
+        {
+          "nome": "Wesley Toxa",
+          "cel": "99999999999",
+          "fone": "1221252205",
+          "skype": "SKYPE",
+          "email": "toxa@adlerpelzer.com.br",
+          "aniver": "99999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-01T19:32:38.876Z",
+          "updatedAt": "2021-09-01T19:32:38.876Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "62858352000130",
+      "nomeAbv": "RONTAN01",
+      "rzSoc": "RONTAN ELETRO METALURGICA LTDA - EM RECUPERACAO JUDICIAL",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(15) 3205 - 9500",
+      "site": "http://www.rontan.com.br/",
+      "atvPrincipal": "Fabricação de material elétrico e eletrônico para veículos automotores, exceto baterias",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "ELETRO ELETRÔNICOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "RON",
+      "createdAt": "2021-11-11T12:56:07.957Z",
+      "updatedAt": "2022-01-18T20:24:51.809Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Péricles de Alcântara Martins",
+          "cel": "99999999999",
+          "fone": "1532059500",
+          "skype": "SKYPE",
+          "email": "pmartins@rontan.com.br",
+          "aniver": "9999-11-23",
+          "linkedin": "linkedin.com/in/péricles-de-alcântara-martins-68052944",
+          "cargo": "Supervisor de TI",
+          "ramal": "",
+          "createdAt": "2021-11-11T12:56:08.329Z",
+          "updatedAt": "2021-11-11T13:04:43.642Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "53359824000119",
+      "nomeAbv": "BLANVER01",
+      "rzSoc": "BLANVER FARMOQUIMICA E FARMACEUTICA S.A.",
+      "fantasia": "BLANVER S.A.",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1141388200",
+      "site": "https://blanver.com.br/",
+      "atvPrincipal": "Preparação de documentos e serviços especializados de apoio administrativo não especificados anteriormente",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "FARMACÊUTICO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "BLA",
+      "createdAt": "2021-09-24T16:10:51.425Z",
+      "updatedAt": "2022-01-18T20:24:51.750Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Ivo da Rocha Mello Junior",
+          "cel": "99999999999",
+          "fone": "1141388200",
+          "skype": "",
+          "email": "ti@blanver.com.br",
+          "aniver": "9999-03-02",
+          "linkedin": "linkedin.com/in/ivodarocha",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-24T16:10:51.753Z",
+          "updatedAt": "2021-09-24T16:10:51.753Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "07450247000159",
+      "nomeAbv": "METALUR001",
+      "rzSoc": "METALUR BRASIL INDUSTRIA E COMERCIO DE METAIS LTDA.",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(11) 4136 - 6200",
+      "site": "https://www.metalur.com.br/",
+      "atvPrincipal": "Produção de alumínio e suas ligas em formas primárias",
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "MET",
+      "createdAt": "2021-08-20T11:45:23.442Z",
+      "updatedAt": "2022-01-18T20:24:51.536Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Juliano Cesare",
+          "cel": "11999999999",
+          "fone": "1141366200",
+          "skype": "",
+          "email": "juliano.cesare@metalur.com.br",
+          "aniver": null,
+          "linkedin": "",
+          "cargo": "Analista de TI",
+          "ramal": "",
+          "createdAt": "2021-08-20T11:45:23.806Z",
+          "updatedAt": "2021-08-20T11:45:23.806Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "01211626000100",
+      "nomeAbv": "ASSAABLOY01",
+      "rzSoc": "ASSA ABLOY BRASIL SISTEMAS DE SEGURANCA LTDA",
+      "fantasia": "ASSA ABLOY BRASIL",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1156934700",
+      "site": "https://www.assaabloy.com.br/pt-br/local/inicio/",
+      "atvPrincipal": "Fabricação de artigos de serralheria, exceto esquadrias",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "ARTIGOS DE SERRALHERIA",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "ASS",
+      "createdAt": "2021-09-01T19:44:58.570Z",
+      "updatedAt": "2022-01-18T20:24:51.709Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Gabriela Nunes",
+          "cel": "83981192311",
+          "fone": "1156934736",
+          "skype": "SKYPE",
+          "email": "gabriela.nunes@assaabloy.com",
+          "aniver": null,
+          "linkedin": "linkedin.com/in/gabriela-nunes-86512522",
+          "cargo": "Supervisora de TI",
+          "ramal": "83981192311",
+          "createdAt": "2021-09-01T19:44:58.912Z",
+          "updatedAt": "2021-11-10T14:03:07.387Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "71586952000187",
+      "nomeAbv": "ARMCO01",
+      "rzSoc": "ARMCO DO BRASIL S/A",
+      "fantasia": "G&D",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1221273400",
+      "site": "http://www.armco.com.br/",
+      "atvPrincipal": "Produção de relaminados, trefilados e perfilados de aço, exceto arames",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "AÇO",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "ARM",
+      "createdAt": "2021-10-15T14:10:05.595Z",
+      "updatedAt": "2022-01-18T20:24:51.777Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Heraldo Almeida",
+          "cel": "99999999999",
+          "fone": "1221273410",
+          "skype": "SKYPE",
+          "email": "heraldoa@armco.com.br",
+          "aniver": null,
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T14:10:06.107Z",
+          "updatedAt": "2021-10-15T14:10:06.107Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "74473067000180",
+      "nomeAbv": "TOPTAYLOR01",
+      "rzSoc": "TOP TAYLOR INDUSTRIA E COMERCIO LTDA",
+      "fantasia": null,
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1148717600",
+      "site": "https://www.taylor.com.br/",
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "TOP",
+      "createdAt": "2021-07-29T13:56:22.411Z",
+      "updatedAt": "2022-01-18T20:24:51.508Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Felipe Gonçalves",
+          "cel": "99999999999",
+          "fone": "1148717720",
+          "skype": "SKYPE",
+          "email": "felipe.goncalves@taylor.com.br",
+          "aniver": "9999-01-01",
+          "linkedin": "LINKEDIN",
+          "cargo": "Coordenador de TI",
+          "ramal": null,
+          "createdAt": "2021-07-29T13:56:22.746Z",
+          "updatedAt": "2021-08-06T18:04:53.130Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "61065199000120",
+      "nomeAbv": "OCRIM01",
+      "rzSoc": "OCRIM S A PRODUTOS ALIMENTICIOS",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "1137186300",
+      "site": "https://ocrim.com.br/",
+      "atvPrincipal": "Serviços combinados de escritório e apoio administrativo",
+      "erp": "DATASUL",
+      "database": null,
+      "ramo": "DIVERSOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": null,
+      "sigla": "OCR",
+      "createdAt": "2021-09-08T14:09:25.708Z",
+      "updatedAt": "2022-01-18T20:24:51.712Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Gilberto Amâncio de Oliveira",
+          "cel": "99999999999",
+          "fone": "1137186300",
+          "skype": "SKYPE",
+          "email": "gilberto.oliveira@ocrim.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "LINKEDIN",
+          "cargo": "Gerente de TI",
+          "ramal": "",
+          "createdAt": "2021-09-08T14:09:26.030Z",
+          "updatedAt": "2021-09-08T14:09:26.030Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "68149228000181",
+      "nomeAbv": "BRASCABOS01",
+      "rzSoc": "BRASCABOS COMPONENTES ELETRICOS E ELETRONICOS LTDA",
+      "fantasia": "BRASCABOS",
+      "RepresentanteId": 3,
+      "TipoComisseId": null,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": "(19) 3522 - 5122",
+      "site": "https://www.brascabos.com.br/",
+      "atvPrincipal": "Fabricação de fios, cabos e condutores elétricos isolados",
+      "erp": "DATASUL",
+      "database": "PROGRESS",
+      "ramo": "FIOS, CABOS E CONDUTORES ELÉTRICOS",
+      "setor": "INDÚSTRIA",
+      "qtdFuncionarios": "",
+      "sigla": "BCB",
+      "createdAt": "2021-10-15T14:35:00.734Z",
+      "updatedAt": "2022-01-18T20:24:51.779Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Daniel Defina",
+          "cel": "99999999999",
+          "fone": "1935225124",
+          "skype": "SKYPE",
+          "email": "ddefina@brascabos.com.br",
+          "aniver": "9999-06-09",
+          "linkedin": "linkedin.com/in/daniel-defina-6493347",
+          "cargo": "Diretor de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T14:38:14.144Z",
+          "updatedAt": "2021-10-15T14:38:14.144Z"
+        },
+        {
+          "nome": "Lucas Arnosti",
+          "cel": "99999999999",
+          "fone": "1935225561",
+          "skype": "SKYPE",
+          "email": "larnosti@brascabos.com.br",
+          "aniver": "9999-09-09",
+          "linkedin": "https://www.linkedin.com/in/lucasarnosti/",
+          "cargo": "Coordenador de TI",
+          "ramal": "",
+          "createdAt": "2021-10-15T14:35:01.099Z",
+          "updatedAt": "2021-10-15T14:35:01.099Z"
+        }
+      ]
+    },
+    {
+      "CNPJ": "00093721000193",
+      "nomeAbv": "PROTEGE001",
+      "rzSoc": "PROTEGE SEGURANCA ELETRONICA, MONITORAMENTO E SERVICOS LTDA",
+      "fantasia": "",
+      "RepresentanteId": 3,
+      "TipoComisseId": 3,
+      "EmpresaId": 1,
+      "prospect": true,
+      "fone": null,
+      "site": null,
+      "atvPrincipal": null,
+      "erp": null,
+      "database": null,
+      "ramo": null,
+      "setor": null,
+      "qtdFuncionarios": null,
+      "sigla": "PRO",
+      "createdAt": "2021-01-28T14:29:27.201Z",
+      "updatedAt": "2022-01-18T20:24:51.384Z",
+      "Oportunidades": [
+
+      ],
+      "CliConts": [
+        {
+          "nome": "Carlos Alexandre Ballesteros",
+          "cel": "99999999999",
+          "fone": "(11) 3156 - 0800",
+          "skype": "carlos",
+          "email": "carlos.ballesteros@protege.com.br",
+          "aniver": "2018-01-01",
+          "linkedin": null,
+          "cargo": null,
+          "ramal": null,
+          "createdAt": "2021-01-28T14:31:34.222Z",
+          "updatedAt": "2021-07-12T21:13:01.017Z"
+        }
+      ]
+    }
+  ]
