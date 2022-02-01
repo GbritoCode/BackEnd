@@ -205,7 +205,7 @@ class FinanceiraController {
         {
           attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtLiqui: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtLiqui: { [Op.between]: [`${year}-${mes}-01`, `${year}-${month}-${lastDayMonth}`] },
           },
           group: ['dtLiqui', 'recDesp'],
         },
@@ -215,7 +215,7 @@ class FinanceiraController {
         {
           attributes: ['dtVenc', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${month}-${lastDayMonth}`] },
           },
           group: ['dtVenc'],
         },
