@@ -65,13 +65,10 @@ import fechamentoCaixaMensControler from './app/controllers/FinanceiraController
 import financeiraController from './app/controllers/dashboardsControllers/financeiraController';
 import gerencialDashController from './app/controllers/dashboardsControllers/gerencialController';
 import clienteDashController from './app/controllers/dashboardsControllers/clienteController';
-import Recurso from './app/models/recurso';
 import Cliente from './app/models/cliente';
-import Parcela from './app/models/parcela';
-import MovimentoCaixa from './app/models/movimentoCaixa';
 import Oportunidade from './app/models/oportunidade';
-import LiquidMovCaixa from './app/models/liquidMovCaixa';
-import Despesas from './app/models/despesas';
+import CliCont from './app/models/cliCont';
+import importFromJSONv2 from './app/controllers/importDataControllers/importFromJSONv2';
 // import ResultPeriodo from './app/models/resultPeriodo';
 // import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
 
