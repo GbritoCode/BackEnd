@@ -262,7 +262,7 @@ class FechamentoPeriodoController {
     }
     // --------------------Receber
 
-    const receber = await fechamento.sequelize.models.Colab.findAll({
+    const receber = await Colab.findAll({
       include: [{
         model: Recurso,
         required: true,
@@ -281,10 +281,14 @@ class FechamentoPeriodoController {
     let sumColab = 0;
     for (let i = 0; i < receber.length; i++) {
       sumColab = 0;
-      for (let j = 0; j < receber[i].Recursos.length; j++) {
-        for (let k = 0; k < receber[i].Recursos[j].Horas.length; k++) {
-          sumColab += (receber[i].Recursos[j].Horas[k].dataValues.totalApont / 60)
+      if (receber[i].getDataValue('recebeFixo')) {
+        sumColab = receber[i].getDataValue('vlrFixo');
+      } else if (!receber[i].getDataValue('recebeFixo')) {
+        for (let j = 0; j < receber[i].Recursos.length; j++) {
+          for (let k = 0; k < receber[i].Recursos[j].Horas.length; k++) {
+            sumColab += (receber[i].Recursos[j].Horas[k].dataValues.totalApont / 60)
           * receber[i].Recursos[j].dataValues.colabVlrHr;
+          }
         }
       }
       sum[i] = Math.trunc(sumColab);
@@ -327,28 +331,29 @@ class FechamentoPeriodoController {
           },
         );
         const colabAtual = colabs.find((arr) => arr.id === entry[1].ColabId);
-        if (entry[1].totalReceb - entry[1].totalDesp > 0) {
-          console.log(colabAtual.Fornec.getDataValue('id'));
-          await MovimentoCaixa.create(
-            {
-              EmpresaId: fechamento.EmpresaId,
-              RecDespId: colabAtual.Fornec.getDataValue('RecDespId'),
-              FornecId: colabAtual.Fornec.getDataValue('id'),
-              ColabCreate: 1,
-              ColabPgmto: entry[1].ColabId,
-              valor: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
-              saldo: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
-              dtVenc: nextMonth,
-              status: 1,
-              ano: fechamento.ano,
-              periodo: periodMonth,
-              recDesp: 'Desp',
-              autoCreated: true,
-              desc:
+        if (!colabAtual.getDataValue('recebeFixo')) {
+          if (entry[1].totalReceb - entry[1].totalDesp > 0) {
+            await MovimentoCaixa.create(
+              {
+                EmpresaId: fechamento.EmpresaId,
+                RecDespId: colabAtual.Fornec.getDataValue('RecDespId'),
+                FornecId: colabAtual.Fornec.getDataValue('id'),
+                ColabCreate: 1,
+                ColabPgmto: entry[1].ColabId,
+                valor: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
+                saldo: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
+                dtVenc: nextMonth,
+                status: 1,
+                ano: fechamento.ano,
+                periodo: periodMonth,
+                recDesp: 'Desp',
+                autoCreated: true,
+                desc:
                  `Valor referente a horas lançadas pelo colaborador ${colabAtual.nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-            },
-            { returning: true },
-          );
+              },
+              { returning: true },
+            );
+          }
         }
         // .then((result) => console.log(result));
       });
@@ -398,6 +403,30 @@ class FechamentoPeriodoController {
       );
     }
 
+    for (const colab of colabs) {
+      if (colab.getDataValue('recebeFixo')) {
+        await MovimentoCaixa.create(
+          {
+            EmpresaId: fechamento.EmpresaId,
+            RecDespId: colab.Fornec.getDataValue('RecDespId'),
+            FornecId: colab.Fornec.getDataValue('id'),
+            ColabCreate: 1,
+            ColabPgmto: colab.id,
+            valor: colab.getDataValue('vlrFixo'),
+            saldo: colab.getDataValue('vlrFixo'),
+            dtVenc: nextMonth,
+            status: 1,
+            ano: fechamento.ano,
+            periodo: periodMonth,
+            recDesp: 'Desp',
+            autoCreated: true,
+            desc:
+               `Valor referente ao salário fixo do colaborador ${colab.getDataValue('nome')} no período ${fechamento.nome} - ${fechamento.ano}`,
+          }, { returning: true },
+        );
+      }
+    }
+
     if (compFlag) {
       const totalHrsMes = compHrs * 60;
       const compRec = await Recurso.findAll(
@@ -407,6 +436,7 @@ class FechamentoPeriodoController {
              [
                {
                  model: Colab,
+                 where: { recebeFixo: false },
                },
                {
                  model: Oportunidade,

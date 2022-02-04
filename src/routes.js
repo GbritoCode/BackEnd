@@ -110,7 +110,8 @@ routes.post('/oportExcel', oportToExcel.store);
 
 routes.post('/movCaixa', movimentoCaixaController.store);
 routes.put('/movCaixa_liquid/', movimentoCaixaController.liquida);
-routes.get('/movCaixa/', movimentoCaixaController.get);
+routes.get('/movCaixa/table_liquid', movimentoCaixaController.getLiquid);
+routes.get('/movCaixa/table_aberto', movimentoCaixaController.getAberto);
 routes.delete('/movCaixa/:id', movimentoCaixaController.delete);
 
 routes.post('/fechCaixa', fechamentoCaixaMensControler.store);

@@ -66,7 +66,6 @@ class FinanceiraController {
         arrayDesp[i] = array[i].rec;
         arrayRec[i] = array[i].desp;
       }
-
       const SaldoPrev = await MovimentoCaixa.findAll(
         {
           attributes: ['dtVenc', 'periodo', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
@@ -197,12 +196,13 @@ class FinanceiraController {
           dia: 0,
         };
       }
+
       // return res.json(array);
       const recDespReal = await LiquidMovCaixa.findAll(
         {
           attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtLiqui: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtLiqui: { [Op.between]: [`${year}-${mes}-01`, `${year}-${month}-${lastDayMonth}`] },
           },
           group: ['dtLiqui', 'recDesp'],
         },
@@ -212,7 +212,7 @@ class FinanceiraController {
         {
           attributes: ['dtVenc', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${month}-${lastDayMonth}`] },
           },
           group: ['dtVenc'],
         },
