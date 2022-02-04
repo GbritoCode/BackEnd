@@ -68,7 +68,7 @@ import clienteDashController from './app/controllers/dashboardsControllers/clien
 import Cliente from './app/models/cliente';
 import Oportunidade from './app/models/oportunidade';
 import CliCont from './app/models/cliCont';
-import importFromJSONv2 from './app/controllers/importDataControllers/importFromJSONv2';
+// import importFromJSONv2 from './app/controllers/importDataControllers/importFromJSONv2';
 
 // import ResultPeriodo from './app/models/resultPeriodo';
 // import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
@@ -79,27 +79,27 @@ const routes = new Router();
 
 const uploadCotacao = multer(oportunidadeFile);
 
-// routes.get('/', (req, res) => res.status(200).json('ok'));
-routes.get('/2', importFromJSONv2.store);
-routes.get('/', async (req, res) => {
-  const cli = await Cliente.findAll(
-    {
-      where: {
-        RepresentanteId: { [Op.ne]: 1 },
-        createdAt: { [Op.lte]: '2021-12-15' },
-      },
-      include: [{ model: Oportunidade }, { model: CliCont }],
+routes.get('/', (req, res) => res.status(200).json('ok'));
+// routes.get('/2', importFromJSONv2.store);
+// routes.get('/', async (req, res) => {
+//   const cli = await Cliente.findAll(
+//     {
+//       where: {
+//         RepresentanteId: { [Op.ne]: 1 },
+//         createdAt: { [Op.lte]: '2021-12-15' },
+//       },
+//       include: [{ model: Oportunidade }, { model: CliCont }],
 
-    },
-  );
-  const cli2 = [];
-  for (const cliente of cli) {
-    if (cliente.Oportunidades.length === 0) { cli2.push(cliente); }
-  }
-  console.log(cli.length);
-  console.log(cli2.length);
-  return res.status(200).json({ cli2 });
-});
+//     },
+//   );
+//   const cli2 = [];
+//   for (const cliente of cli) {
+//     if (cliente.Oportunidades.length === 0) { cli2.push(cliente); }
+//   }
+//   console.log(cli.length);
+//   console.log(cli2.length);
+//   return res.status(200).json({ cli2 });
+// });
 
 routes.get('/comercialDash', comercialController.get);
 routes.get('/gerencialDash', gerencialDashController.get);
