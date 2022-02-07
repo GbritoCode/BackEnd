@@ -60,7 +60,7 @@ class GerencialDashController {
           oportsForTable.splice(i, 1);
         }
       }
-      oportsForTable.sort((a, b) => parseFloat(a.getDataValue('percentHrs')) - parseFloat(b.getDataValue('percentHrs')));
+      oportsForTable.sort((a, b) => parseFloat(b.getDataValue('percentHrs')) - parseFloat(a.getDataValue('percentHrs')));
 
       return res.status(200).json(
         {
