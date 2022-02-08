@@ -113,6 +113,9 @@ class FinanceiraController {
         if (array[i].desp === null) {
           array[i].desp = 0;
         }
+        if (array[i].saldoReal === null) {
+          array[i].saldoReal = 0;
+        }
 
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
@@ -259,13 +262,15 @@ class FinanceiraController {
         array[i].dia = i;
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
-        arrayDesp[i] = (array[i].desp);
-        arrayRec[i] = (array[i].rec);
+        arrayDesp[i] = (array[i].desp).toFixed(2);
+        arrayRec[i] = (array[i].rec).toFixed(2);
         if (i > 0) {
           somaRec += (array[i].rec);
           somaDesp += (array[i].desp);
         }
       }
+      console.log(somaRec);
+      console.log(somaRec + somaDesp);
       somaSaldo = somaRec + somaDesp;
       if (part === '1q') {
         arraySaldo.splice(16);

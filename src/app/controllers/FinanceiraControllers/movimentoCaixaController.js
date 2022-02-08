@@ -190,6 +190,7 @@ class MovimentoCaixaController {
     const {
       vlrSingle, dtLiqui, ColabId, mov, multiple,
     } = body;
+
     try {
       const checkPeriodo = await FechamentoPeriodo.findOne({
         where: {
@@ -233,7 +234,7 @@ class MovimentoCaixaController {
               for (const movCx of body.movs) {
                 const liquid = await liquidMovCaixaController.liquidaMov({
                   movId: movCx.id,
-                  valor: movCx.saldo,
+                  valor: movCx.recDesp === 'Desp' ? -movCx.saldo : movCx.saldo,
                   dtLiqui,
                   recDesp: movCx.recDesp,
                 });
@@ -254,7 +255,7 @@ class MovimentoCaixaController {
             } else if (multiple === false) {
               const liquid = await liquidMovCaixaController.liquidaMov({
                 movId: mov.id,
-                valor: vlrSingle,
+                valor: mov.recDesp === 'Desp' ? -mov.saldo : mov.saldo,
                 dtLiqui,
                 recDesp: mov.recDesp,
               });
@@ -286,7 +287,7 @@ class MovimentoCaixaController {
           for (const movCx of body.movs) {
             const liquid = await liquidMovCaixaController.liquidaMov({
               movId: movCx.id,
-              valor: movCx.saldo,
+              valor: movCx.recDesp === 'Desp' ? -movCx.saldo : movCx.saldo,
               dtLiqui: body.dtLiqui,
               recDesp: movCx.recDesp,
             });
@@ -307,7 +308,7 @@ class MovimentoCaixaController {
         } else if (multiple === false) {
           const liquid = await liquidMovCaixaController.liquidaMov({
             movId: mov.id,
-            valor: vlrSingle,
+            valor: mov.recDesp === 'Desp' ? -mov.saldo : mov.saldo,
             dtLiqui,
             recDesp: mov.recDesp,
           });
