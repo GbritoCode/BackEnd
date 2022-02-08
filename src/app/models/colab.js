@@ -28,6 +28,8 @@ export default class Colab extends Model {
         email: DataTypes.STRING,
         espec: DataTypes.STRING,
         aniver: DataTypes.DATEONLY,
+        recebeFixo: DataTypes.BOOLEAN,
+        vlrFixo: DataTypes.FLOAT,
         PeriodToken: DataTypes.STRING(500),
       },
       {

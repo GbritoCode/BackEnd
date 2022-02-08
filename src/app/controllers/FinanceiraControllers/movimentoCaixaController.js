@@ -10,6 +10,8 @@ import MovimentoCaixa from '../../models/movimentoCaixa';
 import RecDesp from '../../models/recDesp';
 import liquidMovCaixaController from './liquidMovCaixaController';
 import { monthFullToNumber } from '../../../generalVar';
+import Parcela from '../../models/parcela';
+import Oportunidade from '../../models/oportunidade';
 
 class MovimentoCaixaController {
   async store(req, res) {
@@ -81,14 +83,40 @@ class MovimentoCaixaController {
     }
   }
 
-  async get(req, res) {
+  async getLiquid(req, res) {
     try {
       const mov = await MovimentoCaixa.findAll({
+        where: { status: 3 },
         include: [
           { model: RecDesp },
           'ColabCreated',
           'ColabLiquid',
           'ColabPgmt',
+          { model: Parcela, include: [{ model: Oportunidade }] },
+          { model: Fornec },
+          { model: Cliente },
+        ],
+      });
+
+      return res.json(mov);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno Do Servidor' });
+    }
+  }
+
+  async getAberto(req, res) {
+    try {
+      const mov = await MovimentoCaixa.findAll({
+        where: {
+          status: { [Op.lt]: 3 },
+        },
+        include: [
+          { model: RecDesp },
+          'ColabCreated',
+          'ColabLiquid',
+          'ColabPgmt',
+          { model: Parcela, include: [{ model: Oportunidade }] },
           { model: Fornec },
           { model: Cliente },
         ],
@@ -224,20 +252,22 @@ class MovimentoCaixaController {
                 });
               }
             } else if (multiple === false) {
-              await liquidMovCaixaController.liquidaMov({
+              const liquid = await liquidMovCaixaController.liquidaMov({
                 movId: mov.id,
                 valor: vlrSingle,
                 dtLiqui,
                 recDesp: mov.recDesp,
               });
 
+              if (!liquid.status) {
+                throw new Error(liquid.err);
+              }
+
               await MovimentoCaixa.update({
                 vlrPago: vlrSingle,
-                saldo: mov.saldo > 0
-                  ? mov.saldo - vlrSingle
-                  : mov.saldo + vlrSingle,
+                saldo: mov.saldo - vlrSingle,
                 dtLiqui,
-                status: 3,
+                status: mov.saldo - vlrSingle > 0 ? 2 : 3,
               }, {
                 where: { id: mov.id },
               });
@@ -277,7 +307,7 @@ class MovimentoCaixaController {
         } else if (multiple === false) {
           const liquid = await liquidMovCaixaController.liquidaMov({
             movId: mov.id,
-            valor: mov.recDesp === 'Desp' ? (vlrSingle * -1) : vlrSingle,
+            valor: vlrSingle,
             dtLiqui,
             recDesp: mov.recDesp,
           });
@@ -285,13 +315,12 @@ class MovimentoCaixaController {
           if (!liquid.status) {
             throw new Error(liquid.err);
           }
+
           await MovimentoCaixa.update({
             vlrPago: vlrSingle,
-            saldo: mov.saldo > 0
-              ? mov.saldo - vlrSingle
-              : mov.saldo + vlrSingle,
+            saldo: mov.saldo - vlrSingle,
             dtLiqui,
-            status: 3,
+            status: mov.saldo - vlrSingle > 0 ? 2 : 3,
           }, {
             where: { id: mov.id },
           });

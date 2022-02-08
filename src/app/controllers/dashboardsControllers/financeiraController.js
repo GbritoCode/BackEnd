@@ -66,7 +66,6 @@ class FinanceiraController {
         arrayDesp[i] = array[i].rec;
         arrayRec[i] = array[i].desp;
       }
-
       const SaldoPrev = await MovimentoCaixa.findAll(
         {
           attributes: ['dtVenc', 'periodo', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
@@ -76,9 +75,6 @@ class FinanceiraController {
           group: ['dtVenc', 'periodo'],
         },
       );
-      console.log(ano);
-      console.log(month);
-      console.log(SaldoPrev);
 
       const recDespReal = await LiquidMovCaixa.findAll(
         {
@@ -200,6 +196,7 @@ class FinanceiraController {
           dia: 0,
         };
       }
+
       // return res.json(array);
       const recDespReal = await LiquidMovCaixa.findAll(
         {
@@ -260,7 +257,6 @@ class FinanceiraController {
           array[i].desp = 0;
         }
         array[i].dia = i;
-        console.log(array[i].saldoReal);
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
         arrayDesp[i] = (array[i].desp);

@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import MovimentoCaixa from './movimentoCaixa';
 import ParcelaFiles from './parcelaFile';
 
 export default class Parcela extends Model {
@@ -24,6 +25,9 @@ export default class Parcela extends Model {
     );
     Parcela.hasMany(ParcelaFiles, { onDelete: 'CASCADE', hooks: true });
     ParcelaFiles.belongsTo(Parcela);
+    Parcela.hasOne(MovimentoCaixa, { onDelete: 'CASCADE', hooks: true });
+    MovimentoCaixa.belongsTo(Parcela);
+
     return this;
   }
 }
