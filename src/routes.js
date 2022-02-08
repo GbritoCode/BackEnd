@@ -70,7 +70,6 @@ import Oportunidade from './app/models/oportunidade';
 import CliCont from './app/models/cliCont';
 // import importFromJSONv2 from './app/controllers/importDataControllers/importFromJSONv2';
 
-
 // import ResultPeriodo from './app/models/resultPeriodo';
 // import importFromJSON from './app/controllers/importDataControllers/importFromJSON';
 
@@ -101,10 +100,9 @@ routes.get('/', (req, res) => res.status(200).json('ok'));
 //   console.log(cli2.length);
 //   return res.status(200).json({ cli2 });
 // });
-=======
 // routes.get('/', (req, res) => res.status(200).json('ok'));
-//routes.get('/2', importFromJSONv2.store);
-//routes.get('/', async (req, res) => {
+// routes.get('/2', importFromJSONv2.store);
+// routes.get('/', async (req, res) => {
 //  const cli = await Cliente.findAll(
 //    {
 //      where: {
@@ -122,7 +120,7 @@ routes.get('/', (req, res) => res.status(200).json('ok'));
 //  console.log(cli.length);
 //  console.log(cli2.length);
 //  return res.status(200).json({ cli2 });
-//});
+// });
 // routes.get('/', importFromJSON.store);
 
 routes.get('/comercialDash', comercialController.get);
