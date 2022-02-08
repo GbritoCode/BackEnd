@@ -159,7 +159,7 @@ class FinanceiraController {
       mes, part,
     } = query;
 
-    const lastDayThisMonth = getDaysInMonth(new Date(year, mes));
+    const lastDayThisMonth = getDaysInMonth(new Date(year, parseInt(mes, 10) - 1));
 
     let somaRec = 0; let somaDesp = 0; let somaSaldo = 0;
 
