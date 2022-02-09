@@ -3,6 +3,7 @@ import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 import * as yup from 'yup';
 import { monthFullToNumber } from '../../../generalVar';
+import { normalizeDate } from '../../../normalize';
 import Colab from '../../models/colab';
 import Despesas from '../../models/despesas';
 import Empresa from '../../models/empresa';
@@ -18,6 +19,7 @@ import RecDesp from '../../models/recDesp';
 import Recurso from '../../models/recurso';
 import ResultPeriodo from '../../models/resultPeriodo';
 import ResultPeriodoGerencial from '../../models/resultPeriodoGerencial';
+import fechamentoMensalSaldo from './fechamentoMensalSaldo';
 
 class FechamentoPeriodoController {
   async store(req, res) {
@@ -99,15 +101,46 @@ class FechamentoPeriodoController {
   }
 
   async get(req, res) {
+    if (!req.params.id && req.query.aberto === 'true') {
+      const periodo = await FechamentoPeriodo.findAll(
+        {
+          where: { situacao: { [Op.ne]: 'Fechado' } },
+          include: Empresa,
+          order: [['dataInic']],
+        },
+      );
+      for (let i = 0; i < periodo.length; i++) {
+        periodo[i].dataValues.dataInic = normalizeDate(periodo[i].dataValues.dataInic);
+        periodo[i].dataValues.dataFim = normalizeDate(periodo[i].dataValues.dataFim);
+      }
+      return res.json(periodo);
+    }
+    if (!req.params.id && req.query.libera === 'true') {
+      const lastFechado = await FechamentoPeriodo.findOne({
+        where: { situacao: { [Op.ne]: 'Aberto' } },
+        order: [['id', 'DESC']],
+      });
+
+      const periodo = await FechamentoPeriodo.findAll(
+        {
+          where: { situacao: { [Op.ne]: 'Fechado' } },
+          include: Empresa,
+          order: [['dataInic']],
+        },
+      );
+      for (let i = 0; i < periodo.length; i++) {
+        periodo[i].dataValues.dataInic = normalizeDate(periodo[i].dataValues.dataInic);
+        periodo[i].dataValues.dataFim = normalizeDate(periodo[i].dataValues.dataFim);
+      }
+      console.log(periodo.unshift(lastFechado));
+      return res.json(periodo);
+    }
     if (!req.params.id) {
       const periodo = await FechamentoPeriodo.findAll({ include: Empresa, order: [['dataInic']] });
       for (let i = 0; i < periodo.length; i++) {
-        const dataInicPeriodo = periodo[i].dataValues.dataInic.split('-');
-        periodo[i].dataValues.dataInic = `${dataInicPeriodo[2]}/${dataInicPeriodo[1]}/${dataInicPeriodo[0]}`;
-        const dataFimPeriodo = periodo[i].dataValues.dataFim.split('-');
-        periodo[i].dataValues.dataFim = `${dataFimPeriodo[2]}/${dataFimPeriodo[1]}/${dataFimPeriodo[0]}`;
+        periodo[i].dataValues.dataInic = normalizeDate(periodo[i].dataValues.dataInic);
+        periodo[i].dataValues.dataFim = normalizeDate(periodo[i].dataValues.dataFim);
       }
-
       return res.json(periodo);
     }
     const periodo = await FechamentoPeriodo.findOne({ where: { id: req.params.id } });
@@ -131,7 +164,6 @@ class FechamentoPeriodoController {
         id: fechamento.getDataValue('EmpresaId'),
       },
     });
-    console.log(emp);
 
     let nextMonth;
     const data = [];
@@ -145,7 +177,6 @@ class FechamentoPeriodoController {
       pgmtoVenc, compHrs, compFlag, RecDespCompHrs,
     } = param;
 
-    console.log(periodMonth);
     if (periodMonth === 12) {
       nextMonth = new Date(parseInt(fechamento.ano, 10) + 1, 0, pgmtoVenc);
     } else {
@@ -280,6 +311,11 @@ class FechamentoPeriodoController {
     const sum = [];
     let sumColab = 0;
     for (let i = 0; i < receber.length; i++) {
+      if (receber[i].getDataValue('id') === 19) {
+        for (let j = 0; j < receber[i].Recursos.length; j++) {
+          console.log(receber[i].Recursos[j].Horas);
+        }
+      }
       sumColab = 0;
       if (receber[i].getDataValue('recebeFixo')) {
         sumColab = receber[i].getDataValue('vlrFixo');
@@ -360,7 +396,7 @@ class FechamentoPeriodoController {
     } else {
       await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
     }
-
+    console.log(data);
     const despesasSeparate = await Despesas.findAll(
       {
         where: {
@@ -582,6 +618,10 @@ class FechamentoPeriodoController {
         }
       }
 
+      const saldoMes = await fechamentoMensalSaldo.fechamentoMensal(periodMonth, 'geral');
+      console.log(periodMonth);
+      console.log(saldoMes.arraySaldo);
+
       const fechMes = await FechamentoCaixaMensal.create({
         EmpresaId: fechamento.EmpresaId,
         ano: fechamento.ano,
@@ -592,6 +632,9 @@ class FechamentoPeriodoController {
         entradaPrev,
         saidaPrev,
         saldoMesPrev: saldoPrev,
+        saldoLastDay: saldoMes.arraySaldo[saldoMes.arraySaldo.length - 1],
+        recLastDay: saldoMes.arrayRec[saldoMes.arrayRec.length - 1],
+        despLastDay: saldoMes.arrayDesp[saldoMes.arrayDesp.length - 1],
       });
 
       //-------------------------------------
