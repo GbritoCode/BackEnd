@@ -138,7 +138,7 @@ routes.get('/2', async (req, res) => {
   const data = {
     user: {
       nome: 'Juliano Silva',
-      email: 'jsilva@aidera.com.br',
+      email: 'jsilva@seviaplus.com.br',
       profile: 1,
       senha: 'Aidera@2022',
       aniver: '1978-07-22',
@@ -195,7 +195,7 @@ routes.get('/2', async (req, res) => {
       dtAdmiss: '2018-01-01',
       cel: '11954235073',
       skype: 'live:julianoaugustus.silva',
-      email: 'jsilva@aidera.com.br',
+      email: 'jsilva@seviaplus.com.br',
       espec: 'Administrativo, Manufatura',
       aniver: '1978-07-22',
       recebeFixo: false,
