@@ -47,7 +47,7 @@ def json_to_dataframe(data_in):
     return pandas.DataFrame(flatten_json(data_in))
 
 df = json_to_dataframe(data)
-df.to_excel(path_to_xlsx,header=[
+tableHeaders=[
     'CNPJ',
     'Nome Abreviado',
     'Razão Social',
@@ -78,4 +78,5 @@ df.to_excel(path_to_xlsx,header=[
     'Detalhes',
     'Motivo Código',
     'Motivo',
-])
+]
+df.to_excel(path_to_xlsx,header=tableHeaders[0:len(df.columns)])
