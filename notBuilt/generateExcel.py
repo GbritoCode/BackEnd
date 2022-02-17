@@ -62,7 +62,7 @@ tableHeaders=[
     'Bairro',
     'Cidade',
     'UF',
-    'Situação'
+    'Situação',
     'Código',
     'Descrição',
     'Entrada Campanha',
