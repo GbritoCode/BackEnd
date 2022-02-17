@@ -188,6 +188,7 @@ class ClienteRelatorioController {
           Bairro: cli.CliComp.bairro,
           Cidade: cli.CliComp.cidade,
           UF: cli.CliComp.uf,
+          situação: cli.prospect ? 'Prospect' : 'Cliente',
           Campanhas: {
             Codigo: campanha.cod,
             Descrição: campanha.desc,
