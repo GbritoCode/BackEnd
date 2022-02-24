@@ -255,7 +255,7 @@ class MovimentoCaixaController {
             } else if (multiple === false) {
               const liquid = await liquidMovCaixaController.liquidaMov({
                 movId: mov.id,
-                valor: mov.recDesp === 'Desp' ? -mov.saldo : mov.saldo,
+                valor: mov.recDesp === 'Desp' ? -vlrSingle : vlrSingle,
                 dtLiqui,
                 recDesp: mov.recDesp,
               });
@@ -308,7 +308,7 @@ class MovimentoCaixaController {
         } else if (multiple === false) {
           const liquid = await liquidMovCaixaController.liquidaMov({
             movId: mov.id,
-            valor: mov.recDesp === 'Desp' ? -mov.saldo : mov.saldo,
+            valor: mov.recDesp === 'Desp' ? -vlrSingle : vlrSingle,
             dtLiqui,
             recDesp: mov.recDesp,
           });

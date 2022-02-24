@@ -58,6 +58,7 @@ class GerencialDashController {
       for (let i = 0; i < oportsForTable.length; i++) {
         if (oportsForTable[i].Cotacaos[0] === undefined) {
           oportsForTable.splice(i, 1);
+          i--;
         }
       }
       oportsForTable.sort((a, b) => parseFloat(b.getDataValue('percentHrs')) - parseFloat(a.getDataValue('percentHrs')));
