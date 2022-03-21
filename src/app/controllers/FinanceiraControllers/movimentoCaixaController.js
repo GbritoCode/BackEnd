@@ -243,6 +243,20 @@ class MovimentoCaixaController {
                   throw new Error(liquid.err);
                 }
 
+                if (movCx.ParcelaId) {
+                  await Parcela.update(
+                    {
+                      vlrPago: movCx.total * 100,
+                      saldo: 0,
+                      dtLiquidacao: dtLiqui,
+                      status: 4,
+                    },
+                    {
+                      where: { id: movCx.ParcelaId },
+                    },
+                  );
+                }
+
                 await MovimentoCaixa.update({
                   vlrPago: movCx.total,
                   saldo: 0,
@@ -262,6 +276,20 @@ class MovimentoCaixaController {
 
               if (!liquid.status) {
                 throw new Error(liquid.err);
+              }
+
+              if (mov.ParcelaId) {
+                await Parcela.update(
+                  {
+                    vlrPago: (mov.total - (mov.saldo - vlrSingle)) * 100,
+                    saldo: (mov.saldo - vlrSingle) * 100,
+                    dtLiquidacao: dtLiqui,
+                    status: mov.saldo - vlrSingle > 0 ? 3 : 4,
+                  },
+                  {
+                    where: { id: mov.ParcelaId },
+                  },
+                );
               }
 
               await MovimentoCaixa.update({
@@ -296,6 +324,20 @@ class MovimentoCaixaController {
               throw new Error(liquid.err);
             }
 
+            if (movCx.ParcelaId) {
+              await Parcela.update(
+                {
+                  vlrPago: movCx.total * 100,
+                  saldo: 0,
+                  dtLiquidacao: dtLiqui,
+                  situacao: 4,
+                },
+                {
+                  where: { id: movCx.ParcelaId },
+                },
+              );
+            }
+
             await MovimentoCaixa.update({
               vlrPago: movCx.total,
               saldo: 0,
@@ -315,6 +357,20 @@ class MovimentoCaixaController {
 
           if (!liquid.status) {
             throw new Error(liquid.err);
+          }
+
+          if (mov.ParcelaId) {
+            await Parcela.update(
+              {
+                vlrPago: (mov.total - (mov.saldo - vlrSingle)) * 100,
+                saldo: (mov.saldo - vlrSingle) * 100,
+                dtLiquidacao: dtLiqui,
+                situacao: mov.saldo - vlrSingle > 0 ? 3 : 4,
+              },
+              {
+                where: { id: mov.ParcelaId },
+              },
+            );
           }
 
           await MovimentoCaixa.update({

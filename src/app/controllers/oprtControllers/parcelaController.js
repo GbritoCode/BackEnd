@@ -187,7 +187,15 @@ class ParcelaController {
               dtVencimento: { [Op.gte]: `${year}-${month + 1}-${date}` },
             }],
           },
-          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          include: [
+            { model: Oportunidade, include: [{ model: Cliente }] },
+            {
+              model: MovimentoCaixa,
+              include: [
+                { model: RecDesp },
+              ],
+            },
+          ],
           order: [[Oportunidade, Cliente, 'nomeAbv', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
@@ -213,7 +221,15 @@ class ParcelaController {
               dtVencimento: { [Op.lt]: `${year}-${month + 1}-${date}` },
             }],
           },
-          include: [{ model: Oportunidade, include: [{ model: Cliente }] }],
+          include: [
+            { model: Oportunidade, include: [{ model: Cliente }] },
+            {
+              model: MovimentoCaixa,
+              include: [
+                { model: RecDesp },
+              ],
+            },
+          ],
           order: [[Oportunidade, Cliente, 'nomeAbv', 'ASC'], [Oportunidade, 'cod', 'ASC'], ['parcela', 'ASC']],
         });
         for (let i = 0; i < parc.length; i++) {
@@ -269,7 +285,15 @@ class ParcelaController {
         where: {
           OportunidadeId: req.params.id,
         },
-        include: [{ model: Oportunidade }],
+        include: [
+          { model: Oportunidade },
+          {
+            model: MovimentoCaixa,
+            include: [
+              { model: RecDesp },
+            ],
+          },
+        ],
         order: [['parcela', 'ASC']],
       });
       for (let i = 0; i < parc.length; i++) {
