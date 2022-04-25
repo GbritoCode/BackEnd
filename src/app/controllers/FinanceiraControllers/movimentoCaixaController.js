@@ -56,9 +56,9 @@ class MovimentoCaixaController {
               if (body.liquida) {
                 const liquid = await liquidMovCaixaController.liquidaMov({
                   movId: mov.id,
-                  valor: body.Fornec === null ? body.saldo : -body.saldo,
-                  dtLiqui: body.dtLiqui,
-                  recDesp: body.Fornec === null ? 'Rec' : 'Desp',
+                  valor: body.FornecId === null ? body.saldo : -body.saldo,
+                  dtLiqui: body.dtVenc,
+                  recDesp: body.FornecId === null ? 'Rec' : 'Desp',
                 });
 
                 if (!liquid.status) {
@@ -66,9 +66,9 @@ class MovimentoCaixaController {
                 }
 
                 await MovimentoCaixa.update({
-                  vlrPago: body.valor > 0 ? body.valor : body.valor * -1,
+                  vlrPago: body.saldo,
                   saldo: 0,
-                  dtLiqui: body.dtLiqui,
+                  dtLiqui: body.dtVenc,
                   status: 3,
                 }, {
                   where: { id: mov.id },
@@ -96,7 +96,7 @@ class MovimentoCaixaController {
             const liquid = await liquidMovCaixaController.liquidaMov({
               movId: mov.id,
               valor: body.FornecId === null ? body.saldo : -body.saldo,
-              dtLiqui: body.dtLiquidacao,
+              dtLiqui: body.dtVenc,
               recDesp: body.FornecId === null ? 'Rec' : 'Desp',
             });
 
@@ -107,7 +107,7 @@ class MovimentoCaixaController {
             await MovimentoCaixa.update({
               vlrPago: body.saldo,
               saldo: 0,
-              dtLiqui: body.dtLiquidacao,
+              dtLiqui: body.dtVenc,
               status: 3,
             }, {
               where: { id: mov.id },
