@@ -22,6 +22,7 @@ export default class MovimentoCaixa extends Model {
         dtLiqui: DataTypes.DATEONLY,
         status: DataTypes.INTEGER,
         desc: DataTypes.STRING,
+        referencia: DataTypes.STRING,
         autoCreated: DataTypes.BOOLEAN,
       },
       {
