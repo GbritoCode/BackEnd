@@ -40,7 +40,6 @@ class MovimentoCaixaController {
 
       const { situacao, nome } = checkPeriodo.dataValues;
       body.periodo = monthFullToNumber[nome];
-      console.log(body);
       if (situacao !== 'Aberto') {
         const colab = await Colab.findByPk(body.ColabId);
         if (!colab) {
@@ -53,6 +52,28 @@ class MovimentoCaixaController {
           if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
             try {
               const mov = await MovimentoCaixa.create(body);
+
+              if (body.liquida) {
+                const liquid = await liquidMovCaixaController.liquidaMov({
+                  movId: mov.id,
+                  valor: body.FornecId === null ? body.saldo : -body.saldo,
+                  dtLiqui: body.dtVenc,
+                  recDesp: body.FornecId === null ? 'Rec' : 'Desp',
+                });
+
+                if (!liquid.status) {
+                  throw new Error(liquid.err);
+                }
+
+                await MovimentoCaixa.update({
+                  vlrPago: body.saldo,
+                  saldo: 0,
+                  dtLiqui: body.dtVenc,
+                  status: 3,
+                }, {
+                  where: { id: mov.id },
+                });
+              }
 
               return res.json({ mov, message: 'Movimento criado com sucesso!' });
             } catch (err) {
@@ -70,6 +91,28 @@ class MovimentoCaixaController {
       } else {
         try {
           const mov = await MovimentoCaixa.create(body);
+
+          if (body.liquida) {
+            const liquid = await liquidMovCaixaController.liquidaMov({
+              movId: mov.id,
+              valor: body.FornecId === null ? body.saldo : -body.saldo,
+              dtLiqui: body.dtVenc,
+              recDesp: body.FornecId === null ? 'Rec' : 'Desp',
+            });
+
+            if (!liquid.status) {
+              throw new Error(liquid.err);
+            }
+
+            await MovimentoCaixa.update({
+              vlrPago: body.saldo,
+              saldo: 0,
+              dtLiqui: body.dtVenc,
+              status: 3,
+            }, {
+              where: { id: mov.id },
+            });
+          }
 
           return res.json({ message: 'Documento Criado com Sucesso', mov });
         } catch (err) {
