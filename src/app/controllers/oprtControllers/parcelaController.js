@@ -351,7 +351,7 @@ class ParcelaController {
         dtVenc: body.dtVencimento,
         periodo: body.dtEmissao.split('-')[1],
         ano: body.dtEmissao.split('-')[0],
-        desc: `Parcela número ${parc.parcela} do projeto ${oport.desc} | ${oport.cod} `,
+        desc: `Parcela número ${parc.parcela} do projeto ${oport.cod} `,
       });
 
       const parcUp = await parc.update(body);
