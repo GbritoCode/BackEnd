@@ -333,7 +333,7 @@ class ParcelaController {
     try {
       const { body, params } = req;
       const parc = await Parcelas.findByPk(params.id);
-      const oport = await Oportunidade.findByPk(parc.id);
+      const oport = await Oportunidade.findByPk(parc.OportunidadeId);
 
       if (body.dtEmissao > body.dtVencimento) {
         return res.status(400).json({ error: 'A data de vencimento não pode ser menor que a data de emissão' });
@@ -351,7 +351,7 @@ class ParcelaController {
         dtVenc: body.dtVencimento,
         periodo: body.dtEmissao.split('-')[1],
         ano: body.dtEmissao.split('-')[0],
-        desc: `Parcela número ${parc.parcela} do projeto ${oport.cod} `,
+        desc: `Parcela número ${parc.parcela} do projeto ${oport.desc} | ${oport.cod} `,
       });
 
       const parcUp = await parc.update(body);
