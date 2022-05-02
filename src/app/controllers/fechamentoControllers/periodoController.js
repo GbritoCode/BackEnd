@@ -330,7 +330,7 @@ class FechamentoPeriodoController {
       sum[i] = sumColab.toFixed(2);
       Object.entries(data).forEach((entry) => {
         if (entry[1].ColabId === receber[i].dataValues.id) {
-          entry[1].totalReceb = parseInt(sum[i], 10) + parseInt(entry[1].totalDesp, 10);
+          entry[1].totalReceb = parseFloat(sum[i], 10) + parseFloat(entry[1].totalDesp, 10);
         }
         if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
           data.push({
