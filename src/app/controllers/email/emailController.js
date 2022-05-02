@@ -12,6 +12,7 @@ import Parcela from '../../models/parcela';
 import EmailParametros from '../../models/emailParametros';
 import ParcelaFiles from '../../models/parcelaFile';
 import EmailHists from '../../models/emailHist';
+import BillEmailSevia from './billEmailSevia';
 
 const sesConfig = {
   apiVersion: '2019-09-27',
@@ -227,8 +228,7 @@ class AwsSesController {
       await EmailHists.create({
         copias: CcAux, file: filesAux, tipo: req.query.tipo, idAux: parseInt(id, 10),
       });
-
-      const exampleSendEmail = async () => {
+      const sendEmailAux = process.env.ENVIRONMENT === 'Aidera' ? async () => {
         const message = {
           fromEmail: from,
           to: [contato.email],
@@ -254,7 +254,63 @@ class AwsSesController {
         console.log(params.Destination);
 
         return ses.sendEmail(params).promise();
+      } : async () => {
+        const message = {
+          fromEmail: from,
+          to: [contato.email],
+          cc: Cc,
+          bcc: Bcc,
+          subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
+          bodyTxt: '',
+          bodyHtml: BillEmailSevia(dataBill),
+          attachments: filesArray,
+        };
+
+        const ses = new AWS.SESV2(sesConfig);
+        const params = {
+          Content: { Raw: { Data: await generateRawMailData(message) } },
+          Destination: {
+            ToAddresses: message.to,
+            BccAddresses: message.bcc,
+            CcAddresses: message.cc,
+          },
+          FromEmailAddress: message.fromEmail,
+          ReplyToAddresses: message.replyTo,
+        };
+        console.log(params.Destination);
+
+        return ses.sendEmail(params).promise();
       };
+
+      const exampleSendEmail = sendEmailAux;
+
+      // const exampleSendEmail = async () => {
+      //   const message = {
+      //     fromEmail: from,
+      //     to: [contato.email],
+      //     cc: Cc,
+      //     bcc: Bcc,
+      //     subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
+      //     bodyTxt: '',
+      //     bodyHtml: billEmail(dataBill),
+      //     attachments: filesArray,
+      //   };
+
+      //   const ses = new AWS.SESV2(sesConfig);
+      //   const params = {
+      //     Content: { Raw: { Data: await generateRawMailData(message) } },
+      //     Destination: {
+      //       ToAddresses: message.to,
+      //       BccAddresses: message.bcc,
+      //       CcAddresses: message.cc,
+      //     },
+      //     FromEmailAddress: message.fromEmail,
+      //     ReplyToAddresses: message.replyTo,
+      //   };
+      //   console.log(params.Destination);
+
+      //   return ses.sendEmail(params).promise();
+      // };
       try {
         const response = await exampleSendEmail();
         console.log(response);
@@ -447,7 +503,7 @@ class AwsSesController {
         NFeParcela: parcela.notaFiscal,
         pedidoCliOport: parcela.pedidoCliente || 'Não Informado',
       };
-      const exampleSendEmail = async () => {
+      const sendEmailAux = process.env.ENVIRONMENT === 'Aidera' ? async () => {
         const message = {
           fromEmail: from,
           to: [contato.email],
@@ -473,7 +529,36 @@ class AwsSesController {
         console.log(params.Destination);
 
         return ses.sendEmail(params).promise();
+      } : async () => {
+        const message = {
+          fromEmail: from,
+          to: [contato.email],
+          cc: Cc,
+          bcc: Bcc,
+          subject: `Faturamento | ${parcela.Oportunidade.cod} - ${parcela.Oportunidade.desc}`,
+          bodyTxt: '',
+          bodyHtml: BillEmailSevia(dataBill),
+          attachments: filesArray,
+        };
+
+        const ses = new AWS.SESV2(sesConfig);
+        const params = {
+          Content: { Raw: { Data: await generateRawMailData(message) } },
+          Destination: {
+            ToAddresses: message.to,
+            BccAddresses: message.bcc,
+            CcAddresses: message.cc,
+          },
+          FromEmailAddress: message.fromEmail,
+          ReplyToAddresses: message.replyTo,
+        };
+        console.log(params.Destination);
+
+        return ses.sendEmail(params).promise();
       };
+
+      const exampleSendEmail = sendEmailAux;
+
       try {
         const response = await exampleSendEmail();
         console.log(response);
