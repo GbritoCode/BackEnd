@@ -132,7 +132,6 @@ class FechamentoPeriodoController {
         periodo[i].dataValues.dataInic = normalizeDate(periodo[i].dataValues.dataInic);
         periodo[i].dataValues.dataFim = normalizeDate(periodo[i].dataValues.dataFim);
       }
-      console.log(periodo.unshift(lastFechado));
       return res.json(periodo);
     }
     if (!req.params.id) {
@@ -178,7 +177,7 @@ class FechamentoPeriodoController {
     } = param;
 
     if (periodMonth === 12) {
-      nextMonth = new Date(parseInt(fechamento.ano, 10) + 1, 0, pgmtoVenc);
+      nextMonth = new Date(parseInt(fechamento.ano, 10) + 1, 0, pgmtoVenc); 4;
     } else {
       nextMonth = new Date(fechamento.ano, periodMonth, pgmtoVenc);
     }
@@ -274,14 +273,14 @@ class FechamentoPeriodoController {
       for (let i = 0; i < despesas.length; i++) {
         Object.entries(data).forEach((entry) => {
           if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
-            entry[1].totalDesp = despesas[i].dataValues.total;
+            entry[1].totalDesp = despesas[i].dataValues.total / 100;
           }
           if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
             data.push({
               ColabId: despesas[i].dataValues.ColabId,
               totalHrs: 0,
-              totalDesp: despesas[i].dataValues.total,
-              totalReceb: despesas[i].dataValues.total,
+              totalDesp: despesas[i].dataValues.total / 100,
+              totalReceb: despesas[i].dataValues.total / 100,
             });
           }
         });
@@ -311,11 +310,6 @@ class FechamentoPeriodoController {
     const sum = [];
     let sumColab = 0;
     for (let i = 0; i < receber.length; i++) {
-      if (receber[i].getDataValue('id') === 19) {
-        for (let j = 0; j < receber[i].Recursos.length; j++) {
-          console.log(receber[i].Recursos[j].Horas);
-        }
-      }
       sumColab = 0;
       if (receber[i].getDataValue('recebeFixo')) {
         sumColab = receber[i].getDataValue('vlrFixo');
@@ -328,9 +322,10 @@ class FechamentoPeriodoController {
         }
       }
       sum[i] = sumColab.toFixed(2);
+      console.log(sumColab);
       Object.entries(data).forEach((entry) => {
         if (entry[1].ColabId === receber[i].dataValues.id) {
-          entry[1].totalReceb = parseFloat(sum[i], 10) + parseFloat(entry[1].totalDesp, 10);
+          entry[1].totalReceb = parseFloat(sum[i]) + parseFloat(entry[1].totalDesp, 10);
         }
         if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
           data.push({
@@ -340,6 +335,10 @@ class FechamentoPeriodoController {
             totalReceb: sum[i],
           });
         }
+      });
+
+      Object.entries(data).forEach((entry) => {
+        console.log(entry);
       });
     }
 
@@ -391,12 +390,10 @@ class FechamentoPeriodoController {
             );
           }
         }
-        // .then((result) => console.log(result));
       });
     } else {
       await fechamento.sequelize.models.ResultPeriodo.bulkCreate(data, { updateOnDuplicate: ['periodo'] }, { returning: true });
     }
-    console.log(data);
     const despesasSeparate = await Despesas.findAll(
       {
         where: {
@@ -411,7 +408,6 @@ class FechamentoPeriodoController {
         group: ['ColabId', 'RecDesp.id'],
       },
     );
-    console.log('teste');
     // return res.json(despesasSeparate);
 
     // eslint-disable-next-line guard-for-in
@@ -619,8 +615,6 @@ class FechamentoPeriodoController {
       }
 
       const saldoMes = await fechamentoMensalSaldo.fechamentoMensal(periodMonth, 'geral');
-      console.log(periodMonth);
-      console.log(saldoMes.arraySaldo);
 
       const fechMes = await FechamentoCaixaMensal.create({
         EmpresaId: fechamento.EmpresaId,
