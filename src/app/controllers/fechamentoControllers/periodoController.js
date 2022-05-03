@@ -132,6 +132,7 @@ class FechamentoPeriodoController {
         periodo[i].dataValues.dataInic = normalizeDate(periodo[i].dataValues.dataInic);
         periodo[i].dataValues.dataFim = normalizeDate(periodo[i].dataValues.dataFim);
       }
+      periodo.unshift(lastFechado);
       return res.json(periodo);
     }
     if (!req.params.id) {
