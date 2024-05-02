@@ -1,17 +1,17 @@
 /* eslint-disable no-restricted-syntax */
-import { Op } from 'sequelize';
 import jwt from 'jsonwebtoken';
+import { Op } from 'sequelize';
 import { promisify } from 'util';
+import { monthFullToNumber } from '../../../generalVar';
 import Cliente from '../../models/cliente';
 import Colab from '../../models/colab';
 import FechamentoPeriodo from '../../models/fechamentoPeriodos';
 import Fornec from '../../models/fornec';
 import MovimentoCaixa from '../../models/movimentoCaixa';
+import Oportunidade from '../../models/oportunidade';
+import Parcela from '../../models/parcela';
 import RecDesp from '../../models/recDesp';
 import liquidMovCaixaController from './liquidMovCaixaController';
-import { monthFullToNumber } from '../../../generalVar';
-import Parcela from '../../models/parcela';
-import Oportunidade from '../../models/oportunidade';
 
 class MovimentoCaixaController {
   async store(req, res) {
@@ -230,7 +230,7 @@ class MovimentoCaixaController {
 
   async liquida(req, res) {
     const { body } = req;
-    const {
+    let {
       vlrSingle, dtLiqui, ColabId, mov, multiple,
     } = body;
 
@@ -403,10 +403,14 @@ class MovimentoCaixaController {
           }
 
           if (mov.ParcelaId) {
+            vlrSingle *= 100;
+            mov.total *= 100;
+            mov.saldo *= 100;
+
             await Parcela.update(
               {
-                vlrPago: (mov.total - (mov.saldo - vlrSingle)) * 100,
-                saldo: (mov.saldo - vlrSingle) * 100,
+                vlrPago: (mov.total - (mov.saldo - vlrSingle)),
+                saldo: (mov.saldo - vlrSingle),
                 dtLiquidacao: dtLiqui,
                 situacao: mov.saldo - vlrSingle > 0 ? 3 : 4,
               },
@@ -417,8 +421,8 @@ class MovimentoCaixaController {
           }
 
           await MovimentoCaixa.update({
-            vlrPago: vlrSingle,
-            saldo: mov.saldo - vlrSingle,
+            vlrPago: vlrSingle / 100,
+            saldo: (mov.saldo - vlrSingle) / 100,
             dtLiqui,
             status: mov.saldo - vlrSingle > 0 ? 2 : 3,
           }, {

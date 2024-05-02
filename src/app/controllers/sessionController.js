@@ -26,7 +26,7 @@ class SessionController {
       const user = await User.findOne({
         where: { email },
         include: [{ model: Empresas },
-          { model: Colabs, include: [{ model: Perfil }] }],
+        { model: Colabs, include: [{ model: Perfil }] }],
       });
 
       if (!user) {
@@ -56,6 +56,7 @@ class SessionController {
           isFirstLogin,
           empresa,
           Colab,
+          '6584'
         },
         token: jwt.sign({ id }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
