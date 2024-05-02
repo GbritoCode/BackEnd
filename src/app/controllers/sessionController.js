@@ -56,7 +56,7 @@ class SessionController {
           isFirstLogin,
           empresa,
           Colab,
-          '6584'
+          xpto: '6584',
         },
         token: jwt.sign({ id }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
