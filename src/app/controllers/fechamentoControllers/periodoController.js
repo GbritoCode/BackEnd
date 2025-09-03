@@ -274,14 +274,14 @@ class FechamentoPeriodoController {
       for (let i = 0; i < despesas.length; i++) {
         Object.entries(data).forEach((entry) => {
           if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
-            entry[1].totalDesp = despesas[i].dataValues.total / 100;
+            entry[1].totalDesp = despesas[i].dataValues.total; // remove 100 div / 100;
           }
           if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
             data.push({
               ColabId: despesas[i].dataValues.ColabId,
               totalHrs: 0,
-              totalDesp: despesas[i].dataValues.total / 100,
-              totalReceb: despesas[i].dataValues.total / 100,
+              totalDesp: despesas[i].dataValues.total, // remove 100 div / 100,
+              totalReceb: despesas[i].dataValues.total, // remove 100 div / 100,
             });
           }
         });
@@ -318,15 +318,15 @@ class FechamentoPeriodoController {
         for (let j = 0; j < receber[i].Recursos.length; j++) {
           for (let k = 0; k < receber[i].Recursos[j].Horas.length; k++) {
             sumColab += (receber[i].Recursos[j].Horas[k].dataValues.totalApont / 60)
-          * receber[i].Recursos[j].dataValues.colabVlrHr;
+            * (receber[i].Recursos[j].dataValues.colabVlrHr);
           }
         }
       }
-      sum[i] = sumColab.toFixed(2);
+      sum[i] = sumColab; // .toFixed(2);
       console.log(sumColab);
       Object.entries(data).forEach((entry) => {
         if (entry[1].ColabId === receber[i].dataValues.id) {
-          entry[1].totalReceb = parseFloat(sum[i]) + parseFloat(entry[1].totalDesp, 10);
+          entry[1].totalReceb = sum[i] + (entry[1].totalDesp / 100);
         }
         if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
           data.push({
@@ -338,9 +338,9 @@ class FechamentoPeriodoController {
         }
       });
 
-      Object.entries(data).forEach((entry) => {
-        console.log(entry);
-      });
+      // Object.entries(data).forEach((entry) => {
+      //   console.log(entry);
+      // });
     }
 
     Object.entries(data).forEach((entry) => {
@@ -356,8 +356,8 @@ class FechamentoPeriodoController {
         await ResultPeriodo.update(
           {
             totalHrs: entry[1].totalHrs,
-            totalDesp: entry[1].totalDesp,
-            totalReceb: entry[1].totalReceb,
+            totalDesp: (entry[1].totalDesp / 100).toFixed(2),
+            totalReceb: (entry[1].totalReceb).toFixed(2),
           },
           {
             where: {
@@ -508,7 +508,7 @@ class FechamentoPeriodoController {
           await ResultPeriodo.increment(
             {
               totalHrs: saldoHrs,
-              totalReceb: (saldoHrs / 60) * compRec[i].colabVlrHr,
+              totalReceb: ((saldoHrs / 60) * compRec[i].colabVlrHr).toFixed(2),
             },
             {
               where: {

@@ -38,8 +38,11 @@ class MovimentoCaixaController {
         });
       }
 
-      const { situacao, nome } = checkPeriodo.dataValues;
+      const { situacao, nome, ano } = checkPeriodo.dataValues;
       body.periodo = monthFullToNumber[nome];
+      body.recDesp = body.FornecId === null ? 'Rec' : 'Desp';
+      body.ano = ano;
+
       if (situacao !== 'Aberto') {
         const colab = await Colab.findByPk(body.ColabId);
         if (!colab) {
@@ -49,6 +52,7 @@ class MovimentoCaixaController {
         try {
           const token = colab.getDataValue('PeriodToken');
           const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+
           if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
             try {
               const mov = await MovimentoCaixa.create(body);
