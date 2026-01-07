@@ -26,6 +26,8 @@ export default class Oportunidade extends Model {
         totalHoras: DataTypes.INTEGER,
         motivo: DataTypes.STRING,
         CampanhaId: DataTypes.INTEGER,
+        pacote: DataTypes.BOOLEAN,
+        percentComplete: DataTypes.INTEGER,
       },
       {
         sequelize,

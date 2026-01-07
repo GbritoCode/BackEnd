@@ -18,6 +18,9 @@ export default class User extends Model {
         aniver: DataTypes.DATEONLY,
         isFirstLogin: DataTypes.BOOLEAN,
         AvatarId: DataTypes.INTEGER,
+        allowedClients: DataTypes.STRING,
+        mainClient: DataTypes.STRING,
+        isColab: DataTypes.BOOLEAN,
       },
       {
         sequelize,
@@ -41,6 +44,7 @@ export default class User extends Model {
 
     User.hasOne(Colab, { onDelete: 'CASCADE', hooks: true });
     Colab.belongsTo(User);
+
     return this;
   }
 

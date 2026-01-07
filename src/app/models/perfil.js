@@ -17,6 +17,7 @@ export default class Perfil extends Model {
     );
     Perfil.hasMany(Colab, { onDelete: 'cascade', hooks: true });
     Colab.belongsTo(Perfil);
+    // Perfil.hasMany(User, { onDelete: 'cascade', hooks: true });
     return this;
   }
 }

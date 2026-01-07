@@ -1,8 +1,9 @@
 import { Op } from 'sequelize';
-import { getDaysInMonth } from 'date-fns';
+import { endOfMonth, getDaysInMonth, startOfMonth } from 'date-fns';
 import moment from 'moment';
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
+import { id } from 'tedious/lib/data-types/null';
 import Colab from '../../models/colab';
 import Cliente from '../../models/cliente';
 import Oportunidade from '../../models/oportunidade';
@@ -243,6 +244,39 @@ class HoraController {
 
     hora.destroy();
     return res.status(200).json(`Registro de ${hora.dataAtivd} foi deletado com Sucesso!`);
+  }
+
+  async getPacoteByCli(req, res) {
+    const { clientId, selectedMonth, selectedYear } = req.params;
+
+    const monthStart = startOfMonth(new Date(selectedYear, Number(selectedMonth) - 1));
+    const monthEnd = endOfMonth(new Date(selectedYear, Number(selectedMonth) - 1));
+
+    const packageOport = await Oportunidade.findOne({
+      attributes: ['id'],
+      where: {
+        ClienteId: clientId,
+        pacote: true,
+        data: { [Op.between]: [monthStart, monthEnd] },
+      },
+    });
+
+    if (!packageOport) {
+      return res.json('00:00');
+    }
+
+    const hora = await Hora.sum('totalApont', {
+      where: {
+        OportunidadeId: packageOport.dataValues.id,
+      },
+    });
+      // eslint-disable-next-line no-restricted-globals
+    if (isNaN(hora)) {
+      return res.json('00:00');
+    }
+    const apontHr = Math.trunc(hora / 60);
+    const apontMin = `0${Math.trunc(hora % 60)}`.slice(-2);
+    return res.json(`${apontHr}:${apontMin}`);
   }
 }
 export default new HoraController();

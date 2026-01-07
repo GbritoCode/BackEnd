@@ -39,6 +39,23 @@ class UserController {
       id, nome, email, profile,
     } = await users.create(req.body);
 
+    if (!req.body.isColab) {
+      await Colab.create({
+        CPF: req.body.CPF,
+        FornecId: 1,
+        PerfilId: req.body.PerfilId,
+        EmpresaId: 1,
+        UserId: id,
+        nome: req.body.nome,
+        dtAdmiss: new Date(),
+        cel: '',
+        skype: '',
+        email: req.body.email,
+        espec: '',
+        recebeFixo: false,
+      });
+    }
+
     return res.json({
       id,
       nome,
@@ -59,7 +76,7 @@ class UserController {
       confirmSenha: yup
         .string()
         .when('senha', (senha, field) => (senha ? field.required().oneOf([yup.ref('senha')]) : field)),
-      aniver: yup.string(),
+      aniver: yup.string().optional(),
     });
 
     if (!(await schema.isValid(req.body))) {

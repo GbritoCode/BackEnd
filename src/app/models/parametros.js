@@ -23,6 +23,7 @@ export default class Parametros extends Model {
         compFlag: DataTypes.BOOLEAN,
         RecDespCompHrs: DataTypes.INTEGER,
         color: DataTypes.STRING,
+        limitExtraHoursPercentInPackageOport: DataTypes.INTEGER,
       },
       {
         sequelize,

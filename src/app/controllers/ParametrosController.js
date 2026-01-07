@@ -20,6 +20,7 @@ class ParametrosController {
       adiantaPgmto: yup.string().required(),
       percAdiantaPgmto: yup.number().required(),
       compHrs: yup.number().required(),
+      limitExtraHoursPercentInPackageOport: yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {

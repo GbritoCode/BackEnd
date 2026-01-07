@@ -84,6 +84,7 @@ import User from './app/models/users';
 import Colab from './app/models/colab';
 import Perfil from './app/models/perfil';
 import Fornec from './app/models/fornec';
+import ExtUserController from './app/controllers/ExtUserControllers/ExtUserController';
 // import importFromJSONv2 from './app/controllers/importDataControllers/importFromJSONv2';
 
 // import ResultPeriodo from './app/models/resultPeriodo';
@@ -1434,6 +1435,7 @@ routes.get('/2', async (req, res) => {
 routes.get('/comercialDash', comercialController.get);
 routes.get('/gerencialDash', gerencialDashController.get);
 routes.get('/clienteDash', clienteDashController.get);
+routes.get('/cliente/dash/vlr-horas/:cliId/:selectedMonth/:selectedYear', clienteDashController.getDebtsAmount);
 routes.get('/financeiraDash_anual', financeiraController.getAnual);
 routes.get('/financeiraDash_mensal', financeiraController.getMensal);
 routes.post('/oportExcel', oportToExcel.store);
@@ -1506,10 +1508,13 @@ routes.delete('/parcela/:id?', parcelaController.delete);
 
 routes.post('/horas', horasController.store);
 routes.get('/horas/:id?', horasController.get);
+routes.get('/horas/dash/cliente/pacote/:clientId/:selectedMonth/:selectedYear', horasController.getPacoteByCli);
 routes.put('/horas/:id?', horasController.update);
 routes.delete('/horas/:id?', horasController.delete);
+
 routes.post('/despesas', despesasController.store);
 routes.get('/despesas/:id?', despesasController.get);
+routes.get('/despesas/dash/cliente/:cliId/:selectedMonth/:selectedYear', despesasController.getByCli);
 routes.put('/despesas/:id?', despesasController.update);
 routes.delete('/despesas/:id?', despesasController.delete);
 
