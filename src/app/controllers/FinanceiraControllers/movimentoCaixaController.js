@@ -133,7 +133,7 @@ class MovimentoCaixaController {
   async getLiquid(req, res) {
     try {
       const mov = await MovimentoCaixa.findAll({
-        where: { status: 3 },
+        where: { status: { [Op.in]: [3, 4] } },
         include: [
           { model: RecDesp },
           'ColabCreated',
@@ -156,7 +156,7 @@ class MovimentoCaixaController {
     try {
       const mov = await MovimentoCaixa.findAll({
         where: {
-          status: { [Op.lt]: 3 },
+          status: { [Op.in]: [1, 2] },
         },
         include: [
           { model: RecDesp },
@@ -450,6 +450,81 @@ class MovimentoCaixaController {
       });
       await mov.destroy();
       return res.json({ mov, message: 'Movimento excluído com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno Do Servidor' });
+    }
+  }
+
+  async estorno(req, res) {
+    try {
+      const { params, body } = req;
+
+      const mov = await MovimentoCaixa.findOne({
+        where: { id: params.id },
+      });
+
+      if (!mov) {
+        return res.status(404).json({ error: 'Movimento de caixa não encontrado' });
+      }
+
+      const currentStatus = mov.getDataValue('status');
+      if (currentStatus !== 1) {
+        return res.status(400).json({
+          error: `Não é possível estornar este movimento. Status atual: ${currentStatus}. Apenas movimentos não pagos (status=1) podem ser estornados.`,
+        });
+      }
+
+      const dtVenc = mov.getDataValue('dtVenc');
+      const checkPeriodo = await FechamentoPeriodo.findOne({
+        where: {
+          [Op.and]: [{
+            dataFim: {
+              [Op.gte]: dtVenc,
+            },
+          },
+          {
+            dataInic: {
+              [Op.lte]: dtVenc,
+            },
+          }],
+        },
+      });
+
+      if (!checkPeriodo) {
+        return res.status(400).json({
+          error: 'Não existe período criado para a data do apontamento',
+        });
+      }
+
+      const { situacao } = checkPeriodo.dataValues;
+
+      if (situacao !== 'Aberto') {
+        const colab = await Colab.findByPk(body.ColabId);
+        if (!colab) {
+          return res.status(500).json({ error: 'Erro interno de servidor' });
+        }
+        try {
+          const token = colab.getDataValue('PeriodToken');
+          const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+
+          if (decoded.periodo !== checkPeriodo.getDataValue('nome')) {
+            throw 'error';
+          }
+        } catch (err) {
+          return res.status(401).json({
+            error: 'O período já está fechado, contate o administrador',
+          });
+        }
+      }
+
+      const now = new Date();
+      await mov.update({
+        status: 4,
+        dtLiqui: now,
+      });
+
+      return res.json({ mov, message: 'Movimento estornado com sucesso' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno Do Servidor' });
