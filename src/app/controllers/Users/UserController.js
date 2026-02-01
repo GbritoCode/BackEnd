@@ -109,6 +109,9 @@ class UserController {
       return res.status(401).json({ error: 'A senha atual está incorreta' });
     }
 
+    console.log('mainClient:', req.body.mainClient);
+    console.log('allowedClients:', req.body.allowedClients);
+
     await colab.update({ aniver: req.body.aniver });
 
     const { id, nome, profile } = await user.update(req.body);
