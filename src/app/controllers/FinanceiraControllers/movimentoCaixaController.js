@@ -476,6 +476,13 @@ class MovimentoCaixaController {
         });
       }
 
+      // Prevent refunding a refund movement
+      if (mov.RecDesp.tipoItem.toLowerCase() === 'estorno') {
+        return res.status(400).json({
+          error: 'Não é possível estornar um movimento que já é um estorno.',
+        });
+      }
+
       // Find inverse RecDesp (Estorno with opposite type)
       const originalRecDesp = mov.RecDesp;
       const inverseType = originalRecDesp.recDesp.toLowerCase() === 'rec' ? 'Desp' : 'Rec';
