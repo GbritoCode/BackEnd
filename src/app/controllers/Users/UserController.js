@@ -77,6 +77,8 @@ class UserController {
         .string()
         .when('senha', (senha, field) => (senha ? field.required().oneOf([yup.ref('senha')]) : field)),
       aniver: yup.string().optional(),
+      mainClient: yup.mixed().optional(),
+      allowedClients: yup.string().optional(),
     });
 
     if (!(await schema.isValid(req.body))) {
