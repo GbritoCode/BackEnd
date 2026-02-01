@@ -456,6 +456,99 @@ class MovimentoCaixaController {
     }
   }
 
+  async estornoLiquid(req, res) {
+    try {
+      const { params, body } = req;
+
+      const mov = await MovimentoCaixa.findOne({
+        where: { id: params.id },
+        include: [{ model: RecDesp }],
+      });
+
+      if (!mov) {
+        return res.status(404).json({ error: 'Movimento de caixa não encontrado' });
+      }
+
+      const currentStatus = mov.getDataValue('status');
+      if (currentStatus !== 3) {
+        return res.status(400).json({
+          error: 'Apenas movimentos liquidados (status=3) podem ser estornados por este método.',
+        });
+      }
+
+      // Find inverse RecDesp (Estorno with opposite type)
+      const originalRecDesp = mov.RecDesp;
+      const inverseType = originalRecDesp.recDesp.toLowerCase() === 'rec' ? 'Desp' : 'Rec';
+      const inverseTypeLabel = inverseType === 'Rec' ? 'Receita' : 'Despesa';
+
+      const inverseRecDesp = await RecDesp.findOne({
+        where: {
+          tipoItem: { [Op.iLike]: 'estorno' },
+          recDesp: { [Op.iLike]: inverseType },
+        },
+      });
+
+      if (!inverseRecDesp) {
+        return res.status(400).json({
+          error: `Não foi encontrado o registro de Estorno. Verifique se existe uma Receita/Despesa com tipo='Estorno' e categoria='${inverseTypeLabel}'.`,
+        });
+      }
+
+      const originalDtVenc = mov.getDataValue('dtVenc');
+      const originalDtLiqui = mov.getDataValue('dtLiqui');
+
+      // Create inverse movement
+      const newMov = await MovimentoCaixa.create({
+        EmpresaId: mov.EmpresaId,
+        RecDespId: inverseRecDesp.id,
+        ColabCreate: body.ColabId,
+        ColabLiqui: body.ColabId,
+        ColabPgmto: mov.ColabPgmto,
+        FornecId: inverseType === 'Desp' ? mov.FornecId || mov.ClienteId : null,
+        ClienteId: inverseType === 'Rec' ? mov.ClienteId || mov.FornecId : null,
+        ParcelaId: null,
+        recDesp: inverseType,
+        ano: mov.ano,
+        periodo: mov.periodo,
+        valor: mov.valor,
+        saldo: 0,
+        dtVenc: originalDtVenc,
+        dtLiqui: originalDtLiqui,
+        status: 3, // Already liquidated
+        desc: `Estorno do movimento #${mov.id} - ${originalRecDesp.desc}`,
+        referencia: mov.referencia,
+        autoCreated: true,
+      });
+
+      // Liquidate the new movement
+      const liquid = await liquidMovCaixaController.liquidaMov({
+        movId: newMov.id,
+        valor: inverseType === 'Desp' ? -mov.valor : mov.valor,
+        dtLiqui: originalDtLiqui,
+        recDesp: inverseType,
+      });
+
+      if (!liquid.status) {
+        // Rollback: delete the created movement
+        await newMov.destroy();
+        return res.status(500).json({ error: liquid.err || 'Erro ao liquidar o movimento de estorno' });
+      }
+
+      // Mark original movement as estornado
+      await mov.update({
+        status: 4,
+      });
+
+      return res.json({
+        mov: newMov,
+        message: 'Movimento estornado com sucesso. Um novo movimento inverso foi criado e liquidado.',
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno Do Servidor' });
+    }
+  }
+
   async estorno(req, res) {
     try {
       const { params, body } = req;

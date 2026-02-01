@@ -1446,6 +1446,7 @@ routes.get('/movCaixa/table_liquid', movimentoCaixaController.getLiquid);
 routes.get('/movCaixa/table_aberto', movimentoCaixaController.getAberto);
 routes.delete('/movCaixa/:id', movimentoCaixaController.delete);
 routes.put('/movCaixa/estorno/:id', movimentoCaixaController.estorno);
+routes.put('/movCaixa/estornoLiquid/:id', movimentoCaixaController.estornoLiquid);
 
 routes.post('/fechCaixa', fechamentoCaixaMensControler.store);
 
