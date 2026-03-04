@@ -195,8 +195,23 @@ class FechamentoPeriodoController {
         ColabPgmto: { [Op.not]: null },
         periodo: periodMonth,
         ano: fechamento.ano,
+        status: 1,
+        autoCreated: true,
       },
     });
+
+    // Colabs whose auto-created movements survived the delete (already liquidated)
+    // must not get new duplicate movements created during recalculation.
+    const survivingMovs = await MovimentoCaixa.findAll({
+      where: {
+        ColabPgmto: { [Op.not]: null },
+        periodo: periodMonth,
+        ano: fechamento.ano,
+        autoCreated: true,
+      },
+      attributes: ['ColabPgmto'],
+    });
+    const skipColabIds = new Set(survivingMovs.map((m) => m.ColabPgmto));
 
     await Horas.destroy(
       {
@@ -366,29 +381,31 @@ class FechamentoPeriodoController {
             },
           },
         );
-        const colabAtual = colabs.find((arr) => arr.id === entry[1].ColabId);
-        if (!colabAtual.getDataValue('recebeFixo')) {
-          if (entry[1].totalReceb - entry[1].totalDesp > 0) {
-            await MovimentoCaixa.create(
-              {
-                EmpresaId: fechamento.EmpresaId,
-                RecDespId: colabAtual.Fornec.getDataValue('RecDespId'),
-                FornecId: colabAtual.Fornec.getDataValue('id'),
-                ColabCreate: 1,
-                ColabPgmto: entry[1].ColabId,
-                valor: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
-                saldo: ((entry[1].totalReceb - entry[1].totalDesp) * 1).toFixed(2),
-                dtVenc: nextMonth,
-                status: 1,
-                ano: fechamento.ano,
-                periodo: periodMonth,
-                recDesp: 'Desp',
-                autoCreated: true,
-                desc:
-                 `Valor referente a horas lançadas pelo colaborador ${colabAtual.nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-              },
-              { returning: true },
-            );
+        if (!skipColabIds.has(entry[1].ColabId)) {
+          const colabAtual = colabs.find((arr) => arr.id === entry[1].ColabId);
+          if (!colabAtual.getDataValue('recebeFixo')) {
+            if (entry[1].totalReceb - entry[1].totalDesp > 0) {
+              await MovimentoCaixa.create(
+                {
+                  EmpresaId: fechamento.EmpresaId,
+                  RecDespId: colabAtual.Fornec.getDataValue('RecDespId'),
+                  FornecId: colabAtual.Fornec.getDataValue('id'),
+                  ColabCreate: 1,
+                  ColabPgmto: entry[1].ColabId,
+                  valor: ((entry[1].totalReceb - entry[1].totalDesp) * -1).toFixed(2),
+                  saldo: ((entry[1].totalReceb - entry[1].totalDesp) * 1).toFixed(2),
+                  dtVenc: nextMonth,
+                  status: 1,
+                  ano: fechamento.ano,
+                  periodo: periodMonth,
+                  recDesp: 'Desp',
+                  autoCreated: true,
+                  desc:
+                   `Valor referente a horas lançadas pelo colaborador ${colabAtual.nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+                },
+                { returning: true },
+              );
+            }
           }
         }
       });
@@ -414,6 +431,7 @@ class FechamentoPeriodoController {
     // eslint-disable-next-line guard-for-in
     for (let i = 0; i < despesasSeparate.length; i++) {
       const desp = despesasSeparate[i].dataValues;
+      if (skipColabIds.has(desp.ColabId)) continue;
       await MovimentoCaixa.create(
         {
           EmpresaId: fechamento.EmpresaId,
@@ -437,7 +455,7 @@ class FechamentoPeriodoController {
     }
 
     for (const colab of colabs) {
-      if (colab.getDataValue('recebeFixo')) {
+      if (colab.getDataValue('recebeFixo') && !skipColabIds.has(colab.id)) {
         await MovimentoCaixa.create(
           {
             EmpresaId: fechamento.EmpresaId,
@@ -519,26 +537,28 @@ class FechamentoPeriodoController {
             { returning: true },
           );
 
-          await MovimentoCaixa.create(
-            {
-              EmpresaId: fechamento.EmpresaId,
-              RecDespId: RecDespCompHrs,
-              FornecId: colabs.find((arr) => arr.id === colabId).Fornec.getDataValue('id'),
-              ColabCreate: 1,
-              ColabPgmto: colabId,
-              valor: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1).toFixed(2),
-              saldo: ((saldoHrs / 60) * compRec[i].colabVlrHr * 1).toFixed(2),
-              dtVenc: nextMonth,
-              status: 1,
-              ano: fechamento.ano,
-              periodo: periodMonth,
-              recDesp: 'Desp',
-              autoCreated: true,
-              desc:
-               `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
-            },
-            { returning: true },
-          );
+          if (!skipColabIds.has(colabId)) {
+            await MovimentoCaixa.create(
+              {
+                EmpresaId: fechamento.EmpresaId,
+                RecDespId: RecDespCompHrs,
+                FornecId: colabs.find((arr) => arr.id === colabId).Fornec.getDataValue('id'),
+                ColabCreate: 1,
+                ColabPgmto: colabId,
+                valor: ((saldoHrs / 60) * compRec[i].colabVlrHr * -1).toFixed(2),
+                saldo: ((saldoHrs / 60) * compRec[i].colabVlrHr * 1).toFixed(2),
+                dtVenc: nextMonth,
+                status: 1,
+                ano: fechamento.ano,
+                periodo: periodMonth,
+                recDesp: 'Desp',
+                autoCreated: true,
+                desc:
+                 `Valor referente a horas complementares do colaborador ${colabs.find((arr) => arr.id === colabId).nome} no período ${fechamento.nome} - ${fechamento.ano}`,
+              },
+              { returning: true },
+            );
+          }
         }
       }
     }

@@ -57,7 +57,7 @@ class SessionController {
           empresa,
           Colab,
           xpto: '6584',
-          allowedClients: allowedClients.split(';'),
+          allowedClients: allowedClients?.split(';'),
           mainClient,
         },
         token: jwt.sign({ id }, authConfig.secret, {

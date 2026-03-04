@@ -293,7 +293,7 @@ class MovimentoCaixaController {
                 if (movCx.ParcelaId) {
                   await Parcela.update(
                     {
-                      vlrPago: movCx.total * 100,
+                      vlrPago: Math.round(movCx.total * 100),
                       saldo: 0,
                       dtLiquidacao: dtLiqui,
                       status: 4,
@@ -326,12 +326,16 @@ class MovimentoCaixaController {
               }
 
               if (mov.ParcelaId) {
+                const vlrSingleCents = Math.round(vlrSingle * 100);
+                const totalCents = Math.round(mov.total * 100);
+                const saldoCents = Math.round(mov.saldo * 100);
+
                 await Parcela.update(
                   {
-                    vlrPago: (mov.total - (mov.saldo - vlrSingle)) * 100,
-                    saldo: (mov.saldo - vlrSingle) * 100,
+                    vlrPago: totalCents - (saldoCents - vlrSingleCents),
+                    saldo: saldoCents - vlrSingleCents,
                     dtLiquidacao: dtLiqui,
-                    status: mov.saldo - vlrSingle > 0 ? 3 : 4,
+                    status: saldoCents - vlrSingleCents > 0 ? 3 : 4,
                   },
                   {
                     where: { id: mov.ParcelaId },
@@ -339,11 +343,13 @@ class MovimentoCaixaController {
                 );
               }
 
+              const saldoRemainingClosed = parseFloat((mov.saldo - vlrSingle).toFixed(2));
+
               await MovimentoCaixa.update({
                 vlrPago: vlrSingle,
-                saldo: mov.saldo - vlrSingle,
+                saldo: saldoRemainingClosed,
                 dtLiqui,
-                status: mov.saldo - vlrSingle > 0 ? 2 : 3,
+                status: saldoRemainingClosed > 0 ? 2 : 3,
               }, {
                 where: { id: mov.id },
               });
@@ -374,7 +380,7 @@ class MovimentoCaixaController {
             if (movCx.ParcelaId) {
               await Parcela.update(
                 {
-                  vlrPago: movCx.total * 100,
+                  vlrPago: Math.round(movCx.total * 100),
                   saldo: 0,
                   dtLiquidacao: dtLiqui,
                   situacao: 4,
@@ -407,16 +413,16 @@ class MovimentoCaixaController {
           }
 
           if (mov.ParcelaId) {
-            vlrSingle *= 100;
-            mov.total *= 100;
-            mov.saldo *= 100;
+            const vlrSingleCents = Math.round(vlrSingle * 100);
+            const totalCents = Math.round(mov.total * 100);
+            const saldoCents = Math.round(mov.saldo * 100);
 
             await Parcela.update(
               {
-                vlrPago: (mov.total - (mov.saldo - vlrSingle)),
-                saldo: (mov.saldo - vlrSingle),
+                vlrPago: totalCents - (saldoCents - vlrSingleCents),
+                saldo: saldoCents - vlrSingleCents,
                 dtLiquidacao: dtLiqui,
-                situacao: mov.saldo - vlrSingle > 0 ? 3 : 4,
+                situacao: saldoCents - vlrSingleCents > 0 ? 3 : 4,
               },
               {
                 where: { id: mov.ParcelaId },
@@ -424,11 +430,13 @@ class MovimentoCaixaController {
             );
           }
 
+          const saldoRemaining = parseFloat((mov.saldo - vlrSingle).toFixed(2));
+
           await MovimentoCaixa.update({
-            vlrPago: vlrSingle / 100,
-            saldo: (mov.saldo - vlrSingle) / 100,
+            vlrPago: vlrSingle,
+            saldo: saldoRemaining,
             dtLiqui,
-            status: mov.saldo - vlrSingle > 0 ? 2 : 3,
+            status: saldoRemaining > 0 ? 2 : 3,
           }, {
             where: { id: mov.id },
           });
