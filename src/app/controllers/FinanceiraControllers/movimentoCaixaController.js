@@ -38,8 +38,11 @@ class MovimentoCaixaController {
         });
       }
 
-      const { situacao, nome } = checkPeriodo.dataValues;
+      const { situacao, nome, ano } = checkPeriodo.dataValues;
       body.periodo = monthFullToNumber[nome];
+      body.recDesp = body.FornecId === null ? 'Rec' : 'Desp';
+      body.ano = ano;
+
       if (situacao !== 'Aberto') {
         const colab = await Colab.findByPk(body.ColabId);
         if (!colab) {
@@ -49,6 +52,7 @@ class MovimentoCaixaController {
         try {
           const token = colab.getDataValue('PeriodToken');
           const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+
           if (decoded.periodo === checkPeriodo.getDataValue('nome')) {
             try {
               const mov = await MovimentoCaixa.create(body);
@@ -129,7 +133,7 @@ class MovimentoCaixaController {
   async getLiquid(req, res) {
     try {
       const mov = await MovimentoCaixa.findAll({
-        where: { status: 3 },
+        where: { status: { [Op.in]: [3, 4] } },
         include: [
           { model: RecDesp },
           'ColabCreated',
@@ -152,7 +156,7 @@ class MovimentoCaixaController {
     try {
       const mov = await MovimentoCaixa.findAll({
         where: {
-          status: { [Op.lt]: 3 },
+          status: { [Op.in]: [1, 2] },
         },
         include: [
           { model: RecDesp },
@@ -289,7 +293,7 @@ class MovimentoCaixaController {
                 if (movCx.ParcelaId) {
                   await Parcela.update(
                     {
-                      vlrPago: movCx.total * 100,
+                      vlrPago: Math.round(movCx.total * 100),
                       saldo: 0,
                       dtLiquidacao: dtLiqui,
                       status: 4,
@@ -322,12 +326,16 @@ class MovimentoCaixaController {
               }
 
               if (mov.ParcelaId) {
+                const vlrSingleCents = Math.round(vlrSingle * 100);
+                const totalCents = Math.round(mov.total * 100);
+                const saldoCents = Math.round(mov.saldo * 100);
+
                 await Parcela.update(
                   {
-                    vlrPago: (mov.total - (mov.saldo - vlrSingle)) * 100,
-                    saldo: (mov.saldo - vlrSingle) * 100,
+                    vlrPago: totalCents - (saldoCents - vlrSingleCents),
+                    saldo: saldoCents - vlrSingleCents,
                     dtLiquidacao: dtLiqui,
-                    status: mov.saldo - vlrSingle > 0 ? 3 : 4,
+                    status: saldoCents - vlrSingleCents > 0 ? 3 : 4,
                   },
                   {
                     where: { id: mov.ParcelaId },
@@ -335,11 +343,13 @@ class MovimentoCaixaController {
                 );
               }
 
+              const saldoRemainingClosed = parseFloat((mov.saldo - vlrSingle).toFixed(2));
+
               await MovimentoCaixa.update({
                 vlrPago: vlrSingle,
-                saldo: mov.saldo - vlrSingle,
+                saldo: saldoRemainingClosed,
                 dtLiqui,
-                status: mov.saldo - vlrSingle > 0 ? 2 : 3,
+                status: saldoRemainingClosed > 0 ? 2 : 3,
               }, {
                 where: { id: mov.id },
               });
@@ -370,7 +380,7 @@ class MovimentoCaixaController {
             if (movCx.ParcelaId) {
               await Parcela.update(
                 {
-                  vlrPago: movCx.total * 100,
+                  vlrPago: Math.round(movCx.total * 100),
                   saldo: 0,
                   dtLiquidacao: dtLiqui,
                   situacao: 4,
@@ -403,16 +413,16 @@ class MovimentoCaixaController {
           }
 
           if (mov.ParcelaId) {
-            vlrSingle *= 100;
-            mov.total *= 100;
-            mov.saldo *= 100;
+            const vlrSingleCents = Math.round(vlrSingle * 100);
+            const totalCents = Math.round(mov.total * 100);
+            const saldoCents = Math.round(mov.saldo * 100);
 
             await Parcela.update(
               {
-                vlrPago: (mov.total - (mov.saldo - vlrSingle)),
-                saldo: (mov.saldo - vlrSingle),
+                vlrPago: totalCents - (saldoCents - vlrSingleCents),
+                saldo: saldoCents - vlrSingleCents,
                 dtLiquidacao: dtLiqui,
-                situacao: mov.saldo - vlrSingle > 0 ? 3 : 4,
+                situacao: saldoCents - vlrSingleCents > 0 ? 3 : 4,
               },
               {
                 where: { id: mov.ParcelaId },
@@ -420,11 +430,13 @@ class MovimentoCaixaController {
             );
           }
 
+          const saldoRemaining = parseFloat((mov.saldo - vlrSingle).toFixed(2));
+
           await MovimentoCaixa.update({
-            vlrPago: vlrSingle / 100,
-            saldo: (mov.saldo - vlrSingle) / 100,
+            vlrPago: vlrSingle,
+            saldo: saldoRemaining,
             dtLiqui,
-            status: mov.saldo - vlrSingle > 0 ? 2 : 3,
+            status: saldoRemaining > 0 ? 2 : 3,
           }, {
             where: { id: mov.id },
           });
@@ -446,6 +458,181 @@ class MovimentoCaixaController {
       });
       await mov.destroy();
       return res.json({ mov, message: 'Movimento excluído com sucesso' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno Do Servidor' });
+    }
+  }
+
+  async estornoLiquid(req, res) {
+    try {
+      const { params, body } = req;
+
+      const mov = await MovimentoCaixa.findOne({
+        where: { id: params.id },
+        include: [{ model: RecDesp }],
+      });
+
+      if (!mov) {
+        return res.status(404).json({ error: 'Movimento de caixa não encontrado' });
+      }
+
+      const currentStatus = mov.getDataValue('status');
+      if (currentStatus !== 3) {
+        return res.status(400).json({
+          error: 'Apenas movimentos liquidados (status=3) podem ser estornados por este método.',
+        });
+      }
+
+      // Prevent refunding a refund movement
+      if (mov.RecDesp.tipoItem.toLowerCase() === 'estorno') {
+        return res.status(400).json({
+          error: 'Não é possível estornar um movimento que já é um estorno.',
+        });
+      }
+
+      // Find inverse RecDesp (Estorno with opposite type)
+      const originalRecDesp = mov.RecDesp;
+      const inverseType = originalRecDesp.recDesp.toLowerCase() === 'rec' ? 'Desp' : 'Rec';
+      const inverseTypeLabel = inverseType === 'Rec' ? 'Receita' : 'Despesa';
+
+      const inverseRecDesp = await RecDesp.findOne({
+        where: {
+          tipoItem: { [Op.iLike]: 'estorno' },
+          recDesp: { [Op.iLike]: inverseType },
+        },
+      });
+
+      if (!inverseRecDesp) {
+        return res.status(400).json({
+          error: `Não foi encontrado o registro de Estorno. Verifique se existe uma Receita/Despesa com tipo='Estorno' e categoria='${inverseTypeLabel}'.`,
+        });
+      }
+
+      const originalDtVenc = mov.getDataValue('dtVenc');
+      const originalDtLiqui = mov.getDataValue('dtLiqui');
+
+      // Create inverse movement
+      const newMov = await MovimentoCaixa.create({
+        EmpresaId: mov.EmpresaId,
+        RecDespId: inverseRecDesp.id,
+        ColabCreate: body.ColabId,
+        ColabLiqui: body.ColabId,
+        ColabPgmto: mov.ColabPgmto,
+        FornecId: inverseType === 'Desp' ? mov.FornecId || mov.ClienteId : null,
+        ClienteId: inverseType === 'Rec' ? mov.ClienteId || mov.FornecId : null,
+        ParcelaId: null,
+        recDesp: inverseType,
+        ano: mov.ano,
+        periodo: mov.periodo,
+        valor: mov.valor,
+        saldo: 0,
+        dtVenc: originalDtVenc,
+        dtLiqui: originalDtLiqui,
+        status: 3, // Already liquidated
+        desc: `Estorno do movimento #${mov.id} - ${originalRecDesp.desc}`,
+        referencia: mov.referencia,
+        autoCreated: true,
+      });
+
+      // Liquidate the new movement
+      const liquid = await liquidMovCaixaController.liquidaMov({
+        movId: newMov.id,
+        valor: inverseType === 'Desp' ? -mov.valor : mov.valor,
+        dtLiqui: originalDtLiqui,
+        recDesp: inverseType,
+      });
+
+      if (!liquid.status) {
+        // Rollback: delete the created movement
+        await newMov.destroy();
+        return res.status(500).json({ error: liquid.err || 'Erro ao liquidar o movimento de estorno' });
+      }
+
+      // Mark original movement as estornado
+      await mov.update({
+        status: 4,
+      });
+
+      return res.json({
+        mov: newMov,
+        message: 'Movimento estornado com sucesso. Um novo movimento inverso foi criado e liquidado.',
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Erro Interno Do Servidor' });
+    }
+  }
+
+  async estorno(req, res) {
+    try {
+      const { params, body } = req;
+
+      const mov = await MovimentoCaixa.findOne({
+        where: { id: params.id },
+      });
+
+      if (!mov) {
+        return res.status(404).json({ error: 'Movimento de caixa não encontrado' });
+      }
+
+      const currentStatus = mov.getDataValue('status');
+      if (currentStatus !== 1) {
+        return res.status(400).json({
+          error: `Não é possível estornar este movimento. Status atual: ${currentStatus}. Apenas movimentos não pagos (status=1) podem ser estornados.`,
+        });
+      }
+
+      const dtVenc = mov.getDataValue('dtVenc');
+      const checkPeriodo = await FechamentoPeriodo.findOne({
+        where: {
+          [Op.and]: [{
+            dataFim: {
+              [Op.gte]: dtVenc,
+            },
+          },
+          {
+            dataInic: {
+              [Op.lte]: dtVenc,
+            },
+          }],
+        },
+      });
+
+      if (!checkPeriodo) {
+        return res.status(400).json({
+          error: 'Não existe período criado para a data do apontamento',
+        });
+      }
+
+      const { situacao } = checkPeriodo.dataValues;
+
+      if (situacao !== 'Aberto') {
+        const colab = await Colab.findByPk(body.ColabId);
+        if (!colab) {
+          return res.status(500).json({ error: 'Erro interno de servidor' });
+        }
+        try {
+          const token = colab.getDataValue('PeriodToken');
+          const decoded = await promisify(jwt.verify)(token, process.env.TOKENS_SECRET);
+
+          if (decoded.periodo !== checkPeriodo.getDataValue('nome')) {
+            throw 'error';
+          }
+        } catch (err) {
+          return res.status(401).json({
+            error: 'O período já está fechado, contate o administrador',
+          });
+        }
+      }
+
+      const now = new Date();
+      await mov.update({
+        status: 4,
+        dtLiqui: now,
+      });
+
+      return res.json({ mov, message: 'Movimento estornado com sucesso' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Erro Interno Do Servidor' });

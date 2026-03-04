@@ -1,15 +1,15 @@
-import * as yup from 'yup';
-import moment from 'moment';
-import { Op } from 'sequelize';
-import { resolve } from 'path';
 import { unlink } from 'fs';
-import Parcelas from '../../models/parcela';
-import Oportunidade from '../../models/oportunidade';
+import moment from 'moment';
+import { resolve } from 'path';
+import { Op } from 'sequelize';
+import * as yup from 'yup';
 import Cliente from '../../models/cliente';
-import ParcelaFiles from '../../models/parcelaFile';
 import MovimentoCaixa from '../../models/movimentoCaixa';
-import liquidMovCaixaController from '../FinanceiraControllers/liquidMovCaixaController';
+import Oportunidade from '../../models/oportunidade';
+import Parcelas from '../../models/parcela';
+import ParcelaFiles from '../../models/parcelaFile';
 import RecDesp from '../../models/recDesp';
+import liquidMovCaixaController from '../FinanceiraControllers/liquidMovCaixaController';
 
 class ParcelaController {
   async store(req, res) {
@@ -352,6 +352,7 @@ class ParcelaController {
         periodo: body.dtEmissao.split('-')[1],
         ano: body.dtEmissao.split('-')[0],
         desc: `Parcela número ${parc.parcela} do projeto ${oport.desc} | ${oport.cod} `,
+        recDesp: 'Rec',
       });
 
       const parcUp = await parc.update(body);

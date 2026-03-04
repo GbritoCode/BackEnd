@@ -1,3 +1,4 @@
+import { endOfMonth, startOfMonth } from 'date-fns';
 import Oportunidade from '../../models/oportunidade';
 import Empresas from '../../models/empresa';
 import Cliente from '../../models/cliente';
@@ -15,6 +16,31 @@ const { Op } = require('sequelize');
 class OportController {
   async store(req, res) {
     try {
+      const monthStart = startOfMonth(new Date(req.body.data));
+      const monthEnd = endOfMonth(new Date(req.body.data));
+
+      if (req.body.percentComplete < 0 || req.body.percentComplete > 100) {
+        return res.status(500).json({
+          error: `A porcentagem não pode ${req.body.percentComplete < 0 ? 'ser menor' : 'exceder'} ${req.body.percentComplete}`,
+        });
+      }
+
+      if (req.body.pacote) {
+        const alreadyHasPackage = await Oportunidade.findOne({
+          where: {
+            ClienteId: req.body.ClienteId,
+            pacote: true,
+            data: { [Op.between]: [monthStart, monthEnd] },
+          },
+        });
+
+        if (alreadyHasPackage) {
+          return res.status(500).json({
+            error: 'O cliente já tem um pacote de horas esse mês',
+          });
+        }
+      }
+
       const oport = await Oportunidade.create(req.body);
 
       if (oport.CampanhaId) {

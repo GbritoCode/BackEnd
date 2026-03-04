@@ -70,11 +70,11 @@ class FinanceiraController {
       }
       const SaldoPrev = await MovimentoCaixa.findAll(
         {
-          attributes: ['dtVenc', 'periodo', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+          attributes: ['dtVenc', 'periodo', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
             dtVenc: { [Op.between]: [`${ano}-${month}-01`, `${ano}-${month}-${lastDayMonth}`] },
           },
-          group: ['dtVenc', 'periodo'],
+          group: ['dtVenc', 'periodo', 'recDesp'],
         },
       );
 
@@ -90,7 +90,15 @@ class FinanceiraController {
 
       for (const mv of SaldoPrev) {
         const monthVenc = parseInt(mv.dataValues.dtVenc.split('-')[1], 10);
-        array[monthVenc].saldoPrev = mv.dataValues.total;
+        const { recDesp, total } = mv.dataValues;
+        if (array[monthVenc].saldoPrev === null) {
+          array[monthVenc].saldoPrev = 0;
+        }
+        if (recDesp.toLowerCase() === 'rec') {
+          array[monthVenc].saldoPrev += total;
+        } else if (recDesp.toLowerCase() === 'desp') {
+          array[monthVenc].saldoPrev -= total;
+        }
       }
 
       for (const recDespLiqui of recDespReal) {

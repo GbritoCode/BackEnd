@@ -63,11 +63,11 @@ export default new class FechamentoMensalSaldo {
 
       const SaldoPrev = await MovimentoCaixa.findAll(
         {
-          attributes: ['dtVenc', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+          attributes: ['dtVenc', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
             dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
           },
-          group: ['dtVenc'],
+          group: ['dtVenc', 'recDesp'],
         },
       );
       // return { SaldoPrev };
@@ -75,7 +75,15 @@ export default new class FechamentoMensalSaldo {
       // eslint-disable-next-line no-restricted-syntax
       for (const mv of SaldoPrev) {
         const day = parseInt(mv.dataValues.dtVenc.split('-')[2], 10);
-        array[day].saldoPrev = mv.dataValues.total;
+        const { recDesp, total } = mv.dataValues;
+        if (array[day].saldoPrev === null) {
+          array[day].saldoPrev = 0;
+        }
+        if (recDesp.toLowerCase() === 'rec') {
+          array[day].saldoPrev += total;
+        } else if (recDesp.toLowerCase() === 'desp') {
+          array[day].saldoPrev -= total;
+        }
       }
 
       for (const recDespLiqui of recDespReal) {

@@ -31,6 +31,8 @@ export default class Cliente extends Model {
         setor: DataTypes.STRING,
         qtdFuncionarios: DataTypes.STRING,
         sigla: DataTypes.STRING,
+        emailsCot: DataTypes.STRING,
+        emailsParc: DataTypes.STRING,
       },
       {
         sequelize,

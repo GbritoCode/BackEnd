@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import moment from 'moment';
-import { getDaysInMonth } from 'date-fns';
-import { Op } from 'sequelize';
+import { endOfMonth, getDaysInMonth, startOfMonth } from 'date-fns';
+import sequelize, { Op } from 'sequelize';
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import Colab from '../../models/colab';
@@ -208,6 +208,29 @@ class DespesasController {
 
     despesa.destroy();
     return res.status(200).json(`Registro de ${despesa.dataDespesa} foi deletado com Sucesso!`);
+  }
+
+  async getByCli(req, res) {
+    const { cliId, selectedMonth, selectedYear } = req.params;
+
+    const monthStart = startOfMonth(new Date(selectedYear, Number(selectedMonth) - 1));
+    const monthEnd = endOfMonth(new Date(selectedYear, Number(selectedMonth) - 1));
+
+    const despesa = await Despesa.sum('valorDespesa', {
+      where: {
+        dataDespesa: { [Op.between]: [monthStart, monthEnd] },
+      },
+      include: [
+        {
+          model: Oportunidade,
+          attributes: [],
+          where: {
+            ClienteId: cliId,
+          },
+        },
+      ],
+    });
+    return res.json(despesa);
   }
 }
 export default new DespesasController();

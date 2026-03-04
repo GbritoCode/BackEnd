@@ -26,7 +26,7 @@ class SessionController {
       const user = await User.findOne({
         where: { email },
         include: [{ model: Empresas },
-        { model: Colabs, include: [{ model: Perfil }] }],
+          { model: Colabs, include: [{ model: Perfil }] }],
       });
 
       if (!user) {
@@ -38,7 +38,7 @@ class SessionController {
       }
 
       const {
-        id, nome, profile, isFirstLogin, Colab, Empresa,
+        id, nome, profile, isFirstLogin, Colab, Empresa, allowedClients, mainClient,
       } = user;
       const empresa = Colab === null ? '' : await Empresas.findByPk(Colab.EmpresaId);
 
@@ -57,6 +57,8 @@ class SessionController {
           empresa,
           Colab,
           xpto: '6584',
+          allowedClients: allowedClients?.split(';'),
+          mainClient,
         },
         token: jwt.sign({ id }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,

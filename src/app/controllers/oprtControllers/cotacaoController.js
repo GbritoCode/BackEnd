@@ -45,6 +45,7 @@ class CotacaoController {
         numParcelas: yup.number().required(),
         motivo: yup.string().required(),
         desc: yup.string(),
+        isPackageOport: yup.boolean().required(),
       });
       const { files, query, body } = req;
       if (!(await schema.isValid(JSON.parse(req.body.body)))) {
@@ -53,6 +54,11 @@ class CotacaoController {
 
       const cotacao = await Cotacao.create(JSON.parse(body.body));
       await Oportunidade.update({ fase: 3 }, { where: { id: cotacao.OportunidadeId } });
+
+      if (JSON.parse(body.body).isPackageOport) {
+        return res.json('tudo ok');
+      }
+
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
         const date = new Date().toLocaleString('pt-br').replace(/\//g, '-').slice(0, 10);
