@@ -13,7 +13,13 @@ export default class MovimentoCaixa extends Model {
         FornecId: DataTypes.INTEGER,
         ClienteId: DataTypes.INTEGER,
         ParcelaId: DataTypes.INTEGER,
-        recDesp: DataTypes.STRING,
+        recDesp: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            isIn: [['Rec', 'Desp']],
+          },
+        },
         ano: DataTypes.INTEGER,
         periodo: DataTypes.INTEGER,
         valor: DataTypes.FLOAT,

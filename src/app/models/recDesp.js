@@ -11,7 +11,13 @@ export default class RecDesp extends Model {
       {
         EmpresaId: DataTypes.INTEGER,
         desc: DataTypes.STRING,
-        recDesp: DataTypes.STRING,
+        recDesp: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            isIn: [['Rec', 'Desp']],
+          },
+        },
         tipoItem: DataTypes.STRING,
         lancFlag: DataTypes.BOOLEAN,
         ContaContabilId: DataTypes.STRING,

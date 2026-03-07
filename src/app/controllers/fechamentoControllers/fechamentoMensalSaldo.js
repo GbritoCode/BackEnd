@@ -2,7 +2,6 @@
 import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 
-import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 
@@ -21,36 +20,31 @@ export default new class FechamentoMensalSaldo {
     }));
 
     try {
-      const fechMes = await FechamentoCaixaMensal.findOne(
-        {
-          where: {
-            ano: mes === '01' || mes === 1 ? parseInt(year, 10) - 1 : parseInt(year, 10),
-            periodo: mes === '01' || mes === 1 ? 12 : parseInt(mes - 1, 10),
-          },
+      // Opening saldoPrev: sum of still-pending/partial MovimentoCaixa from before this month
+      const movBeforeMonth = await MovimentoCaixa.findAll({
+        attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('saldo')), 'total']],
+        where: {
+          dtVenc: { [Op.lt]: `${year}-${mes}-01` },
+          status: { [Op.in]: [1, 2] },
         },
-      );
-      if (fechMes) {
-        const {
-          saldoMesPrev, saldoLastDay, recLastDay, despLastDay,
-        } = fechMes.dataValues;
-        array[0] = {
-          saldoPrev: saldoMesPrev,
-          saldoReal: saldoLastDay,
-          rec: recLastDay,
-          desp: despLastDay,
-          dia: 0,
-        };
-      } else if (!fechMes) {
-        array[0] = {
-          saldoPrev: 0,
-          saldoReal: 0,
-          rec: 0,
-          desp: 0,
-          dia: 0,
-        };
+        group: ['recDesp'],
+      });
+
+      let openingPrev = 0;
+      for (const mov of movBeforeMonth) {
+        const { recDesp, total } = mov.dataValues;
+        if (recDesp.toLowerCase() === 'rec') openingPrev += total;
+        else if (recDesp.toLowerCase() === 'desp') openingPrev -= total;
       }
 
-      // return res.json(array);
+      array[0] = {
+        saldoPrev: openingPrev,
+        saldoReal: 0,
+        rec: 0,
+        desp: 0,
+        dia: 0,
+      };
+
       const recDespReal = await LiquidMovCaixa.findAll(
         {
           attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
@@ -70,7 +64,6 @@ export default new class FechamentoMensalSaldo {
           group: ['dtVenc', 'recDesp'],
         },
       );
-      // return { SaldoPrev };
 
       // eslint-disable-next-line no-restricted-syntax
       for (const mv of SaldoPrev) {
@@ -82,7 +75,7 @@ export default new class FechamentoMensalSaldo {
         if (recDesp.toLowerCase() === 'rec') {
           array[day].saldoPrev += total;
         } else if (recDesp.toLowerCase() === 'desp') {
-          array[day].saldoPrev -= total;
+          array[day].saldoPrev += total;
         }
       }
 
