@@ -1,16 +1,10 @@
 /* eslint-disable no-restricted-syntax */
-import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 
-import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 import FechamentoMensalSaldo from '../fechamentoControllers/fechamentoMensalSaldo';
-import liquidMovCaixaController from '../FinanceiraControllers/liquidMovCaixaController';
 
-const today = new Date();
-const [, month, year] = today.toLocaleDateString('pt-BR').split('/');
-const lastDayMonth = getDaysInMonth(today);
 class FinanceiraController {
   async getAnual(req, res) {
     const { query } = req;
@@ -25,70 +19,23 @@ class FinanceiraController {
       arraySaldoPrev = [];
 
     try {
-      const fechMes = await FechamentoCaixaMensal.findAll(
-        {
-          where: {
-            ano: parseInt(ano, 10),
-          },
+      const movPrev = await MovimentoCaixa.findAll({
+        attributes: ['dtVenc', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+        where: {
+          dtVenc: { [Op.between]: [`${ano}-01-01`, `${ano}-12-31`] },
         },
-      );
+        group: ['dtVenc', 'recDesp'],
+      });
 
-      for (const fech of fechMes) {
-        const {
-          periodo, saldoMesPrev, saldoMes, entrada, saida,
-        } = fech.dataValues;
-
-        array[periodo] = {
-          saldoPrev: saldoMesPrev,
-          saldoReal: saldoMes,
-          rec: entrada,
-          desp: saida,
-        };
-      }
-
-      for (let i = 1; i < 13; i++) {
-        if (array[i].saldoPrev === null) {
-          array[i].saldoPrev = 0;
-        }
-        // else if (array[i].saldoPrev !== null && i > 0) {
-        //   array[i].saldoPrev += array[i - 1].saldoPrev;
-        // }
-
-        // ------
-
-        if (array[i].rec === null) {
-          array[i].rec = 0;
-        }
-        if (array[i].desp === null) {
-          array[i].desp = 0;
-        }
-
-        arraySaldo[i] = array[i].saldoReal;
-        arraySaldoPrev[i] = array[i].saldoPrev;
-        arrayDesp[i] = array[i].rec;
-        arrayRec[i] = array[i].desp;
-      }
-      const SaldoPrev = await MovimentoCaixa.findAll(
-        {
-          attributes: ['dtVenc', 'periodo', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
-          where: {
-            dtVenc: { [Op.between]: [`${ano}-${month}-01`, `${ano}-${month}-${lastDayMonth}`] },
-          },
-          group: ['dtVenc', 'periodo', 'recDesp'],
+      const recDespReal = await LiquidMovCaixa.findAll({
+        attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+        where: {
+          dtLiqui: { [Op.between]: [`${ano}-01-01`, `${ano}-12-31`] },
         },
-      );
+        group: ['dtLiqui', 'recDesp'],
+      });
 
-      const recDespReal = await LiquidMovCaixa.findAll(
-        {
-          attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
-          where: {
-            dtLiqui: { [Op.between]: [`${ano}-${month}-01`, `${ano}-${month}-${lastDayMonth}`] },
-          },
-          group: ['dtLiqui', 'recDesp'],
-        },
-      );
-
-      for (const mv of SaldoPrev) {
+      for (const mv of movPrev) {
         const monthVenc = parseInt(mv.dataValues.dtVenc.split('-')[1], 10);
         const { recDesp, total } = mv.dataValues;
         if (array[monthVenc].saldoPrev === null) {
@@ -101,13 +48,17 @@ class FinanceiraController {
         }
       }
 
-      for (const recDespLiqui of recDespReal) {
-        const { dtLiqui, recDesp, total } = recDespLiqui.dataValues;
+      for (const liq of recDespReal) {
+        const { dtLiqui, recDesp, total } = liq.dataValues;
         const monthLiqui = parseInt(dtLiqui.split('-')[1], 10);
+        if (array[monthLiqui].saldoReal === null) {
+          array[monthLiqui].saldoReal = 0;
+        }
         if (recDesp === 'Rec') {
-          array[monthLiqui].rec = total;
+          array[monthLiqui].rec = (array[monthLiqui].rec || 0) + total;
         } else if (recDesp === 'Desp') {
-          array[monthLiqui].desp = total;
+          // valor is stored negative for Desp; negate to get positive absolute value
+          array[monthLiqui].desp = (array[monthLiqui].desp || 0) - total;
         }
         array[monthLiqui].saldoReal += total;
       }
@@ -116,7 +67,6 @@ class FinanceiraController {
         if (array[i].saldoPrev === null) {
           array[i].saldoPrev = 0;
         }
-
         if (array[i].rec === null) {
           array[i].rec = 0;
         }
@@ -129,8 +79,8 @@ class FinanceiraController {
 
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
-        arrayDesp[i] = (array[i].desp).toFixed(2);
-        arrayRec[i] = (array[i].rec).toFixed(2);
+        arrayDesp[i] = (array[i].rec).toFixed(2);
+        arrayRec[i] = (array[i].desp).toFixed(2);
         somaRec += (array[i].rec);
         somaDesp += (array[i].desp);
       }

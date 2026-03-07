@@ -7,7 +7,13 @@ export default class LiquidMovCaixa extends Model {
         MovimentoCaixaId: DataTypes.INTEGER,
         valor: DataTypes.FLOAT,
         dtLiqui: DataTypes.DATEONLY,
-        recDesp: DataTypes.STRING,
+        recDesp: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            isIn: [['Rec', 'Desp']],
+          },
+        },
       },
       {
         sequelize,

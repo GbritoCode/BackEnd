@@ -215,7 +215,8 @@ class MovimentoCaixaController {
               },
             });
 
-            await mov.update(body.mov);
+            const { recDesp, ...movData } = body.mov;
+            await mov.update(movData);
 
             return res.json(mov);
           } catch (err) {
