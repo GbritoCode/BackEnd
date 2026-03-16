@@ -289,14 +289,14 @@ class FechamentoPeriodoController {
       for (let i = 0; i < despesas.length; i++) {
         Object.entries(data).forEach((entry) => {
           if (entry[1].ColabId === despesas[i].dataValues.ColabId) {
-            entry[1].totalDesp = despesas[i].dataValues.total; // remove 100 div / 100;
+            entry[1].totalDesp = despesas[i].dataValues.total / 100;
           }
           if ((data.find((d) => d.ColabId === despesas[i].dataValues.ColabId)) === undefined) {
             data.push({
               ColabId: despesas[i].dataValues.ColabId,
               totalHrs: 0,
-              totalDesp: despesas[i].dataValues.total, // remove 100 div / 100,
-              totalReceb: despesas[i].dataValues.total, // remove 100 div / 100,
+              totalDesp: despesas[i].dataValues.total / 100,
+              totalReceb: despesas[i].dataValues.total / 100,
             });
           }
         });
@@ -341,7 +341,7 @@ class FechamentoPeriodoController {
       console.log(sumColab);
       Object.entries(data).forEach((entry) => {
         if (entry[1].ColabId === receber[i].dataValues.id) {
-          entry[1].totalReceb = sum[i] + (entry[1].totalDesp / 100);
+          entry[1].totalReceb = sum[i] + entry[1].totalDesp;
         }
         if ((data.find((d) => d.ColabId === receber[i].dataValues.id)) === undefined) {
           data.push({
@@ -371,8 +371,8 @@ class FechamentoPeriodoController {
         await ResultPeriodo.update(
           {
             totalHrs: entry[1].totalHrs,
-            totalDesp: (entry[1].totalDesp / 100).toFixed(2),
-            totalReceb: (entry[1].totalReceb).toFixed(2),
+            totalDesp: entry[1].totalDesp.toFixed(2),
+            totalReceb: entry[1].totalReceb.toFixed(2),
           },
           {
             where: {
