@@ -269,7 +269,7 @@ class MovimentoCaixaController {
         }
       }
 
-      if (false && (aberto !== 'Aberto' || abertoAux !== 'Aberto')) { // TEMP: disabled period check for liquidation
+      if (aberto !== 'Aberto' || abertoAux !== 'Aberto') {
         const colab = await Colab.findByPk(body.ColabId);
         if (!colab) {
           return res.status(500).json({ error: 'Erro interno de servidor' });
