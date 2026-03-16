@@ -79,8 +79,8 @@ class FinanceiraController {
 
         arraySaldo[i] = (array[i].saldoReal).toFixed(2);
         arraySaldoPrev[i] = (array[i].saldoPrev).toFixed(2);
-        arrayDesp[i] = (array[i].rec).toFixed(2);
-        arrayRec[i] = (array[i].desp).toFixed(2);
+        arrayRec[i] = (array[i].rec).toFixed(2);
+        arrayDesp[i] = (array[i].desp).toFixed(2);
         somaRec += (array[i].rec);
         somaDesp += (array[i].desp);
       }
@@ -119,10 +119,10 @@ class FinanceiraController {
   async getMensal(req, res) {
     const { query } = req;
     const {
-      mes, part,
+      mes, part, ano,
     } = query;
     try {
-      const data = await FechamentoMensalSaldo.fechamentoMensal(mes, part);
+      const data = await FechamentoMensalSaldo.fechamentoMensal(mes, part, ano);
       return res.status(200).json(data);
     } catch (err) {
       console.log(err);

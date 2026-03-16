@@ -635,7 +635,7 @@ class FechamentoPeriodoController {
         }
       }
 
-      const saldoMes = await fechamentoMensalSaldo.fechamentoMensal(periodMonth, 'geral');
+      const saldoMes = await fechamentoMensalSaldo.fechamentoMensal(periodMonth, 'geral', fechamento.ano);
 
       const fechMes = await FechamentoCaixaMensal.create({
         EmpresaId: fechamento.EmpresaId,

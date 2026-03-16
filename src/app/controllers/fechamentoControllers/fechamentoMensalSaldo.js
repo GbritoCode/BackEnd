@@ -2,15 +2,13 @@
 import { getDaysInMonth } from 'date-fns';
 import sequelize, { Op } from 'sequelize';
 
+import FechamentoCaixaMensal from '../../models/fechamentoCaixaMensal';
 import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 
-const today = new Date();
-const [, month, year] = today.toLocaleDateString('pt-BR').split('/');
-const lastDayMonth = getDaysInMonth(today);
-
 export default new class FechamentoMensalSaldo {
-  async fechamentoMensal(mes, part) {
+  async fechamentoMensal(mes, part, ano) {
+    const year = ano || new Date().getFullYear();
     const lastDayThisMonth = getDaysInMonth(new Date(year, parseInt(mes, 10) - 1));
 
     let somaRec = 0; let somaDesp = 0; let somaSaldo = 0;
@@ -20,26 +18,62 @@ export default new class FechamentoMensalSaldo {
     }));
 
     try {
-      // Opening saldoPrev: sum of still-pending/partial MovimentoCaixa from before this month
-      const movBeforeMonth = await MovimentoCaixa.findAll({
-        attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('saldo')), 'total']],
+      // --- Opening balance from FechamentoCaixaMensal (previous month's fechamento) ---
+      const prevMonth = parseInt(mes, 10) - 1;
+      const prevYear = prevMonth === 0 ? year - 1 : year;
+      const prevPeriodo = prevMonth === 0 ? 12 : prevMonth;
+
+      const fechamentoAnterior = await FechamentoCaixaMensal.findOne({
         where: {
-          dtVenc: { [Op.lt]: `${year}-${mes}-01` },
-          status: { [Op.in]: [1, 2] },
+          periodo: prevPeriodo,
+          ano: prevYear,
         },
-        group: ['recDesp'],
+        order: [['id', 'DESC']],
       });
 
+      let openingReal = 0;
       let openingPrev = 0;
-      for (const mov of movBeforeMonth) {
-        const { recDesp, total } = mov.dataValues;
-        if (recDesp.toLowerCase() === 'rec') openingPrev += total;
-        else if (recDesp.toLowerCase() === 'desp') openingPrev -= total;
+
+      if (fechamentoAnterior) {
+        // Use the stored saldoLastDay from the previous month's fechamento as opening real balance
+        openingReal = fechamentoAnterior.saldoLastDay || 0;
+        openingPrev = fechamentoAnterior.saldoMesPrev || 0;
+      } else {
+        // No fechamento exists — calculate opening balances from all historical data
+
+        // Opening saldoPrev: sum of still-pending/partial MovimentoCaixa from before this month
+        const movBeforeMonth = await MovimentoCaixa.findAll({
+          attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('saldo')), 'total']],
+          where: {
+            dtVenc: { [Op.lt]: `${year}-${String(mes).padStart(2, '0')}-01` },
+            status: { [Op.in]: [1, 2] },
+          },
+          group: ['recDesp'],
+        });
+
+        for (const mov of movBeforeMonth) {
+          const { recDesp, total } = mov.dataValues;
+          if (recDesp.toLowerCase() === 'rec') openingPrev += total;
+          else if (recDesp.toLowerCase() === 'desp') openingPrev += total;
+        }
+
+        // Opening saldoReal: sum of all liquidated movements before this month
+        const liqBeforeMonth = await LiquidMovCaixa.findAll({
+          attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+          where: {
+            dtLiqui: { [Op.lt]: `${year}-${String(mes).padStart(2, '0')}-01` },
+          },
+          group: ['recDesp'],
+        });
+
+        for (const liq of liqBeforeMonth) {
+          openingReal += liq.dataValues.total;
+        }
       }
 
       array[0] = {
         saldoPrev: openingPrev,
-        saldoReal: 0,
+        saldoReal: openingReal,
         rec: 0,
         desp: 0,
         dia: 0,
@@ -49,7 +83,7 @@ export default new class FechamentoMensalSaldo {
         {
           attributes: ['dtLiqui', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtLiqui: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtLiqui: { [Op.between]: [`${year}-${String(mes).padStart(2, '0')}-01`, `${year}-${String(mes).padStart(2, '0')}-${lastDayThisMonth}`] },
           },
           group: ['dtLiqui', 'recDesp'],
         },
@@ -59,7 +93,7 @@ export default new class FechamentoMensalSaldo {
         {
           attributes: ['dtVenc', 'recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
           where: {
-            dtVenc: { [Op.between]: [`${year}-${mes}-01`, `${year}-${mes}-${lastDayThisMonth}`] },
+            dtVenc: { [Op.between]: [`${year}-${String(mes).padStart(2, '0')}-01`, `${year}-${String(mes).padStart(2, '0')}-${lastDayThisMonth}`] },
           },
           group: ['dtVenc', 'recDesp'],
         },
@@ -75,7 +109,7 @@ export default new class FechamentoMensalSaldo {
         if (recDesp.toLowerCase() === 'rec') {
           array[day].saldoPrev += total;
         } else if (recDesp.toLowerCase() === 'desp') {
-          array[day].saldoPrev += total;
+          array[day].saldoPrev -= total;
         }
       }
 
@@ -83,12 +117,13 @@ export default new class FechamentoMensalSaldo {
         const { dtLiqui, recDesp, total } = recDespLiqui.dataValues;
         const day = parseInt(dtLiqui.split('-')[2], 10);
         if (recDesp === 'Rec') {
-          array[day].rec = total;
+          array[day].rec = (array[day].rec || 0) + total;
         } else if (recDesp === 'Desp') {
-          array[day].desp = total;
+          array[day].desp = (array[day].desp || 0) + total;
         }
-        array[day].saldoReal += total;
+        array[day].saldoReal = (array[day].saldoReal || 0) + total;
       }
+
       const arraySaldo = []; const arrayRec = []; const arrayDesp = []; const
         arraySaldoPrev = [];
       for (let i = 0; i < 32; i++) {
