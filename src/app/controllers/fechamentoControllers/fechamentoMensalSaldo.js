@@ -7,7 +7,7 @@ import LiquidMovCaixa from '../../models/liquidMovCaixa';
 import MovimentoCaixa from '../../models/movimentoCaixa';
 
 export default new class FechamentoMensalSaldo {
-  async fechamentoMensal(mes, part, ano) {
+  async fechamentoMensal(mes, part, ano, { forceZeroOpening = false } = {}) {
     const year = ano || new Date().getFullYear();
     const lastDayThisMonth = getDaysInMonth(new Date(year, parseInt(mes, 10) - 1));
 
@@ -34,7 +34,11 @@ export default new class FechamentoMensalSaldo {
       let openingReal = 0;
       let openingPrev = 0;
 
-      if (fechamentoAnterior) {
+      if (forceZeroOpening) {
+        // Temp recalc: force opening balances to 0
+        openingReal = 0;
+        openingPrev = 0;
+      } else if (fechamentoAnterior) {
         // Use the stored saldoLastDay from the previous month's fechamento as opening real balance
         openingReal = fechamentoAnterior.saldoLastDay || 0;
         openingPrev = fechamentoAnterior.saldoMesPrev || 0;
@@ -109,7 +113,7 @@ export default new class FechamentoMensalSaldo {
         if (recDesp.toLowerCase() === 'rec') {
           array[day].saldoPrev += total;
         } else if (recDesp.toLowerCase() === 'desp') {
-          array[day].saldoPrev -= total;
+          array[day].saldoPrev += total;
         }
       }
 

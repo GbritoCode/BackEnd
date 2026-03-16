@@ -1475,6 +1475,140 @@ routes.get('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.get)
 routes.put('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.update);
 routes.delete('/resultPeriodoGerencial/:id?', resultPeriodoGerencialController.delete);
 
+// ============ TEMP ROUTE - RECALCULATE ALL FechamentoCaixaMensal ============
+routes.post('/temp/recalcFechamentoCaixa', async (req, res) => {
+  try {
+    const FechamentoCaixaMensal = (await import('./app/models/fechamentoCaixaMensal')).default;
+    const LiquidMovCaixa = (await import('./app/models/liquidMovCaixa')).default;
+    const MovimentoCaixa = (await import('./app/models/movimentoCaixa')).default;
+    const fechamentoMensalSaldo = (await import('./app/controllers/fechamentoControllers/fechamentoMensalSaldo')).default;
+
+    // Fix MovimentoCaixa 1454 and its LiquidMovCaixa before recalculating
+    await MovimentoCaixa.update({ valor: 13494.0, saldo: 0 }, { where: { id: 1454 } });
+    await LiquidMovCaixa.update({ valor: 13494.0 }, { where: { MovimentoCaixaId: 1454 } });
+
+    // 1. Get all existing records ordered chronologically
+    const allRecords = await FechamentoCaixaMensal.findAll({
+      order: [['ano', 'ASC'], ['periodo', 'ASC']],
+    });
+
+    if (!allRecords.length) {
+      return res.json({ message: 'Nenhum registro encontrado', updated: 0 });
+    }
+
+    const results = [];
+
+    for (let i = 0; i < allRecords.length; i++) {
+      const record = allRecords[i];
+      const { periodo, ano, EmpresaId } = record;
+      const mes = String(periodo).padStart(2, '0');
+
+      const { getDaysInMonth } = await import('date-fns');
+      const lastDayMonth = getDaysInMonth(new Date(ano, parseInt(periodo, 10) - 1));
+      const inicDate = `${ano}-${mes}-01`;
+      const endDate = `${ano}-${mes}-${lastDayMonth}`;
+
+      // Recalculate caixaPrev (previsto) from MovimentoCaixa
+      const caixaPrev = await MovimentoCaixa.findAll({
+        attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+        where: { dtVenc: { [Op.between]: [inicDate, endDate] } },
+        group: 'recDesp',
+      });
+
+      let saldoPrev = 0;
+      let entradaPrev = 0;
+      let saidaPrev = 0;
+      for (const prev of caixaPrev) {
+        saldoPrev += prev.dataValues.total;
+        if (prev.dataValues.recDesp === 'Desp') saidaPrev += prev.dataValues.total;
+        else if (prev.dataValues.recDesp === 'Rec') entradaPrev += prev.dataValues.total;
+      }
+
+      // Recalculate caixaReal (realizado) from LiquidMovCaixa
+      const caixaReal = await LiquidMovCaixa.findAll({
+        attributes: ['recDesp', [sequelize.fn('sum', sequelize.col('valor')), 'total']],
+        where: { dtLiqui: { [Op.between]: [inicDate, endDate] } },
+        group: 'recDesp',
+      });
+
+      let saldoReal = 0;
+      let entradaReal = 0;
+      let saidaReal = 0;
+      for (const real of caixaReal) {
+        saldoReal += real.dataValues.total;
+        if (real.dataValues.recDesp === 'Desp') saidaReal += real.dataValues.total;
+        else if (real.dataValues.recDesp === 'Rec') entradaReal += real.dataValues.total;
+      }
+
+      // For the first record, force zero opening; for others, the previous
+      // month's record has already been updated so the chain works naturally
+      const isFirst = i === 0;
+      const saldoMes = await fechamentoMensalSaldo.fechamentoMensal(
+        periodo, 'geral', ano, { forceZeroOpening: isFirst },
+      );
+
+      // Update the existing record
+      await record.update({
+        entrada: entradaReal,
+        saida: saidaReal,
+        saldoMes: saldoReal,
+        entradaPrev,
+        saidaPrev,
+        saldoMesPrev: saldoPrev,
+        saldoLastDay: saldoMes.arraySaldo[saldoMes.arraySaldo.length - 1],
+        recLastDay: saldoMes.arrayRec[saldoMes.arrayRec.length - 1],
+        despLastDay: saldoMes.arrayDesp[saldoMes.arrayDesp.length - 1],
+      });
+
+      results.push({
+        periodo, ano, saldoLastDay: saldoMes.arraySaldo[saldoMes.arraySaldo.length - 1],
+      });
+    }
+
+    return res.json({ message: 'Recalculo concluído', updated: results.length, results });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Erro no recalculo', details: err.message });
+  }
+});
+// ============ END TEMP ROUTE ============
+
+// ============ TEMP ROUTE - FIX recDesp ON movimentoCaixas ============
+routes.post('/temp/fixRecDesp', async (req, res) => {
+  try {
+    const MovimentoCaixa = (await import('./app/models/movimentoCaixa')).default;
+
+    const broken = await MovimentoCaixa.findAll({
+      // where: { recDesp: 'error' },
+    });
+
+    if (!broken.length) {
+      return res.json({ message: 'Nenhum registro com recDesp="error" encontrado', updated: 0 });
+    }
+
+    let countRec = 0;
+    let countDesp = 0;
+
+    for (const mov of broken) {
+      const corrected = mov.FornecId === null ? 'Rec' : 'Desp';
+      await mov.update({ recDesp: corrected });
+      if (corrected === 'Rec') countRec++;
+      else countDesp++;
+    }
+
+    return res.json({
+      message: 'Correção concluída',
+      updated: broken.length,
+      countRec,
+      countDesp,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Erro na correção', details: err.message });
+  }
+});
+// ============ END TEMP ROUTE ============
+
 routes.post('/fechamentoPeriodo', FechamentoPeriodoController.store);
 routes.get('/fechamentoPeriodo/:id?', FechamentoPeriodoController.get);
 routes.put('/fechamentoPeriodo/:id?', FechamentoPeriodoController.update);
