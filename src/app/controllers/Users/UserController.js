@@ -43,7 +43,7 @@ class UserController {
       await Colab.create({
         CPF: req.body.CPF,
         FornecId: 1,
-        PerfilId: req.body.PerfilId,
+        PerfilId: req.body.profile,
         EmpresaId: 1,
         UserId: id,
         nome: req.body.nome,
