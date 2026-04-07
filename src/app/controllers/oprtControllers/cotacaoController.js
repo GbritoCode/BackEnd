@@ -45,7 +45,7 @@ class CotacaoController {
         numParcelas: yup.number().required(),
         motivo: yup.string().required(),
         desc: yup.string(),
-        isPackageOport: yup.boolean().required(),
+        isPackageOport: yup.boolean(),
       });
       const { files, query, body } = req;
       if (!(await schema.isValid(JSON.parse(req.body.body)))) {
